@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Obsidian on Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/tags/obsidian/</link><description>Recent content in Obsidian on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://ke1thli.github.io/tags/obsidian/index.xml" rel="self" type="application/rss+xml"/><item><title>为什么这个时代我们更需要学 Markdown？—— 从语法入门到 Obsidian 知识管理实践</title><link>https://ke1thli.github.io/p/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B8%AA%E6%97%B6%E4%BB%A3%E6%88%91%E4%BB%AC%E6%9B%B4%E9%9C%80%E8%A6%81%E5%AD%A6-markdown-%E4%BB%8E%E8%AF%AD%E6%B3%95%E5%85%A5%E9%97%A8%E5%88%B0-obsidian-%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86%E5%AE%9E%E8%B7%B5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B8%AA%E6%97%B6%E4%BB%A3%E6%88%91%E4%BB%AC%E6%9B%B4%E9%9C%80%E8%A6%81%E5%AD%A6-markdown-%E4%BB%8E%E8%AF%AD%E6%B3%95%E5%85%A5%E9%97%A8%E5%88%B0-obsidian-%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86%E5%AE%9E%E8%B7%B5/</guid><description>&lt;h2 id="引言"&gt;引言
+&lt;/h2&gt;&lt;p&gt;在 Notion、飞书文档、语雀等所见即所得编辑器大行其道的今天，可能有人会问：&lt;strong&gt;都 2025 年了，为什么还要学 Markdown 这种&amp;quot;原始&amp;quot;的标记语言？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;答案可能出乎很多人意料：&lt;strong&gt;正因为时代在变，Markdown 才显得更重要。&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="一为什么这个时代我们更需要学-markdown"&gt;一、为什么这个时代我们更需要学 Markdown？
+&lt;/h2&gt;&lt;h3 id="11-数据主权你的笔记真正属于你"&gt;1.1 数据主权：你的笔记真正属于你
+&lt;/h3&gt;&lt;p&gt;使用 Notion、语雀等在线编辑器，你的数据存储在别人的服务器上。一旦服务关闭、账号被封、或者你忘记续费，所有的笔记都可能瞬间消失。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Markdown 文件是纯文本文件&lt;/strong&gt;，它们：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可以用任何文本编辑器打开&lt;/li&gt;
+&lt;li&gt;不依赖任何特定软件或服务&lt;/li&gt;
+&lt;li&gt;可以轻松备份、迁移、版本控制&lt;/li&gt;
+&lt;li&gt;即使 50 年后依然可以被读取&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="12-通用性写一次处处可用"&gt;1.2 通用性：写一次，处处可用
+&lt;/h3&gt;&lt;p&gt;从 GitHub 的 README 到博客文章，从技术文档到学术论文，从即时通讯软件到邮件，Markdown 几乎无处不在。掌握它，你可以在任何需要格式化的地方快速表达想法。&lt;/p&gt;
+&lt;h3 id="13-效率手不离键盘的写作体验"&gt;1.3 效率：手不离键盘的写作体验
+&lt;/h3&gt;&lt;p&gt;对于经常写代码的开发者来说，Markdown 让写作和编码一样流畅——不需要鼠标点击工具栏，双手始终在键盘上，思维和文字同步。&lt;/p&gt;
+&lt;h3 id="14-未来兼容性与-ai-工具完美契合"&gt;1.4 未来兼容性：与 AI 工具完美契合
+&lt;/h3&gt;&lt;p&gt;在 AI 辅助写作的时代，Markdown 因其结构化特性，成为 AI 工具最容易理解和处理的格式。你可以轻松地将 Markdown 笔记喂给 AI，让它帮你整理、总结、扩展。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="二markdown-语法指南"&gt;二、Markdown 语法指南
+&lt;/h2&gt;&lt;h3 id="21-基础语法"&gt;2.1 基础语法
+&lt;/h3&gt;&lt;h4 id="标题"&gt;标题
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gh"&gt;# 一级标题
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gu"&gt;## 二级标题
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gu"&gt;### 三级标题
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gu"&gt;#### 四级标题
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="强调"&gt;强调
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;**这是粗体**
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="ge"&gt;*这是斜体*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gd"&gt;~~这是删除线~~&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="列表"&gt;列表
+&lt;/h4&gt;&lt;p&gt;无序列表：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;-&lt;/span&gt; 项目一
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;-&lt;/span&gt; 项目二
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;-&lt;/span&gt; 子项目（缩进两个空格）
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;有序列表：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;1.&lt;/span&gt; 第一步
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;2.&lt;/span&gt; 第二步
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;3.&lt;/span&gt; 第三步
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="链接与图片"&gt;链接与图片
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[&lt;span class="nt"&gt;链接文字&lt;/span&gt;](&lt;span class="na"&gt;https://example.com&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;![&lt;span class="nt"&gt;图片描述&lt;/span&gt;](&lt;span class="na"&gt;图片地址&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="代码"&gt;代码
+&lt;/h4&gt;&lt;p&gt;行内代码：&lt;code&gt;`代码`&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;代码块：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s"&gt;```python
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;hello&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;Hello, Markdown!&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s"&gt;```&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="引用"&gt;引用
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;&amp;gt; &lt;/span&gt;&lt;span class="ge"&gt;这是一段引用
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;&amp;gt; &lt;/span&gt;&lt;span class="ge"&gt;&amp;gt; 嵌套引用
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="分隔线"&gt;分隔线
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;---
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="22-进阶语法"&gt;2.2 进阶语法
+&lt;/h3&gt;&lt;h4 id="表格"&gt;表格
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| 功能 | 推荐工具 | 说明 |
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|------|----------|------|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| 笔记管理 | Obsidian | 本地优先，双向链接 |
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| 代码编辑 | VS Code | 插件丰富 |
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| 博客发布 | Hugo | 静态站点生成 |
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="任务列表"&gt;任务列表
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;- [x]&lt;/span&gt; 已完成的任务
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;- [ ]&lt;/span&gt; 未完成的任务
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;- [ ]&lt;/span&gt; 待办事项
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="脚注"&gt;脚注
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;这是一段带有脚注的文字[^1]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[^1]: 这是脚注内容
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="高亮文本部分-markdown-引擎支持"&gt;高亮文本（部分 Markdown 引擎支持）
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;==这是高亮文本==
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="23-实用技巧"&gt;2.3 实用技巧
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;善用空行&lt;/strong&gt;：段落之间空一行，让渲染更清晰&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;代码块标注语言&lt;/strong&gt;：在代码块开头标明语言，获得语法高亮&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;合理使用标题层级&lt;/strong&gt;：不要跳过层级（如从 &lt;code&gt;#&lt;/code&gt; 直接到 &lt;code&gt;###&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;图片添加 alt 描述&lt;/strong&gt;：提升可访问性&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id="三种草-obsidian你的第二大脑"&gt;三、种草 Obsidian：你的第二大脑
+&lt;/h2&gt;&lt;h3 id="31-什么是-obsidian"&gt;3.1 什么是 Obsidian？
+&lt;/h3&gt;&lt;p&gt;&lt;a class="link" href="https://obsidian.md/" target="_blank" rel="noopener"
+ &gt;Obsidian&lt;/a&gt; 是一款&lt;strong&gt;本地优先&lt;/strong&gt;的知识管理工具。它以 Markdown 文件为基础存储笔记，同时提供了强大的链接、图谱和插件系统。&lt;/p&gt;
+&lt;p&gt;简单来说：&lt;strong&gt;Obsidian = 本地 Markdown 文件 + 双向链接 + 知识图谱 + 无限插件扩展&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id="32-为什么选择-obsidian"&gt;3.2 为什么选择 Obsidian？
+&lt;/h3&gt;&lt;h4 id="321-数据完全属于你"&gt;3.2.1 数据完全属于你
+&lt;/h4&gt;&lt;p&gt;Obsidian 的笔记就是你电脑上的 &lt;code&gt;.md&lt;/code&gt; 文件，不依赖任何云服务。即使 Obsidian 公司明天倒闭，你的笔记依然完好无损。&lt;/p&gt;
+&lt;h4 id="322-双向链接让知识产生连接"&gt;3.2.2 双向链接：让知识产生连接
+&lt;/h4&gt;&lt;p&gt;传统笔记是孤立的，而 Obsidian 的&lt;strong&gt;双向链接&lt;/strong&gt;让笔记之间可以互相引用：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[[另一篇笔记]]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;这是关于 [[知识管理]] 的思考，与 [[笔记方法]] 密切相关。
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;点击链接即可跳转到相关笔记，形成知识网络。&lt;/p&gt;
+&lt;h4 id="323-知识图谱看见你的思维"&gt;3.2.3 知识图谱：看见你的思维
+&lt;/h4&gt;&lt;p&gt;Obsidian 会自动生成&lt;strong&gt;图谱视图&lt;/strong&gt;，将你的笔记以节点和连线的形式可视化。看着自己的知识网络逐渐壮大，是一种难以言喻的成就感。&lt;/p&gt;
+&lt;h4 id="324-插件生态无限可能"&gt;3.2.4 插件生态：无限可能
+&lt;/h4&gt;&lt;p&gt;Obsidian 拥有丰富的社区插件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Dataview&lt;/strong&gt;：像数据库一样查询笔记&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Templater&lt;/strong&gt;：强大的模板系统&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Excalidraw&lt;/strong&gt;：手绘风格绘图&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Calendar&lt;/strong&gt;：日历视图&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Kanban&lt;/strong&gt;：看板管理&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AI 助手插件&lt;/strong&gt;：接入大语言模型&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="33-obsidian-核心功能入门"&gt;3.3 Obsidian 核心功能入门
+&lt;/h3&gt;&lt;h4 id="331-创建笔记"&gt;3.3.1 创建笔记
+&lt;/h4&gt;&lt;p&gt;在 Obsidian 中新建笔记就是创建一个 &lt;code&gt;.md&lt;/code&gt; 文件，可以使用 Markdown 语法编写。&lt;/p&gt;
+&lt;h4 id="332-链接笔记"&gt;3.3.2 链接笔记
+&lt;/h4&gt;&lt;p&gt;使用 &lt;code&gt;[[笔记名]]&lt;/code&gt; 语法创建内部链接，如果笔记不存在，点击会自动创建。&lt;/p&gt;
+&lt;h4 id="333-标签系统"&gt;3.3.3 标签系统
+&lt;/h4&gt;&lt;p&gt;使用 &lt;code&gt;#标签&lt;/code&gt; 对笔记进行分类：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gh"&gt;#读书笔记 #技术分享 #效率工具
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="334-每日笔记"&gt;3.3.4 每日笔记
+&lt;/h4&gt;&lt;p&gt;开启&amp;quot;日记&amp;quot;插件后，每天可以一键创建当天的笔记，非常适合记录工作日志和灵感。&lt;/p&gt;
+&lt;h3 id="34-适合谁用"&gt;3.4 适合谁用？
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;开发者&lt;/strong&gt;：技术文档、代码笔记、问题排查记录&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;研究者/学生&lt;/strong&gt;：文献笔记、课程笔记、论文草稿&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;写作者&lt;/strong&gt;：博客草稿、创意写作、大纲整理&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;知识工作者&lt;/strong&gt;：会议纪要、项目管理、个人知识库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="四markdown--obsidian--hugo-的工作流"&gt;四、Markdown + Obsidian + Hugo 的工作流
+&lt;/h2&gt;&lt;p&gt;作为一个技术博客作者，我的写作工作流是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Obsidian&lt;/strong&gt; 中编写和整理笔记&lt;/li&gt;
+&lt;li&gt;将完成的笔记导出到 &lt;strong&gt;Hugo 博客仓库&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Git&lt;/strong&gt; 推送到 GitHub，自动部署到 GitHub Pages&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这种工作流的好处：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;写作和管理在一个地方完成&lt;/li&gt;
+&lt;li&gt;博客发布自动化&lt;/li&gt;
+&lt;li&gt;所有数据本地存储，完全可控&lt;/li&gt;
+&lt;/ul&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;如果你对我的博客搭建过程感兴趣，可以参考我的上一篇文章：&lt;a class="link" href="https://ke1thli.github.io/p/%e4%bb%8e%e9%9b%b6%e6%90%ad%e5%bb%ba%e4%b8%aa%e4%ba%ba%e6%8a%80%e6%9c%af%e5%8d%9a%e5%ae%a2%e4%b8%ba%e4%bb%80%e4%b9%88%e6%88%91%e9%80%89%e6%8b%a9%e4%ba%86-hugo--github-pages%e4%bb%a5%e5%8f%8a%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e7%94%a8-hexoquartz-%e5%92%8c%e5%9b%be%e5%ba%8a/" &gt;从零搭建个人技术博客&lt;/a&gt;&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id="结语"&gt;结语
+&lt;/h2&gt;&lt;p&gt;Markdown 不是一个&amp;quot;过时的技术&amp;quot;，而是一种&lt;strong&gt;面向未来的写作方式&lt;/strong&gt;。它简单、通用、持久，配合 Obsidian 这样的工具，可以构建出真正属于自己的知识管理系统。&lt;/p&gt;
+&lt;p&gt;在这个信息爆炸的时代，&lt;strong&gt;掌握 Markdown，就是掌握了一种将知识沉淀为资产的能力&lt;/strong&gt;。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;如果你觉得这篇文章对你有帮助，欢迎分享给更多人。也欢迎在我的博客留下你的想法和建议。&lt;/em&gt;&lt;/p&gt;</description></item></channel></rss>

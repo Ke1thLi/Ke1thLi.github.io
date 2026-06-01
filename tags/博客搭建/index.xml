@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>博客搭建 on Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</link><description>Recent content in 博客搭建 on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 26 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/index.xml" rel="self" type="application/rss+xml"/><item><title>从零搭建个人技术博客：为什么我选择了 Hugo + GitHub Pages（以及为什么不用 Hexo、Quartz 和图床）</title><link>https://ke1thli.github.io/p/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E9%80%89%E6%8B%A9%E4%BA%86-hugo--github-pages%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8-hexoquartz-%E5%92%8C%E5%9B%BE%E5%BA%8A/</link><pubDate>Sun, 26 Apr 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E9%80%89%E6%8B%A9%E4%BA%86-hugo--github-pages%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8-hexoquartz-%E5%92%8C%E5%9B%BE%E5%BA%8A/</guid><description>&lt;h2 id="前言"&gt;前言
+&lt;/h2&gt;&lt;p&gt;作为一个智能科学与技术专业大一的学生，同时也在学校网安部参与技术学习，我一直想搭建一个属于自己的技术博客。经过各种权衡，我最终确定了 &lt;strong&gt;Hugo + GitHub Pages + Obsidian&lt;/strong&gt; 的技术栈。&lt;/p&gt;
+&lt;p&gt;在这个过程中，我不仅对比了各种工具的优缺点，还结合了自己的专业背景做了很多考量。作为一个网络安全方向的学生，我在技术选型时会格外关注&lt;strong&gt;数据安全&lt;/strong&gt;和&lt;strong&gt;可控性&lt;/strong&gt;——这也是这篇文章和其他&amp;quot;博客搭建教程&amp;quot;不太一样的地方。&lt;/p&gt;
+&lt;p&gt;这篇文章记录了我整个技术选型的过程，以及为什么放弃了其他热门方案（如 Hexo、Quartz、单仓库部署、图床等）。&lt;/p&gt;
+&lt;p&gt;这篇文章不会教你“如何一步步搭建”，而是分享我 &lt;strong&gt;为什么这样选&lt;/strong&gt;。如果你也看重 &lt;strong&gt;安全、长久可维护、数据自主&lt;/strong&gt;，&lt;strong&gt;低心智负担&lt;/strong&gt;或许能给你一些参考。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="一为什么是-hugo-告别-nodejs-依赖焦虑"&gt;一、为什么是 Hugo？—— 告别 Node.js 依赖焦虑
+&lt;/h2&gt;&lt;p&gt;静态站点生成器有很多，我重点对比了 &lt;strong&gt;Hugo&lt;/strong&gt;、&lt;strong&gt;Hexo&lt;/strong&gt; 和 &lt;strong&gt;Quartz&lt;/strong&gt;。&lt;/p&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;维度&lt;/th&gt;
+ &lt;th&gt;Hugo (Go)&lt;/th&gt;
+ &lt;th&gt;Hexo (Node.js)&lt;/th&gt;
+ &lt;th&gt;Quartz&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;依赖&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;单个二进制文件，无运行时依赖&lt;/td&gt;
+ &lt;td&gt;npm 生态，Node 版本容易冲突&lt;/td&gt;
+ &lt;td&gt;早期版基于 Hugo，后来部分分支自研，依赖复杂&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;构建速度&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;极快（毫秒级），文章数量几乎不影响&lt;/td&gt;
+ &lt;td&gt;文章多了明显变慢&lt;/td&gt;
+ &lt;td&gt;取决于底层实现，一般中等&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;10 年后还能跑吗？&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;✅ 下载对应系统的二进制，即下即用&lt;/td&gt;
+ &lt;td&gt;⚠️ 需要搞定 Node 版本和 node_modules，容易出问题&lt;/td&gt;
+ &lt;td&gt;❓ 未知，生态较小&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;主题生态&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;丰富，很多高质量开源主题&lt;/td&gt;
+ &lt;td&gt;也非常丰富&lt;/td&gt;
+ &lt;td&gt;较少，主要偏向“数字花园”风格&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;学习曲线&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;较低，模板语法简单&lt;/td&gt;
+ &lt;td&gt;中等&lt;/td&gt;
+ &lt;td&gt;中等&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;我最在意的是 &lt;strong&gt;长期可构建性&lt;/strong&gt;。在网络安全领域，我们常说“没有绝对的安全，只有持续的风险管理”。对我来说，Hexo 的 Node.js 依赖链就是一种“长期技术债”——你永远不知道几年后 &lt;code&gt;npm install&lt;/code&gt; 会报什么错。而 Hugo 只是一个可执行文件，下载、解压、放到 系统&lt;code&gt;$PATH&lt;/code&gt;环境变量。&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;我也看了 Quartz，它主打“Obsidian 数字花园开箱即用”。但它的定制灵活性不如原生 Hugo，且部分功能依赖额外的 Node 工具链。我更希望博客的外观和扩展能力完全由自己掌控，而不是被一个特定框架限制。&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;p&gt;对于我而言，Hugo可能时是目前最好的选择。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="二为什么选择-obsidian-作为写作工具"&gt;二、为什么选择 Obsidian 作为写作工具？
+&lt;/h2&gt;&lt;p&gt;我身为一名学生，在自己本地笔记仓库包含学习的笔记，ctf，oi，靶场渗透的记录，甚至还有一些读书笔记。&lt;/p&gt;
+&lt;p&gt;知识点之间并不是孤立的，而是相互关联的。Obsidian 的 &lt;strong&gt;双向链接&lt;/strong&gt;（&lt;code&gt;[[ ]]&lt;/code&gt;）是吸引我的主要原因，我可以把这些知识点串联起来，但 Obsidian 的一些“增强语法”与 Hugo 不兼容。&lt;/p&gt;
+&lt;h3 id="遇到的坑与解法"&gt;&lt;strong&gt;遇到的坑与解法：&lt;/strong&gt;
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Wiki 链接&lt;/strong&gt;（&lt;code&gt;[[另一篇笔记]]&lt;/code&gt;）&lt;br&gt;
+→ 关闭设置中的“使用 WikiLink”，改用标准 Markdown 链接。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;图片语法&lt;/strong&gt;（&lt;code&gt;![[图片.png]]&lt;/code&gt;）&lt;br&gt;
+→ 改用 &lt;code&gt;![描述](./图片.png)&lt;/code&gt;（相对路径）。配合插件 &lt;code&gt;Paste Image Rename&lt;/code&gt; 可以自动转换。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Dataview 查询&lt;/strong&gt;&lt;br&gt;
+→ 个人笔记库随便用，但发布到博客前，我把 Dataview 生成的表格/列表手动复制为静态文本。博客不需要动态查询，静态内容更安全。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Frontmatter 格式&lt;/strong&gt;&lt;br&gt;
+→ 用 Templater 插件统一生成 Hugo 要求的 YAML 格式：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nn"&gt;---&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;文章标题&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;date&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ld"&gt;2026-04-27&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;tags&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;CTF&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;Web安全&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;draft&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nn"&gt;---&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;为什么不单独用 Typora？&lt;/strong&gt;&lt;br&gt;
+Typora 的沉浸式写作体验很好，但我更希望保持单一的笔记系统。Obsidian 虽然编辑体验稍弱，但它的知识管理能力是 Typora 不具备的。我在 Obsidian 里写好草稿，最后用 Typora 做一次预览润色，两者互补。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="三为什么选择双仓库方案"&gt;三、为什么选择双仓库方案？
+&lt;/h2&gt;&lt;p&gt;在部署方案上，我选择了&lt;strong&gt;双仓库架构&lt;/strong&gt;：一个私有仓库存源码，一个公开仓库放生成的静态文件。虽然单仓库方案更简单，但双仓库对我来说有几个不可替代的优势。&lt;/p&gt;
+&lt;h3 id="1-什么是双仓库"&gt;1. 什么是双仓库？
+&lt;/h3&gt;&lt;p&gt;我的博客仓库结构如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;blog-source/ # 私有仓库（源码）
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;├── config/ # Hugo 配置
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;├── content/ # 博客文章
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;├── themes/ # 主题
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└── .github/workflows/ # CI/CD 配置
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ke1thLi.github.io/ # 公开仓库（部署）
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;├── index.html
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;├── css/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└── js/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;工作流程&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;我在 blog-source 写文章 → git push
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;GitHub Actions 自动构建
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;生成的静态文件推送到 Ke1thLi.github.io
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;博客上线
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="2-双仓库的优势"&gt;2. 双仓库的优势
+&lt;/h3&gt;&lt;h4 id="源码隐私保护"&gt;源码隐私保护
+&lt;/h4&gt;&lt;p&gt;作为学生，我有些笔记可能包含：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;未完成的草稿和实验记录&lt;/li&gt;
+&lt;li&gt;某些不想公开的配置文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;私有仓库存源码让我可以&lt;strong&gt;放心写草稿&lt;/strong&gt;，不用担心未完成的内容被公开。只有构建后的静态文件（即我确认发布的文章）才会出现在公开仓库里。&lt;/p&gt;
+&lt;h4 id="部署仓库干净"&gt;部署仓库干净
+&lt;/h4&gt;&lt;p&gt;公开仓库只包含生成的 HTML、CSS、JS 文件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;没有 Markdown 源码&lt;/li&gt;
+&lt;li&gt;没有配置文件&lt;/li&gt;
+&lt;li&gt;没有主题代码&lt;/li&gt;
+&lt;li&gt;体积小，结构清晰&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果有人想参考我的博客部署方式，看到的只是干净的静态文件，不会被复杂的配置干扰。&lt;/p&gt;
+&lt;h4 id="灵活的多平台部署"&gt;灵活的多平台部署
+&lt;/h4&gt;&lt;p&gt;双仓库架构让我以后可以轻松扩展到多个部署平台：&lt;/p&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;平台&lt;/th&gt;
+ &lt;th&gt;用途&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;GitHub Pages&lt;/td&gt;
+ &lt;td&gt;主要部署，国内可访问&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Netlify&lt;/td&gt;
+ &lt;td&gt;备用部署，全球 CDN 加速&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Cloudflare Pages&lt;/td&gt;
+ &lt;td&gt;国内优化访问&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;只需要在 &lt;code&gt;blog-source&lt;/code&gt; 的 GitHub Actions 里添加部署步骤，就可以同时推送到多个平台。单仓库方案要做多平台部署会复杂得多。&lt;/p&gt;
+&lt;h3 id="3-单仓库适合谁"&gt;3. 单仓库适合谁？
+&lt;/h3&gt;&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;场景&lt;/th&gt;
+ &lt;th&gt;说明&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;纯公开博客&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;所有内容都想开源&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;简单个人站&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;不需要隐藏任何配置&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;新手入门&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;想最快跑起来，不想折腾&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="4-我的考量"&gt;4. 我的考量
+&lt;/h3&gt;&lt;p&gt;选择双仓库确实增加了配置复杂度，需要理解：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub Actions 的跨仓库推送&lt;/li&gt;
+&lt;li&gt;Deploy Key 的配置&lt;/li&gt;
+&lt;li&gt;CI/CD 流程的设计(部署这个博客时，拿ai完成的这个)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;理解这些部署流程本身就是一种学习&lt;/strong&gt;。而且一次配置好后，日常写博客的体验和单仓库没有任何区别——都是 &lt;code&gt;git push&lt;/code&gt; 就完事了。&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;双仓库给了我隐私保护和部署灵活性，让我可以专注于写内容，不用担心源码公开的问题。&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id="四为什么不设置图床"&gt;四、为什么不设置图床？
+&lt;/h2&gt;&lt;p&gt;这是我纠结最久的一个决定。网上很多教程都推荐配置 PicGo + 图床，但我最终选择了&lt;strong&gt;本地存储图片&lt;/strong&gt;。原因如下：&lt;/p&gt;
+&lt;h3 id="1-图床方案对比"&gt;1. 图床方案对比
+&lt;/h3&gt;&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;方案&lt;/th&gt;
+ &lt;th&gt;优点&lt;/th&gt;
+ &lt;th&gt;缺点&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;PicGo + GitHub&lt;/td&gt;
+ &lt;td&gt;免费、国内可访问&lt;/td&gt;
+ &lt;td&gt;GitHub ToS 灰色地带、图片公开&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;PicGo + Cloudflare R2&lt;/td&gt;
+ &lt;td&gt;流量免费、速度快&lt;/td&gt;
+ &lt;td&gt;配置复杂、需要信用卡&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;本地存储&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;&lt;strong&gt;安全合规、零配置&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;仓库体积会增长、图片不公开&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="2-网安笔记的敏感性"&gt;2. 网安笔记的敏感性
+&lt;/h3&gt;&lt;p&gt;作为网安社团成员，我经常需要写 CTF 靶场复现和漏洞分析。这些文章里不可避免地会包含：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;敏感接口响应数据&lt;/li&gt;
+&lt;li&gt;Cookie / Token 信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果使用图床，这些图片会被上传到第三方服务器。即使我手动打码，也存在&lt;strong&gt;漏打的风险&lt;/strong&gt;。而本地存储可以确保敏感图片只存在于我的电脑中。&lt;/p&gt;
+&lt;h3 id="3-github-tos-的潜在风险"&gt;3. GitHub ToS 的潜在风险
+&lt;/h3&gt;&lt;p&gt;GitHub 的服务条款虽然没有明确禁止将仓库用于图片存储，但也指出：&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;Repositories may not be used for unauthorized file hosting or CDN purposes.&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;p&gt;这意味着如果你的仓库主要是大量图片而非代码，可能会被认定为滥用。虽然个人博客的少量图片通常不会触发限制，我倾向于选择&lt;strong&gt;完全合规&lt;/strong&gt;的方案，避免任何潜在风险。&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;补充：如果你决定使用 GitHub 做图床，建议控制图片数量（单张图片 &amp;lt; 1MB）和仓库总体积（建议 &amp;lt; 1GB），避免被限制。&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;h3 id="4-长期维护的可靠性"&gt;4. 长期维护的可靠性
+&lt;/h3&gt;&lt;p&gt;图床服务可能会：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;停止运营&lt;/strong&gt;：很多免费图床说关就关，之前的图片全部失效&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;改变政策&lt;/strong&gt;：免费额度缩减、开始收费&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;访问受限&lt;/strong&gt;：部分国外图床在国内访问不稳定&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;唯一代价：&lt;/strong&gt; 仓库体积会稍大。但我估算过，就算写 5 年、300 篇文章、每篇配 5 张 300KB 的截图，总大小也不到 500MB。GitHub 仓库建议 1GB 以内，完全够用。&lt;/p&gt;
+&lt;h2 id="五总结"&gt;五、总结
+&lt;/h2&gt;&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;技术选型&lt;/th&gt;
+ &lt;th&gt;选择&lt;/th&gt;
+ &lt;th&gt;理由&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;静态生成器&lt;/td&gt;
+ &lt;td&gt;Hugo&lt;/td&gt;
+ &lt;td&gt;构建快、单文件、生态成熟&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;部署平台&lt;/td&gt;
+ &lt;td&gt;GitHub Pages&lt;/td&gt;
+ &lt;td&gt;免费、自带 HTTPS、Actions 自动化&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;写作工具&lt;/td&gt;
+ &lt;td&gt;Obsidian&lt;/td&gt;
+ &lt;td&gt;双向链接、本地优先、插件丰富&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;图片存储&lt;/td&gt;
+ &lt;td&gt;本地跟随笔记&lt;/td&gt;
+ &lt;td&gt;安全合规、工作流简单、够用&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;仓库架构&lt;/td&gt;
+ &lt;td&gt;双仓库&lt;/td&gt;
+ &lt;td&gt;源码隐私、部署干净、多平台扩展&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;自动化部署&lt;/td&gt;
+ &lt;td&gt;GitHub Actions&lt;/td&gt;
+ &lt;td&gt;git push 即可更新、云端构建、无需本地环境&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;我的诉求&lt;/th&gt;
+ &lt;th&gt;方案如何满足&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;安全可控&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;无图床 + 本地脱敏 + 私有源码仓库（发布前可审核）&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;长久可维护&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;Hugo 二进制 + 纯 Markdown + Git 版本控制，10 年后依然可构建&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;低心智负担&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;没有 API Key、没有防盗链配置、没有账单管理&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;写作流畅&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;Obsidian 写作 + Typora 预览 + 少量兼容性调整，图片自动保存到文章同级目录&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;最终，我的博客工作流非常朴素，也是我长期主义的体现：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在 Obsidian 的知识库里写草稿，尽情用 Dataview、双向链接。&lt;/li&gt;
+&lt;li&gt;把要发布的文章复制到 Hugo 项目的 &lt;code&gt;content/posts/&lt;/code&gt; 下，调整 frontmatter，图片用本地相对路径。&lt;/li&gt;
+&lt;li&gt;用 Typora 打开预览，检查格式和图片。&lt;/li&gt;
+&lt;li&gt;运行 &lt;code&gt;git add . &amp;amp;&amp;amp; git commit -m &amp;quot;new post&amp;quot; &amp;amp;&amp;amp; git push origin main&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;GitHub Actions 自动构建并部署到 &lt;code&gt;ke1thli.github.io&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;没有复杂的图床上传，没有担心流量账单，没有“图片裂开”的焦虑。&lt;/p&gt;
+&lt;p&gt;这套技术栈可能不是最&amp;quot;酷&amp;quot;的，但对我来说是&lt;strong&gt;最稳、最可控&lt;/strong&gt;的选择。&lt;/p&gt;
+&lt;p&gt;如果你对我的博客搭建过程感兴趣，可以查看我的 &lt;a class="link" href="https://github.com/Ke1thLi" target="_blank" rel="noopener"
+ &gt;GitHub 仓库&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;下一篇文章&lt;/strong&gt;，我会分享第一篇正式的博客《为什么我们要学习markdown》&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;参考资源&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
+ &gt;Hugo 官方文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener"
+ &gt;Hugo Theme Stack&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://obsidian.md/" target="_blank" rel="noopener"
+ &gt;Obsidian 官网&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://quartz.jzhao.xyz/" target="_blank" rel="noopener"
+ &gt;Quartz 文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://hexo.io/zh-cn/" target="_blank" rel="noopener"
+ &gt;Hexo 官方文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://docs.github.com/zh/pages" target="_blank" rel="noopener"
+ &gt;GitHub Pages 文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://docs.github.com/zh/site-policy/github-terms/github-terms-of-service" target="_blank" rel="noopener"
+ &gt;GitHub 服务条款&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.bilibili.com/video/BV1fNNreEEDi?vd_source=50f167eeb041ee2dbcf90d194b811043" target="_blank" rel="noopener"
+ &gt;部署参考视频&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>
