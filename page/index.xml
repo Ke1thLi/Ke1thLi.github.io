@@ -1,4 +1,98 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/page/</link><description>Recent content in Pages on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 06 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/page/index.xml" rel="self" type="application/rss+xml"/><item><title>Archives</title><link>https://ke1thli.github.io/archives/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/archives/</guid><description/></item><item><title>Links</title><link>https://ke1thli.github.io/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/links/</guid><description>&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/page/</link><description>Recent content in Pages on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 14 Aug 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/page/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://ke1thli.github.io/about/</link><pubDate>Fri, 14 Aug 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/about/</guid><description>&lt;h1 id="hi-im-ke1th"&gt;Hi, I&amp;rsquo;m Ke1th
+&lt;/h1&gt;&lt;p&gt;你好，我是 &lt;strong&gt;Ke1th&lt;/strong&gt;，一名正在学习计算机与网络安全的大学生。&lt;/p&gt;
+&lt;p&gt;目前主要关注 &lt;strong&gt;网络安全、渗透测试、CTF、逆向工程以及计算机基础&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;这个博客是我的技术笔记，也是我记录学习过程的地方。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="about-this-blog"&gt;About This Blog
+&lt;/h2&gt;&lt;p&gt;建立这个博客的初衷很简单：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;把自己学过的东西留下来。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;学习网络安全的过程中，我会遇到很多零散的知识、工具和问题。如果只是看过、做过，很容易过一段时间就忘记。&lt;/p&gt;
+&lt;p&gt;所以我希望通过博客把这些东西整理下来：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;学习过程中遇到的问题&lt;/li&gt;
+&lt;li&gt;CTF / 靶场的复盘与 Writeup&lt;/li&gt;
+&lt;li&gt;网络安全知识&lt;/li&gt;
+&lt;li&gt;Linux 与计算机基础&lt;/li&gt;
+&lt;li&gt;编程学习笔记&lt;/li&gt;
+&lt;li&gt;工具的使用与折腾过程&lt;/li&gt;
+&lt;li&gt;一些学习过程中的思考&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这里的内容不一定都是标准教程。&lt;/p&gt;
+&lt;p&gt;更多时候，它们只是&lt;strong&gt;我当时是怎么理解一个问题、怎么解决一个问题的记录&lt;/strong&gt;。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="what-im-learning"&gt;What I&amp;rsquo;m Learning
+&lt;/h2&gt;&lt;p&gt;目前我的主要学习方向：&lt;/p&gt;
+&lt;h3 id="cyber-security"&gt;Cyber Security
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Web Security&lt;/li&gt;
+&lt;li&gt;Penetration Testing&lt;/li&gt;
+&lt;li&gt;CTF&lt;/li&gt;
+&lt;li&gt;Vulnerability Research&lt;/li&gt;
+&lt;li&gt;Reverse Engineering&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="computer-science"&gt;Computer Science
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Computer Networks&lt;/li&gt;
+&lt;li&gt;Data Structures &amp;amp; Algorithms&lt;/li&gt;
+&lt;li&gt;Python&lt;/li&gt;
+&lt;li&gt;C&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tools"&gt;Tools
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Kali Linux&lt;/li&gt;
+&lt;li&gt;Docker&lt;/li&gt;
+&lt;li&gt;Git&lt;/li&gt;
+&lt;li&gt;VS Code&lt;/li&gt;
+&lt;li&gt;Hugo&lt;/li&gt;
+&lt;li&gt;Burp Suite&lt;/li&gt;
+&lt;li&gt;Nmap&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="my-learning-philosophy"&gt;My Learning Philosophy
+&lt;/h2&gt;&lt;p&gt;我比较喜欢一种简单的学习方式：&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;&lt;strong&gt;先做，再学。&lt;/strong&gt;&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;p&gt;与其花很长时间把一门技术的所有理论全部看完，我更倾向于先动手解决一个真实的问题。&lt;/p&gt;
+&lt;p&gt;遇到不会的东西，再去查资料、理解原理，然后重新实践。&lt;/p&gt;
+&lt;p&gt;所以你在这个博客里看到的内容，很多都会经历类似的过程：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;遇到问题
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;尝试解决
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;遇到不会的东西
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;查资料 / 学习原理
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;重新实践
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;记录下来
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我希望这些记录不仅能够帮助未来的自己，也能够对正在学习类似内容的人有所帮助。&lt;/p&gt;
+&lt;h2 id="whats-next"&gt;What&amp;rsquo;s Next?
+&lt;/h2&gt;&lt;p&gt;目前还有很多东西正在学习，也还有很多东西不会。&lt;/p&gt;
+&lt;p&gt;网络安全、逆向工程、编程、计算机基础……&lt;/p&gt;
+&lt;p&gt;慢慢学，慢慢记录。&lt;/p&gt;
+&lt;p&gt;This is a work in progress.&lt;/p&gt;</description></item><item><title>Archives</title><link>https://ke1thli.github.io/archives/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/archives/</guid><description/></item><item><title>Links</title><link>https://ke1thli.github.io/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/links/</guid><description>&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
 &lt;p&gt;This page&amp;rsquo;s frontmatter:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
