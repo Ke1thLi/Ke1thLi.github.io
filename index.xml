@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/</link><description>Recent content on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 11 Oct 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Five86-1 Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/five86-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sun, 11 Oct 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/five86-1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="five86-1-vulnhub靶场复现"&gt;Five86-1 VulnHub靶场复现
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/</link><description>Recent content on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 11 Oct 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Five86-1 Vulnhub靶场复现</title><link>https://ke1thli.github.io/p/five86-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sun, 11 Oct 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/five86-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="five86-1-vulnhub靶场复现"&gt;Five86-1 VulnHub靶场复现
 &lt;/h1&gt;&lt;h1 id="靶场复现"&gt;靶场复现
 &lt;/h1&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://www.vulnhub.com/entry/five86-1%2C417/" target="_blank" rel="noopener"
  &gt;https://www.vulnhub.com/entry/five86-1%2C417/&lt;/a&gt;&lt;/p&gt;
@@ -1132,7 +1132,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id="为什么没有利用10000端口的服务"&gt;为什么没有利用10000端口的服务
-&lt;/h2&gt;&lt;p&gt;Nmap http-vuln-cve2006-3392 报 VULNERABLE，但目标 Webmin 1.920 不受 CVE-2006-3392 影响，判断为误报，未利用，因此我转头用了ona-rce脚本&lt;/p&gt;</description></item><item><title>Necromancer Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/necromancer-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Wed, 07 Oct 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/necromancer-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="necromancer-vulnhub靶场复现"&gt;Necromancer VulnHub靶场复现
+&lt;/h2&gt;&lt;p&gt;Nmap http-vuln-cve2006-3392 报 VULNERABLE，但目标 Webmin 1.920 不受 CVE-2006-3392 影响，判断为误报，未利用，因此我转头用了ona-rce脚本&lt;/p&gt;</description></item><item><title>Necromancer Vulnhub靶场复现</title><link>https://ke1thli.github.io/p/necromancer-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Wed, 07 Oct 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/necromancer-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="necromancer-vulnhub靶场复现"&gt;Necromancer VulnHub靶场复现
 &lt;/h1&gt;&lt;h2 id="靶场介绍"&gt;靶场介绍
 &lt;/h2&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://www.vulnhub.com/entry/the-necromancer-1,154/" target="_blank" rel="noopener"
  &gt;https://www.vulnhub.com/entry/the-necromancer-1,154/&lt;/a&gt;&lt;/p&gt;
@@ -3273,7 +3273,7 @@ myPrintf：自定义输出&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt;&amp;#34;=========================================&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这里并不是常规意义上的“提权到 root shell”，而是 sudo 明确允许当前用户以 root 身份执行 /bin/cat /root/flag11.txt。由于目标就是读取 flag11，因此无需进一步寻找 root shell&lt;/p&gt;</description></item><item><title>SickOs1.2 Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/sickos1.2-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Mon, 28 Sep 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/sickos1.2-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="sickos12-vulnhub靶场复现"&gt;SickOs1.2 VulnHub靶场复现
+&lt;/div&gt;&lt;p&gt;这里并不是常规意义上的“提权到 root shell”，而是 sudo 明确允许当前用户以 root 身份执行 /bin/cat /root/flag11.txt。由于目标就是读取 flag11，因此无需进一步寻找 root shell&lt;/p&gt;</description></item><item><title>SickOs1.2 Vulnhub靶场复现</title><link>https://ke1thli.github.io/p/sickos1.2-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Mon, 28 Sep 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/sickos1.2-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="sickos12-vulnhub靶场复现"&gt;SickOs1.2 VulnHub靶场复现
 &lt;/h1&gt;&lt;h2 id="靶场介绍"&gt;靶场介绍
 &lt;/h2&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://www.vulnhub.com/entry/sickos-12,144/" target="_blank" rel="noopener"
  &gt;https://www.vulnhub.com/entry/sickos-12,144/&lt;/a&gt;&lt;/p&gt;
@@ -4312,7 +4312,7 @@ myPrintf：自定义输出&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;@vulnhub: Thanks &lt;span class="k"&gt;for&lt;/span&gt; hosting this UP!.
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description></item><item><title>Prime1 Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/prime1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Thu, 24 Sep 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/prime1-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="prime-1-vulnhub靶场复现"&gt;Prime 1 Vulnhub靶场复现
+&lt;/div&gt;</description></item><item><title>Prime1 Vulnhub靶场复现</title><link>https://ke1thli.github.io/p/prime1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Thu, 24 Sep 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/prime1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="prime-1-vulnhub靶场复现"&gt;Prime 1 Vulnhub靶场复现
 &lt;/h1&gt;&lt;h2 id="靶场介绍"&gt;靶场介绍
 &lt;/h2&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://www.vulnhub.com/entry/prime-1,358/" target="_blank" rel="noopener"
  &gt;https://www.vulnhub.com/entry/prime-1,358/&lt;/a&gt;&lt;/p&gt;
@@ -5317,7 +5317,7 @@ myPrintf：自定义输出&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;b2b17036da1de94cfb024540a8e7075a
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description></item><item><title>DarkHole2.0 Vulunhub靶场复现</title><link>https://ke1thli.github.io/p/darkhole2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/darkhole2.0-vulunhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="darkhole2-vulunhub靶场复现"&gt;DarkHole2 Vulunhub靶场复现
+&lt;/div&gt;</description></item><item><title>DarkHole2.0 Vulnhub靶场复现</title><link>https://ke1thli.github.io/p/darkhole2.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/darkhole2.0-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="darkhole2-vulnhub靶场复现"&gt;DarkHole2 Vulnhub靶场复现
 &lt;/h1&gt;&lt;h2 id="靶场介绍"&gt;靶场介绍
 &lt;/h2&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://www.vulnhub.com/entry/darkhole-2,740/" target="_blank" rel="noopener"
  &gt;https://www.vulnhub.com/entry/darkhole-2,740/&lt;/a&gt;&lt;/p&gt;
