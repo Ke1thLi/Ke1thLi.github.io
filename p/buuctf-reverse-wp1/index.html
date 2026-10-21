@@ -1,0 +1,472 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="BUUCTF-REVERSE-WP REVERSE1 题目描述 平台描述：reverse1，注意：得到的 flag 请包上 flag{} 提交。\n下载并解压后，得到 reverse_1.exe，这是一个 64 位 Windows 可执行文件。\n运行程序，显示如下内容：\n"><title>BUUCTF-REVERSE-WP1</title><link rel=canonical href=https://ke1thli.github.io/p/buuctf-reverse-wp1/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.e62e09c60ba428a627e03568fa3df938f6a8224f815b5846f00816c17d4a0be4.css><meta property='og:title' content="BUUCTF-REVERSE-WP1"><meta property='og:description' content="BUUCTF-REVERSE-WP REVERSE1 题目描述 平台描述：reverse1，注意：得到的 flag 请包上 flag{} 提交。\n下载并解压后，得到 reverse_1.exe，这是一个 64 位 Windows 可执行文件。\n运行程序，显示如下内容：\n"><meta property='og:url' content='https://ke1thli.github.io/p/buuctf-reverse-wp1/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='CTF-REVERSE'><meta property='article:published_time' content='2026-10-21T00:00:00+00:00'><meta property='article:modified_time' content='2026-10-21T00:00:00+00:00'><meta name=twitter:title content="BUUCTF-REVERSE-WP1"><meta name=twitter:description content="BUUCTF-REVERSE-WP REVERSE1 题目描述 平台描述：reverse1，注意：得到的 flag 请包上 flag{} 提交。\n下载并解压后，得到 reverse_1.exe，这是一个 64 位 Windows 可执行文件。\n运行程序，显示如下内容：\n"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#reverse1>REVERSE1</a><ol><li><a href=#题目描述>题目描述</a></li><li><a href=#使用-ida-分析程序>使用 IDA 分析程序</a><ol><li><a href=#1-分析-main_0-函数>1. 分析 main_0 函数</a></li><li><a href=#2-分析栈空间初始化代码>2. 分析栈空间初始化代码</a></li><li><a href=#3-分析字符串替换逻辑>3. 分析字符串替换逻辑</a></li><li><a href=#4-分析输入逻辑>4. 分析输入逻辑</a></li><li><a href=#5-分析字符串比较逻辑>5. 分析字符串比较逻辑</a></li><li><a href=#6-整理解题思路>6. 整理解题思路</a></li></ol></li><li><a href=#flag>Flag</a></li><li><a href=#知识点总结>知识点总结</a></li></ol></li><li><a href=#reverse2>REVERSE2</a><ol><li><a href=#题目描述-1>题目描述</a></li><li><a href=#使用-ida-分析程序-1>使用 IDA 分析程序</a><ol><li><a href=#1-分析-main-函数>1. 分析 main 函数</a></li><li><a href=#2-分析栈溢出保护代码>2. 分析栈溢出保护代码</a></li><li><a href=#3-分析字符串替换逻辑-1>3. 分析字符串替换逻辑</a></li><li><a href=#4-分析输入和字符串比较逻辑>4. 分析输入和字符串比较逻辑</a></li><li><a href=#5-整理解题思路>5. 整理解题思路</a></li></ol></li><li><a href=#flag-1>Flag</a></li><li><a href=#知识点总结-1>知识点总结</a></li></ol></li><li><a href=#reverse3>REVERSE3</a><ol><li><a href=#题目描述-2>题目描述</a></li><li><a href=#使用-ida-分析程序-2>使用 IDA 分析程序</a><ol><li><a href=#1-分析-main_0-函数主逻辑>1. 分析 main_0 函数（主逻辑）</a></li><li><a href=#2-深挖未知函数-sub_4110be核心考点>2. 深挖未知函数 sub_4110BE（核心考点）</a></li><li><a href=#3-整理解题思路>3. 整理解题思路</a></li></ol></li><li><a href=#编写-python-解密脚本>编写 Python 解密脚本</a><ol><li><a href=#第一步获取密文>第一步：获取密文</a></li><li><a href=#第二步编写脚本执行逆运算>第二步：编写脚本执行逆运算</a></li><li><a href=#第三步动态验证>第三步：动态验证</a></li></ol></li><li><a href=#flag-2>Flag</a></li><li><a href=#知识点总结-2>知识点总结</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/buuctf-reverse-wp1/>BUUCTF-REVERSE-WP1</a></h2></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-10-21T00:00:00Z>Wednesday, October 21, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#reverse1>REVERSE1</a><ol><li><a href=#题目描述>题目描述</a></li><li><a href=#使用-ida-分析程序>使用 IDA 分析程序</a><ol><li><a href=#1-分析-main_0-函数>1. 分析 main_0 函数</a></li><li><a href=#2-分析栈空间初始化代码>2. 分析栈空间初始化代码</a></li><li><a href=#3-分析字符串替换逻辑>3. 分析字符串替换逻辑</a></li><li><a href=#4-分析输入逻辑>4. 分析输入逻辑</a></li><li><a href=#5-分析字符串比较逻辑>5. 分析字符串比较逻辑</a></li><li><a href=#6-整理解题思路>6. 整理解题思路</a></li></ol></li><li><a href=#flag>Flag</a></li><li><a href=#知识点总结>知识点总结</a></li></ol></li><li><a href=#reverse2>REVERSE2</a><ol><li><a href=#题目描述-1>题目描述</a></li><li><a href=#使用-ida-分析程序-1>使用 IDA 分析程序</a><ol><li><a href=#1-分析-main-函数>1. 分析 main 函数</a></li><li><a href=#2-分析栈溢出保护代码>2. 分析栈溢出保护代码</a></li><li><a href=#3-分析字符串替换逻辑-1>3. 分析字符串替换逻辑</a></li><li><a href=#4-分析输入和字符串比较逻辑>4. 分析输入和字符串比较逻辑</a></li><li><a href=#5-整理解题思路>5. 整理解题思路</a></li></ol></li><li><a href=#flag-1>Flag</a></li><li><a href=#知识点总结-1>知识点总结</a></li></ol></li><li><a href=#reverse3>REVERSE3</a><ol><li><a href=#题目描述-2>题目描述</a></li><li><a href=#使用-ida-分析程序-2>使用 IDA 分析程序</a><ol><li><a href=#1-分析-main_0-函数主逻辑>1. 分析 main_0 函数（主逻辑）</a></li><li><a href=#2-深挖未知函数-sub_4110be核心考点>2. 深挖未知函数 sub_4110BE（核心考点）</a></li><li><a href=#3-整理解题思路>3. 整理解题思路</a></li></ol></li><li><a href=#编写-python-解密脚本>编写 Python 解密脚本</a><ol><li><a href=#第一步获取密文>第一步：获取密文</a></li><li><a href=#第二步编写脚本执行逆运算>第二步：编写脚本执行逆运算</a></li><li><a href=#第三步动态验证>第三步：动态验证</a></li></ol></li><li><a href=#flag-2>Flag</a></li><li><a href=#知识点总结-2>知识点总结</a></li></ol></li></ol></nav></details></aside><section class=article-content><h1 id=buuctf-reverse-wp>BUUCTF-REVERSE-WP</h1><h2 id=reverse1>REVERSE1</h2><h3 id=题目描述>题目描述</h3><p>平台描述：reverse1，注意：得到的 flag 请包上 <code>flag{}</code> 提交。</p><p>下载并解压后，得到 <code>reverse_1.exe</code>，这是一个 64 位 Windows 可执行文件。</p><p>运行程序，显示如下内容：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>input the flag:
+</span></span></code></pre></td></tr></table></div></div><p>尝试输入字符串后，程序会根据输入内容判断是否正确。</p><h3 id=使用-ida-分析程序>使用 IDA 分析程序</h3><h4 id=1-分析-main_0-函数>1. 分析 main_0 函数</h4><p>使用 IDA 打开 <code>reverse_1.exe</code>，找到主逻辑函数 <code>main_0</code>，按 <code>F5</code> 查看反编译后的 C 伪代码。</p><p>关键代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=kr>__fastcall</span> <span class=nf>main_0</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>**</span><span class=n>argv</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>**</span><span class=n>envp</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>char</span> <span class=o>*</span><span class=n>v3</span><span class=p>;</span> <span class=c1>// rdi
+</span></span></span><span class=line><span class=cl>  <span class=kr>__int64</span> <span class=n>i</span><span class=p>;</span> <span class=c1>// rcx
+</span></span></span><span class=line><span class=cl>  <span class=kt>size_t</span> <span class=n>v5</span><span class=p>;</span> <span class=c1>// rax
+</span></span></span><span class=line><span class=cl>  <span class=kt>char</span> <span class=n>v7</span><span class=p>;</span> <span class=c1>// [rsp+0h] [rbp-20h] BYREF
+</span></span></span><span class=line><span class=cl>  <span class=kt>int</span> <span class=n>j</span><span class=p>;</span> <span class=c1>// [rsp+24h] [rbp+4h]
+</span></span></span><span class=line><span class=cl>  <span class=kt>char</span> <span class=n>Str1</span><span class=p>[</span><span class=mi>224</span><span class=p>];</span> <span class=c1>// [rsp+48h] [rbp+28h] BYREF
+</span></span></span><span class=line><span class=cl>  <span class=kr>__int64</span> <span class=n>v10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>v3</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>v7</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>82</span><span class=p>;</span> <span class=n>i</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>;</span> <span class=o>--</span><span class=n>i</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=o>*</span><span class=p>(</span><span class=n>_DWORD</span> <span class=o>*</span><span class=p>)</span><span class=n>v3</span> <span class=o>=</span> <span class=o>-</span><span class=mi>858993460</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>v3</span> <span class=o>+=</span> <span class=mi>4</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span> <span class=n>j</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=p>;</span> <span class=o>++</span><span class=n>j</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>v10</span> <span class=o>=</span> <span class=n>j</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=n>j</span> <span class=o>&gt;</span> <span class=nf>j_strlen</span><span class=p>(</span><span class=n>Str2</span><span class=p>)</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=n>Str2</span><span class=p>[</span><span class=n>j</span><span class=p>]</span> <span class=o>==</span> <span class=mi>111</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>Str2</span><span class=p>[</span><span class=n>j</span><span class=p>]</span> <span class=o>=</span> <span class=mi>48</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nf>sub_1400111D1</span><span class=p>(</span><span class=s>&#34;input the flag:&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=nf>sub_14001128F</span><span class=p>(</span><span class=s>&#34;%20s&#34;</span><span class=p>,</span> <span class=n>Str1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>v5</span> <span class=o>=</span> <span class=nf>j_strlen</span><span class=p>(</span><span class=n>Str2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span> <span class=nf>strncmp</span><span class=p>(</span><span class=n>Str1</span><span class=p>,</span> <span class=n>Str2</span><span class=p>,</span> <span class=n>v5</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nf>sub_1400111D1</span><span class=p>(</span><span class=s>&#34;this is the right flag!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=nf>sub_1400111D1</span><span class=p>(</span><span class=s>&#34;wrong flag</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=2-分析栈空间初始化代码>2. 分析栈空间初始化代码</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>v3</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>v7</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=p>(</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>82</span><span class=p>;</span> <span class=n>i</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>;</span> <span class=o>--</span><span class=n>i</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=o>*</span><span class=p>(</span><span class=n>_DWORD</span> <span class=o>*</span><span class=p>)</span><span class=n>v3</span> <span class=o>=</span> <span class=o>-</span><span class=mi>858993460</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>v3</span> <span class=o>+=</span> <span class=mi>4</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这段代码主要用于初始化局部栈空间。</p><p>其中：</p><ul><li><code>v3 = &amp;v7</code>：让指针 <code>v3</code> 指向局部变量 <code>v7</code> 的地址。</li><li><code>*(_DWORD *)v3 = -858993460</code>：将当前地址处的 4 字节数据写入 <code>-858993460</code>。</li><li><code>v3 += 4</code>：指针向后移动 4 字节。</li><li><code>i = 82</code>：循环执行 82 次，每次写入 4 字节，总计写入 328 字节。</li></ul><p>将 <code>-858993460</code> 转换为 32 位十六进制补码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>-858993460 = 0xCCCCCCCC
+</span></span></code></pre></td></tr></table></div></div><p><code>0xCC</code> 是 MSVC 调试环境中常见的未初始化栈内存填充值之一。</p><p>这类代码通常属于编译器生成的栈空间初始化代码，并不是本题的核心解题逻辑，可以略过，不必深入分析。</p><h4 id=3-分析字符串替换逻辑>3. 分析字符串替换逻辑</h4><p>接下来关注这段代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>for</span> <span class=p>(</span> <span class=n>j</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=p>;</span> <span class=o>++</span><span class=n>j</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>v10</span> <span class=o>=</span> <span class=n>j</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=n>j</span> <span class=o>&gt;</span> <span class=nf>j_strlen</span><span class=p>(</span><span class=n>Str2</span><span class=p>)</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=n>Str2</span><span class=p>[</span><span class=n>j</span><span class=p>]</span> <span class=o>==</span> <span class=mi>111</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>Str2</span><span class=p>[</span><span class=n>j</span><span class=p>]</span> <span class=o>=</span> <span class=mi>48</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以看到，程序通过循环遍历字符串 <code>Str2</code>，并检查其中的字符。</p><p>在 IDA 中点击 <code>Str2</code>，查看其初始字符串内容：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>{hello_world}
+</span></span></code></pre></td></tr></table></div></div><p>关键代码为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>Str2</span><span class=p>[</span><span class=n>j</span><span class=p>]</span> <span class=o>==</span> <span class=mi>111</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>Str2</span><span class=p>[</span><span class=n>j</span><span class=p>]</span> <span class=o>=</span> <span class=mi>48</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里的 <code>111</code> 和 <code>48</code> 是十进制整数，分别对应 ASCII 编码中的字符：</p><div class=table-wrapper><table><thead><tr><th>字符</th><th style=text-align:right>十进制 ASCII</th><th style=text-align:right>十六进制 ASCII</th></tr></thead><tbody><tr><td><code>o</code></td><td style=text-align:right>111</td><td style=text-align:right><code>0x6F</code></td></tr><tr><td><code>0</code></td><td style=text-align:right>48</td><td style=text-align:right><code>0x30</code></td></tr></tbody></table></div><p>因此，这段代码的作用是将字符串 <code>Str2</code> 中的小写字母 <code>o</code> 替换为数字字符 <code>0</code>。</p><p>等价的 C 语言写法为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>Str2</span><span class=p>[</span><span class=n>j</span><span class=p>]</span> <span class=o>==</span> <span class=sc>&#39;o&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>Str2</span><span class=p>[</span><span class=n>j</span><span class=p>]</span> <span class=o>=</span> <span class=sc>&#39;0&#39;</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>经过替换后，字符串由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>{hello_world}
+</span></span></code></pre></td></tr></table></div></div><p>变为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>{hell0_w0rld}
+</span></span></code></pre></td></tr></table></div></div><p>需要注意，字符 <code>'o'</code> 和数字字符 <code>'0'</code> 是不同的字符，只是外形相似。</p><h4 id=4-分析输入逻辑>4. 分析输入逻辑</h4><p>继续分析以下代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=nf>sub_1400111D1</span><span class=p>(</span><span class=s>&#34;input the flag:&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nf>sub_14001128F</span><span class=p>(</span><span class=s>&#34;%20s&#34;</span><span class=p>,</span> <span class=n>Str1</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>通过查看函数调用及其参数，可以判断：</p><ul><li><code>sub_1400111D1</code> 对应输出字符串的函数，类似 <code>printf</code>。</li><li><code>sub_14001128F</code> 对应读取用户输入的函数，类似 <code>scanf</code>。</li><li><code>%20s</code> 表示最多读取 20 个非空白字符，并在末尾添加字符串结束符 <code>\0</code>。</li></ul><p>因此，这部分代码用于提示用户输入 Flag，并将输入内容保存到 <code>Str1</code> 中。</p><h4 id=5-分析字符串比较逻辑>5. 分析字符串比较逻辑</h4><p>程序最后通过以下代码判断输入是否正确：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>v5</span> <span class=o>=</span> <span class=nf>j_strlen</span><span class=p>(</span><span class=n>Str2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nf>strncmp</span><span class=p>(</span><span class=n>Str1</span><span class=p>,</span> <span class=n>Str2</span><span class=p>,</span> <span class=n>v5</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nf>sub_1400111D1</span><span class=p>(</span><span class=s>&#34;this is the right flag!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=nf>sub_1400111D1</span><span class=p>(</span><span class=s>&#34;wrong flag</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>其中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>v5</span> <span class=o>=</span> <span class=nf>j_strlen</span><span class=p>(</span><span class=n>Str2</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>用于获取处理后的字符串 <code>Str2</code> 的长度。</p><p><code>strncmp(a, b, n)</code> 用于比较两个字符串的前 <code>n</code> 个字节：</p><ul><li>返回 <code>0</code>：前 <code>n</code> 个字节相同。</li><li>返回小于 <code>0</code> 的值：第一个不同字节中，<code>a</code> 的值小于 <code>b</code>。</li><li>返回大于 <code>0</code> 的值：第一个不同字节中，<code>a</code> 的值大于 <code>b</code>。</li></ul><p>因此，这里实际比较的是输入字符串 <code>Str1</code> 和处理后的 <code>Str2</code> 的前 <code>strlen(Str2)</code> 个字节。</p><p>如果比较结果为 <code>0</code>，程序输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>this is the right flag!
+</span></span></code></pre></td></tr></table></div></div><p>否则输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>wrong flag
+</span></span></code></pre></td></tr></table></div></div><h4 id=6-整理解题思路>6. 整理解题思路</h4><p>通过以上分析，可以得到完整的解题流程：</p><ol><li>使用 IDA 打开程序，通过 <code>main_0</code> 函数分析主逻辑。</li><li>查看 <code>Str2</code> 的初始内容，发现其为 <code>{hello_world}</code>。</li><li>分析字符替换逻辑，发现程序将小写字母 <code>o</code> 替换为数字字符 <code>0</code>。</li><li>得到处理后的字符串 <code>{hell0_w0rld}</code>。</li><li>结合题目要求的 Flag 格式，在字符串前补上 <code>flag</code>，得到最终提交内容。</li></ol><h3 id=flag>Flag</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>flag{hell0_w0rld}
+</span></span></code></pre></td></tr></table></div></div><h3 id=知识点总结>知识点总结</h3><ul><li><strong>IDA 静态分析：</strong> 使用反编译功能查看 C 伪代码，并结合字符串和交叉引用定位关键逻辑。</li><li><strong>ASCII 编码：</strong> 字符在计算机中通过编码对应到数值，例如 <code>o</code> 对应十进制 <code>111</code>，<code>0</code> 对应十进制 <code>48</code>。</li><li><strong>字符串处理：</strong> 通过遍历字符串并修改指定位置的字符，实现简单的字符替换。</li><li><strong>字符串比较：</strong> <code>strncmp</code> 可以比较指定长度的字节序列，可用于分析程序的 Flag 校验逻辑。</li><li><strong>编译器生成代码：</strong> 识别常见的栈空间初始化代码，避免把与解题无关的代码当成核心逻辑。</li></ul><h2 id=reverse2>REVERSE2</h2><h3 id=题目描述-1>题目描述</h3><p>题目名称：<code>reverse2</code></p><p>题目要求：得到 Flag 后，需要使用 <code>flag{}</code> 格式提交。</p><p>下载并解压附件后，得到一个名为 <code>reverse_2</code> 的无后缀文件。使用 Detect It Easy（DIE）分析，确认其为 Linux ELF 64 位可执行文件。</p><h3 id=使用-ida-分析程序-1>使用 IDA 分析程序</h3><h4 id=1-分析-main-函数>1. 分析 main 函数</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-C data-lang=C><span class=line><span class=cl><span class=kt>int</span> <span class=kr>__fastcall</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>**</span><span class=n>argv</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>**</span><span class=n>envp</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>int</span> <span class=n>stat_loc</span><span class=p>;</span> <span class=c1>// [rsp+4h] [rbp-3Ch] BYREF
+</span></span></span><span class=line><span class=cl>  <span class=kt>int</span> <span class=n>i</span><span class=p>;</span> <span class=c1>// [rsp+8h] [rbp-38h]
+</span></span></span><span class=line><span class=cl>  <span class=n>__pid_t</span> <span class=n>pid</span><span class=p>;</span> <span class=c1>// [rsp+Ch] [rbp-34h]
+</span></span></span><span class=line><span class=cl>  <span class=kt>char</span> <span class=n>s2</span><span class=p>[</span><span class=mi>24</span><span class=p>];</span> <span class=c1>// [rsp+10h] [rbp-30h] BYREF
+</span></span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=kr>__int64</span> <span class=n>v8</span><span class=p>;</span> <span class=c1>// [rsp+28h] [rbp-18h]
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>v8</span> <span class=o>=</span> <span class=nf>__readfsqword</span><span class=p>(</span><span class=mh>0x28u</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=n>pid</span> <span class=o>=</span> <span class=nf>fork</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span> <span class=n>pid</span> <span class=o>!=</span> <span class=mi>0</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>waitpid</span><span class=p>(</span><span class=n>pid</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>stat_loc</span><span class=p>,</span> <span class=nl>options</span><span class=p>:</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>else</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=nf>strlen</span><span class=p>(</span><span class=nl>s</span><span class=p>:</span> <span class=n>flag</span><span class=p>);</span> <span class=o>++</span><span class=n>i</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span> <span class=n>flag</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>==</span> <span class=mi>105</span> <span class=o>||</span> <span class=n>flag</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>==</span> <span class=mi>114</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>flag</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=mi>49</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=nf>printf</span><span class=p>(</span><span class=nl>format</span><span class=p>:</span> <span class=s>&#34;input the flag:&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=nf>__isoc99_scanf</span><span class=p>(</span><span class=nl>a1</span><span class=p>:</span> <span class=s>&#34;%20s&#34;</span><span class=p>,</span> <span class=n>s2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span> <span class=nf>strcmp</span><span class=p>(</span><span class=nl>s1</span><span class=p>:</span> <span class=n>flag</span><span class=p>,</span> <span class=n>s2</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nf>puts</span><span class=p>(</span><span class=nl>s</span><span class=p>:</span> <span class=s>&#34;this is the right flag!&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nf>puts</span><span class=p>(</span><span class=nl>s</span><span class=p>:</span> <span class=s>&#34;wrong flag!&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>从代码中可以看出，程序的主要逻辑包括：</p><ol><li><p>创建子进程，并由父进程等待子进程结束。</p></li><li><p>子进程遍历全局字符串 <code>flag</code>，将指定字符替换为数字字符。</p></li><li><p>获取用户输入。</p></li><li><p>使用 <code>strcmp()</code> 比较输入与程序中的 <code>flag</code>，判断是否正确。</p></li></ol><p>其中，字符串替换逻辑是本题的重要分析入口，但还需要结合父子进程的执行关系判断它是否会影响最终比较。</p><h4 id=2-分析栈溢出保护代码>2. 分析栈溢出保护代码</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-C data-lang=C><span class=line><span class=cl>  <span class=n>v8</span> <span class=o>=</span> <span class=nf>__readfsqword</span><span class=p>(</span><span class=mh>0x28u</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=n>pid</span> <span class=o>=</span> <span class=nf>fork</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span> <span class=n>pid</span> <span class=o>!=</span> <span class=mi>0</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>waitpid</span><span class=p>(</span><span class=n>pid</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>stat_loc</span><span class=p>,</span> <span class=nl>options</span><span class=p>:</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里涉及两个 Linux 进程操作函数：</p><ul><li><p><code>fork()</code>：创建子进程。成功时，父进程获得子进程的 PID，子进程获得返回值 <code>0</code>。</p></li><li><p><code>waitpid()</code>：等待指定的子进程结束。</p></li></ul><p>当 <code>fork()</code> 成功后，父进程和子进程拥有各自独立的虚拟地址空间。虽然子进程最初拥有与父进程相同的全局变量内容，但子进程对普通变量的修改不会直接影响父进程。</p><p>因此，这段代码的执行过程是：</p><ol><li><p>父进程调用 <code>fork()</code> 创建子进程。</p></li><li><p>父进程进入 <code>pid != 0</code> 分支，等待子进程结束。</p></li><li><p>子进程进入 <code>else</code> 分支，遍历全局字符串 <code>flag</code>，并替换指定字符。</p></li><li><p>子进程结束后，父进程继续执行后面的输入和字符串比较逻辑。</p></li></ol><p><strong>关键点：</strong> <code>waitpid()</code> 只负责等待子进程结束，并不会将子进程修改的普通内存数据同步回父进程。</p><p>因此，按照当前反编译代码，如果没有其他共享内存或进程间通信机制，父进程后续比较时使用的仍然是原始的 <code>flag</code>。</p><p>虽然父进程用的是原始 <code>flag</code>，<strong>但子进程在修改完 <code>flag</code> 后并没有退出，而是继续往下执行了 <code>scanf</code> 和 <code>strcmp</code>。因此，当你在终端输入正确密码时，实际上是子进程拿着修改后的 <code>flag</code> 校验通过并输出了结果</strong></p><p>另外，<code>__readfsqword(0x28u)</code> 通常与 Linux x86-64 下的 Stack Canary（栈保护机制）有关。本题的核心分析重点是父子进程之间的变量修改，不必在此处深入研究栈保护机制。</p><h4 id=3-分析字符串替换逻辑-1>3. 分析字符串替换逻辑</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-C data-lang=C><span class=line><span class=cl><span class=k>for</span> <span class=p>(</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=nf>strlen</span><span class=p>(</span><span class=nl>s</span><span class=p>:</span> <span class=n>flag</span><span class=p>);</span> <span class=o>++</span><span class=n>i</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span> <span class=n>flag</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>==</span> <span class=mi>105</span> <span class=o>||</span> <span class=n>flag</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>==</span> <span class=mi>114</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>flag</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=mi>49</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里的数字是字符对应的 ASCII 十进制编码</p><div class=table-wrapper><table><thead><tr><th>十进制</th><th>对应字符</th></tr></thead><tbody><tr><td>105</td><td><code>i</code></td></tr><tr><td>114</td><td><code>r</code></td></tr><tr><td>49</td><td><code>1</code></td></tr><tr><td>所以就是替换 i r 为 1</td><td></td></tr></tbody></table></div><p>这段遍历一个叫 <code>flag</code> 的全局变量，点击查看flag的字符为{hacking_for_fun}，替换之后变为{hack1ng_fo1_fun}</p><h4 id=4-分析输入和字符串比较逻辑>4. 分析输入和字符串比较逻辑</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=nf>printf</span><span class=p>(</span><span class=nl>format</span><span class=p>:</span> <span class=s>&#34;input the flag:&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nf>__isoc99_scanf</span><span class=p>(</span><span class=nl>a1</span><span class=p>:</span> <span class=s>&#34;%20s&#34;</span><span class=p>,</span> <span class=n>s2</span><span class=p>);</span> <span class=c1>// 获取你的输入，存到 s2
+</span></span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span> <span class=nf>strcmp</span><span class=p>(</span><span class=nl>s1</span><span class=p>:</span> <span class=n>flag</span><span class=p>,</span> <span class=n>s2</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span> <span class=p>)</span> <span class=c1>// 比较修改后的 flag 和你的输入 s2
+</span></span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nf>puts</span><span class=p>(</span><span class=nl>s</span><span class=p>:</span> <span class=s>&#34;this is the right flag!&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nf>puts</span><span class=p>(</span><span class=nl>s</span><span class=p>:</span> <span class=s>&#34;wrong flag!&#34;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>注意，这里用的是 <code>strcmp(s1, s2)</code>，它和上一题的 <code>strncmp</code> 的区别是：<code>strcmp</code> 比较的是<strong>完整的两个字符串</strong>，必须一模一样才行。</p><h4 id=5-整理解题思路>5. 整理解题思路</h4><p>通过以上分析，可以得到完整的解题流程：</p><ol><li>使用 IDA 打开程序，通过 <code>main</code> 函数分析主逻辑。</li><li>查看 <code>Str2</code> 的初始内容，发现其为 <code>{hacking_for_fun}</code>。</li><li>分析字符替换逻辑，发现程序将小写字母 <code>r</code> <code>i</code> 替换为数字字符 <code>1</code>。</li><li>得到处理后的字符串<code>{hack1ng_fo1_fun}</code> 。</li><li>结合题目要求的 Flag 格式，在字符串前补上 <code>flag</code>，得到最终提交内容。</li></ol><h3 id=flag-1>Flag</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>flag{hack1ng_fo1_fun}
+</span></span></code></pre></td></tr></table></div></div><h3 id=知识点总结-1>知识点总结</h3><p>如上题</p><h2 id=reverse3>REVERSE3</h2><h3 id=题目描述-2>题目描述</h3><p>题目名称：<code>reverse3</code></p><p>题目要求：得到 Flag 后，使用 <code>flag{}</code> 格式提交。</p><p>下载并解压附件，使用 DIE 查壳，发现是一个 32 位无壳的 Windows 可执行文件（PE 格式）。直接拖入 32 位的 IDA 中进行分析。</p><hr><h3 id=使用-ida-分析程序-2>使用 IDA 分析程序</h3><h4 id=1-分析-main_0-函数主逻辑>1. 分析 main_0 函数（主逻辑）</h4><p>在左侧函数列表中找到 <code>main_0</code>，按 <code>F5</code> 查看反编译代码。核心逻辑如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=kr>__cdecl</span> <span class=nf>main_0</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>**</span><span class=n>argv</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>**</span><span class=n>envp</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// ... 变量声明省略 ...
+</span></span></span><span class=line><span class=cl>  <span class=kt>char</span> <span class=n>Destination</span><span class=p>[</span><span class=mi>108</span><span class=p>];</span> <span class=c1>// 存放处理后的字符串
+</span></span></span><span class=line><span class=cl>  <span class=kt>char</span> <span class=n>Str</span><span class=p>[</span><span class=mi>28</span><span class=p>];</span>          <span class=c1>// 存放用户的输入
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>100</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>int</span><span class=p>)</span><span class=n>i</span> <span class=o>&gt;=</span> <span class=mh>0x64</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=nf>j____report_rangecheckfailure</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>Destination</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1>// 1. 提示并接收输入
+</span></span></span><span class=line><span class=cl>  <span class=nf>sub_41132F</span><span class=p>(</span><span class=nl>Format</span><span class=p>:</span> <span class=s>&#34;please enter the flag:&#34;</span><span class=p>,</span> <span class=nl>a2</span><span class=p>:</span> <span class=n>v7</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=nf>sub_411375</span><span class=p>(</span><span class=nl>Format</span><span class=p>:</span> <span class=s>&#34;%20s&#34;</span><span class=p>,</span> <span class=nl>a2</span><span class=p>:</span> <span class=p>(</span><span class=kt>char</span><span class=p>)</span><span class=n>Str</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1>// 2. 第一次加密：调用未知函数 sub_4110BE
+</span></span></span><span class=line><span class=cl>  <span class=n>v3</span> <span class=o>=</span> <span class=nf>j_strlen</span><span class=p>(</span><span class=n>Str</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=n>v4</span> <span class=o>=</span> <span class=p>(</span><span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=nf>sub_4110BE</span><span class=p>(</span><span class=nl>a1</span><span class=p>:</span> <span class=n>Str</span><span class=p>,</span> <span class=nl>a2</span><span class=p>:</span> <span class=n>v3</span><span class=p>,</span> <span class=nl>a3</span><span class=p>:</span> <span class=n>v14</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=nf>strncpy</span><span class=p>(</span><span class=n>Destination</span><span class=p>,</span> <span class=nl>Source</span><span class=p>:</span> <span class=n>v4</span><span class=p>,</span> <span class=nl>Count</span><span class=p>:</span> <span class=mh>0x28u</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1>// 3. 第二次加密：位置偏移
+</span></span></span><span class=line><span class=cl>  <span class=n>v11</span> <span class=o>=</span> <span class=nf>j_strlen</span><span class=p>(</span><span class=nl>Str</span><span class=p>:</span> <span class=n>Destination</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span> <span class=n>j</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>j</span> <span class=o>&lt;</span> <span class=n>v11</span><span class=p>;</span> <span class=o>++</span><span class=n>j</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>Destination</span><span class=p>[</span><span class=n>j</span><span class=p>]</span> <span class=o>+=</span> <span class=n>j</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1>// 4. 字符串比较
+</span></span></span><span class=line><span class=cl>  <span class=n>v5</span> <span class=o>=</span> <span class=nf>j_strlen</span><span class=p>(</span><span class=nl>Str</span><span class=p>:</span> <span class=n>Destination</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span> <span class=nf>strncmp</span><span class=p>(</span><span class=nl>Str1</span><span class=p>:</span> <span class=n>Destination</span><span class=p>,</span> <span class=nl>Str2</span><span class=p>:</span> <span class=n>Str2</span><span class=p>,</span> <span class=nl>MaxCount</span><span class=p>:</span> <span class=n>v5</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nf>sub_41132F</span><span class=p>(</span><span class=nl>Format</span><span class=p>:</span> <span class=s>&#34;rigth flag!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=nl>a2</span><span class=p>:</span> <span class=n>v8</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=nf>sub_41132F</span><span class=p>(</span><span class=nl>Format</span><span class=p>:</span> <span class=s>&#34;wrong flag!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=nl>a2</span><span class=p>:</span> <span class=n>v8</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>逻辑解析</strong>：</p><ol><li>开头一大段 <code>for</code> 循环是清理内存，直接跳过。</li><li>程序接收了我们的输入 <code>Str</code>。</li><li>接着调用了一个未知函数 <code>sub_4110BE</code> 对 <code>Str</code> 进行处理，结果存入 <code>Destination</code>。</li><li>然后遍历 <code>Destination</code>，执行了 <code>Destination[j] += j</code>。即<strong>把第 <code>j</code> 个字符的 ASCII 码加上了 <code>j</code></strong>。</li><li>最后将处理后的 <code>Destination</code> 与全局变量 <code>Str2</code> 比较。</li></ol><h4 id=2-深挖未知函数-sub_4110be核心考点>2. 深挖未知函数 sub_4110BE（核心考点）</h4><p>双击 <code>sub_4110BE</code> 进去，发现它只是一个外壳，里面又 <code>return sub_411AB0(...)</code>。继续双击 <code>sub_411AB0</code> 进去看。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=o>*</span><span class=kr>__cdecl</span> <span class=nf>sub_411AB0</span><span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=n>a1</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>a2</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>a3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// ... 变量声明省略 ...
+</span></span></span><span class=line><span class=cl>  <span class=n>v9</span> <span class=o>=</span> <span class=n>a2</span> <span class=o>/</span> <span class=mi>3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span> <span class=p>(</span><span class=kt>int</span><span class=p>)(</span><span class=n>a2</span> <span class=o>/</span> <span class=mi>3</span><span class=p>)</span> <span class=o>%</span> <span class=mi>3</span> <span class=o>!=</span> <span class=mi>0</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>++</span><span class=n>v9</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=n>v10</span> <span class=o>=</span> <span class=mi>4</span> <span class=o>*</span> <span class=n>v9</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=n>v12</span> <span class=o>=</span> <span class=nf>malloc</span><span class=p>(</span><span class=nl>Size</span><span class=p>:</span> <span class=n>v10</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// ... memset 清空内存 ...
+</span></span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=k>while</span> <span class=p>(</span> <span class=n>v11</span> <span class=o>&gt;</span> <span class=mi>0</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 每次读 3 个字节到 byte_41A144
+</span></span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>3</span> <span class=o>&amp;&amp;</span> <span class=n>v11</span> <span class=o>&gt;=</span> <span class=mi>1</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span> <span class=p>)</span> <span class=p>{</span> <span class=p>...</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=n>i</span> <span class=o>==</span> <span class=mi>0</span> <span class=p>)</span> <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>switch</span> <span class=p>(</span> <span class=n>i</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>case</span> <span class=mi>1</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 补两个 =
+</span></span></span><span class=line><span class=cl>      <span class=k>case</span> <span class=mi>2</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 补一个 =
+</span></span></span><span class=line><span class=cl>      <span class=k>case</span> <span class=mi>3</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 不补 =
+</span></span></span><span class=line><span class=cl>        <span class=o>*</span><span class=p>((</span><span class=n>_BYTE</span> <span class=o>*</span><span class=p>)</span><span class=n>v12</span> <span class=o>+</span> <span class=n>v4</span><span class=p>)</span> <span class=o>=</span> <span class=n>aAbcdefghijklmn</span><span class=p>[(</span><span class=kt>int</span><span class=p>)(</span><span class=kt>unsigned</span> <span class=kr>__int8</span><span class=p>)</span><span class=n>byte_41A144</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>&gt;&gt;</span> <span class=mi>2</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=n>v7</span> <span class=o>=</span> <span class=n>v4</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=o>*</span><span class=p>((</span><span class=n>_BYTE</span> <span class=o>*</span><span class=p>)</span><span class=n>v12</span> <span class=o>+</span> <span class=n>v7</span><span class=p>)</span> <span class=o>=</span> <span class=n>aAbcdefghijklmn</span><span class=p>[((</span><span class=n>algn_41A145</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>&amp;</span> <span class=mh>0xF0</span><span class=p>)</span> <span class=o>&gt;&gt;</span> <span class=mi>4</span><span class=p>)</span> <span class=o>|</span> <span class=p>(</span><span class=mi>16</span> <span class=o>*</span> <span class=p>(</span><span class=n>byte_41A144</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>&amp;</span> <span class=mi>3</span><span class=p>))];</span>
+</span></span><span class=line><span class=cl>        <span class=o>*</span><span class=p>((</span><span class=n>_BYTE</span> <span class=o>*</span><span class=p>)</span><span class=n>v12</span> <span class=o>+</span> <span class=o>++</span><span class=n>v7</span><span class=p>)</span> <span class=o>=</span> <span class=n>aAbcdefghijklmn</span><span class=p>[((</span><span class=n>algn_41A145</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>&amp;</span> <span class=mh>0xC0</span><span class=p>)</span> <span class=o>&gt;&gt;</span> <span class=mi>6</span><span class=p>)</span> <span class=o>|</span> <span class=p>(</span><span class=mi>4</span> <span class=o>*</span> <span class=p>(</span><span class=n>algn_41A145</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>&amp;</span> <span class=mh>0xF</span><span class=p>))];</span>
+</span></span><span class=line><span class=cl>        <span class=o>*</span><span class=p>((</span><span class=n>_BYTE</span> <span class=o>*</span><span class=p>)</span><span class=n>v12</span> <span class=o>+</span> <span class=o>++</span><span class=n>v7</span><span class=p>)</span> <span class=o>=</span> <span class=n>aAbcdefghijklmn</span><span class=p>[</span><span class=n>algn_41A145</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>&amp;</span> <span class=mh>0x3F</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=n>v12</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>零基础特征识别</strong>：</p><ul><li><strong>按 3 字节读取</strong>：每次 <code>for</code> 循环读 3 个字符。</li><li><strong>按 4 字节输出</strong>：<code>v10 = 4 * v9</code>，输出长度是 4 的倍数。</li><li><strong>位运算</strong>：出现了 <code>>> 2</code>（右移2位）、<code>& 0xF0</code>、<code>& 0x3F</code>。这是把 24 位（3 字节）拆分成 4 个 6 位的标准操作。</li><li><strong>查表</strong>：数组 <code>aAbcdefghijklmn</code> 的名字暗示了这是一个字符表（通常是 <code>A-Z a-z 0-9 + /</code>）。</li><li><strong>补位</strong>：<code>case 1</code> 和 <code>case 2</code> 中出现了 <code>aAbcdefghijklmn[64]</code>，对应 Base64 的填充字符 <code>=</code>。</li></ul><p><strong>结论</strong>：<code>sub_411AB0</code> 就是标准的 <strong>Base64 编码算法</strong>。</p><h4 id=3-整理解题思路>3. 整理解题思路</h4><p>现在我们把 <code>main_0</code> 的加密流程彻底搞清楚了：
+<strong>正向流程</strong>：</p><ol><li><code>用户输入</code> -> 经过 <strong>Base64 编码</strong> -> <code>Base64字符串</code></li><li><code>Base64字符串</code> -> 每个字符加上它的下标 <code>j</code> -> <strong><code>最终的密文</code></strong></li><li>比较 <code>最终密文</code> 和 <code>Str2</code>。</li></ol><p><strong>逆向流程（解密）</strong>：</p><ol><li>在 IDA 中双击 <code>Str2</code>，获取最终密文。</li><li>将密文的每个字符 <strong>减去</strong> 它的下标 <code>j</code>，得到 Base64 字符串。</li><li>对 Base64 字符串进行 <strong>Base64 解码</strong>，得到原始 Flag。</li></ol><hr><h3 id=编写-python-解密脚本>编写 Python 解密脚本</h3><p>逆向题到了这一步，直接用 Python 跑脚本比手算快一万倍。</p><h4 id=第一步获取密文>第一步：获取密文</h4><p>在 IDA 中双击 <code>Str2</code>，发现它的值是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>e3nifIH9b_C@n@dH
+</span></span></code></pre></td></tr></table></div></div><p><em>(注意：这个值可能因不同版本的附件略有不同，请以你 IDA 里的实际值为准)</em></p><h4 id=第二步编写脚本执行逆运算>第二步：编写脚本执行逆运算</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>base64</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 1. 填入你在 IDA 中找到的 Str2</span>
+</span></span><span class=line><span class=cl><span class=n>str2</span> <span class=o>=</span> <span class=s2>&#34;e3nifIH9b_C@n@dH&#34;</span>  <span class=c1># 请替换为你实际找到的密文</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 2. 逆向位置偏移：每个字符减去对应的索引 j</span>
+</span></span><span class=line><span class=cl><span class=n>middle_str</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>j</span><span class=p>,</span> <span class=n>char</span> <span class=ow>in</span> <span class=nb>enumerate</span><span class=p>(</span><span class=n>str2</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>middle_str</span> <span class=o>+=</span> <span class=nb>chr</span><span class=p>(</span><span class=nb>ord</span><span class=p>(</span><span class=n>char</span><span class=p>)</span> <span class=o>-</span> <span class=n>j</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;逆向位置偏移后得到的 Base64 字符串:&#34;</span><span class=p>,</span> <span class=n>middle_str</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 3. 对 Base64 字符串进行解码</span>
+</span></span><span class=line><span class=cl><span class=k>try</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 补齐 Base64 的 = 填充符（如果原串缺失的话）</span>
+</span></span><span class=line><span class=cl>    <span class=n>missing_padding</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>middle_str</span><span class=p>)</span> <span class=o>%</span> <span class=mi>4</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>missing_padding</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>middle_str</span> <span class=o>+=</span> <span class=s1>&#39;=&#39;</span> <span class=o>*</span> <span class=p>(</span><span class=mi>4</span> <span class=o>-</span> <span class=n>missing_padding</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>    <span class=n>flag</span> <span class=o>=</span> <span class=n>base64</span><span class=o>.</span><span class=n>b64decode</span><span class=p>(</span><span class=n>middle_str</span><span class=p>)</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;最终的 Flag 是:&#34;</span><span class=p>,</span> <span class=n>flag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>except</span> <span class=ne>Exception</span> <span class=k>as</span> <span class=n>e</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;解码失败，错误信息:&#34;</span><span class=p>,</span> <span class=n>e</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=第三步动态验证>第三步：动态验证</h4><p>运行程序，输入我们脚本算出的 Flag 内容，如果程序提示 <code>rigth flag!</code>（注意原程序拼写是 rigth），说明逆向成功。
+最后包上 <code>flag{}</code> 提交。</p><h3 id=flag-2>Flag</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>flag{i_l0ve_you}
+</span></span></code></pre></td></tr></table></div></div><h3 id=知识点总结-2>知识点总结</h3><ul><li><strong>代码跟踪能力</strong>：遇到未知函数 <code>sub_XXX</code> 不要怕，双击进去看。如果一个函数里又调用了别的函数，继续跟进去，直到看到核心逻辑。</li><li><strong>Base64 算法特征</strong>：在逆向中，看到 <code>3</code> 个字节变为 <code>4</code> 个字符、看到 <code>>> 2</code>、<code>& 0x3F</code> 这种位运算、看到常数表、看到补 <code>=</code> 操作，第一反应就是 Base64。</li><li><strong>位置偏移加密</strong>：<code>Destination[j] += j</code> 是一种非常经典的“变种加密”，利用下标作为密钥。</li><li><strong>Python 脚本辅助</strong>：逆向绝不能纯靠脑算。用 Python 的 <code>enumerate</code> 遍历字符串，结合 <code>chr()</code> 和 <code>ord()</code> 进行加减法，是逆向最常用的技能。</li></ul></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/ctf-reverse/>CTF-REVERSE</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=4.0.3>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.d00997a2f4a6ce525f496da0c3ae6ad392b0468b8a9024f23309fdfc75c67a35.js defer></script></body></html>

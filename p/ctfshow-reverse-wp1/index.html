@@ -1,0 +1,262 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="CTFshow Reverse WP1 一、签到题 丢进 IDA，反编译查看 main 函数，直接得到 Flag。\n1 flag{7ujm8ikhy6} 二、re2 知识点：XOR 异或、RC4\n1. 题目描述 解压题目提供的压缩包，得到一个勒索病毒 .exe 文件和一个 enflag.txt 文件。\n"><title>CTFSHOW-REVERSE-WP1</title><link rel=canonical href=https://ke1thli.github.io/p/ctfshow-reverse-wp1/><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload as=style href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"><link rel=stylesheet href=/scss/style.min.e62e09c60ba428a627e03568fa3df938f6a8224f815b5846f00816c17d4a0be4.css><meta property='og:title' content="CTFSHOW-REVERSE-WP1"><meta property='og:description' content="CTFshow Reverse WP1 一、签到题 丢进 IDA，反编译查看 main 函数，直接得到 Flag。\n1 flag{7ujm8ikhy6} 二、re2 知识点：XOR 异或、RC4\n1. 题目描述 解压题目提供的压缩包，得到一个勒索病毒 .exe 文件和一个 enflag.txt 文件。\n"><meta property='og:url' content='https://ke1thli.github.io/p/ctfshow-reverse-wp1/'><meta property='og:site_name' content='Ke1thLi 的技术笔记'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='CTF-REVERSE'><meta property='article:published_time' content='2026-10-21T00:00:00+00:00'><meta property='article:modified_time' content='2026-10-21T00:00:00+00:00'><meta name=twitter:title content="CTFSHOW-REVERSE-WP1"><meta name=twitter:description content="CTFshow Reverse WP1 一、签到题 丢进 IDA，反编译查看 main 函数，直接得到 Flag。\n1 flag{7ujm8ikhy6} 二、re2 知识点：XOR 异或、RC4\n1. 题目描述 解压题目提供的压缩包，得到一个勒索病毒 .exe 文件和一个 enflag.txt 文件。\n"><link rel="shortcut icon" href=/img/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar.png width=640 height=640 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🎓</span></figure><div class=site-meta><h1 class=site-name><a href=/>Ke1thLi 的技术笔记</a></h1><h2 class=site-description>The harder you work, the luckier you get</h2></div></header><ol class=menu-social><li><a href=https://github.com/Ke1thLi title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span></span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title"></h2><div class=widget--toc><nav class=toc-nav id=TableOfContents><ol><li><a href=#一签到题>一、签到题</a></li><li><a href=#二re2>二、re2</a><ol><li><a href=#1-题目描述>1. 题目描述</a></li><li><a href=#2-使用-ida-分析程序>2. 使用 IDA 分析程序</a><ol><li><a href=#21-分析-main_0>2.1 分析 <code>main_0</code></a></li></ol></li><li><a href=#3-还原真实密钥>3. 还原真实密钥</a><ol><li><a href=#使用-cyberchef-还原密钥>使用 CyberChef 还原密钥</a></li></ol></li><li><a href=#4-分析-rc4-加密算法>4. 分析 RC4 加密算法</a><ol><li><a href=#41-ksa密钥调度算法>4.1 KSA：密钥调度算法</a></li><li><a href=#42-prga伪随机生成算法>4.2 PRGA：伪随机生成算法</a></li><li><a href=#43-xor加解密过程>4.3 XOR：加解密过程</a></li><li><a href=#44-建议重命名函数>4.4 建议重命名函数</a></li></ol></li><li><a href=#5-解法一使用-cyberchef-解密>5. 解法一：使用 CyberChef 解密</a><ol><li><a href=#51-准备密文>5.1 准备密文</a></li><li><a href=#52-配置-rc4>5.2 配置 RC4</a></li><li><a href=#53-查看-flag>5.3 查看 Flag</a></li></ol></li><li><a href=#6-解法二利用原程序完成解密>6. 解法二：利用原程序完成解密</a><ol><li><a href=#61-操作步骤>6.1 操作步骤</a></li></ol></li><li><a href=#7-总结>7. 总结</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/ctfshow-reverse-wp1/>CTFSHOW-REVERSE-WP1</a></h2></div><footer class=article-meta><div class=inline-meta><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published datetime=2026-10-21T00:00:00Z>Wednesday, October 21, 2026</time>
+<svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading></time></div></footer></div></header><aside class=article-toc><details><summary><div class=article-toc-title><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6-6 6"/></svg>
+<span></span></div></summary><nav class=toc-nav><ol><li><a href=#一签到题>一、签到题</a></li><li><a href=#二re2>二、re2</a><ol><li><a href=#1-题目描述>1. 题目描述</a></li><li><a href=#2-使用-ida-分析程序>2. 使用 IDA 分析程序</a><ol><li><a href=#21-分析-main_0>2.1 分析 <code>main_0</code></a></li></ol></li><li><a href=#3-还原真实密钥>3. 还原真实密钥</a><ol><li><a href=#使用-cyberchef-还原密钥>使用 CyberChef 还原密钥</a></li></ol></li><li><a href=#4-分析-rc4-加密算法>4. 分析 RC4 加密算法</a><ol><li><a href=#41-ksa密钥调度算法>4.1 KSA：密钥调度算法</a></li><li><a href=#42-prga伪随机生成算法>4.2 PRGA：伪随机生成算法</a></li><li><a href=#43-xor加解密过程>4.3 XOR：加解密过程</a></li><li><a href=#44-建议重命名函数>4.4 建议重命名函数</a></li></ol></li><li><a href=#5-解法一使用-cyberchef-解密>5. 解法一：使用 CyberChef 解密</a><ol><li><a href=#51-准备密文>5.1 准备密文</a></li><li><a href=#52-配置-rc4>5.2 配置 RC4</a></li><li><a href=#53-查看-flag>5.3 查看 Flag</a></li></ol></li><li><a href=#6-解法二利用原程序完成解密>6. 解法二：利用原程序完成解密</a><ol><li><a href=#61-操作步骤>6.1 操作步骤</a></li></ol></li><li><a href=#7-总结>7. 总结</a></li></ol></li></ol></nav></details></aside><section class=article-content><h1 id=ctfshow-reverse-wp1>CTFshow Reverse WP1</h1><h2 id=一签到题>一、签到题</h2><p>丢进 IDA，反编译查看 <code>main</code> 函数，直接得到 Flag。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>flag{7ujm8ikhy6}
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=二re2>二、re2</h2><p><strong>知识点：XOR 异或、RC4</strong></p><h3 id=1-题目描述>1. 题目描述</h3><p>解压题目提供的压缩包，得到一个勒索病毒 <code>.exe</code> 文件和一个 <code>enflag.txt</code> 文件。</p><p>运行 EXE，显示如下内容：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>****************我的Flag出了什么问题??****************
+</span></span><span class=line><span class=cl>您的一些重要数据被我们加密了,就算您叫破喉咙来也没有办法恢复。
+</span></span><span class=line><span class=cl>****************那有没有恢复的方法呢??****************
+</span></span><span class=line><span class=cl>有的。只能通过我们的财付通,支付宝服务才能恢复，我以人格担保，只要充钱，就能解密
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>做出你的选择:
+</span></span><span class=line><span class=cl>1.充钱
+</span></span><span class=line><span class=cl>2.退出
+</span></span></code></pre></td></tr></table></div></div><p>实际运行时，程序表现为无论输入什么都退出。后续通过 IDA 分析发现，选项 <code>1</code> 对应文件处理流程，选项 <code>2</code> 对应退出逻辑，因此需要进一步检查程序的输入处理、文件路径和运行条件。</p><p><code>enflag.txt</code> 的内容如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>脗?鯨6;Y棠轳?睎5
+</span></span></code></pre></td></tr></table></div></div><p>这是一段显示为乱码的内容，后续需要结合原始文件字节进行分析。</p><h3 id=2-使用-ida-分析程序>2. 使用 IDA 分析程序</h3><p>将 EXE 丢进 IDA 反编译，发现 <code>main</code> 函数主要起到入口和外层封装的作用，实际业务逻辑位于 <code>main_0</code>。</p><h4 id=21-分析-main_0>2.1 分析 <code>main_0</code></h4><p>关键反编译代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=ne>int</span> <span class=n>__cdecl</span> <span class=n>main_0</span><span class=p>(</span><span class=ne>int</span> <span class=n>argc</span><span class=p>,</span> <span class=k>const</span> <span class=n>char</span> <span class=o>**</span><span class=n>argv</span><span class=p>,</span> <span class=k>const</span> <span class=n>char</span> <span class=o>**</span><span class=n>envp</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>char</span> <span class=n>v4</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>char</span> <span class=n>v5</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>char</span> <span class=n>v6</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>char</span> <span class=n>v7</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>char</span> <span class=n>v8</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>char</span> <span class=n>v9</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>char</span> <span class=n>v10</span><span class=p>[</span><span class=mi>4</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=ne>int</span> <span class=n>v11</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>FILE</span> <span class=o>*</span><span class=n>v12</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>FILE</span> <span class=o>*</span><span class=n>v13</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>_BYTE</span> <span class=n>v14</span><span class=p>[</span><span class=mi>264</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=n>_BYTE</span> <span class=n>v15</span><span class=p>[</span><span class=mi>264</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=n>char</span> <span class=n>Str1</span><span class=p>[</span><span class=mi>60</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=n>char</span> <span class=n>Str</span><span class=p>[</span><span class=mi>56</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>__CheckForDebuggerJustMyCode</span><span class=p>(</span><span class=o>&amp;</span><span class=n>unk_40B027</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>memset</span><span class=p>(</span><span class=n>Str</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>50</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>memset</span><span class=p>(</span><span class=n>Str1</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>50</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>memset</span><span class=p>(</span><span class=n>v15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mh>0x100</span><span class=n>u</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>memset</span><span class=p>(</span><span class=n>v14</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mh>0x100</span><span class=n>u</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>v11</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>do</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>sub_401037</span><span class=p>(</span><span class=n>asc_406BA0</span><span class=p>,</span> <span class=n>v4</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>sub_401037</span><span class=p>(</span><span class=o>&amp;</span><span class=n>byte_406BFC</span><span class=p>,</span> <span class=n>v5</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>sub_401037</span><span class=p>(</span><span class=n>asc_406C48</span><span class=p>,</span> <span class=n>v6</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>sub_401037</span><span class=p>(</span><span class=o>&amp;</span><span class=n>byte_406CA8</span><span class=p>,</span> <span class=n>v7</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>sub_401037</span><span class=p>(</span><span class=o>&amp;</span><span class=n>byte_406D0C</span><span class=p>,</span> <span class=n>v8</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>sub_401037</span><span class=p>(</span><span class=n>a1</span><span class=p>,</span> <span class=n>v9</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>sub_401073</span><span class=p>(</span><span class=s2>&#34;</span><span class=si>%d</span><span class=s2>&#34;</span><span class=p>,</span> <span class=p>(</span><span class=n>char</span><span class=p>)</span><span class=n>v10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>*</span><span class=p>(</span><span class=n>DWORD</span> <span class=o>*</span><span class=p>)</span><span class=n>v10</span> <span class=o>==</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>v13</span> <span class=o>=</span> <span class=n>fopen</span><span class=p>(</span><span class=s2>&#34;flag.txt&#34;</span><span class=p>,</span> <span class=s2>&#34;r&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>v13</span> <span class=o>==</span> <span class=n>nullptr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>sub_401037</span><span class=p>(</span><span class=o>&amp;</span><span class=n>byte_406D48</span><span class=p>,</span> <span class=n>v4</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=n>getchar</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>                <span class=n>exit</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>v12</span> <span class=o>=</span> <span class=n>fopen</span><span class=p>(</span><span class=s2>&#34;enflag.txt&#34;</span><span class=p>,</span> <span class=s2>&#34;w&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>v12</span> <span class=o>==</span> <span class=n>nullptr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>sub_401037</span><span class=p>(</span><span class=o>&amp;</span><span class=n>byte_406D70</span><span class=p>,</span> <span class=n>v4</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=n>getchar</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>                <span class=n>exit</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>sub_401037</span><span class=p>(</span><span class=n>asc_406D84</span><span class=p>,</span> <span class=n>v4</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>sub_401073</span><span class=p>(</span><span class=s2>&#34;</span><span class=si>%s</span><span class=s2>&#34;</span><span class=p>,</span> <span class=p>(</span><span class=n>char</span><span class=p>)</span><span class=n>Str</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>sub_401069</span><span class=p>(</span><span class=n>Str</span><span class=p>,</span> <span class=n>Str1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>sub_401028</span><span class=p>(</span><span class=n>Str</span><span class=p>,</span> <span class=n>v15</span><span class=p>,</span> <span class=n>v14</span><span class=p>,</span> <span class=n>v13</span><span class=p>,</span> <span class=n>v12</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=o>*</span><span class=p>(</span><span class=n>DWORD</span> <span class=o>*</span><span class=p>)</span><span class=n>v10</span> <span class=o>==</span> <span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>v11</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>sub_401037</span><span class=p>(</span><span class=n>asc_406D98</span><span class=p>,</span> <span class=n>v4</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=n>v11</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注：上面根据原始反编译记录整理了代码的结构和变量名。为了方便阅读，对部分 IDA 生成的参数标注和局部变量初始化进行了简化，实际分析时应以 IDA 中的原始代码为准。</p></blockquote><p>从代码中可以得到以下信息：</p><ul><li><p><code>v11 = 1</code>：初始化循环控制变量。</p></li><li><p><code>*(DWORD *)v10 == 1</code>：选择选项 <code>1</code> 时进入文件处理流程。</p></li><li><p><code>*(DWORD *)v10 == 2</code>：选择选项 <code>2</code> 时将 <code>v11</code> 置为 <code>0</code>，退出循环。</p></li><li><p><code>fopen("flag.txt", "r")</code>：以只读模式打开 <code>flag.txt</code>。</p></li><li><p><code>fopen("enflag.txt", "w")</code>：以写入模式打开 <code>enflag.txt</code>。</p></li><li><p><code>sub_401069(Str, Str1)</code>：进一步处理用户输入的字符串。</p></li><li><p><code>sub_401028(Str, v15, v14, v13, v12)</code>：进入后续文件处理逻辑。</p></li></ul><p>这里需要特别注意：<code>fopen("enflag.txt", "w")</code> 会在成功打开文件时截断原有内容。因此，在利用原程序解密前，必须先备份 <code>enflag.txt</code>，防止原始密文被覆盖。</p><h3 id=3-还原真实密钥>3. 还原真实密钥</h3><p>继续分析 <code>sub_401069(Str, Str1)</code>，发现它调用了 <code>sub_401A70</code>。</p><p>打开 <code>sub_401A70</code> 后，发现其中存在一段硬编码字符串：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>DH~mqqvqxB^||zll@Jq~jkwpmvez{
+</span></span></code></pre></td></tr></table></div></div><p>进一步分析发现，程序对字符串中的每个字符执行 XOR <code>0x1F</code> 操作。</p><p>XOR 异或运算具有可逆性：</p><p>$(a \oplus b) \oplus b = a$</p><p>因此，只需要再次使用 <code>0x1F</code> 对硬编码字符串进行异或，就可以还原出真实密钥。</p><h4 id=使用-cyberchef-还原密钥>使用 CyberChef 还原密钥</h4><ol><li><p>打开 <a class=link href=https://gchq.github.io/CyberChef/ target=_blank rel=noopener>CyberChef</a>。</p></li><li><p>将硬编码字符串粘贴到左上角的 Input。</p></li><li><p>在左侧 Operations 中搜索 <code>XOR</code>，添加到 Recipe。</p></li><li><p>在 XOR 模块中将 Key 设置为 <code>1F</code>，格式选择 <code>Hex</code>。</p></li><li><p>查看右侧 Output。</p></li></ol><p>得到真实密钥：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[Warnning]Access_Unauthorized
+</span></span></code></pre></td></tr></table></div></div><p><strong>注意：</strong> 硬编码字符串末尾的 <code>{</code> 不能遗漏。原始记录中存在一个不带 <code>{</code> 的字符串版本，两者长度不同。只有包含末尾 <code>{</code> 的版本，按 <code>0x1F</code> 逐字节异或后才能得到上述完整密钥。实际复现时，应以 IDA 中提取的字符串及程序使用的处理长度为准。</p><h3 id=4-分析-rc4-加密算法>4. 分析 RC4 加密算法</h3><p>继续分析 <code>sub_401028</code>，发现其调用了 <code>sub_4014E0</code>。</p><p>关键代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>int __cdecl sub_4014E0(
+</span></span><span class=line><span class=cl>    char *Str,
+</span></span><span class=line><span class=cl>    int a2,
+</span></span><span class=line><span class=cl>    int a3,
+</span></span><span class=line><span class=cl>    FILE *Stream,
+</span></span><span class=line><span class=cl>    FILE *a5
+</span></span><span class=line><span class=cl>)
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    v7 = strlen(Str);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    sub_4010F0(a2, Str, v7);
+</span></span><span class=line><span class=cl>    sub_4010C8(a3);
+</span></span><span class=line><span class=cl>    sub_40116D(a3, a2);
+</span></span><span class=line><span class=cl>    sub_4010EB(a3, Stream, a5);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    fclose(Stream);
+</span></span><span class=line><span class=cl>    fclose(a5);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    // 其余代码省略
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>其中：</p><ul><li><p><code>Str</code> 是传入的密钥字符串。</p></li><li><p><code>strlen(Str)</code> 获取密钥长度。</p></li><li><p><code>sub_4010F0</code> 接收状态数组、密钥和密钥长度。</p></li><li><p><code>sub_4010C8</code> 与 <code>sub_40116D</code> 负责后续状态处理。</p></li><li><p><code>sub_4010EB</code> 接收状态数据和文件指针，执行文件处理。</p></li></ul><p>从函数的调用结构来看，它符合 RC4 加解密流程的典型特征。结合相关函数的具体实现，可以进一步确认是否存在状态数组初始化、密钥调度、伪随机密钥流生成和逐字节 XOR 操作。</p><p>RC4 的核心过程如下。</p><h4 id=41-ksa密钥调度算法>4.1 KSA：密钥调度算法</h4><p>KSA（Key Scheduling Algorithm）负责初始化和置换状态数组。</p><p>标准 RC4 使用 256 字节的状态数组 <code>S</code>，初始状态为：</p><p>$S[i]=i, \quad 0 \le i &lt; 256$</p><p>随后根据密钥内容对状态数组进行置换。</p><h4 id=42-prga伪随机生成算法>4.2 PRGA：伪随机生成算法</h4><p>PRGA（Pseudo-Random Generation Algorithm）根据状态数组生成密钥流。每轮更新索引、交换状态元素，再根据状态数组计算当前密钥流字节。</p><h4 id=43-xor加解密过程>4.3 XOR：加解密过程</h4><p>RC4 将密钥流与数据逐字节异或：</p><p>$C = P \oplus K$</p><p>解密时执行：</p><p>$P=C\oplus K$</p><p>其中：</p><ul><li><p>(P)：明文。</p></li><li><p>(C)：密文。</p></li><li><p>(K)：RC4 生成的密钥流。</p></li></ul><p>因为 XOR 具有可逆性，所以 RC4 的加密和解密使用相同的核心操作，只要密钥和初始状态一致，就能恢复原始数据。</p><h4 id=44-建议重命名函数>4.4 建议重命名函数</h4><p>为了方便后续分析，可以将相关函数重命名为：</p><div class=table-wrapper><table><thead><tr><th>原函数名</th><th>建议名称</th><th>分析目的</th></tr></thead><tbody><tr><td><code>sub_4014E0</code></td><td><code>rc4_main</code></td><td>RC4 处理流程入口</td></tr><tr><td><code>sub_4010F0</code></td><td><code>rc4_ksa</code></td><td>密钥调度相关逻辑</td></tr><tr><td><code>sub_4010EB</code></td><td><code>rc4_crypt_file</code></td><td>文件数据处理逻辑</td></tr></tbody></table></div><p>这些名称是根据当前调用关系提出的命名建议。最终应根据各函数的完整反编译代码确认具体职责。</p><h3 id=5-解法一使用-cyberchef-解密>5. 解法一：使用 CyberChef 解密</h3><p>这是我原本采用的解法：先还原密钥，再使用 CyberChef 对 <code>enflag.txt</code> 进行 RC4 解密。</p><h4 id=51-准备密文>5.1 准备密文</h4><p>打开 <code>enflag.txt</code>，观察到的内容是乱码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>脗?鯨6;Y棠轳?睎5
+</span></span></code></pre></td></tr></table></div></div><p>需要注意，这只是文本编辑器显示的结果。为了避免字符编码转换造成数据损失，建议直接在 CyberChef 中加载原始文件，而不是简单地复制乱码。</p><p>如果使用十六进制数据作为输入，应确保它是原始文件字节的十六进制表示。</p><h4 id=52-配置-rc4>5.2 配置 RC4</h4><ol><li><p>清空之前的 Input 和 Recipe。</p></li><li><p>将 <code>enflag.txt</code> 加载到 Input。</p></li><li><p>搜索并添加 <code>RC4</code> 操作，不要选择 <code>RC4 Drop</code>。</p></li><li><p>将 Passphrase 设置为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[Warnning]Access_Unauthorized
+</span></span></code></pre></td></tr></table></div></div></li><li><p>密钥格式选择 <code>UTF8</code>。</p></li><li><p>根据实际输入的数据形式选择输入格式：原始文件字节与十六进制文本的配置不能混用。</p></li><li><p>执行操作，检查解密结果。</p></li></ol><p>输出格式应根据解密后的数据决定。对于包含任意二进制字节的输出，应优先保留原始字节，避免错误的 UTF-8 解码导致报错。</p><h4 id=53-查看-flag>5.3 查看 Flag</h4><p>按照上述流程解密后，预期得到：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>flag{RC4&amp;-&gt;ENc0d3F1le}
+</span></span></code></pre></td></tr></table></div></div><p>如果实际输出与预期不一致，应优先检查密钥长度、密文原始字节、输入格式和 RC4 配置。</p><h3 id=6-解法二利用原程序完成解密>6. 解法二：利用原程序完成解密</h3><p>除了使用 CyberChef，也可以尝试复用题目程序本身的文件处理逻辑。</p><p>从 <code>main_0</code> 可以看出，程序选择选项 <code>1</code> 时，会以只读方式打开 <code>flag.txt</code>，并以写入方式打开 <code>enflag.txt</code>，随后调用文件处理函数。</p><p>这意味着程序会将 <code>flag.txt</code> 作为输入，将 <code>enflag.txt</code> 作为输出。若相关函数确实使用标准 RC4 处理数据，就可以通过准备输入文件来复用程序的处理逻辑。</p><h4 id=61-操作步骤>6.1 操作步骤</h4><ol><li><p><strong>备份原始密文。</strong> 先复制一份 <code>enflag.txt</code>，防止程序覆盖原文件。</p></li><li><p><strong>准备输入文件。</strong> 将原始密文的原始字节写入 <code>flag.txt</code>，而不是将乱码文本重新编码后写入。</p></li><li><p><strong>确认运行环境。</strong> 在隔离的虚拟机或专用分析环境中运行程序，不要直接在日常使用的主机上执行未知样本。</p></li><li><p><strong>输入选项</strong> <code>**1**</code><strong>。</strong> 根据程序提示输入还原出的密钥。</p></li><li><p><strong>检查输出文件。</strong> 如果程序执行成功，检查 <code>enflag.txt</code> 是否变成预期的明文内容。</p></li></ol><p>需要说明的是，这种方法能否直接成功，取决于程序是否接受该密钥、实际使用的 RC4 状态是否一致，以及文件处理函数是否与当前分析一致。上述步骤应通过实际运行验证，不应仅凭反编译函数的名称认定成功。</p><h3 id=7-总结>7. 总结</h3><p>本题主要涉及以下知识点：</p><ol><li><p><strong>IDA 静态分析：</strong> 从 <code>main</code> 追踪到 <code>main_0</code>，再沿函数调用关系分析关键逻辑。</p></li><li><p><strong>XOR 异或：</strong> 利用异或运算的可逆性还原混淆后的密钥。</p></li><li><p><strong>RC4 算法：</strong> 通过 KSA、PRGA 和逐字节 XOR 理解文件加解密流程。</p></li><li><p><strong>CyberChef：</strong> 使用可视化操作验证密钥还原和 RC4 解密结果。</p></li><li><p><strong>文件读写分析：</strong> 通过 <code>fopen</code> 的模式和函数参数确定输入输出文件。</p></li><li><p><strong>程序复用：</strong> 在明确程序逻辑的前提下，尝试利用原程序的处理流程完成解密。</p></li></ol><p>本题可以先通过 IDA 分析密钥和加密算法，再使用 CyberChef 验证解密结果。如果希望进一步理解 RC4，也可以自行编写 Python 解密脚本，或者在隔离环境中尝试复用原程序。</p></section><footer class="article-meta article-footer"><section class=article-tags><a href=/tags/ctf-reverse/>CTF-REVERSE</a></section><section class="article-copyright inline-meta"><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2026 Ke1thLi 的技术笔记</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=4.0.3>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><script type=module>
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script></main></div><script type=text/javascript src=/ts/main.d00997a2f4a6ce525f496da0c3ae6ad392b0468b8a9024f23309fdfc75c67a35.js defer></script></body></html>
