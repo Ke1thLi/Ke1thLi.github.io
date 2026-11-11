@@ -3,7 +3,7 @@ import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const site = new URL(process.env.BLOG_SITE_URL ?? "https://example.invalid");
+const site = new URL(process.env.BLOG_SITE_URL ?? "https://ke1thli.github.io");
 if (
   !["http:", "https:"].includes(site.protocol) ||
   site.pathname !== "/" ||

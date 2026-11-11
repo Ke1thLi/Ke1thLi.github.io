@@ -24,7 +24,7 @@ test("public routes and assets work at the root and a GitHub Pages subpath", asy
       "export default { ...config, vite: { build: { assetsInlineLimit: 0 } } };\n",
   );
 
-  for (const base of ["/", "/Ke1thLi-Blog-Pages/"]) {
+  for (const base of ["/", "/preview-subpath/"]) {
     await suite.test(base, async (context) => {
       const env = {
         ...process.env,
@@ -114,6 +114,7 @@ test("public routes and assets work at the root and a GitHub Pages subpath", asy
       assert.ok(locations.includes(`https://preview.example${base}articles/page/2/`));
       assert.doesNotMatch(sitemap, /404|design-system|articles\/category|projects\/status/);
       const rss = await get("rss.xml");
+      assert.equal(await get("index.xml"), rss);
       assert.ok(rss.includes(`<link>https://preview.example${base}${postPath}</link>`));
       assert.match(rss, /<pubDate>Tue, 20 Jan 2026 00:00:00 GMT<\/pubDate>/);
       assert.match(rss, /<lastBuildDate>Wed, 21 Jan 2026 00:00:00 GMT<\/lastBuildDate>/);
@@ -230,7 +231,7 @@ test("public routes and assets work at the root and a GitHub Pages subpath", asy
         env: {
           ...process.env,
           BLOG_SITE_URL: "https://preview.example",
-          BLOG_BASE_PATH: "/Ke1thLi-Blog-Pages/",
+          BLOG_BASE_PATH: "/preview-subpath/",
           ASTRO_TELEMETRY_DISABLED: "1",
         },
         encoding: "utf8",

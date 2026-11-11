@@ -1,29 +1,66 @@
-# GitHub Pages 双仓库发布
+# GitHub Pages 根站迁移与发布
 
-源码仓库计划使用 `Ke1thLi/Ke1thLi-Blog`，本地 `main` 目前没有远程。已确认的新站发布目标为 `Ke1thLi/Ke1thLi-Blog-Pages`，预期使用 `https://ke1thli.github.io/Ke1thLi-Blog-Pages/`。现有 `Ke1thLi/ke1thli.github.io` 继续承载旧博客。迁移旧站是独立操作。
+正式源码和部署仓库均为 `Ke1thLi/ke1thli.github.io`，站点为 `https://ke1thli.github.io/`，Astro base 为 `/`。保留 `Ke1thLi/Ke1thLi-Blog` 的 MVP 历史和 `Ke1thLi/Ke1thLi-Blog-Pages` 仓库。旧 Hugo 源码仍保留在私有 `Ke1thLi/blog-source` 和独立归档中。
 
-## 基线提交
+## Git 历史与切换顺序
 
-1. 从项目根目录执行 `git status --short --untracked-files=all` 和 `git status --ignored --short`。检查规划、源码、静态资源、测试、锁文件与工作流，确认生成产物、环境文件、凭据和截图留在暂存区之外。
-2. 逐项暂存已审阅文件，执行 `git diff --cached --check`、`git diff --cached --stat` 和 `git diff --cached`。
-3. 审查通过后创建首个本地提交，例如 `git commit -m "chore: initialize Ke1thLi Blog MVP"`。先确认源码仓库实际地址，再添加 `origin`。将基线推送到源码仓库是独立操作。
+1. 本地迁移提交以 Astro MVP `a8317d4` 为基础。集成提交以 Hugo 根站 `1e2f6b8` 为第一父提交、Astro 迁移提交为第二父提交，文件树采用完整的 Astro 工程。旧静态文件仍可从第一父提交或备份取回。
+2. 在任何远程写入前，重新核对根站 `main` 和 Pages 设置。只在单独授权后推送集成分支并审查 PR。合并时保留提交图，避免 squash 或 rebase 丢失迁移父提交。
+3. **旧 Pages 来源仍是 `main` 根目录。此时更新远程 `main` 可能触发旧发布机制。** 在获授权的切换窗口，先防止旧 Hugo 源码工作流继续向根站 `main` 推送，再将根站仓库 **Settings → Pages → Source** 切换到 **GitHub Actions**，确认切换后的站点状态，再合并迁移分支。核对 `github-pages` 环境仅允许 `main` 部署，并按需设置审批。
+4. 确认 URL 兼容事项有明确处置方案后，从根站仓库 `main` 手动运行 **Validate and publish Pages** 并启用 `publish`。普通 push、PR 和 `publish=false` 运行验证和静态构建。正式手动运行额外上传官方 Pages Artifact，部署任务通过本仓库的 `GITHUB_TOKEN` 和 OIDC 发布，权限为 `contents: read`、`pages: write`、`id-token: write`。不需要 GitHub App、跨仓库 Variables 或 Secret。
+5. 发布后检查主页、文章路径、搜索、404、RSS、Sitemap、robots 和静态资源。目标仓库不配置自定义域名。
 
-## 发布设置
+本地使用仓库锁定的 Node.js 和 npm，执行 `npm ci`、`npm run build` 和 `npm run preview`。开发模式使用 `npm run dev`，搜索索引由静态构建生成。
 
-1. 在新发布仓库中初始化一个专用产物分支，命名为 `gh-pages`。在该仓库的 **Settings → Pages** 选择 **Deploy from a branch**，选择该分支和 `/ (root)`。发布分支只用于静态产物，工作流会移除上次发布遗留的文件。
-2. 在源码仓库设置 Actions variables。 `PAGES_REPOSITORY=Ke1thLi/Ke1thLi-Blog-Pages`，`PAGES_BRANCH=gh-pages`，`PAGES_APP_CLIENT_ID` 填入 GitHub App 的 Client ID，`PAGES_COMMIT_EMAIL` 填入发布账户已验证邮箱或该账户的 GitHub noreply 邮箱。可选的 `BLOG_GITHUB_URL` 控制公开 GitHub 链接。
-3. 在源码仓库创建 `pages-publish` 环境，限制默认分支，可按仓库权限启用发布审批。注册专用 GitHub App，仅授予仓库 **Contents: Read and write**，安装范围仅选 `Ke1thLi/Ke1thLi-Blog-Pages`。在该环境配置 `PAGES_APP_PRIVATE_KEY` secret。发布任务生成仅限目标仓库的短期安装令牌，任务结束时自动撤销。源码仓库自带的 `GITHUB_TOKEN` 只用于读源码。
-4. 默认分支 push 和 PR 运行验证并上传 `pages-dist`。检查产物后，从源码默认分支手动运行 **Validate and publish Pages**，勾选 **publish**。工作流会验证目标、设置已确认的站点前缀、重新构建，再用普通提交更新目标产物分支。
-5. 到目标仓库查看 Pages 部署记录。发布后访问首页、深层文章 URL、一个不存在的 URL、RSS、Sitemap 和搜索。子路径项目的 `robots.txt` 位于项目产物下，爬虫按站点根目录读取 robots 规则。若需根级规则，由旧站的所有者单独维护；可通过 Search Console 提交新站 Sitemap。
+## 旧 URL 兼容
 
-发布工作流只接受已确认的源码仓库、目标仓库和 `gh-pages` 分支。发布构建固定使用 `BLOG_SITE_URL=https://ke1thli.github.io` 和 `BLOG_BASE_PATH=/Ke1thLi-Blog-Pages/`。普通 Actions Artifact 仅在构建和发布任务之间传递产物。Pages 来源选择分支发布。
+以归档生产 Sitemap 和产物文件树为准。保留 `/`、`/about/`、`/archives/`、`/categories/`、`/tags/` 和 `/sitemap.xml`。旧 `/index.xml` 保留为新 RSS 的兼容入口，主入口为 `/rss.xml`。`/404.html` 保留，Astro 提供 `/robots.txt` 和 `/favicon.png`。旧 favicon 位于 `/img/favicon.png`，需保留该旧地址时可添加静态兼容资源。旧产物包含 `.nojekyll`，未发现根级 `CNAME` 或 `robots.txt`。
 
-工作流只同步 `dist/`，包括 `404.html`、Pagefind 索引、RSS、Sitemap 和 Robots。部署时写入 `.nojekyll` 以保留 `_astro/` 资源。如果产物或目标分支包含 CNAME，工作流会中止。自定义域名尚未配置。
+| 旧路径                                                       | 新路径或处理方式                                                                 |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| `/post/`                                                     | `/articles/`。切换前可提供静态兼容跳转                                           |
+| `/search/`                                                   | 搜索使用站内弹窗。切换前可提供打开搜索的兼容入口                                 |
+| `/links/`                                                    | 暂无对应页，需确认保留独立链接页还是迁入 `/about/`                               |
+| `/page/`、旧分页 `/page/N/`、`/post/page/N/` 和分类标签分页  | 根据实际内容与分页规则映射。不要将所有分页统一跳到首页                           |
+| 旧文章资源、`/img/`、`/scss/`、`/ts/` 和 Hugo 生成的指纹资源 | 盘点外链，按需保留原路径的文章资源。Astro 使用自身静态资源，不复用 Hugo 主题代码 |
 
-常规 CI 使用占位站点地址生成审查产物，HTML 带有 `noindex`。手动发布会根据已确认的目标重新构建，并生成对应的 Canonical、RSS 和 Sitemap。
+### 旧文章路径
 
-## 故障定位与回滚
+Astro 正式文章集合为空，下列路径在迁移构建中暂无对应页面。逐篇迁移时确认永久 Astro slug，记录 `/posts/{slug}/` 目标；文章和资源可用后，再为原路径生成静态兼容页，包含明确的跳转、链接及 Canonical。需要 HTTP 301 时另行评估支持 HTTP 重定向的入口。不要对尚未存在的目标创建跳转。
 
-- 源码工作流的验证日志区分依赖、类型、内容、路由、构建、目标解析和同步错误。
-- 同步成功但站点未更新时，检查目标仓库的 Pages 来源、部署记录、分支保护和发布账户权限。
-- 如需回滚，在目标产物分支通过常规 revert 或重发已确认版本完成。保留提交历史。
+- `/p/ai-web-1.0-vulnhub靶场复现-重走来时路/`
+- `/p/ai-web-2.0-vulunhub靶场复现-重走来时路4/`
+- `/p/bossplayerctf-1-vulnhub靶场复现-重走来时路5/`
+- `/p/bossplayerctf-1-vulnhub靶场复现-重走来时路7/`
+- `/p/bottleneck-1-vulnhub靶场复现-重走来时路6/`
+- `/p/buuctf-reverse-wp1/`
+- `/p/ctfshow-reverse-wp1/`
+- `/p/darkhole1.0-vulnhub靶场复现-重走来时路2/`
+- `/p/darkhole2.0-vulnhub靶场复现/`
+- `/p/dc-1-vulnhub靶场复现/`
+- `/p/five86-1-vulnhub靶场复现/`
+- `/p/necromancer-vulnhub靶场复现/`
+- `/p/prime1-vulnhub靶场复现/`
+- `/p/sickos1.2-vulnhub靶场复现/`
+- `/p/skytower-vulnhub靶场复现-重走来时路3/`
+- `/p/w1r3s-1.0.1-vulnhub靶场复现/`
+- `/p/为什么这个时代我们更需要学-markdown-从语法入门到-obsidian-知识管理实践/`
+- `/p/从零搭建个人技术博客为什么我选择了-hugo--github-pages以及为什么不用-hexoquartz-和图床/`
+- `/p/算法笔记xorrc4-与-base64/`
+- `/p/红日attck系列靶场一/`
+
+### 旧标签路径
+
+下列详情页等公开文章及标签确认后再验证。可移植标签在名称保持一致时沿用同一路径。中文标签的 Astro 路由使用编码后的 key，切换前需建立明确映射。
+
+- `/tags/algo/`
+- `/tags/ctf-reverse/`
+- `/tags/markdown/`
+- `/tags/obsidian/`
+- `/tags/vulnhub/`
+- `/tags/博客搭建/`
+- `/tags/域渗透/`
+
+## 恢复 Hugo
+
+归档位于 `D:/09-Archive/Ke1thLi-Blog-Legacy-Backup/`。按 `RESTORE.md` 校验镜像和 SHA-256 清单，在本地预览 `deployment.tar` 中的 `1e2f6b8` 产物。获单独授权后，用正常后继提交将根站发布分支的文件树恢复为该提交的 Hugo 产物，保留两条历史。随后恢复根站 **Deploy from a branch → main → / (root)**、原有环境分支规则，并验证根站和旧文章路径。旧 Hugo 自动化是否重新开启由站点负责人单独决定。回滚不使用强推。

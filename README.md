@@ -27,7 +27,7 @@ npm run build
 npm run preview
 ```
 
-`npm run format` 格式化工程文件。静态构建产物位于 `dist/`。`BLOG_SITE_URL` 默认为占位地址 `https://example.invalid`。在 PowerShell 中设置 `$env:BLOG_BASE_PATH = "/Ke1thLi-Blog-Pages/"` 后，可用同一环境运行 `npm run build` 和 `npm run preview` 验证子路径。根路径使用 `/`。
+`npm run format` 格式化工程文件。静态产物位于 `dist/`，默认站点地址为 `https://ke1thli.github.io`，前缀为 `/`。本地构建与预览可使用 `BLOG_SITE_URL` 和 `BLOG_BASE_PATH` 覆盖默认值。
 
 内容测试使用隔离的临时 Markdown 文件。文章 frontmatter 中的日期需加引号，例如 `pubDate: "2026-01-02"`，以便 schema 在 YAML 转换日期之前验证原始日期格式和有效性。项目 ID 取自 `src/content/projects/` 下的文件名，例如 `project-name.md` 对应 `project-name`。
 
@@ -39,6 +39,6 @@ Markdown 图片可使用相对于源文件的本地路径，例如 `./diagram.sv
 
 文章列表每页 10 篇。分类和标签筛选生成独立静态 URL，可直接分享。文章阅读时间为估算值。Markdown 图片的可选 title 用作独立图片的图注，围栏语言 `mermaid` 用于图表。
 
-Pagefind 在 `npm run build` 的最后一步仅索引公开文章详情。用同一环境执行 `npm run preview` 测试搜索，`npm run dev` 不生成索引。RSS 和 Sitemap 使用 `BLOG_SITE_URL` 生成绝对 URL，正式发布前应设置实际站点地址。
+Pagefind 在 `npm run build` 的最后一步仅索引公开文章详情。用同一环境执行 `npm run preview` 测试搜索，`npm run dev` 不生成索引。RSS 和 Sitemap 使用 `BLOG_SITE_URL` 生成绝对 URL。
 
-发布和内容录入步骤见 [GitHub Pages 双仓库发布](docs/Deployment.md) 和 [Obsidian 录入文章](docs/Obsidian-Writing.md)。
+发布和内容录入步骤见 [GitHub Pages 根站发布](docs/Deployment.md) 和 [Obsidian 录入文章](docs/Obsidian-Writing.md)。
