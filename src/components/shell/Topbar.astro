@@ -1,0 +1,75 @@
+---
+import Icon from "./Icon.astro";
+import { sitePath } from "../../lib/routes";
+
+interface Props {
+  title: string;
+  lang: string;
+  section?: { label: string; href: string };
+}
+
+const { title, section } = Astro.props;
+const home = Astro.url.pathname === sitePath();
+---
+
+<header class="shell-topbar" lang="en">
+  <div class="topbar-start">
+    <button
+      class="shell-icon desktop-toggle"
+      type="button"
+      data-sidebar-toggle
+      aria-label="Hide sidebar"
+      aria-controls="desktop-sidebar"
+      aria-expanded="true"
+    >
+      <Icon name="panel" />
+    </button>
+    <button
+      class="shell-icon mobile-toggle"
+      type="button"
+      data-drawer-open
+      aria-label="Open navigation"
+      aria-controls="navigation-drawer"
+      aria-haspopup="dialog"
+    >
+      <Icon name="panel" />
+    </button>
+    {!home && (
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li>
+            <a href={sitePath()}>Home</a>
+          </li>
+          {section && (
+            <li>
+              <a href={section.href}>{section.label}</a>
+            </li>
+          )}
+          <li aria-current="page" lang={Astro.props.lang}>
+            {title}
+          </li>
+        </ol>
+      </nav>
+    )}
+  </div>
+  <div class="topbar-actions">
+    <div class="search-trigger-wrap">
+      <button
+        class="shell-icon search-trigger"
+        type="button"
+        data-search-open
+        aria-controls="article-search"
+        aria-haspopup="dialog"
+      >
+        <Icon name="search" />
+        <span>Search articles...</span>
+      </button>
+      <kbd aria-hidden="true">Ctrl K</kbd>
+    </div>
+    <select class="theme-select" data-theme-picker aria-label="Color theme">
+      <option value="system">System</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </div>
+</header>

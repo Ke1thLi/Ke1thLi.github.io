@@ -1,0 +1,49 @@
+.button,
+.input {
+  min-block-size: var(--control-height);
+  border: var(--border-width) solid var(--border-control);
+  border-radius: var(--radius-md);
+  font: var(--weight-medium) var(--text-sm) / var(--leading-ui) var(--font-ui);
+}
+
+.button {
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--surface-muted);
+}
+
+.button--primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.button--primary:hover {
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+}
+
+.input {
+  inline-size: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font: var(--weight-semibold) var(--text-xs) / var(--leading-ui) var(--font-ui);
+}

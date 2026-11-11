@@ -1,0 +1,77 @@
+---
+import { getEntry, render } from "astro:content";
+import type { InferGetStaticPropsType } from "astro";
+import Page from "../../layouts/Page.astro";
+import ArticleToc from "../../components/ArticleToc.astro";
+import PostMetadata from "../../components/PostMetadata.astro";
+import ProjectList from "../../components/ProjectList.astro";
+import { getPublicPosts } from "../../lib/public-content";
+import { sitePath } from "../../lib/routes";
+import "../../styles/article.css";
+
+export async function getStaticPaths() {
+  const posts = await getPublicPosts();
+  return posts.map((post, index) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[index - 1], older: posts[index + 1] },
+  }));
+}
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { post, newer, older } = Astro.props;
+const { Content, headings } = await render(post);
+const projects = await Promise.all(
+  post.data.projects.map(async (id) => {
+    const project = await getEntry("projects", id);
+    if (!project) throw new Error(`Post "${post.id}" references missing project "${id}"`);
+    return project;
+  }),
+);
+---
+
+<Page
+  title={post.data.title}
+  description={post.data.description}
+  lang={post.data.lang}
+  article={{ published: post.data.pubDate, updated: post.data.updatedDate, tags: post.data.tags }}
+  showHeading={false}
+  section={{ label: post.data.category, href: sitePath("categories", post.data.category) }}
+>
+  <div class="article-layout">
+    <ArticleToc headings={headings.filter(({ depth }) => depth === 2 || depth === 3)} />
+    <article class="article-content" data-pagefind-body>
+      <header class="article-header">
+        <h1 data-pagefind-meta="title">{post.data.title}</h1>
+        <p data-pagefind-meta="description">{post.data.description}</p>
+        <span hidden data-pagefind-meta={`category:${post.data.category}`}></span>
+        <span hidden data-pagefind-meta={`tags:${JSON.stringify(post.data.tags)}`}></span>
+        <PostMetadata post={post} />
+      </header>
+      <div class="prose" data-article-body>
+        <Content />
+      </div>
+      <footer class="article-footer" data-pagefind-ignore>
+        {projects.length > 0 && (
+          <section>
+            <h2>Related projects</h2>
+            <ProjectList projects={projects} headingLevel={3} />
+          </section>
+        )}
+        <nav aria-label="Article navigation">
+          {newer && <a href={sitePath("posts", newer.id)}>Previous: {newer.data.title}</a>}
+          {older && <a href={sitePath("posts", older.id)}>Next: {older.data.title}</a>}
+          <a href={sitePath("articles")}>Back to articles</a>
+        </nav>
+      </footer>
+    </article>
+  </div>
+  <dialog class="image-lightbox" data-lightbox aria-label="Article image">
+    <button class="button" data-lightbox-close type="button" autofocus>
+      Close image
+    </button>
+    <figure>
+      <img alt="" />
+      <figcaption></figcaption>
+    </figure>
+  </dialog>
+  <script src="../../scripts/article.ts"></script>
+</Page>

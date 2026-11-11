@@ -1,0 +1,46 @@
+---
+import { sitePath } from "../lib/routes";
+import type { Post } from "../lib/article-list";
+import PostMetadata from "./PostMetadata.astro";
+interface Props {
+  posts: Post[];
+  empty?: string;
+}
+const { posts, empty = "No published articles." } = Astro.props;
+---
+
+{posts.length === 0 ? (
+  <p class="muted">{empty}</p>
+) : (
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li>
+        <a class="post-title" href={sitePath("posts", post.id)}>
+          {post.data.title}
+        </a>
+        <p>{post.data.description}</p>
+        <PostMetadata post={post} />
+      </li>
+    ))}
+  </ul>
+)}
+<style>
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin-block: var(--space-3) 0;
+  }
+  .post-list li {
+    padding-block: var(--space-4);
+    border-block-start: var(--rule);
+  }
+  .post-title {
+    color: var(--text);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-semibold);
+  }
+  p {
+    margin-block: var(--space-1) var(--space-2);
+    color: var(--text-muted);
+  }
+</style>

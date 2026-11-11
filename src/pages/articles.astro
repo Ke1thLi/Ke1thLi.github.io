@@ -1,0 +1,6 @@
+---
+import ArticlesIndex from "../components/ArticlesIndex.astro";
+import { getPublicPosts } from "../lib/public-content";
+---
+
+<ArticlesIndex posts={await getPublicPosts()} />

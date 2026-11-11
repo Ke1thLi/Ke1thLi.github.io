@@ -1,0 +1,102 @@
+---
+import ThemeScript from "../components/ThemeScript.astro";
+import PageMetadata from "../components/PageMetadata.astro";
+import FontResources from "../components/FontResources.astro";
+import Sidebar from "../components/shell/Sidebar.astro";
+import Topbar from "../components/shell/Topbar.astro";
+import Footer from "../components/shell/Footer.astro";
+import SearchDialog from "../components/shell/SearchDialog.astro";
+import Icon from "../components/shell/Icon.astro";
+import { sitePath } from "../lib/routes";
+import "../styles/base.css";
+import "../styles/editorial.css";
+import "../styles/shell.css";
+
+interface Props {
+  title: string;
+  section?: { label: string; href: string };
+  reading?: boolean;
+  showHeading?: boolean;
+  description?: string;
+  lang?: string;
+  noindex?: boolean;
+  article?: { published: Date; updated?: Date; tags: string[] };
+}
+
+const {
+  title,
+  section,
+  reading = false,
+  showHeading = true,
+  description,
+  lang = "en",
+  noindex,
+  article,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <PageMetadata {title} {section} {description} {lang} {noindex} {article} />
+    <ThemeScript />
+    <script is:inline>
+      try {
+        if (localStorage.getItem("ke1thli-sidebar") === "hidden") {
+          document.documentElement.dataset.sidebar = "hidden";
+        }
+      } catch {
+        // The sidebar remains available without storage.
+      }
+    </script>
+    <FontResources />
+  </head>
+  <body id="top" tabindex="-1">
+    <a class="skip-link" href="#main-content">
+      Skip to content
+    </a>
+    <div class="app-shell">
+      <aside class="desktop-sidebar" id="desktop-sidebar" lang="en">
+        <a class="sidebar-brand" href={sitePath()}>
+          <span aria-hidden="true">K</span> Ke1thLi Blog
+        </a>
+        <Sidebar />
+      </aside>
+      <div class="shell-column">
+        <Topbar title={title} section={section} lang={lang} />
+        <main
+          id="main-content"
+          class:list={["shell-main", { "shell-reading": reading }]}
+          tabindex="-1"
+        >
+          {showHeading && <h1>{title}</h1>}
+          <slot />
+        </main>
+        <Footer />
+      </div>
+    </div>
+    <dialog class="nav-drawer" id="navigation-drawer" aria-label="Site navigation" lang="en">
+      <div class="drawer-body">
+        <div class="drawer-header">
+          <a class="sidebar-brand" href={sitePath()}>
+            <span aria-hidden="true">K</span> Ke1thLi Blog
+          </a>
+          <button
+            class="shell-icon"
+            type="button"
+            data-drawer-close
+            aria-label="Close navigation"
+            autofocus
+          >
+            <Icon name="close" />
+          </button>
+        </div>
+        <Sidebar />
+      </div>
+    </dialog>
+    <SearchDialog />
+    <script src="../scripts/shell.ts"></script>
+  </body>
+</html>

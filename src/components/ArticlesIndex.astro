@@ -1,0 +1,107 @@
+---
+import Page from "../layouts/Page.astro";
+import PostList from "./PostList.astro";
+import {
+  articleFilters,
+  articlePath,
+  matches,
+  pageSize,
+  type ArticleFilter,
+  type Post,
+} from "../lib/article-list";
+interface Props {
+  posts: Post[];
+  filter?: ArticleFilter;
+  page?: number;
+}
+const { posts, filter, page = 1 } = Astro.props;
+const filtered = filter ? posts.filter((post) => matches(post, filter)) : posts;
+const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+const filters = articleFilters(posts);
+---
+
+<Page
+  title={filter ? `Articles: ${filter.value}` : "Articles"}
+  description={
+    filter
+      ? `Articles filed under ${filter.value}.`
+      : "Browse technical articles on technology, security, and engineering."
+  }
+  noindex={Boolean(filter)}
+  reading
+>
+  <nav class="filters" aria-label="Article filters">
+    <a href={articlePath()} aria-current={!filter ? "page" : undefined}>
+      All articles
+    </a>
+    {(["category", "tag"] as const).map((kind) => {
+      const options = filters.filter((entry) => entry.kind === kind);
+      return (
+        options.length > 0 && (
+          <details open={filter?.kind === kind}>
+            <summary>{kind === "category" ? "Categories" : "Tags"}</summary>
+            <ul>
+              {options.map((entry) => (
+                <li>
+                  <a
+                    href={articlePath(entry)}
+                    aria-current={
+                      filter?.kind === kind && filter.value === entry.value ? "page" : undefined
+                    }
+                  >
+                    {entry.value}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        )
+      );
+    })}
+  </nav>
+  <p class="muted">
+    {filtered.length} {filtered.length === 1 ? "article" : "articles"}
+  </p>
+  <PostList posts={filtered.slice((page - 1) * pageSize, page * pageSize)} />
+  {pageCount > 1 && (
+    <nav class="pagination" aria-label="Pagination">
+      {page > 1 && (
+        <a href={articlePath(filter, page - 1)} rel="prev">
+          Previous
+        </a>
+      )}
+      <span>
+        Page {page} of {pageCount}
+      </span>
+      {page < pageCount && (
+        <a href={articlePath(filter, page + 1)} rel="next">
+          Next
+        </a>
+      )}
+    </nav>
+  )}
+</Page>
+<style>
+  .filters,
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-4);
+    margin-block: var(--space-5);
+  }
+  .filters ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-block: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+  .filters summary {
+    cursor: pointer;
+  }
+  .filters [aria-current] {
+    font-weight: var(--weight-semibold);
+  }
+</style>

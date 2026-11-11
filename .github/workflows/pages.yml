@@ -1,0 +1,77 @@
+name: Validate and publish Pages
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the validated build to the root Pages site
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install locked dependencies
+        run: |
+          if [ "$(npm --version)" != "11.19.1" ]; then npm install --global npm@11.19.1; fi
+          npm ci
+      - name: Check types and formatting
+        run: |
+          npm run check
+          npm run format:check
+      - name: Run content and routing tests
+        run: npm test
+      - name: Build and verify static artifact
+        env:
+          ASTRO_TELEMETRY_DISABLED: "1"
+          BLOG_SITE_URL: https://ke1thli.github.io
+          BLOG_BASE_PATH: "/"
+          BLOG_GITHUB_URL: ${{ vars.BLOG_GITHUB_URL }}
+        run: |
+          npm run build
+          for file in index.html 404.html robots.txt rss.xml index.xml sitemap.xml pagefind/pagefind.js; do
+            test -f "dist/$file" || { echo "::error::Missing dist/$file"; exit 1; }
+          done
+          if find dist \( -type l -o -name .git -o -name .env -o -name '.env.*' -o -name node_modules -o -name CNAME \) -print -quit | grep -q .; then
+            echo "::error::Unexpected file in the public artifact."
+            exit 1
+          fi
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        if: github.event_name == 'workflow_dispatch' && inputs.publish && github.repository == 'Ke1thLi/ke1thli.github.io' && github.ref == 'refs/heads/main'
+        with:
+          path: dist/
+
+  publish:
+    needs: validate
+    if: github.event_name == 'workflow_dispatch' && inputs.publish && github.repository == 'Ke1thLi/ke1thli.github.io' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - name: Deploy the validated artifact
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

@@ -1,0 +1,39 @@
+---
+import "../../styles/search.css";
+---
+
+<dialog
+  id="article-search"
+  class="search-dialog"
+  data-search-dialog
+  lang="en"
+  aria-labelledby="search-heading"
+>
+  <div class="search-header">
+    <h2 id="search-heading">Search articles</h2>
+    <button class="shell-icon" type="button" data-search-close aria-label="Close search">
+      ✕
+    </button>
+  </div>
+  <input
+    type="search"
+    data-search-input
+    placeholder="Search articles..."
+    aria-label="Search articles"
+    role="combobox"
+    aria-autocomplete="list"
+    aria-controls="search-results"
+    aria-expanded="false"
+    autofocus
+  />
+  <p role="status" class="muted" data-search-status>
+    Enter a title, topic, or keyword.
+  </p>
+  <div
+    id="search-results"
+    role="listbox"
+    aria-label="Article search results"
+    data-search-results
+  ></div>
+</dialog>
+<script src="../../scripts/search.ts"></script>

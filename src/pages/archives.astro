@@ -1,0 +1,27 @@
+---
+import Page from "../layouts/Page.astro";
+import { getPublicPosts } from "../lib/public-content";
+import { sitePath } from "../lib/routes";
+
+const posts = await getPublicPosts();
+---
+
+<Page title="Archives" description="Browse published articles by publication date." reading>
+  <p class="muted">
+    {posts.length} {posts.length === 1 ? "article" : "articles"}
+  </p>
+  {posts.length === 0 ? (
+    <p>No published articles.</p>
+  ) : (
+    <ul>
+      {posts.map(({ id, data }) => (
+        <li>
+          <time datetime={data.pubDate.toISOString()}>
+            {data.pubDate.toISOString().slice(0, 10)}
+          </time>{" "}
+          <a href={sitePath("posts", id)}>{data.title}</a>
+        </li>
+      ))}
+    </ul>
+  )}
+</Page>

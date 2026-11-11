@@ -1,0 +1,33 @@
+---
+import type { InferGetStaticPropsType } from "astro";
+import ArticlesIndex from "../../components/ArticlesIndex.astro";
+import {
+  articleFilters,
+  filterKey,
+  matches,
+  pageSize,
+  type ArticleFilter,
+} from "../../lib/article-list";
+import { getPublicPosts } from "../../lib/public-content";
+
+export async function getStaticPaths() {
+  const posts = await getPublicPosts();
+  const filters: (ArticleFilter | undefined)[] = [undefined, ...articleFilters(posts)];
+  return filters.flatMap((filter) => {
+    const count = filter ? posts.filter((post) => matches(post, filter)).length : posts.length;
+    const key = filter ? `${filter.kind}/${filterKey(filter)}` : "";
+    const start = filter ? 1 : 2;
+    return Array.from(
+      { length: Math.max(0, Math.ceil(count / pageSize) - start + 1) },
+      (_, index) => {
+        const page = start + index;
+        const path = [key, page > 1 ? `page/${page}` : ""].filter(Boolean).join("/");
+        return { params: { filter: path }, props: { posts, filter, page } };
+      },
+    );
+  });
+}
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+---
+
+<ArticlesIndex {...Astro.props} />

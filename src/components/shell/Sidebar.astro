@@ -1,0 +1,53 @@
+---
+import { sitePath } from "../../lib/routes";
+import Icon from "./Icon.astro";
+
+const groups = [
+  [
+    "Workspace",
+    [
+      ["Home", "home", ""],
+      ["Articles", "articles", "articles"],
+      ["Projects", "projects", "projects"],
+      ["Archives", "archives", "archives"],
+    ],
+  ],
+  [
+    "Discover",
+    [
+      ["Categories", "categories", "categories"],
+      ["Tags", "tags", "tags"],
+    ],
+  ],
+  ["About", [["About", "about", "about"]]],
+] as const;
+
+const pathname = Astro.url.pathname;
+---
+
+<nav class="side-nav" aria-label="Main navigation">
+  {groups.map(([group, links]) => (
+    <details data-nav-group={group} open>
+      <summary>
+        {group}
+        <Icon name="chevron" />
+      </summary>
+      {links.map(([label, icon, path]) => {
+        const href = path ? sitePath(path) : sitePath();
+        const current =
+          href === pathname
+            ? "page"
+            : (path && pathname.startsWith(href)) ||
+                (path === "articles" && pathname.startsWith(sitePath("posts")))
+              ? "location"
+              : undefined;
+        return (
+          <a href={href} aria-current={current}>
+            <Icon name={icon} />
+            <span>{label}</span>
+          </a>
+        );
+      })}
+    </details>
+  ))}
+</nav>

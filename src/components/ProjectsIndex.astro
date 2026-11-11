@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Page from "../layouts/Page.astro";
+import ProjectList from "./ProjectList.astro";
+import { sitePath } from "../lib/routes";
+interface Props {
+  projects: CollectionEntry<"projects">[];
+  status?: string;
+}
+const { projects, status } = Astro.props;
+const statuses = [...new Set(projects.map(({ data }) => data.status))].sort();
+const filtered = status ? projects.filter(({ data }) => data.status === status) : projects;
+---
+
+<Page
+  title={status ? `Projects: ${status}` : "Projects"}
+  description="Explore Ke1thLi's projects, their status, technologies, and related writing."
+  noindex={Boolean(status)}
+  reading
+>
+  {statuses.length > 0 && (
+    <nav aria-label="Project status" class="project-filters">
+      <a href={sitePath("projects")} aria-current={!status ? "page" : undefined}>
+        All projects
+      </a>
+      {statuses.map((entry) => (
+        <a
+          href={sitePath("projects", "status", entry)}
+          aria-current={status === entry ? "page" : undefined}
+        >
+          {entry}
+        </a>
+      ))}
+    </nav>
+  )}
+  <ProjectList projects={filtered} />
+</Page>
+<style>
+  .project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-block: var(--space-5);
+  }
+  [aria-current] {
+    font-weight: var(--weight-semibold);
+  }
+</style>

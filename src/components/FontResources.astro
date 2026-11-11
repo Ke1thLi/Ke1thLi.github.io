@@ -1,0 +1,21 @@
+---
+const fonts =
+  "https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=JetBrains+Mono:wght@400..600&family=Noto+Sans+SC:wght@400..700&display=swap";
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link rel="stylesheet" href={fonts} media="print" />
+<script is:inline>
+  (() => {
+    const stylesheet = document.currentScript.previousElementSibling;
+    const enable = () => {
+      stylesheet.media = "all";
+    };
+    if (stylesheet.sheet) enable();
+    else stylesheet.addEventListener("load", enable, { once: true });
+  })();
+</script>
+<noscript>
+  <link rel="stylesheet" href={fonts} />
+</noscript>

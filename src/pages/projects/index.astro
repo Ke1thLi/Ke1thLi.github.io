@@ -1,0 +1,6 @@
+---
+import { getCollection } from "astro:content";
+import ProjectsIndex from "../../components/ProjectsIndex.astro";
+---
+
+<ProjectsIndex projects={await getCollection("projects")} />

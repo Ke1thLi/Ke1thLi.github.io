@@ -1,0 +1,27 @@
+---
+import { sitePath } from "../../lib/routes";
+import { siteConfig } from "../../lib/site-config";
+import Icon from "./Icon.astro";
+
+const links = [
+  ["GitHub", siteConfig.githubUrl],
+  ["RSS", siteConfig.rssUrl],
+  ["About", sitePath("about")],
+] as const;
+---
+
+<footer class="shell-footer" lang="en">
+  <div>
+    <strong>{siteConfig.author}</strong>
+    <p>{siteConfig.description}</p>
+    <small>
+      © {new Date().getUTCFullYear()} {siteConfig.author}
+    </small>
+  </div>
+  <div class="footer-actions">
+    {links.map(([label, href]) => (href ? <a href={href}>{label}</a> : <span>{label}</span>))}
+    <a class="back-top" href="#top">
+      <Icon name="up" /> Back to top
+    </a>
+  </div>
+</footer>

@@ -1,0 +1,34 @@
+{
+  "name": "ke1thli-blog",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@11.19.1",
+  "engines": {
+    "node": "24.22.1",
+    "npm": "11.19.1"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro check",
+    "test": "npm run test:content && npm run test:routing",
+    "test:content": "node --test tests/content.test.mjs",
+    "test:routing": "node --test tests/routing.test.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "astro": "7.4.10",
+    "mermaid": "12.3.0",
+    "pagefind": "1.6.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@types/node": "24.19.2",
+    "prettier": "3.9.10",
+    "prettier-plugin-astro": "1.1.2",
+    "typescript": "6.0.3"
+  }
+}

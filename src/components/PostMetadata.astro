@@ -1,0 +1,33 @@
+---
+import { articlePath, readingMinutes, type Post } from "../lib/article-list";
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const { data } = post;
+const date = (value: Date) => value.toISOString().slice(0, 10);
+---
+
+<div class="post-meta">
+  <a href={articlePath({ kind: "category", value: data.category })}>{data.category}</a>
+  <time datetime={data.pubDate.toISOString()}>{date(data.pubDate)}</time>
+  {data.updatedDate && (
+    <span>
+      Updated <time datetime={data.updatedDate.toISOString()}>{date(data.updatedDate)}</time>
+    </span>
+  )}
+  <span>{readingMinutes(post.body)} min read</span>
+  {data.tags.map((tag) => (
+    <a href={articlePath({ kind: "tag", value: tag })}>#{tag}</a>
+  ))}
+</div>
+<style>
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-3);
+    color: var(--text-muted);
+    font: var(--text-sm) / var(--leading-ui) var(--font-ui);
+  }
+</style>

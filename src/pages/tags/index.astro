@@ -1,0 +1,23 @@
+---
+import Page from "../../layouts/Page.astro";
+import { getPublicPosts } from "../../lib/public-content";
+import { sitePath, tagRouteKey } from "../../lib/routes";
+
+const taggedPosts = (await getPublicPosts()).flatMap(({ data }) => [...new Set(data.tags)]);
+const tags = [...Map.groupBy(taggedPosts, (tag) => tag)].sort(([a], [b]) => a.localeCompare(b));
+---
+
+<Page title="Tags" description="Browse the blog's published articles by tag." reading>
+  {tags.length === 0 ? (
+    <p class="muted">Tags will appear as articles are published.</p>
+  ) : (
+    <ul>
+      {tags.map(([tag, entries]) => (
+        <li>
+          <a href={sitePath("tags", tagRouteKey(tag))}>{tag}</a>
+          <span class="muted">({entries.length})</span>
+        </li>
+      ))}
+    </ul>
+  )}
+</Page>

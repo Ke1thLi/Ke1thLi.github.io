@@ -1,0 +1,33 @@
+<script is:inline>
+  (() => {
+    const storageKey = "ke1thli-theme";
+    const root = document.documentElement;
+    const isMode = (value) => ["system", "light", "dark"].includes(value);
+    let mode = "system";
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (isMode(stored)) mode = stored;
+    } catch {
+      // System colors still work when storage is unavailable.
+    }
+    root.dataset.theme = mode;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const picker = document.querySelector("[data-theme-picker]");
+      if (!picker) return;
+      const selected = picker.querySelector(`input[value="${mode}"]`);
+      if (selected) selected.checked = true;
+      if (picker instanceof HTMLSelectElement) picker.value = mode;
+      picker.addEventListener("change", ({ target }) => {
+        if (!(target instanceof HTMLInputElement || target instanceof HTMLSelectElement)) return;
+        if (!isMode(target.value)) return;
+        root.dataset.theme = target.value;
+        try {
+          localStorage.setItem(storageKey, target.value);
+        } catch {
+          // The current page still uses the selected mode.
+        }
+      });
+    });
+  })();
+</script>

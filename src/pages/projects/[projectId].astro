@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from "astro:content";
+import type { InferGetStaticPropsType } from "astro";
+import Page from "../../layouts/Page.astro";
+import PostList from "../../components/PostList.astro";
+import { getPublicPosts } from "../../lib/public-content";
+import { sitePath } from "../../lib/routes";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { projectId: project.id },
+    props: { project },
+  }));
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { project } = Astro.props;
+const { Content } = await render(project);
+const posts = (await getPublicPosts()).filter(({ data }) => data.projects.includes(project.id));
+---
+
+<Page
+  title={project.data.title}
+  description={project.data.description}
+  lang={project.data.lang}
+  reading
+  section={{ label: "Projects", href: sitePath("projects") }}
+>
+  <p class="prose">{project.data.description}</p>
+  <p class="muted">{[project.data.status, ...project.data.techStack].join(" · ")}</p>
+  <p>
+    {project.data.repository && <a href={project.data.repository}>Repository</a>}
+    {project.data.repository && project.data.demo && " · "}
+    {project.data.demo && <a href={project.data.demo}>Demo</a>}
+  </p>
+  <div class="prose">
+    <Content />
+  </div>
+  {posts.length > 0 && (
+    <section>
+      <h2>Related articles</h2>
+      <PostList posts={posts} />
+    </section>
+  )}
+</Page>

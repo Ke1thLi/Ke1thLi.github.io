@@ -1,0 +1,69 @@
+.prose {
+  max-inline-size: var(--reading-width);
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  font: var(--weight-regular) var(--text-body) / var(--leading-prose) var(--font-reading);
+}
+
+.prose :where(p, ul, ol, blockquote, pre, figure) {
+  margin: 0 0 var(--space-4);
+}
+
+.prose :where(ul, ol) {
+  padding-inline-start: var(--space-6);
+}
+
+.prose blockquote {
+  border-inline-start: var(--focus-width) solid var(--accent);
+  padding: var(--space-2) var(--space-4);
+  color: var(--text-muted);
+}
+
+.prose blockquote > :last-child {
+  margin-block-end: 0;
+}
+
+.prose pre {
+  padding: var(--space-4);
+  border: var(--rule);
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+}
+
+.prose :not(pre) > code {
+  padding-inline: var(--space-1);
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+  font-size: 0.875em;
+}
+
+.prose table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font: var(--weight-regular) var(--text-sm) / var(--leading-ui) var(--font-ui);
+}
+
+.prose :where(th, td) {
+  padding: var(--space-2) var(--space-3);
+  border-block-end: var(--rule);
+  text-align: start;
+}
+
+.prose th {
+  background: var(--surface-muted);
+  font-weight: var(--weight-semibold);
+}
+
+.prose figcaption,
+.muted {
+  color: var(--text-muted);
+  font: var(--weight-regular) var(--text-sm) / var(--leading-ui) var(--font-ui);
+}
+
+hr {
+  margin-block: var(--space-6);
+  border: 0;
+  border-block-start: var(--rule);
+}

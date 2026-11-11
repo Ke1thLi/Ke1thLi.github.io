@@ -1,0 +1,114 @@
+---
+import { siteConfig } from "../lib/site-config";
+import { sitePath } from "../lib/routes";
+
+interface Props {
+  title: string;
+  description?: string;
+  lang: string;
+  section?: { label: string; href: string };
+  noindex?: boolean;
+  article?: { published: Date; updated?: Date; tags: string[] };
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  lang,
+  section,
+  noindex = false,
+  article,
+} = Astro.props;
+const origin = Astro.site ?? Astro.url;
+const absolute = (path: string) => new URL(path, origin).href;
+const home = Astro.url.pathname === sitePath();
+const canonical = absolute(Astro.url.pathname);
+const siteName = `${siteConfig.author} Blog`;
+const pageTitle = home ? siteName : `${title} | ${siteName}`;
+const image = absolute(`${import.meta.env.BASE_URL}social-card.png`);
+const indexable = !noindex && !origin.hostname.endsWith(".invalid");
+const author = {
+  "@type": "Person",
+  "@id": `${absolute(sitePath("about"))}#author`,
+  name: siteConfig.author,
+  url: absolute(sitePath("about")),
+  ...(siteConfig.githubUrl ? { sameAs: [siteConfig.githubUrl] } : {}),
+};
+const graph: Record<string, unknown>[] = [];
+if (indexable && home) {
+  graph.push(author, {
+    "@type": "Blog",
+    name: siteName,
+    url: canonical,
+    description,
+    inLanguage: lang,
+    author: { "@id": author["@id"] },
+  });
+}
+if (indexable && article) {
+  graph.push(author, {
+    "@type": "BlogPosting",
+    mainEntityOfPage: canonical,
+    url: canonical,
+    headline: title,
+    description,
+    inLanguage: lang,
+    datePublished: article.published.toISOString(),
+    ...(article.updated ? { dateModified: article.updated.toISOString() } : {}),
+    author: { "@id": author["@id"] },
+    keywords: article.tags,
+  });
+}
+if (indexable && !home) {
+  const crumbs = [
+    { label: "Home", href: sitePath() },
+    ...(section ? [section] : []),
+    { label: title, href: Astro.url.pathname },
+  ];
+  graph.push({
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map(({ label, href }, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: label,
+      item: absolute(href),
+    })),
+  });
+}
+const json = JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replaceAll(
+  "<",
+  "\\u003c",
+);
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+{!indexable && <meta name="robots" content="noindex" />}
+{!noindex && <link rel="canonical" href={canonical} />}
+<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.png`} type="image/png" />
+<link
+  rel="alternate"
+  href={`${import.meta.env.BASE_URL}rss.xml`}
+  type="application/rss+xml"
+  title={siteName}
+/>
+<meta property="og:type" content={article ? "article" : "website"} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+{!noindex && <meta property="og:url" content={canonical} />}
+<meta property="og:image" content={image} />
+<meta property="og:image:alt" content={siteName} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={siteName} />
+{article && <meta property="article:published_time" content={article.published.toISOString()} />}
+{article?.updated && (
+  <meta property="article:modified_time" content={article.updated.toISOString()} />
+)}
+{article?.tags.map((tag) => (
+  <meta property="article:tag" content={tag} />
+))}
+{graph.length > 0 && <script is:inline type="application/ld+json" set:html={json} />}

@@ -1,0 +1,72 @@
+:root {
+  --font-ui: Inter, "Noto Sans SC", system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-reading: var(--font-ui);
+  --font-cjk: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-code: "JetBrains Mono", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-body: 1.125rem;
+  --text-h4: 1.25rem;
+  --text-h3: 1.5rem;
+  --text-h2: 2rem;
+  --text-h1: clamp(2.25rem, 1.7rem + 2.4vw, 4rem);
+  --leading-tight: 1.1;
+  --leading-heading: 1.25;
+  --leading-ui: 1.5;
+  --leading-prose: 1.85;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --border-width: 1px;
+  --focus-width: 2px;
+  --reading-width: 68ch;
+  --site-width: 72rem;
+  --specimen-aside-width: 18rem;
+  --control-height: 2.75rem;
+  --sidebar-width: 14rem;
+  --shell-content-width: 80rem;
+  --topbar-height: 3.5rem;
+  --icon-size: 1.125rem;
+  --backdrop: light-dark(#171a2366, #00000099);
+  --layer-content: 0;
+  --layer-sticky: 10;
+  --layer-popover: 20;
+  --layer-overlay: 30;
+
+  color-scheme: light dark;
+  --bg: light-dark(#f7f8fa, #15171d);
+  --surface: light-dark(#ffffff, #1c1f27);
+  --surface-muted: light-dark(#edf0f5, #242934);
+  --text: light-dark(#171a23, #f1f3f8);
+  --text-muted: light-dark(#535c70, #a9b2c5);
+  --border: light-dark(#d4dae5, #363e4e);
+  --border-control: light-dark(#7b879d, #778299);
+  --accent: light-dark(#304cc2, #aab8ff);
+  --accent-hover: light-dark(#243a9c, #c7d0ff);
+  --accent-soft: light-dark(#e8edff, #2b3659);
+  --on-accent: light-dark(#ffffff, #171a23);
+  --rule: var(--border-width) solid var(--border);
+  --shadow-raised: 0 2px 8px light-dark(#171a2314, #00000040);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}

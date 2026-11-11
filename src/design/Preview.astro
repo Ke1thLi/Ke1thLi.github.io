@@ -1,0 +1,309 @@
+---
+import { Image } from "astro:assets";
+import ThemeScript from "../components/ThemeScript.astro";
+import FontResources from "../components/FontResources.astro";
+import diagram from "./route-diagram.png";
+import "../styles/base.css";
+import "../styles/editorial.css";
+import "../styles/controls.css";
+
+const palette = [
+  ["Canvas", "--bg"],
+  ["Surface", "--surface"],
+  ["Muted surface", "--surface-muted"],
+  ["Text", "--text"],
+  ["Muted text", "--text-muted"],
+  ["Accent", "--accent"],
+] as const;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Design System Preview · Ke1thLi Blog</title>
+    <ThemeScript />
+    <FontResources />
+  </head>
+  <body>
+    <div class="container">
+      <header class="masthead">
+        <span>Ke1thLi Blog</span>
+        <fieldset class="theme" data-theme-picker>
+          <legend>Theme</legend>
+          <label>
+            <input type="radio" name="theme" value="system" checked />
+            <span>System</span>
+          </label>
+          <label>
+            <input type="radio" name="theme" value="light" />
+            <span>Light</span>
+          </label>
+          <label>
+            <input type="radio" name="theme" value="dark" />
+            <span>Dark</span>
+          </label>
+        </fieldset>
+      </header>
+
+      <main>
+        <div class="intro">
+          <h1>Design System Preview</h1>
+          <p class="muted">Typography, editorial elements, and controls for Ke1thLi Blog.</p>
+        </div>
+
+        <div class="specimens">
+          <article class="prose" aria-labelledby="reading">
+            <h2 id="reading">Reading a route</h2>
+            <p lang="zh-CN">
+              一篇技术文章应该让读者迅速找到结论，也能沿着细节复现过程。清晰的段落层级、稳定的链接和可读的代码示例，共同构成阅读体验。
+            </p>
+            <p>
+              A published slug gives an article a stable address. Use the{" "}
+              <a href="#path-example">path example</a> to compare prose, inline <code>code</code>,
+              and a long code line.
+            </p>
+            <blockquote lang="zh-CN">改变文章分类时，读者收藏的链接仍然有效。</blockquote>
+
+            <h3 id="path-example">Path example</h3>
+            <pre
+              tabindex="0"
+              aria-label="TypeScript code example"
+            ><code><span class="keyword">const</span> slug = <span class="literal">"static-routes"</span>;
+<span class="keyword">const</span> path = sitePath(<span class="literal">"posts"</span>, slug);
+<span class="comment">// /Ke1thLi-Blog/posts/static-routes/</span></code></pre>
+
+            <h4>Build and verify</h4>
+            <ul>
+              <li>Resolve the entry by its published slug.</li>
+              <li>Build and check the page at the deployment prefix.</li>
+            </ul>
+            <table aria-label="Deployment path examples">
+              <thead>
+                <tr>
+                  <th scope="col">Deployment</th>
+                  <th scope="col">Base path</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Root</td>
+                  <td>
+                    <code>/</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Project</td>
+                  <td>
+                    <code>/Ke1thLi-Blog/</code>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <hr />
+            <figure>
+              <Image
+                src={diagram}
+                alt="Three connected stages: content entry, static build, and public URL."
+              />
+              <figcaption>Figure 1. From content entry to public URL.</figcaption>
+            </figure>
+          </article>
+
+          <aside aria-label="Interface specimens">
+            <section aria-labelledby="controls">
+              <h2 id="controls">Controls</h2>
+              <div class="actions">
+                <button class="button button--primary" type="button">
+                  Primary
+                </button>
+                <button class="button" type="button">
+                  Secondary
+                </button>
+              </div>
+              <label class="field" for="slug">
+                Article slug
+              </label>
+              <input class="input" id="slug" placeholder="static-routes" />
+              <div class="badges">
+                <span class="badge">TypeScript</span>
+              </div>
+            </section>
+            <section aria-labelledby="colors">
+              <h2 id="colors">Palette</h2>
+              <ul class="swatches">
+                {palette.map(([label, token]) => (
+                  <li>
+                    <span
+                      aria-hidden="true"
+                      class="swatch"
+                      style={`--swatch: var(${token})`}
+                    ></span>
+                    {label}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
+
+<style>
+  .masthead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-block: var(--space-4);
+    border-block-end: var(--rule);
+    font-weight: var(--weight-semibold);
+  }
+
+  .theme {
+    display: flex;
+    gap: var(--space-1);
+    margin: 0;
+    padding: var(--space-1);
+    border: var(--rule);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    font-size: var(--text-sm);
+  }
+
+  .theme legend {
+    float: inline-start;
+    align-self: center;
+    padding-inline: var(--space-2);
+    color: var(--text-muted);
+  }
+
+  .theme label {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .theme input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .theme span {
+    display: block;
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+  }
+
+  .theme input:checked + span {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .theme input:focus-visible + span {
+    outline: var(--focus-width) solid var(--accent);
+  }
+
+  .intro {
+    padding-block: var(--space-12) var(--space-8);
+    border-block-end: var(--rule);
+  }
+
+  .intro p {
+    margin: 0;
+  }
+
+  .specimens {
+    display: grid;
+    gap: var(--space-8);
+    padding-block: var(--space-8) var(--space-16);
+  }
+
+  @media (min-width: 64rem) {
+    .specimens {
+      grid-template-columns: minmax(0, 1fr) minmax(0, var(--specimen-aside-width));
+      gap: var(--space-12);
+    }
+
+    aside {
+      padding-inline-start: var(--space-8);
+      border-inline-start: var(--rule);
+    }
+  }
+
+  aside section + section {
+    margin-block-start: var(--space-8);
+    padding-block-start: var(--space-6);
+    border-block-start: var(--rule);
+  }
+
+  aside h2 {
+    font-size: var(--text-h3);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .field {
+    display: block;
+    margin-block: var(--space-4) var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+  }
+
+  .badges {
+    margin-block-start: var(--space-4);
+  }
+
+  .swatches {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .swatches li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .swatch {
+    inline-size: var(--space-8);
+    block-size: var(--space-6);
+    border: var(--rule);
+    border-radius: var(--radius-sm);
+    background: var(--swatch);
+  }
+
+  .keyword,
+  .literal {
+    color: var(--accent);
+  }
+
+  .keyword {
+    font-weight: var(--weight-semibold);
+  }
+
+  .comment {
+    color: var(--text-muted);
+  }
+
+  figure img {
+    border: var(--rule);
+    border-radius: var(--radius-md);
+  }
+
+  figcaption {
+    margin-block-start: var(--space-2);
+  }
+</style>

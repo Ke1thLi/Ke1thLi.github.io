@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { sitePath } from "../lib/routes";
+interface Props {
+  projects: CollectionEntry<"projects">[];
+  empty?: string;
+  headingLevel?: 2 | 3;
+}
+const { projects, empty = "No projects have been published.", headingLevel = 2 } = Astro.props;
+const Heading = headingLevel === 2 ? "h2" : "h3";
+---
+
+{projects.length === 0 ? (
+  <p class="muted">{empty}</p>
+) : (
+  <ul class="project-list">
+    {projects.map(({ id, data }) => (
+      <li>
+        <Heading class="project-heading">
+          <a href={sitePath("projects", id)}>{data.title}</a>
+        </Heading>
+        <p>{data.description}</p>
+        <p class="muted">{[data.status, ...data.techStack].join(" · ")}</p>
+        <div class="project-links">
+          {data.repository && <a href={data.repository}>Repository</a>}
+          {data.demo && <a href={data.demo}>Demo</a>}
+        </div>
+      </li>
+    ))}
+  </ul>
+)}
+<style>
+  .project-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .project-list li {
+    padding-block: var(--space-4);
+    border-block-start: var(--rule);
+  }
+  .project-heading,
+  p {
+    margin-block: 0 var(--space-2);
+  }
+  .project-heading {
+    font-size: var(--text-h3);
+  }
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+</style>

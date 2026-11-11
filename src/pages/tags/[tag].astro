@@ -1,0 +1,23 @@
+---
+import type { InferGetStaticPropsType } from "astro";
+import Page from "../../layouts/Page.astro";
+import PostList from "../../components/PostList.astro";
+import { getPublicPosts } from "../../lib/public-content";
+import { tagRouteKey } from "../../lib/routes";
+
+export async function getStaticPaths() {
+  const posts = await getPublicPosts();
+  const tags = new Set(posts.flatMap(({ data }) => data.tags));
+  return Array.from(tags, (tag) => ({
+    params: { tag: tagRouteKey(tag) },
+    props: { tag, posts: posts.filter(({ data }) => data.tags.includes(tag)) },
+  }));
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { tag, posts } = Astro.props;
+---
+
+<Page title={tag}>
+  <PostList posts={posts} />
+</Page>

@@ -1,0 +1,22 @@
+---
+import type { InferGetStaticPropsType } from "astro";
+import Page from "../../layouts/Page.astro";
+import PostList from "../../components/PostList.astro";
+import { getPublicPosts } from "../../lib/public-content";
+
+export async function getStaticPaths() {
+  const posts = await getPublicPosts();
+  const groups = Map.groupBy(posts, ({ data }) => data.category);
+  return Array.from(groups, ([category, posts]) => ({
+    params: { category },
+    props: { category, posts },
+  }));
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { category, posts } = Astro.props;
+---
+
+<Page title={category}>
+  <PostList posts={posts} />
+</Page>

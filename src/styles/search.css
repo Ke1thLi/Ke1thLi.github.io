@@ -1,0 +1,81 @@
+.search-dialog {
+  inline-size: min(100% - var(--space-8), 38rem);
+  max-block-size: 82dvh;
+  margin-block: min(12vh, 6rem) auto;
+  border: var(--rule);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-raised);
+}
+.search-dialog::backdrop {
+  background: var(--backdrop);
+}
+.search-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.search-header h2 {
+  margin: 0;
+  font-size: var(--text-h4);
+}
+.search-dialog input {
+  inline-size: 100%;
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--border-control);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+.search-dialog [role="option"] {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border-block-start: var(--rule);
+  text-decoration: none;
+  color: var(--text);
+}
+.search-dialog [role="option"]:is(:hover, [aria-selected="true"]) {
+  background: var(--accent-soft);
+}
+.search-dialog [role="option"] span,
+.search-dialog [role="option"] small {
+  color: var(--text-muted);
+}
+.search-trigger-wrap {
+  position: relative;
+}
+.search-trigger-wrap .search-trigger {
+  min-inline-size: 0;
+  white-space: nowrap;
+  border-color: var(--border);
+  font-size: var(--text-sm);
+  padding-inline-end: var(--space-12);
+}
+.search-trigger-wrap kbd {
+  position: absolute;
+  inset-inline-end: var(--space-2);
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  pointer-events: none;
+  color: var(--text-muted);
+  font: var(--text-xs) var(--font-ui);
+}
+@media (max-width: 39.999rem) {
+  .search-trigger-wrap .search-trigger {
+    gap: var(--space-1);
+    font-size: var(--text-xs);
+    padding-inline-start: var(--space-1);
+    padding-inline-end: var(--control-height);
+  }
+  .search-trigger svg {
+    display: none;
+  }
+  .search-trigger-wrap kbd {
+    font-size: var(--text-xs);
+  }
+}

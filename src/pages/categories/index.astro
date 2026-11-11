@@ -1,0 +1,24 @@
+---
+import Page from "../../layouts/Page.astro";
+import { getPublicPosts } from "../../lib/public-content";
+import { sitePath } from "../../lib/routes";
+
+const categories = [...Map.groupBy(await getPublicPosts(), ({ data }) => data.category)].sort(
+  ([a], [b]) => a.localeCompare(b),
+);
+---
+
+<Page title="Categories" description="Browse technical articles by category." reading>
+  {categories.length === 0 ? (
+    <p class="muted">Categories will appear as articles are published.</p>
+  ) : (
+    <ul>
+      {categories.map(([category, posts]) => (
+        <li>
+          <a href={sitePath("categories", category)}>{category}</a>
+          <span class="muted">({posts.length})</span>
+        </li>
+      ))}
+    </ul>
+  )}
+</Page>
