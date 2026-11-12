@@ -2,16 +2,32 @@ const body = document.querySelector<HTMLElement>("[data-article-body]");
 const toc = document.querySelector<HTMLDetailsElement>("[data-toc]");
 const layout = document.querySelector<HTMLElement>(".article-layout");
 if (toc && layout) {
-  const wide = () =>
-    layout.clientWidth >= 55 * parseFloat(getComputedStyle(document.documentElement).fontSize);
-  toc.open = wide();
+  const wide = () => getComputedStyle(layout).getPropertyValue("--toc-desktop").trim() === "1";
+  let desktopOpen = true;
+  try {
+    desktopOpen = localStorage.getItem("ke1thli-toc") !== "collapsed";
+  } catch {
+    // The contents remain available without storage.
+  }
   let wasWide = wide();
-  new ResizeObserver(() => {
-    if (wide() !== wasWide) {
-      wasWide = wide();
-      toc.open = wasWide;
+  toc.open = wasWide && desktopOpen;
+  const syncToc = () => {
+    const isWide = wide();
+    if (isWide === wasWide) return;
+    wasWide = isWide;
+    toc.open = isWide && desktopOpen;
+  };
+  if (typeof ResizeObserver === "function") new ResizeObserver(syncToc).observe(layout);
+  else addEventListener("resize", syncToc);
+  toc.querySelector("summary")?.addEventListener("click", () => {
+    if (!wide()) return;
+    desktopOpen = !toc.open;
+    try {
+      localStorage.setItem("ke1thli-toc", desktopOpen ? "expanded" : "collapsed");
+    } catch {
+      // The preference still applies to the current page.
     }
-  }).observe(layout);
+  });
   const links = [...toc.querySelectorAll<HTMLAnchorElement>("a")];
   const headings = links.map((link) =>
     document.getElementById(decodeURIComponent(link.hash.slice(1))),
@@ -151,4 +167,22 @@ if (diagrams.length > 0 && "IntersectionObserver" in window) {
   for (const diagram of diagrams) observer.observe(diagram);
 } else {
   for (const diagram of diagrams) loadDiagram(diagram);
+}
+
+const progress = document.querySelector<HTMLElement>("[data-reading-progress]");
+if (progress && body) {
+  let frame = 0;
+  const update = () => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => {
+      const bottom = body.getBoundingClientRect().bottom + scrollY;
+      const distance = Math.max(0, bottom - innerHeight);
+      const fraction = distance === 0 ? 1 : Math.min(1, Math.max(0, scrollY / distance));
+      progress.style.transform = `scaleX(${fraction})`;
+    });
+  };
+  addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+  if (typeof ResizeObserver === "function") new ResizeObserver(update).observe(body);
+  update();
 }

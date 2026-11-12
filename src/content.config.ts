@@ -39,7 +39,7 @@ const postsLoader: Loader = {
 
     const loader = glob({
       base: "./src/content/posts",
-      pattern: "**/*.md",
+      pattern: ["**/*.md", "!_local-drafts/**"],
       deferRender: true,
       generateId: ({ entry, data }) => {
         const result = contentId.safeParse(data.slug);

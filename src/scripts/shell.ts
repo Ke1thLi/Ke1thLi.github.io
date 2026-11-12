@@ -22,15 +22,17 @@ function savePreference(key: string, value: string) {
 }
 
 function updateSidebarToggle() {
-  const expanded = root.dataset.sidebar !== "hidden";
-  desktopToggle?.setAttribute("aria-expanded", String(expanded));
-  desktopToggle?.setAttribute("aria-label", expanded ? "Hide sidebar" : "Show sidebar");
+  if (!desktopToggle) return;
+  const expanded = root.dataset.sidebar !== "collapsed";
+  const label = expanded ? "Collapse sidebar" : "Expand sidebar";
+  desktopToggle.setAttribute("aria-expanded", String(expanded));
+  desktopToggle.setAttribute("aria-label", label);
+  desktopToggle.title = label;
 }
 
 updateSidebarToggle();
 desktopToggle?.addEventListener("click", () => {
-  const hidden = root.dataset.sidebar !== "hidden";
-  root.dataset.sidebar = hidden ? "hidden" : "visible";
+  root.dataset.sidebar = root.dataset.sidebar === "collapsed" ? "expanded" : "collapsed";
   savePreference("ke1thli-sidebar", root.dataset.sidebar);
   updateSidebarToggle();
 });

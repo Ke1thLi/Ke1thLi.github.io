@@ -11,10 +11,16 @@
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-body: 1.125rem;
-  --text-h4: 1.25rem;
-  --text-h3: 1.5rem;
-  --text-h2: 2rem;
-  --text-h1: clamp(2.25rem, 1.7rem + 2.4vw, 4rem);
+  --text-h4: 1.125rem;
+  --text-h3: 1.375rem;
+  --text-h2: 1.75rem;
+  --text-h1: 2.5rem;
+  --text-article-h1: 2.75rem;
+  --text-hero-h1: clamp(2.625rem, 4.45vw, 4rem);
+  --heading-h1: light-dark(#211a36, #f1eefa);
+  --heading-h2: light-dark(#48358b, #b9a5f5);
+  --heading-h3: light-dark(#35476a, #a9b8d8);
+  --heading-h4: light-dark(#544769, #c6bfe0);
   --leading-tight: 1.1;
   --leading-heading: 1.25;
   --leading-ui: 1.5;
@@ -37,7 +43,10 @@
   --site-width: 72rem;
   --specimen-aside-width: 18rem;
   --control-height: 2.75rem;
-  --sidebar-width: 14rem;
+  --sidebar-width: 15rem;
+  --sidebar-rail-width: 3.5rem;
+  --rail-toggle-size: 1.625rem;
+  --toc-width: 13rem;
   --shell-content-width: 80rem;
   --topbar-height: 3.5rem;
   --icon-size: 1.125rem;
@@ -55,9 +64,10 @@
   --text-muted: light-dark(#535c70, #a9b2c5);
   --border: light-dark(#d4dae5, #363e4e);
   --border-control: light-dark(#7b879d, #778299);
-  --accent: light-dark(#304cc2, #aab8ff);
-  --accent-hover: light-dark(#243a9c, #c7d0ff);
-  --accent-soft: light-dark(#e8edff, #2b3659);
+  --indigo: #7667e8;
+  --accent: var(--accent-override, light-dark(#5543be, #b5abf6));
+  --accent-hover: light-dark(#423199, #cec5ff);
+  --accent-soft: light-dark(#eeebfc, #302a49);
   --on-accent: light-dark(#ffffff, #171a23);
   --rule: var(--border-width) solid var(--border);
   --shadow-raised: 0 2px 8px light-dark(#171a2314, #00000040);
@@ -69,4 +79,14 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --text-h1: 2rem;
+    --text-article-h1: 2rem;
+    --text-h2: 1.5rem;
+    --text-h3: 1.25rem;
+    --text-h4: 1.0625rem;
+  }
 }

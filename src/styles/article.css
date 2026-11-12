@@ -11,6 +11,9 @@
 .article-header {
   margin-block-end: var(--space-8);
 }
+.article-header > h1 {
+  font-size: var(--text-article-h1);
+}
 .article-header > p {
   font-size: var(--text-body);
   color: var(--text-muted);
@@ -32,10 +35,24 @@
   font-size: var(--text-sm);
 }
 .article-toc summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  list-style: none;
   cursor: pointer;
   color: var(--text-muted);
   font-weight: var(--weight-semibold);
   padding: var(--space-2);
+}
+.article-toc summary::-webkit-details-marker {
+  display: none;
+}
+.toc-toggle::before {
+  content: ">";
+}
+.article-toc[open] .toc-toggle::before {
+  content: "<";
 }
 .article-toc ol {
   margin: 0;
@@ -56,21 +73,40 @@
 .article-toc .toc-subheading {
   padding-inline-start: var(--space-3);
 }
-@container (min-width: 55rem) {
-  .article-layout:has(> .article-toc[open]) {
+/* Match the desktop sidebar breakpoint so toggling it never changes TOC mode. */
+@media (min-width: 56rem) {
+  .article-layout {
+    --toc-desktop: 1;
+  }
+  .article-layout:has(> .article-toc) {
     display: grid;
-    grid-template-columns: minmax(0, 11rem) minmax(0, var(--reading-width));
+    grid-template-columns: minmax(0, 1fr) var(--rail-toggle-size);
     gap: var(--space-6);
-    justify-content: center;
   }
-  .article-layout:has(> .article-toc[open]) .article-content {
-    margin-inline: 0;
+  .article-layout:has(> .article-toc[open]) {
+    grid-template-columns: minmax(0, 1fr) clamp(10rem, 19cqi, var(--toc-width));
   }
-  .article-toc[open] {
+  .article-layout:has(> .article-toc) .article-content {
+    grid-area: 1 / 1;
+    inline-size: 100%;
+    margin-inline: auto;
+  }
+  .article-toc {
+    grid-area: 1 / 2;
     position: sticky;
     inset-block-start: calc(var(--topbar-height) + var(--space-4));
     max-block-size: calc(100dvh - var(--topbar-height) - var(--space-8));
     overflow: auto;
+  }
+  .article-toc:not([open]) summary {
+    padding: 0;
+  }
+  .article-toc:not([open]) summary > span:first-child {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
 }
 [data-article-body] :is(h1, h2, h3, h4, h5, h6) {

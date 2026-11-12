@@ -2,11 +2,12 @@
 import type { InferGetStaticPropsType } from "astro";
 import Page from "../../layouts/Page.astro";
 import PostList from "../../components/PostList.astro";
+import { groupByCategory } from "../../lib/article-list";
 import { getPublicPosts } from "../../lib/public-content";
 
 export async function getStaticPaths() {
   const posts = await getPublicPosts();
-  const groups = Map.groupBy(posts, ({ data }) => data.category);
+  const groups = groupByCategory(posts);
   return Array.from(groups, ([category, posts]) => ({
     params: { category },
     props: { category, posts },

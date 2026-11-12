@@ -1,10 +1,12 @@
 ---
+import TaxonomyAccordion from "../../components/TaxonomyAccordion.astro";
 import Page from "../../layouts/Page.astro";
+import { groupByCategory } from "../../lib/article-list";
 import { getPublicPosts } from "../../lib/public-content";
 import { sitePath } from "../../lib/routes";
 
-const categories = [...Map.groupBy(await getPublicPosts(), ({ data }) => data.category)].sort(
-  ([a], [b]) => a.localeCompare(b),
+const categories = [...groupByCategory(await getPublicPosts())].sort(([a], [b]) =>
+  a.localeCompare(b),
 );
 ---
 
@@ -12,13 +14,12 @@ const categories = [...Map.groupBy(await getPublicPosts(), ({ data }) => data.ca
   {categories.length === 0 ? (
     <p class="muted">Categories will appear as articles are published.</p>
   ) : (
-    <ul>
-      {categories.map(([category, posts]) => (
-        <li>
-          <a href={sitePath("categories", category)}>{category}</a>
-          <span class="muted">({posts.length})</span>
-        </li>
-      ))}
-    </ul>
+    <TaxonomyAccordion
+      groups={categories.map(([label, posts]) => ({
+        label,
+        href: sitePath("categories", label),
+        posts,
+      }))}
+    />
   )}
 </Page>

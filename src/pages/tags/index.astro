@@ -1,23 +1,31 @@
 ---
+import TaxonomyAccordion from "../../components/TaxonomyAccordion.astro";
 import Page from "../../layouts/Page.astro";
+import type { Post } from "../../lib/article-list";
 import { getPublicPosts } from "../../lib/public-content";
 import { sitePath, tagRouteKey } from "../../lib/routes";
 
-const taggedPosts = (await getPublicPosts()).flatMap(({ data }) => [...new Set(data.tags)]);
-const tags = [...Map.groupBy(taggedPosts, (tag) => tag)].sort(([a], [b]) => a.localeCompare(b));
+const taggedPosts = new Map<string, Post[]>();
+for (const post of await getPublicPosts()) {
+  for (const tag of new Set(post.data.tags)) {
+    const group = taggedPosts.get(tag);
+    if (group) group.push(post);
+    else taggedPosts.set(tag, [post]);
+  }
+}
+const tags = [...taggedPosts].sort(([a], [b]) => a.localeCompare(b));
 ---
 
 <Page title="Tags" description="Browse the blog's published articles by tag." reading>
   {tags.length === 0 ? (
     <p class="muted">Tags will appear as articles are published.</p>
   ) : (
-    <ul>
-      {tags.map(([tag, entries]) => (
-        <li>
-          <a href={sitePath("tags", tagRouteKey(tag))}>{tag}</a>
-          <span class="muted">({entries.length})</span>
-        </li>
-      ))}
-    </ul>
+    <TaxonomyAccordion
+      groups={tags.map(([label, posts]) => ({
+        label,
+        href: sitePath("tags", tagRouteKey(label)),
+        posts,
+      }))}
+    />
   )}
 </Page>

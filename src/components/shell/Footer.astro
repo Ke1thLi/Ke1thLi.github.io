@@ -1,27 +1,19 @@
 ---
-import { sitePath } from "../../lib/routes";
 import { siteConfig } from "../../lib/site-config";
-import Icon from "./Icon.astro";
 
-const links = [
-  ["GitHub", siteConfig.githubUrl],
-  ["RSS", siteConfig.rssUrl],
-  ["About", sitePath("about")],
-] as const;
+interface Props {
+  readingTime?: number;
+}
+const { readingTime } = Astro.props;
 ---
 
-<footer class="shell-footer" lang="en">
-  <div>
-    <strong>{siteConfig.author}</strong>
-    <p>{siteConfig.description}</p>
-    <small>
+<footer class="shell-footer">
+  <div class="footer-identity">
+    <strong>{siteConfig.title}</strong>
+    <span class="footer-detail">{siteConfig.description}</span>
+    <span class="footer-detail">
       © {new Date().getUTCFullYear()} {siteConfig.author}
-    </small>
+    </span>
   </div>
-  <div class="footer-actions">
-    {links.map(([label, href]) => (href ? <a href={href}>{label}</a> : <span>{label}</span>))}
-    <a class="back-top" href="#top">
-      <Icon name="up" /> Back to top
-    </a>
-  </div>
+  {readingTime !== undefined && <span>{readingTime} min read</span>}
 </footer>

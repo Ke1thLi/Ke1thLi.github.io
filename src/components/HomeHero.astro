@@ -1,0 +1,59 @@
+---
+import { siteConfig } from "../lib/site-config";
+---
+
+<header class="hero">
+  <img
+    src={siteConfig.backgroundUrl ?? `${import.meta.env.BASE_URL}images/moonlit-mountains.svg`}
+    alt=""
+    width="960"
+    height="480"
+    fetchpriority="high"
+  />
+  <div>
+    <h1>{siteConfig.title}</h1>
+    <p>{siteConfig.home.introduction}</p>
+    {siteConfig.home.technicalFocus && <p>{siteConfig.home.technicalFocus}</p>}
+  </div>
+</header>
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: grid;
+    align-items: end;
+    min-height: clamp(15rem, 35vw, 24rem);
+    border-radius: var(--radius-md);
+    background: #232139;
+    color: #fff;
+  }
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+  .hero::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(0deg, #151329 0%, transparent 90%);
+    z-index: -1;
+  }
+  .hero > div {
+    padding: clamp(1rem, 5vw, 3rem);
+  }
+  h1 {
+    font-family: Georgia, serif;
+    font-size: var(--text-hero-h1);
+    color: inherit;
+    margin: 0;
+  }
+  p {
+    margin: 0.6rem 0 0;
+    max-width: 48ch;
+  }
+</style>

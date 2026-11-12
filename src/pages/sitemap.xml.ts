@@ -3,7 +3,7 @@ import type { APIRoute } from "astro";
 import { getPublicPosts } from "../lib/public-content";
 import { xml, xmlResponse } from "../lib/public-xml";
 import { sitePath, tagRouteKey } from "../lib/routes";
-import { articlePath, pageSize } from "../lib/article-list";
+import { articlePath, groupByCategory, pageSize } from "../lib/article-list";
 
 export const GET: APIRoute = async ({ site, url }) => {
   const posts = await getPublicPosts();
@@ -18,7 +18,7 @@ export const GET: APIRoute = async ({ site, url }) => {
       articlePath(undefined, index + 2),
     ),
     ...projects.map(({ id }) => sitePath("projects", id)),
-    ...new Set(posts.map(({ data }) => sitePath("categories", data.category))),
+    ...[...groupByCategory(posts).keys()].map((category) => sitePath("categories", category)),
     ...new Set(
       posts.flatMap(({ data }) => data.tags.map((tag) => sitePath("tags", tagRouteKey(tag)))),
     ),

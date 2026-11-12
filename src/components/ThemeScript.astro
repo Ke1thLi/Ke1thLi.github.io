@@ -1,33 +1,45 @@
-<script is:inline>
-  (() => {
-    const storageKey = "ke1thli-theme";
-    const root = document.documentElement;
-    const isMode = (value) => ["system", "light", "dark"].includes(value);
-    let mode = "system";
-    try {
-      const stored = localStorage.getItem(storageKey);
-      if (isMode(stored)) mode = stored;
-    } catch {
-      // System colors still work when storage is unavailable.
-    }
-    root.dataset.theme = mode;
+---
+import { siteConfig } from "../lib/site-config";
+const { defaultTheme } = siteConfig.appearance;
+---
 
+<script is:inline define:vars={{ defaultTheme }}>
+  (() => {
+    const key = "ke1thli-theme";
+    const root = document.documentElement;
+    const system = matchMedia("(prefers-color-scheme: dark)");
+    let mode = defaultTheme;
+    try {
+      const saved = localStorage.getItem(key);
+      if (saved === "dark" || saved === "light" || saved === "system") mode = saved;
+    } catch {}
+    root.dataset.theme = mode;
     document.addEventListener("DOMContentLoaded", () => {
-      const picker = document.querySelector("[data-theme-picker]");
-      if (!picker) return;
-      const selected = picker.querySelector(`input[value="${mode}"]`);
-      if (selected) selected.checked = true;
-      if (picker instanceof HTMLSelectElement) picker.value = mode;
-      picker.addEventListener("change", ({ target }) => {
-        if (!(target instanceof HTMLInputElement || target instanceof HTMLSelectElement)) return;
-        if (!isMode(target.value)) return;
-        root.dataset.theme = target.value;
+      const toggle = document.querySelector("[data-theme-toggle]");
+      const reset = document.querySelector("[data-theme-reset]");
+      const dark = () => mode === "dark" || (mode === "system" && system.matches);
+      const update = () => {
+        root.dataset.theme = mode;
+        toggle?.setAttribute("aria-pressed", String(dark()));
+        if (reset) reset.hidden = mode === "system";
+      };
+      toggle?.addEventListener("click", () => {
+        mode = dark() ? "light" : "dark";
         try {
-          localStorage.setItem(storageKey, target.value);
-        } catch {
-          // The current page still uses the selected mode.
-        }
+          localStorage.setItem(key, mode);
+        } catch {}
+        update();
       });
+      reset?.addEventListener("click", () => {
+        mode = "system";
+        try {
+          localStorage.setItem(key, mode);
+        } catch {}
+        update();
+        toggle?.focus();
+      });
+      system.addEventListener("change", update);
+      update();
     });
   })();
 </script>

@@ -25,19 +25,27 @@ h4 {
 }
 
 h1 {
+  color: var(--heading-h1);
+  font-weight: var(--weight-bold);
   font-size: var(--text-h1);
   line-height: var(--leading-tight);
 }
 
 h2 {
+  color: var(--heading-h2);
+  font-weight: var(--weight-bold);
   font-size: var(--text-h2);
 }
 
 h3 {
+  color: var(--heading-h3);
+  font-weight: var(--weight-semibold);
   font-size: var(--text-h3);
 }
 
 h4 {
+  color: var(--heading-h4);
+  font-weight: var(--weight-medium);
   font-size: var(--text-h4);
 }
 

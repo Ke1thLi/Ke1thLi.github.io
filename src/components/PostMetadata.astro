@@ -9,7 +9,9 @@ const date = (value: Date) => value.toISOString().slice(0, 10);
 ---
 
 <div class="post-meta">
-  <a href={articlePath({ kind: "category", value: data.category })}>{data.category}</a>
+  {data.category && (
+    <a href={articlePath({ kind: "category", value: data.category })}>{data.category}</a>
+  )}
   <time datetime={data.pubDate.toISOString()}>{date(data.pubDate)}</time>
   {data.updatedDate && (
     <span>

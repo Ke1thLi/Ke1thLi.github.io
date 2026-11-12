@@ -22,32 +22,46 @@ const groups = [
   ["About", [["About", "about", "about"]]],
 ] as const;
 
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
 const pathname = Astro.url.pathname;
+const active = (path: string, href: string) =>
+  href === pathname
+    ? "page"
+    : (path && pathname.startsWith(href)) ||
+        (path === "articles" && pathname.startsWith(sitePath("posts")))
+      ? "location"
+      : undefined;
 ---
 
-<nav class="side-nav" aria-label="Main navigation">
-  {groups.map(([group, links]) => (
-    <details data-nav-group={group} open>
-      <summary>
-        {group}
-        <Icon name="chevron" />
-      </summary>
-      {links.map(([label, icon, path]) => {
-        const href = path ? sitePath(path) : sitePath();
-        const current =
-          href === pathname
-            ? "page"
-            : (path && pathname.startsWith(href)) ||
-                (path === "articles" && pathname.startsWith(sitePath("posts")))
-              ? "location"
-              : undefined;
-        return (
-          <a href={href} aria-current={current}>
-            <Icon name={icon} />
-            <span>{label}</span>
-          </a>
-        );
-      })}
-    </details>
-  ))}
+<nav class:list={["side-nav", { "side-nav-compact": compact }]} aria-label="Main navigation">
+  {groups.map(([group, links]) => {
+    const items = links.map(([label, icon, path]) => {
+      const href = path ? sitePath(path) : sitePath();
+      return (
+        <a
+          href={href}
+          aria-current={active(path, href)}
+          aria-label={label}
+          title={compact ? label : undefined}
+        >
+          <Icon name={icon} />
+          {!compact && <span>{label}</span>}
+        </a>
+      );
+    });
+    return compact ? (
+      <div>{items}</div>
+    ) : (
+      <details data-nav-group={group} open>
+        <summary>
+          {group}
+          <Icon name="chevron" />
+        </summary>
+        {items}
+      </details>
+    );
+  })}
 </nav>

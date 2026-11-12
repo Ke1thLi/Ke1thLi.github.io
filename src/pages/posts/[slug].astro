@@ -5,6 +5,7 @@ import Page from "../../layouts/Page.astro";
 import ArticleToc from "../../components/ArticleToc.astro";
 import PostMetadata from "../../components/PostMetadata.astro";
 import ProjectList from "../../components/ProjectList.astro";
+import { readingMinutes } from "../../lib/article-list";
 import { getPublicPosts } from "../../lib/public-content";
 import { sitePath } from "../../lib/routes";
 import "../../styles/article.css";
@@ -34,7 +35,12 @@ const projects = await Promise.all(
   lang={post.data.lang}
   article={{ published: post.data.pubDate, updated: post.data.updatedDate, tags: post.data.tags }}
   showHeading={false}
-  section={{ label: post.data.category, href: sitePath("categories", post.data.category) }}
+  readingTime={readingMinutes(post.body)}
+  section={
+    post.data.category
+      ? { label: post.data.category, href: sitePath("categories", post.data.category) }
+      : undefined
+  }
 >
   <div class="article-layout">
     <ArticleToc headings={headings.filter(({ depth }) => depth === 2 || depth === 3)} />
@@ -42,7 +48,9 @@ const projects = await Promise.all(
       <header class="article-header">
         <h1 data-pagefind-meta="title">{post.data.title}</h1>
         <p data-pagefind-meta="description">{post.data.description}</p>
-        <span hidden data-pagefind-meta={`category:${post.data.category}`}></span>
+        {post.data.category && (
+          <span hidden data-pagefind-meta={`category:${post.data.category}`}></span>
+        )}
         <span hidden data-pagefind-meta={`tags:${JSON.stringify(post.data.tags)}`}></span>
         <PostMetadata post={post} />
       </header>

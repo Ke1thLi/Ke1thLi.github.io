@@ -7,7 +7,10 @@ const { headings } = Astro.props;
 
 {headings.length > 0 && (
   <details class="article-toc" data-toc>
-    <summary>On this page</summary>
+    <summary>
+      <span>On this page</span>
+      <span class="rail-toggle toc-toggle" aria-hidden="true"></span>
+    </summary>
     <nav aria-label="Article contents">
       <ol>
         {headings.map(({ depth, slug, text }) => (

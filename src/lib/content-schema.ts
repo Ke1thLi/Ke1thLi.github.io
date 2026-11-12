@@ -36,7 +36,7 @@ export const postSchema = z
     slug: contentId,
     pubDate: date,
     updatedDate: date.optional(),
-    category: categorySchema,
+    category: categorySchema.optional(),
     type: postTypeSchema,
     tags: z.array(text).default([]),
     projects: z.array(contentId).default([]),

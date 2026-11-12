@@ -1,4 +1,5 @@
 ---
+import { siteConfig } from "../lib/site-config";
 import ThemeScript from "../components/ThemeScript.astro";
 import PageMetadata from "../components/PageMetadata.astro";
 import FontResources from "../components/FontResources.astro";
@@ -8,6 +9,7 @@ import Footer from "../components/shell/Footer.astro";
 import SearchDialog from "../components/shell/SearchDialog.astro";
 import Icon from "../components/shell/Icon.astro";
 import { sitePath } from "../lib/routes";
+import "katex/dist/katex.min.css";
 import "../styles/base.css";
 import "../styles/editorial.css";
 import "../styles/shell.css";
@@ -16,6 +18,7 @@ interface Props {
   title: string;
   section?: { label: string; href: string };
   reading?: boolean;
+  readingTime?: number;
   showHeading?: boolean;
   description?: string;
   lang?: string;
@@ -27,16 +30,25 @@ const {
   title,
   section,
   reading = false,
+  readingTime,
   showHeading = true,
   description,
-  lang = "en",
+  lang = siteConfig.lang,
   noindex,
   article,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html
+  lang={lang}
+  style={[
+    siteConfig.appearance.accentColor && `--accent-override:${siteConfig.appearance.accentColor}`,
+    siteConfig.appearance.fontFamily && `--font-ui:${siteConfig.appearance.fontFamily}`,
+  ]
+    .filter(Boolean)
+    .join(";")}
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -44,8 +56,8 @@ const {
     <ThemeScript />
     <script is:inline>
       try {
-        if (localStorage.getItem("ke1thli-sidebar") === "hidden") {
-          document.documentElement.dataset.sidebar = "hidden";
+        if (["hidden", "collapsed"].includes(localStorage.getItem("ke1thli-sidebar") ?? "")) {
+          document.documentElement.dataset.sidebar = "collapsed";
         }
       } catch {
         // The sidebar remains available without storage.
@@ -59,13 +71,39 @@ const {
     </a>
     <div class="app-shell">
       <aside class="desktop-sidebar" id="desktop-sidebar" lang="en">
-        <a class="sidebar-brand" href={sitePath()}>
-          <span aria-hidden="true">K</span> Ke1thLi Blog
+        <a class="sidebar-brand" href={sitePath()} aria-label={siteConfig.title}>
+          <span class="brand-mark" aria-hidden="true">
+            {siteConfig.avatarUrl ? (
+              <img src={siteConfig.avatarUrl} alt="" width="24" height="24" />
+            ) : (
+              siteConfig.title.slice(0, 1)
+            )}
+          </span>
+          <span class="brand-name">{siteConfig.title}</span>
         </a>
-        <Sidebar />
+        <div class="sidebar-navigation" id="sidebar-navigation">
+          <Sidebar />
+          <Sidebar compact />
+        </div>
+        <button
+          class="rail-toggle sidebar-toggle"
+          type="button"
+          data-sidebar-toggle
+          aria-controls="sidebar-navigation"
+          aria-label="Collapse sidebar"
+          aria-expanded="true"
+          title="Collapse sidebar"
+        >
+          <Icon name="railChevron" />
+        </button>
       </aside>
       <div class="shell-column">
         <Topbar title={title} section={section} lang={lang} />
+        {article && (
+          <div class="reading-progress" aria-hidden="true">
+            <span data-reading-progress></span>
+          </div>
+        )}
         <main
           id="main-content"
           class:list={["shell-main", { "shell-reading": reading }]}
@@ -74,14 +112,21 @@ const {
           {showHeading && <h1>{title}</h1>}
           <slot />
         </main>
-        <Footer />
+        <Footer {readingTime} />
       </div>
     </div>
     <dialog class="nav-drawer" id="navigation-drawer" aria-label="Site navigation" lang="en">
       <div class="drawer-body">
         <div class="drawer-header">
-          <a class="sidebar-brand" href={sitePath()}>
-            <span aria-hidden="true">K</span> Ke1thLi Blog
+          <a class="sidebar-brand" href={sitePath()} aria-label={siteConfig.title}>
+            <span class="brand-mark" aria-hidden="true">
+              {siteConfig.avatarUrl ? (
+                <img src={siteConfig.avatarUrl} alt="" width="24" height="24" />
+              ) : (
+                siteConfig.title.slice(0, 1)
+              )}
+            </span>
+            <span class="brand-name">{siteConfig.title}</span>
           </a>
           <button
             class="shell-icon"

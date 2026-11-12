@@ -1,32 +1,32 @@
 ---
 import { getCollection } from "astro:content";
+import HomeHero from "../components/HomeHero.astro";
 import Page from "../layouts/Page.astro";
 import PostList from "../components/PostList.astro";
 import ProjectList from "../components/ProjectList.astro";
 import { sitePath } from "../lib/routes";
 import { siteConfig } from "../lib/site-config";
+import { groupByCategory } from "../lib/article-list";
 import { getPublicPosts } from "../lib/public-content";
 
 const posts = await getPublicPosts();
 const projects = (await getCollection("projects")).filter(({ data }) => data.featured).slice(0, 3);
-const categories = Map.groupBy(posts, ({ data }) => data.category);
+const categories = groupByCategory(posts);
 ---
 
-<Page title={siteConfig.author} reading>
-  <p class="prose">{siteConfig.description}</p>
-  <p class="muted">Technology, security, and engineering</p>
-  {siteConfig.githubUrl && <a href={siteConfig.githubUrl}>GitHub</a>}
+<Page title={siteConfig.title} showHeading={false}>
+  <HomeHero />
+  <section aria-labelledby="recent-articles">
+    <h2 id="recent-articles">Recent articles</h2>
+    <PostList posts={posts.slice(0, siteConfig.home.recentPosts)} />
+    <a href={sitePath("articles")}>View all articles</a>
+  </section>
   <section aria-labelledby="featured-articles">
     <h2 id="featured-articles">Featured articles</h2>
     <PostList
-      posts={posts.filter(({ data }) => data.featured).slice(0, 3)}
+      posts={posts.filter(({ data }) => data.featured).slice(0, siteConfig.home.featuredPosts)}
       empty="No featured articles yet."
     />
-  </section>
-  <section aria-labelledby="recent-articles">
-    <h2 id="recent-articles">Recent articles</h2>
-    <PostList posts={posts.slice(0, 5)} />
-    <a href={sitePath("articles")}>View all articles</a>
   </section>
   <section aria-labelledby="featured-projects">
     <h2 id="featured-projects">Featured projects</h2>
