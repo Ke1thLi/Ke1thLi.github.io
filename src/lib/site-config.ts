@@ -10,7 +10,8 @@ const rss = process.env.BLOG_RSS_URL?.trim() || "rss.xml";
 export const siteConfig = {
   title: "Ke1thLi Blog",
   lang: "en",
-  avatarUrl: new URL("avatar.svg", `https://example.invalid${import.meta.env.BASE_URL}`).pathname,
+  avatarUrl: new URL("github-avatar.jpg", `https://example.invalid${import.meta.env.BASE_URL}`)
+    .pathname,
   backgroundUrl: undefined,
   home: {
     introduction: "Technical writing and personal projects.",
