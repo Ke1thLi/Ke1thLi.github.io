@@ -64,14 +64,14 @@ test("public routes and assets work at the root and a GitHub Pages subpath", asy
 
       assert.match(result.stdout, /Indexed 11 public article/);
       const home = pages.get("");
-      const featured = home.slice(
-        home.indexOf('id="featured-articles"'),
-        home.indexOf('id="recent-articles"'),
-      );
-      const recent = home.slice(
-        home.indexOf('id="recent-articles"'),
-        home.indexOf('id="featured-projects"'),
-      );
+      const section = (id) => {
+        const start = home.indexOf(`id="${id}"`);
+        assert.notEqual(start, -1);
+        return home.slice(start, home.indexOf("</section>", start));
+      };
+      const featured = section("featured-articles");
+      const recent = section("recent-articles");
+      assert.doesNotMatch(section("home-categories"), /undefined|Uncategorized/);
       assert.ok(featured.includes("Routing fixture") && featured.includes("Article fixture 03"));
       assert.doesNotMatch(featured, /Article fixture 10/);
       assert.ok(recent.indexOf("Routing fixture") < recent.indexOf("Article fixture 10"));
@@ -113,7 +113,15 @@ test("public routes and assets work at the root and a GitHub Pages subpath", asy
       assert.ok(locations.every((url) => url.startsWith(`https://preview.example${base}`)));
       assert.ok(locations.includes(`https://preview.example${base}articles/page/2/`));
       assert.doesNotMatch(sitemap, /404|design-system|articles\/category|projects\/status/);
+      const uncategorized = await get("posts/fixture-10/");
+      assert.match(uncategorized, /Article fixture 10/);
+      assert.doesNotMatch(uncategorized, /data-pagefind-meta="category:|categories\/undefined/);
+      assert.doesNotMatch(await get("categories/"), /Uncategorized|categories\/undefined/);
+      assert.doesNotMatch(await get("articles/category/engineering/"), /Article fixture 10/);
+      assert.doesNotMatch(sitemap, /categories\/undefined/);
+      assert.ok(sitemap.includes(`${base}posts/fixture-10/`));
       const rss = await get("rss.xml");
+      assert.ok(rss.includes(`${base}posts/fixture-10/`));
       assert.equal(await get("index.xml"), rss);
       assert.ok(rss.includes(`<link>https://preview.example${base}${postPath}</link>`));
       assert.match(rss, /<pubDate>Tue, 20 Jan 2026 00:00:00 GMT<\/pubDate>/);

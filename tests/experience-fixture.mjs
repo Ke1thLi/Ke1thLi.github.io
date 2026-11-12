@@ -85,7 +85,7 @@ title: Article fixture ${key}
 description: Fixture for publication ordering and static pagination.
 slug: fixture-${key}
 pubDate: "2026-01-${key}"
-category: ${index <= 5 ? "topic" : "engineering"}
+${index === 10 ? "" : `category: ${index <= 5 ? "topic" : "engineering"}`}
 type: fixture
 tags: [${index <= 5 ? "astro" : "build"}]
 featured: ${index === 3}
