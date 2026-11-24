@@ -1,0 +1,19 @@
+---
+import type { InferGetStaticPropsType } from "astro";
+import LegacyRedirect from "../../components/LegacyRedirect.astro";
+import { legacyPosts } from "../../lib/legacy-posts";
+import { getPublicPosts } from "../../lib/public-content";
+import { sitePath } from "../../lib/routes";
+
+export async function getStaticPaths() {
+  const publicIds = new Set((await getPublicPosts()).map(({ id }) => id));
+  return Object.entries(legacyPosts)
+    .filter(([, { slug }]) => publicIds.has(slug))
+    .map(([legacy, post]) => ({ params: { legacy }, props: post }));
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { slug, fragments } = Astro.props;
+---
+
+<LegacyRedirect target={sitePath("posts", slug)} {fragments} />

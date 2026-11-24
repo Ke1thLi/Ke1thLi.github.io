@@ -1,20 +1,25 @@
 ---
+import Icon from "./shell/Icon.astro";
+
 interface Props {
   headings: { depth: number; slug: string; text: string }[];
+  chinese?: boolean;
 }
-const { headings } = Astro.props;
+const { headings, chinese = false } = Astro.props;
 ---
 
 {headings.length > 0 && (
   <details class="article-toc" data-toc>
     <summary>
-      <span>On this page</span>
-      <span class="rail-toggle toc-toggle" aria-hidden="true"></span>
+      <span>{chinese ? "目录" : "On this page"}</span>
+      <span class="toc-toggle" aria-hidden="true">
+        <Icon name="chevron" />
+      </span>
     </summary>
-    <nav aria-label="Article contents">
+    <nav aria-label={chinese ? "文章目录" : "Article contents"}>
       <ol>
         {headings.map(({ depth, slug, text }) => (
-          <li class:list={[{ "toc-subheading": depth === 3 }]}>
+          <li class:list={[{ "toc-subheading": depth === 3, "toc-nested-heading": depth === 4 }]}>
             <a href={`#${encodeURIComponent(slug)}`}>{text}</a>
           </li>
         ))}

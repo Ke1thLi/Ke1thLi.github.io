@@ -5,6 +5,7 @@ import Page from "../../layouts/Page.astro";
 import PostList from "../../components/PostList.astro";
 import { getPublicPosts } from "../../lib/public-content";
 import { sitePath } from "../../lib/routes";
+import "katex/dist/katex.min.css";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");

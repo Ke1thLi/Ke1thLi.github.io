@@ -4,62 +4,223 @@ import HomeHero from "../components/HomeHero.astro";
 import Page from "../layouts/Page.astro";
 import PostList from "../components/PostList.astro";
 import ProjectList from "../components/ProjectList.astro";
-import { sitePath } from "../lib/routes";
+import Icon from "../components/shell/Icon.astro";
+import { sitePath, tagRouteKey } from "../lib/routes";
 import { siteConfig } from "../lib/site-config";
 import { groupByCategory } from "../lib/article-list";
 import { getPublicPosts } from "../lib/public-content";
 
 const posts = await getPublicPosts();
-const projects = (await getCollection("projects")).filter(({ data }) => data.featured).slice(0, 3);
+const projects = (await getCollection("projects"))
+  .filter(({ data }) => data.featured)
+  .slice(0, siteConfig.home.featuredProjects);
 const categories = groupByCategory(posts);
+const categoryTopics = [...categories].map(([name, entries]) => ({
+  name,
+  count: entries.length,
+  href: sitePath("categories", name),
+  icon: "categories" as const,
+}));
+const tagCounts = new Map<string, number>();
+for (const { data } of posts) {
+  for (const tag of new Set(data.tags)) {
+    if (!categories.has(tag)) tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const tagTopics = [...tagCounts].map(([name, count]) => ({
+  name,
+  count,
+  href: sitePath("tags", tagRouteKey(name)),
+  icon: "tags" as const,
+}));
+const byUsage = (a: { name: string; count: number }, b: { name: string; count: number }) =>
+  b.count - a.count || a.name.localeCompare(b.name, siteConfig.lang);
+const topics = [...categoryTopics.sort(byUsage), ...tagTopics.sort(byUsage)].slice(0, 5);
+const { recentPosts, featuredPosts, featuredProjects } = siteConfig.home;
 ---
 
 <Page title={siteConfig.title} showHeading={false}>
   <HomeHero />
-  <section aria-labelledby="recent-articles">
-    <h2 id="recent-articles">Recent articles</h2>
-    <PostList posts={posts.slice(0, siteConfig.home.recentPosts)} editorial />
-    <a href={sitePath("articles")}>View all articles</a>
-  </section>
-  <section aria-labelledby="featured-articles">
-    <h2 id="featured-articles">Featured articles</h2>
-    <PostList
-      posts={posts.filter(({ data }) => data.featured).slice(0, siteConfig.home.featuredPosts)}
-      empty="No featured articles yet."
-    />
-  </section>
-  <section aria-labelledby="featured-projects">
-    <h2 id="featured-projects">Featured projects</h2>
-    <ProjectList projects={projects} empty="No featured projects yet." headingLevel={3} />
-    <a href={sitePath("projects")}>View all projects</a>
-  </section>
-  <section aria-labelledby="home-categories">
-    <h2 id="home-categories">Categories</h2>
-    {categories.size ? (
-      <ul class="categories">
-        {[...categories]
-          .sort(([a], [b]) => a.localeCompare(b))
-          .map(([category, entries]) => (
+  <section id="home-categories">
+    {topics.length > 0 ? (
+      <nav class="home-topics" aria-label="Article topics">
+        <ul>
+          {topics.map(({ name, count, href, icon }) => (
             <li>
-              <a href={sitePath("categories", category)}>{category}</a>{" "}
-              <span class="muted">({entries.length})</span>
+              <a href={href}>
+                <Icon name={icon} />
+                <span class="topic-text">
+                  <strong>{name}</strong>
+                  <small>
+                    {count} {count === 1 ? "article" : "articles"}
+                  </small>
+                </span>
+              </a>
             </li>
           ))}
-      </ul>
+        </ul>
+      </nav>
     ) : (
       <p class="muted">Categories will appear as articles are published.</p>
     )}
   </section>
+  {(recentPosts > 0 || featuredProjects > 0) && (
+    <div class="home-columns">
+      {recentPosts > 0 && (
+        <section aria-labelledby="recent-articles">
+          <div class="section-header">
+            <h2 id="recent-articles">Recent articles</h2>
+            <a href={sitePath("articles")} aria-label="View all articles">
+              View all <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <PostList posts={posts.slice(0, recentPosts)} compact />
+        </section>
+      )}
+      {featuredProjects > 0 && (
+        <section aria-labelledby="featured-projects">
+          <div class="section-header">
+            <h2 id="featured-projects">Featured projects</h2>
+            <a href={sitePath("projects")} aria-label="View all projects">
+              View all <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <ProjectList
+            projects={projects}
+            empty="No featured projects yet."
+            headingLevel={3}
+            compact
+          />
+        </section>
+      )}
+    </div>
+  )}
+  {featuredPosts > 0 && (
+    <section class="home-featured" aria-labelledby="featured-articles">
+      <div class="section-header">
+        <h2 id="featured-articles">Featured articles</h2>
+      </div>
+      <PostList
+        posts={posts.filter(({ data }) => data.featured).slice(0, featuredPosts)}
+        empty="No featured articles yet."
+        compact
+      />
+    </section>
+  )}
 </Page>
+
 <style>
-  section {
-    margin-block-start: var(--space-10);
-  }
-  .categories {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4);
+  .home-topics ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr));
+    gap: var(--space-3) var(--space-5);
+    margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .home-topics a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-block-size: 4.125rem;
+    padding: var(--space-3) var(--space-4);
+    border: var(--rule);
+    border-radius: var(--radius-lg);
+    background: light-dark(var(--surface), var(--surface-muted));
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .home-topics a:hover {
+    background: var(--accent-soft);
+  }
+
+  .home-topics a :global(svg) {
+    flex: none;
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    color: var(--accent);
+  }
+
+  .topic-text {
+    display: grid;
+    gap: var(--space-1);
+    min-inline-size: 0;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .topic-text strong {
+    font-size: var(--text-sm);
+  }
+
+  .topic-text small {
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+  }
+
+  .home-columns,
+  .home-featured {
+    margin-block-start: var(--space-5);
+    padding-block-start: var(--space-5);
+    border-block-start: var(--rule);
+  }
+
+  .home-columns {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .home-columns section {
+    min-inline-size: 0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    flex-wrap: wrap;
+    margin-block-end: var(--space-2);
+  }
+
+  .section-header h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: var(--text-h3);
+  }
+
+  .section-header a {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+  }
+
+  .section-header a:hover {
+    text-decoration: underline;
+  }
+
+  @media (min-width: 68rem) {
+    .home-columns:has(> section + section) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-8);
+    }
+
+    .home-columns section + section {
+      padding-inline-start: var(--space-8);
+      border-inline-start: var(--rule);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .home-topics ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-2);
+    }
+
+    .home-topics a {
+      padding-inline: var(--space-3);
+    }
   }
 </style>

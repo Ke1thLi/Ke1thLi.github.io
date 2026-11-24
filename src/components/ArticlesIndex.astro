@@ -1,107 +1,414 @@
 ---
 import Page from "../layouts/Page.astro";
-import PostList from "./PostList.astro";
+import { sitePath } from "../lib/routes";
 import {
   articleFilters,
   articlePath,
   matches,
   pageSize,
+  readingMinutes,
   type ArticleFilter,
   type Post,
 } from "../lib/article-list";
+
 interface Props {
   posts: Post[];
   filter?: ArticleFilter;
   page?: number;
 }
+
 const { posts, filter, page = 1 } = Astro.props;
 const filtered = filter ? posts.filter((post) => matches(post, filter)) : posts;
 const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+const pagePosts = filtered.slice((page - 1) * pageSize, page * pageSize);
+const discoveryPosts = filter || page > 1 ? pagePosts : posts;
 const filters = articleFilters(posts);
+const tags = new Map<string, number>();
+const categoryTones = new Map<string | undefined, number>();
+for (const { data } of posts) {
+  if (!categoryTones.has(data.category)) {
+    categoryTones.set(data.category, categoryTones.size % 4);
+  }
+}
+for (const { data } of discoveryPosts) {
+  for (const tag of new Set(data.tags)) {
+    tags.set(tag, (tags.get(tag) ?? 0) + 1);
+  }
+}
+const popularTags = [...tags.entries()]
+  .sort(([nameA, countA], [nameB, countB]) => countB - countA || nameA.localeCompare(nameB))
+  .slice(0, 5);
+const latestDate = (post: Post) => post.data.updatedDate ?? post.data.pubDate;
+const recentUpdates = [...discoveryPosts]
+  .sort((a, b) => latestDate(b).getTime() - latestDate(a).getTime() || a.id.localeCompare(b.id))
+  .slice(0, 5);
+const dateLabel = (date: Date) => date.toISOString().slice(0, 10);
+const pageTitle = filter ? "Articles: " + filter.value : "Articles";
+const description = filter
+  ? "Articles filed under " + filter.value + "."
+  : "Browse technical articles on technology, security, and engineering.";
 ---
 
-<Page
-  title={filter ? `Articles: ${filter.value}` : "Articles"}
-  description={
-    filter
-      ? `Articles filed under ${filter.value}.`
-      : "Browse technical articles on technology, security, and engineering."
-  }
-  noindex={Boolean(filter)}
-  reading
->
-  <nav class="filters" aria-label="Article filters">
-    <a href={articlePath()} aria-current={!filter ? "page" : undefined}>
-      All articles
-    </a>
-    {(["category", "tag"] as const).map((kind) => {
-      const options = filters.filter((entry) => entry.kind === kind);
-      return (
-        options.length > 0 && (
-          <details open={filter?.kind === kind}>
-            <summary>{kind === "category" ? "Categories" : "Tags"}</summary>
-            <ul>
-              {options.map((entry) => (
-                <li>
-                  <a
-                    href={articlePath(entry)}
-                    aria-current={
-                      filter?.kind === kind && filter.value === entry.value ? "page" : undefined
-                    }
-                  >
-                    {entry.value}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </details>
-        )
-      );
-    })}
-  </nav>
-  <p class="muted">
-    {filtered.length} {filtered.length === 1 ? "article" : "articles"}
-  </p>
-  <PostList posts={filtered.slice((page - 1) * pageSize, page * pageSize)} />
-  {pageCount > 1 && (
-    <nav class="pagination" aria-label="Pagination">
-      {page > 1 && (
-        <a href={articlePath(filter, page - 1)} rel="prev">
-          Previous
-        </a>
+<Page title={pageTitle} {description} noindex={Boolean(filter)} showHeading={false}>
+  <div class="article-index">
+    <div class="article-index-columns">
+      <section aria-labelledby="articles-heading" class="article-index-main">
+        <header class="article-index-heading">
+          <h1 id="articles-heading">{filter ? filter.value : "Latest articles"}</h1>
+          <p>
+            {filter
+              ? filtered.length + (filtered.length === 1 ? " article" : " articles")
+              : "Technical writing, research, and field notes."}
+          </p>
+        </header>
+        <nav class="filters" aria-label="Article filters">
+          <a href={articlePath()} aria-current={!filter ? "page" : undefined}>
+            All articles
+          </a>
+          {(["category", "tag"] as const).map((kind) => {
+            const options = filters.filter((entry) => entry.kind === kind);
+            return (
+              options.length > 0 && (
+                <details open={filter?.kind === kind}>
+                  <summary>{kind === "category" ? "Categories" : "Tags"}</summary>
+                  <ul>
+                    {options.map((entry) => (
+                      <li>
+                        <a
+                          href={articlePath(entry)}
+                          aria-current={
+                            filter?.kind === kind && filter.value === entry.value
+                              ? "page"
+                              : undefined
+                          }
+                        >
+                          {entry.value}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )
+            );
+          })}
+        </nav>
+        {pagePosts.length > 0 ? (
+          <ul class="article-rows">
+            {pagePosts.map((post) => (
+              <li class="article-row" data-tone={categoryTones.get(post.data.category) ?? 0}>
+                <h2 lang={post.data.lang}>
+                  <a href={sitePath("posts", post.id)}>{post.data.title}</a>
+                </h2>
+                <div class="row-meta">
+                  <time datetime={post.data.pubDate.toISOString()}>
+                    {dateLabel(post.data.pubDate)}
+                  </time>
+                  <span>{readingMinutes(post.body)} min read</span>
+                  {post.data.updatedDate && (
+                    <span>
+                      Updated{" "}
+                      <time datetime={post.data.updatedDate.toISOString()}>
+                        {dateLabel(post.data.updatedDate)}
+                      </time>
+                    </span>
+                  )}
+                </div>
+                <p lang={post.data.lang}>{post.data.description}</p>
+                {(post.data.category || post.data.tags.length > 0) && (
+                  <ul class="article-tags" aria-label="Article topics">
+                    {post.data.category && (
+                      <li>
+                        <a href={articlePath({ kind: "category", value: post.data.category })}>
+                          {post.data.category}
+                        </a>
+                      </li>
+                    )}
+                    {post.data.tags.map((tag) => (
+                      <li>
+                        <a href={articlePath({ kind: "tag", value: tag })}>{tag}</a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="muted">No published articles.</p>
+        )}
+        {pageCount > 1 && (
+          <nav class="pagination" aria-label="Pagination">
+            {page > 1 && (
+              <a href={articlePath(filter, page - 1)} rel="prev">
+                Previous
+              </a>
+            )}
+            <span>
+              Page {page} of {pageCount}
+            </span>
+            {page < pageCount && (
+              <a href={articlePath(filter, page + 1)} rel="next">
+                Next
+              </a>
+            )}
+          </nav>
+        )}
+      </section>
+      {(popularTags.length > 0 || recentUpdates.length > 0) && (
+        <aside class="article-index-rail" aria-label="Explore articles">
+          {popularTags.length > 0 && (
+            <section aria-labelledby="popular-tags">
+              <h2 id="popular-tags">Popular tags</h2>
+              <ul class="popular-tags">
+                {popularTags.map(([tag, count]) => (
+                  <li>
+                    <a href={articlePath({ kind: "tag", value: tag })}>{tag}</a>
+                    <span>{count}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+          {recentUpdates.length > 0 && (
+            <section aria-labelledby="recent-updates">
+              <h2 id="recent-updates">Recent updates</h2>
+              <ul class="recent-updates">
+                {recentUpdates.map((post) => (
+                  <li data-tone={categoryTones.get(post.data.category) ?? 0}>
+                    <a href={sitePath("posts", post.id)} lang={post.data.lang}>
+                      {post.data.title}
+                    </a>
+                    <time datetime={latestDate(post).toISOString()}>
+                      {dateLabel(latestDate(post))}
+                    </time>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </aside>
       )}
-      <span>
-        Page {page} of {pageCount}
-      </span>
-      {page < pageCount && (
-        <a href={articlePath(filter, page + 1)} rel="next">
-          Next
-        </a>
-      )}
-    </nav>
-  )}
+    </div>
+  </div>
 </Page>
+
 <style>
+  .article-index {
+    container-type: inline-size;
+    color: var(--text);
+  }
+
+  .article-index-main,
+  .article-index-rail {
+    min-inline-size: 0;
+  }
+
+  .article-index-heading h1 {
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(1.875rem, 1.45rem + 1vw, 2.375rem);
+  }
+
+  .article-index-heading p {
+    margin-block: var(--space-2) var(--space-4);
+    color: var(--text-muted);
+  }
+
   .filters,
   .pagination {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: var(--space-4);
-    margin-block: var(--space-5);
+    gap: var(--space-2) var(--space-4);
+    margin-block: var(--space-4) var(--space-2);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
   }
+
+  .filters :is(a, summary) {
+    display: inline-block;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .filters summary {
+    display: list-item;
+    cursor: pointer;
+  }
+
   .filters ul {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-block: var(--space-2);
+    gap: var(--space-1);
+    margin-block: var(--space-1) 0;
     padding: 0;
     list-style: none;
   }
-  .filters summary {
-    cursor: pointer;
+
+  .filters :is(a, summary):hover {
+    background: var(--surface-muted);
+    color: var(--text);
   }
-  .filters [aria-current] {
+
+  .filters a[aria-current] {
+    background: var(--accent-soft);
+    color: var(--accent);
     font-weight: var(--weight-semibold);
+  }
+
+  .article-rows,
+  .article-tags,
+  .popular-tags,
+  .recent-updates {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  [data-tone] {
+    --topic-ink: light-dark(#155fcb, #81b6ff);
+    --topic-chip: light-dark(#e6effd, #21354e);
+  }
+
+  [data-tone="1"] {
+    --topic-ink: light-dark(#00756d, #67d3c9);
+    --topic-chip: light-dark(#e1f4f0, #173933);
+  }
+
+  [data-tone="2"] {
+    --topic-ink: light-dark(#663cc9, #b4a0fc);
+    --topic-chip: light-dark(#eee8fc, #342852);
+  }
+
+  [data-tone="3"] {
+    --topic-ink: light-dark(#a54513, #ffa77a);
+    --topic-chip: light-dark(#f9eee1, #452c20);
+  }
+
+  .article-row {
+    padding-block: var(--space-5);
+    border-block-end: var(--rule);
+  }
+
+  .article-row h2 {
+    margin: 0;
+    color: var(--topic-ink);
+    font-size: 1.1875rem;
+  }
+
+  .article-row h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .article-row h2 a:hover,
+  .recent-updates a:hover {
+    text-decoration: underline;
+  }
+
+  .row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-3);
+    margin-block: var(--space-1);
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+  }
+
+  .article-row p {
+    max-inline-size: 64ch;
+    margin-block: var(--space-2) var(--space-3);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+  }
+
+  .article-tags a,
+  .popular-tags a,
+  .popular-tags span {
+    display: inline-block;
+    padding: 0.125rem var(--space-2);
+    border-radius: 999px;
+    background: var(--topic-chip, var(--surface-muted));
+    color: var(--topic-ink, var(--text));
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    text-decoration: none;
+  }
+
+  .article-tags a:hover,
+  .popular-tags a:hover {
+    text-decoration: underline;
+  }
+
+  .article-index-rail {
+    margin-block-start: var(--space-6);
+    padding-block: var(--space-4);
+    border-block-start: var(--rule);
+  }
+
+  .article-index-rail h2 {
+    margin: 0 0 var(--space-3);
+    color: var(--text);
+    font-size: var(--text-sm);
+  }
+
+  .article-index-rail section + section {
+    margin-block-start: var(--space-8);
+  }
+
+  .popular-tags li {
+    display: flex;
+    gap: var(--space-1);
+    margin-block-end: var(--space-2);
+  }
+
+  .popular-tags span {
+    background: transparent;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .recent-updates li {
+    display: grid;
+    gap: var(--space-1);
+    margin-block-end: var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  .recent-updates a {
+    padding-inline-start: var(--space-2);
+    border-inline-start: 2px solid var(--topic-ink);
+    color: var(--text);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+  }
+
+  .recent-updates time {
+    color: var(--text-muted);
+  }
+
+  @container (min-width: 44rem) {
+    .article-index-columns:has(.article-index-rail) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) clamp(11rem, 27cqi, 17rem);
+      gap: var(--space-6);
+    }
+
+    .article-index-rail {
+      margin-block: 0;
+      padding: var(--space-1) 0 0 var(--space-5);
+      border-block-start: 0;
+      border-inline-start: var(--rule);
+    }
   }
 </style>

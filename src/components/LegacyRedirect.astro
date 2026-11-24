@@ -1,0 +1,50 @@
+---
+interface Props {
+  target: string;
+  fragments?: Record<string, string>;
+}
+
+const { target, fragments = {} } = Astro.props;
+const canonical = new URL(target, Astro.site ?? Astro.url).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page moved</title>
+    <link rel="canonical" href={canonical} />
+    <noscript>
+      <meta http-equiv="refresh" content={`0; url=${target}`} />
+    </noscript>
+  </head>
+  <body>
+    <main>
+      <h1>Page moved</h1>
+      <p>
+        <a href={target} data-legacy-fragments={JSON.stringify(fragments)}>
+          Continue to the new address
+        </a>
+      </p>
+    </main>
+  </body>
+</html>
+
+<script>
+  const link = document.querySelector<HTMLAnchorElement>("[data-legacy-fragments]");
+  if (link) {
+    const destination = new URL(link.href);
+    destination.search = location.search;
+    const aliases: Record<string, string> = JSON.parse(link.dataset.legacyFragments ?? "{}");
+    let fragment = location.hash.slice(1);
+    try {
+      const id = decodeURIComponent(fragment);
+      if (Object.hasOwn(aliases, id)) fragment = encodeURIComponent(aliases[id]);
+    } catch {
+      // Forward fragments that contain malformed escape sequences as supplied.
+    }
+    destination.hash = fragment;
+    location.replace(destination.href);
+  }
+</script>

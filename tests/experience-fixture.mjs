@@ -2,6 +2,8 @@ import { cp, mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const fence = "```";
+const fixtureImage =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="240" viewBox="0 0 640 240"><rect width="640" height="240" fill="#e8edff"/><path d="M105 120h430" stroke="#304cc2" stroke-width="3"/><g fill="#304cc2"><circle cx="120" cy="120" r="18"/><circle cx="320" cy="120" r="18"/><circle cx="520" cy="120" r="18"/></g></svg>';
 const diagrams = [
   "flowchart LR\n  Source --> Build --> Page",
   "sequenceDiagram\n  Reader->>Site: Request article\n  Site-->>Reader: Return HTML",
@@ -29,10 +31,36 @@ A static route publishes an HTML document at a stable address. This fixture chec
 
 The indexable body keyword is quartzanchor. Open the [related section](#verify-the-output) after comparing the listing.
 
+The equation $x^2$ and the text before\u0007after exercise the feed renderer.
+
+<script type="application/json">"page-only-marker"</script>
+
+1. Ordered feed item
+2. Another ordered item
+
+- Unordered feed item
+- [x] Completed feed task
+- [ ] Pending feed task
+
+- [x] Loose feed task
+
+  This explanation remains under the task.
+
+<article>
+  <p>Visible editorial content &amp; notes.</p>
+  <picture>
+    <source media="(min-width: 640px)" srcset="../../favicon.svg?variant=wide 1x, ../../favicon.svg?variant=wide-2x 2x">
+    <source srcset="javascript:feed-blocked 2x">
+    <img src="../../favicon.svg?variant=fallback" alt="Feed fallback" onload="">
+  </picture>
+  <a href="javascript:feed-blocked" onclick="">Unsafe URL label</a>
+  <iframe src="about:blank" title="Feed-omitted frame"></iframe>
+</article>
+
 #### Render a code example
 
 ${fence}ts
-const route = "/Ke1thLi-Blog/posts/custom-slug/";
+const route = "/moonlit-folio/posts/custom-slug/";
 const longLine = "${"long-line-".repeat(21)}";
 ${fence}
 
@@ -43,7 +71,7 @@ ${fence}
 | Mode | Prefix |
 | --- | --- |
 | Root | / |
-| Project | /Ke1thLi-Blog/ |
+| Project | /moonlit-folio/ |
 
 ![Fixture image](./assets/fixture.svg "Static route verification image")
 
@@ -62,11 +90,24 @@ export async function createExperienceFixture(root) {
   for (const name of ["package.json", "tsconfig.json", "astro.config.mjs"]) {
     await cp(join(root, name), join(directory, name));
   }
+  await write(
+    "site.config.mjs",
+    'export default { site: { title: "Moonlit Folio", author: { name: "Example Author" }, lang: "en" }, assets: { favicon: "favicon.svg", socialCard: "social-card.svg" } };\n',
+  );
   await cp(join(root, "public"), join(directory, "public"), { recursive: true });
+  await write("public/favicon.svg", fixtureImage);
+  await write("public/social-card.svg", fixtureImage);
   await mkdir(join(directory, "src/content/posts"), { recursive: true });
   await mkdir(join(directory, "src/content/posts/assets"));
   await mkdir(join(directory, "src/content/projects"), { recursive: true });
   await write("src/content/posts/different-filename.md", mainPost);
+  await mkdir(join(directory, "src/content/posts/_local-drafts"));
+  await write(
+    "src/content/posts/_local-drafts/same-slug.md",
+    mainPost
+      .replace("featured: true", "draft: true")
+      .replace("quartzanchor", "localdraftonlymarker"),
+  );
   await write(
     "src/content/posts/draft.md",
     mainPost
@@ -89,6 +130,7 @@ ${index === 10 ? "" : `category: ${index <= 5 ? "topic" : "engineering"}`}
 type: fixture
 tags: [${index <= 5 ? "astro" : "build"}]
 featured: ${index === 3}
+${index === 3 ? "projects: [project-id]" : ""}
 ${index === 1 ? "lang: zh-CN" : ""}
 ---
 
@@ -98,10 +140,7 @@ ${index === 1 ? "这段中文用于验证页面语言和内容构建。" : `Publ
 `,
     );
   }
-  await write(
-    "src/content/posts/assets/fixture.svg",
-    '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="240" viewBox="0 0 640 240"><rect width="640" height="240" fill="#e8edff"/><path d="M105 120h430" stroke="#304cc2" stroke-width="3"/><g fill="#304cc2"><circle cx="120" cy="120" r="18"/><circle cx="320" cy="120" r="18"/><circle cx="520" cy="120" r="18"/></g></svg>',
-  );
+  await write("src/content/posts/assets/fixture.svg", fixtureImage);
   await write(
     "src/content/projects/project-id.md",
     `---

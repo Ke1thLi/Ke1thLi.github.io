@@ -1,0 +1,42 @@
+Third-party notices for the Moonlit Folio static site
+
+The generated bundled-licenses.md in this directory records the installed
+packages that Vite bundled. Keep this directory with the distributed site.
+
+ELK.js 0.12.1
+-------------
+Mermaid loads an ELK.js browser chunk. The site distributes ELK.js under the
+Eclipse Public License 2.0 option in the upstream license.
+
+Copyright (c) 2017 Kiel University and others.
+Copyright (c) 2021 Kiel University and others.
+SPDX-License-Identifier: EPL-2.0 OR GPL-3.0-or-later
+
+The license is in ELKjs-LICENSE.md. The corresponding source code is available
+under EPL-2.0 from the following versioned upstream archives.
+
+ELK.js: https://github.com/kieler/elkjs/archive/refs/tags/0.12.1.tar.gz
+Eclipse Layout Kernel: https://github.com/eclipse-elk/elk/archive/refs/tags/v0.12.1.tar.gz
+
+The compiled ELK.js runtime also contains upstream GWT-compatible components.
+Their licenses and corresponding sources are listed below.
+
+- Eclipse Xtext/Xtend runtime sources 2.36.0 (EPL-2.0, text in ELKjs-LICENSE.md).
+  https://github.com/eclipse-xtext/xtext/archive/refs/tags/v2.36.0.tar.gz
+- Eclipse EMF GWT 2.12.4 (EPL-1.0, text in EPL-1.0.txt).
+  https://repo.maven.apache.org/maven2/com/genmymodel/emf/gwt/emf-common/2.12.4/emf-common-2.12.4-sources.jar
+  https://repo.maven.apache.org/maven2/com/genmymodel/emf/gwt/emf-ecore/2.12.4/emf-ecore-2.12.4-sources.jar
+- GWT 2.13.0 and Guava GWT 31.1-jre (Apache-2.0, text in Apache-2.0.txt).
+  https://github.com/gwtproject/gwt/archive/refs/tags/2.13.0.tar.gz
+  https://github.com/google/guava/archive/refs/tags/v31.1.tar.gz
+
+Other browser assets
+--------------------
+KaTeX 0.18.10 uses MIT for its code and CSS (KaTeX-MIT.txt). Its fonts use
+SIL OFL 1.1 (KaTeX-Fonts-OFL.txt). See https://github.com/KaTeX/KaTeX/tree/v0.18.10 .
+
+The core Pagefind 1.6.0 browser runtime is emitted separately from Vite.
+See Pagefind.txt for its license and the bundled WASM notices.
+
+Feather Icons 4.29.2 glyphs are inlined in the page HTML. Their MIT text is
+in Feather-MIT.txt.

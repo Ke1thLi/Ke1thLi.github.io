@@ -1,4 +1,9 @@
 .astro/
 dist/
 package-lock.json
+public/third-party/ELKjs-LICENSE.md
 /*.md
+
+# Preserve imported editorial Markdown byte-for-byte.
+src/content/posts/**/*.md
+src/content/projects/*.md

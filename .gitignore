@@ -6,3 +6,5 @@ dist/
 !.env.example
 npm-debug.log*
 /src/content/posts/_local-drafts/
+
+.playwright-cli/

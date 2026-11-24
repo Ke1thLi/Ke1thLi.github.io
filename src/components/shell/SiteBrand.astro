@@ -1,0 +1,15 @@
+---
+import { siteConfig } from "../../lib/site-config";
+import { sitePath } from "../../lib/routes";
+---
+
+<a class="sidebar-brand" href={sitePath()} aria-label={siteConfig.title}>
+  <span class="brand-mark" aria-hidden="true">
+    {siteConfig.avatarUrl ? (
+      <img src={siteConfig.avatarUrl} alt="" width="24" height="24" />
+    ) : (
+      [...siteConfig.title][0]
+    )}
+  </span>
+  <span class="brand-name">{siteConfig.title}</span>
+</a>

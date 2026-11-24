@@ -2,150 +2,91 @@
 import { siteConfig } from "../lib/site-config";
 ---
 
-<header class="hero">
-  {siteConfig.backgroundUrl ? (
+<header class:list={["hero", { "has-custom-background": siteConfig.backgroundUrl }]}>
+  {siteConfig.backgroundUrl && (
     <img src={siteConfig.backgroundUrl} alt="" width="960" height="480" fetchpriority="high" />
-  ) : (
-    <div class="landscape" aria-hidden="true">
-      <span class="moon" />
-      <svg class="ridges" viewBox="0 0 1000 330" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="hero-haze" x2="0" y2="1">
-            <stop stop-color="var(--ridge-far)" />
-            <stop offset="1" stop-color="var(--haze)" />
-          </linearGradient>
-          <linearGradient id="hero-valley" x2="0" y2="1">
-            <stop stop-color="var(--ridge-middle)" />
-            <stop offset="1" stop-color="var(--haze)" />
-          </linearGradient>
-        </defs>
-        <path
-          fill="url(#hero-haze)"
-          d="M0 164 C65 165 117 187 179 181 S272 159 313 151 C350 144 380 158 422 147 S491 132 522 118 C540 109 552 108 570 115 S603 126 619 125 C650 123 671 137 693 127 S742 106 763 102 C792 96 819 74 842 77 S873 94 894 99 C926 107 954 115 1000 103 V330H0Z"
-        />
-        <path
-          fill="url(#hero-valley)"
-          d="M0 211 C53 197 93 203 130 214 S195 228 236 224 C307 216 342 217 378 207 S436 208 473 204 C538 195 582 186 621 171 C640 164 658 159 674 162 S704 174 722 175 C752 176 778 192 815 180 S868 155 889 150 C914 145 938 146 958 144 S986 147 1000 151 V330H0Z"
-        />
-        <path
-          fill="var(--ridge-near)"
-          d="M0 242 C62 230 96 236 139 251 S209 267 254 265 C314 262 355 251 393 251 S468 267 516 264 C563 261 592 252 632 240 S686 233 716 223 C745 213 763 215 788 221 S831 228 854 236 C890 247 941 242 1000 214 V330H0Z"
-        />
-      </svg>
-    </div>
   )}
   <div>
     <h1>{siteConfig.title}</h1>
-    <p>{siteConfig.home.introduction}</p>
-    {siteConfig.home.technicalFocus && <p>{siteConfig.home.technicalFocus}</p>}
+    <p class="hero-introduction">{siteConfig.home.introduction}</p>
+    {siteConfig.home.technicalFocus && <p class="hero-focus">{siteConfig.home.technicalFocus}</p>}
   </div>
 </header>
+
 <style>
   .hero {
-    --sky: light-dark(#e8e4f1, #25243b);
-    --haze: light-dark(#cbc3da, #777189);
-    --ridge-far: light-dark(#bdb4cf, #666179);
-    --ridge-middle: light-dark(#a398b9, #4d4a64);
-    --ridge-near: light-dark(#8980a5, #33334c);
-    --hero-scrim: light-dark(#eeebf6, #1e1e30);
-    --moon-size: clamp(3.25rem, 8vw, 5.25rem);
     position: relative;
     isolation: isolate;
-    overflow: hidden;
     display: grid;
-    align-items: end;
-    min-height: clamp(21rem, 34vw, 26rem);
-    border-radius: var(--radius-md);
-    background: var(--sky);
-    color: light-dark(#252239, #e9e4f4);
+    align-items: start;
+    min-block-size: 8.25rem;
+    padding-block-end: var(--space-5);
   }
-  img,
-  .landscape {
+
+  .hero::before,
+  .hero::after,
+  .hero img {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
-  }
-  .landscape {
-    background: linear-gradient(155deg, var(--sky) 30%, var(--haze));
-  }
-  .moon {
-    position: absolute;
-    inset-block-start: 15%;
-    inset-inline-end: 17%;
-    inline-size: var(--moon-size);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle at 35% 30%,
-      light-dark(#fff8ee, #f8f2eb),
-      light-dark(#f0e7df, #ddd5ea)
-    );
-    box-shadow: 0 0 3rem 0.75rem #e8dff552;
-  }
-  .ridges {
-    position: absolute;
-    inset-block-end: 0;
-    inline-size: 100%;
-    block-size: 80%;
-  }
-  .hero::after {
-    position: absolute;
-    inset: 0;
-    content: "";
-    background: linear-gradient(
-      78deg,
-      var(--hero-scrim) 0%,
-      color-mix(in srgb, var(--hero-scrim) 93%, transparent) 35%,
-      transparent 79%
-    );
+    inset-block-start: calc(-1 * var(--space-4));
+    inset-inline-end: 0;
     z-index: -1;
+    border-radius: var(--radius-lg);
+    pointer-events: none;
   }
-  .hero > div:last-child {
-    padding: clamp(1rem, 5vw, 3rem);
+
+  .hero::before {
+    content: "";
+    inline-size: min(72%, 53rem);
+    block-size: calc(100% + var(--space-4));
+    background: radial-gradient(ellipse at 82% 5%, light-dark(#e8dcfb, #382644), transparent 75%);
   }
-  h1 {
-    font-family: Georgia, serif;
-    font-size: var(--text-hero-h1);
-    color: inherit;
+
+  .hero::after {
+    content: "";
+    inline-size: min(48%, 37rem);
+    block-size: calc(100% + var(--space-4));
+    clip-path: ellipse(60% 122% at 100% 125%);
+    background: linear-gradient(160deg, light-dark(#dfd3fb, #29244e) 25%, transparent 91%);
+  }
+
+  .hero.has-custom-background::before,
+  .hero.has-custom-background::after {
+    content: none;
+  }
+
+  .hero img {
+    inline-size: min(72%, 53rem);
+    block-size: calc(100% + var(--space-4));
+    object-fit: cover;
+    mask-image: linear-gradient(90deg, transparent 5%, #000);
+    opacity: 0.5;
+  }
+
+  .hero h1 {
     margin: 0;
+    color: var(--text);
+    font-size: var(--text-hero-h1);
   }
-  p {
-    margin: 0.6rem 0 0;
-    max-width: 48ch;
-    color: light-dark(#4f465f, #c6bddb);
+
+  .hero p {
+    max-inline-size: 53ch;
+    margin-block: var(--space-2) 0;
   }
-  .hero:has(img) {
-    --hero-scrim: #1e1e30;
-    color: #e9e4f4;
+
+  .hero-introduction {
+    color: var(--text);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
   }
-  .hero:has(img) p {
-    color: #e9e4f4;
+
+  .hero-focus {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
   }
+
   @media (max-width: 40rem) {
     .hero {
-      min-height: 19rem;
-    }
-    .moon {
-      inset-block-start: 13%;
-      inset-inline-end: 13%;
-    }
-    .ridges {
-      inset-inline-end: -14%;
-      inline-size: 158%;
-    }
-    .hero::after {
-      background: linear-gradient(
-        0deg,
-        var(--hero-scrim) 10%,
-        color-mix(in srgb, var(--hero-scrim) 90%, transparent) 34%,
-        transparent 72%
-      );
-    }
-    h1 {
-      font-size: clamp(2rem, 9vw, 2.625rem);
+      min-block-size: auto;
     }
   }
 </style>

@@ -1,0 +1,11 @@
+---
+import Page from "../layouts/Page.astro";
+import { sitePath } from "../lib/routes";
+import { siteConfig } from "../lib/site-config";
+---
+
+<Page title="Search" description="Search published articles." noindex>
+  <p data-search-page={siteConfig.features.search ? "" : undefined}>
+    <a href={sitePath("articles")}>Browse articles</a>
+  </p>
+</Page>
