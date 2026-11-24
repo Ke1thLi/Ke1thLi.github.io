@@ -12,33 +12,71 @@ const dialog = document.querySelector<HTMLDialogElement>("[data-search-dialog]")
 const input = dialog?.querySelector<HTMLInputElement>("[data-search-input]");
 const results = dialog?.querySelector<HTMLElement>("[data-search-results]");
 const status = dialog?.querySelector<HTMLElement>("[data-search-status]");
-const hint = opener?.parentElement?.querySelector("kbd");
+const hint = opener?.querySelector("kbd");
 if (hint && /Mac|iPhone|iPad/.test(navigator.platform)) hint.textContent = "⌘ K";
 
 const base = import.meta.env.BASE_URL;
-let engine: Promise<Pagefind | null> | undefined;
+const directory = `${base}pagefind/`;
+const han = /\p{Script=Han}/u;
+type SearchManifest = { articleCount: number; chineseIndex: boolean };
+let manifest: Promise<SearchManifest> | undefined;
+const engines = new Map<string, Promise<Pagefind>>();
+let chineseSegmenter: Intl.Segmenter | undefined;
 
-function getEngine() {
-  engine ??= loadEngine().catch((error: unknown) => {
-    engine = undefined;
-    throw error;
-  });
-  return engine;
+function indexQuery(query: string) {
+  if (!han.test(query) || typeof Intl.Segmenter !== "function") return query;
+  // Pagefind 1.6 still segments queries according to the page language after index selection.
+  chineseSegmenter ??= new Intl.Segmenter("zh", { granularity: "word" });
+  return Array.from(chineseSegmenter.segment(query), ({ segment }) => segment).join(" ");
 }
 
-async function loadEngine(): Promise<Pagefind | null> {
-  const directory = `${base}pagefind/`;
-  const manifest = await fetch(`${directory}article-count.json`);
-  if (!manifest.ok) throw new Error("Missing article search index");
-  const count: unknown = await manifest.json();
-  if (count === 0) return null;
-  if (typeof count !== "number" || !Number.isSafeInteger(count) || count < 0) {
+function getManifest() {
+  manifest ??= readManifest().catch((error: unknown) => {
+    manifest = undefined;
+    throw error;
+  });
+  return manifest;
+}
+
+async function readManifest(): Promise<SearchManifest> {
+  const response = await fetch(`${directory}search-manifest.json`);
+  if (!response.ok) throw new Error("Missing article search index");
+  const data: unknown = await response.json();
+  if (
+    !data ||
+    typeof data !== "object" ||
+    !("articleCount" in data) ||
+    typeof data.articleCount !== "number" ||
+    !Number.isSafeInteger(data.articleCount) ||
+    data.articleCount < 0 ||
+    !("chineseIndex" in data) ||
+    typeof data.chineseIndex !== "boolean"
+  ) {
     throw new Error("Invalid article search index");
   }
-  const moduleUrl = `${directory}pagefind.js`;
+  return { articleCount: data.articleCount, chineseIndex: data.chineseIndex };
+}
+
+async function loadModule(path: string): Promise<Pagefind> {
+  const moduleUrl = `${path}pagefind.js`;
   const module: Pagefind = await import(/* @vite-ignore */ moduleUrl);
   await module.options({ baseUrl: base });
   return module;
+}
+
+async function getEngine(query: string) {
+  const { articleCount, chineseIndex } = await getManifest();
+  if (!articleCount) return null;
+  const path = chineseIndex && han.test(query) ? `${directory}chinese/` : directory;
+  let engine = engines.get(path);
+  if (!engine) {
+    engine = loadModule(path).catch((error: unknown) => {
+      engines.delete(path);
+      throw error;
+    });
+    engines.set(path, engine);
+  }
+  return engine;
 }
 
 function tagsLabel(raw?: string) {
@@ -90,6 +128,7 @@ if (opener && dialog && input && results && status) {
   document.addEventListener("keydown", (event) => {
     if (
       event.defaultPrevented ||
+      event.isComposing ||
       event.repeat ||
       event.altKey ||
       event.shiftKey ||
@@ -134,7 +173,7 @@ if (opener && dialog && input && results && status) {
     else button.focus();
   });
   queryInput.addEventListener("keydown", (event) => {
-    if (options.length === 0) return;
+    if (event.isComposing || options.length === 0) return;
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       const next =
@@ -167,15 +206,18 @@ if (opener && dialog && input && results && status) {
 
   async function runSearch(query: string, request: number) {
     try {
-      const engine = await getEngine();
-      const search = engine ? await engine.search(query) : null;
+      const engine = await getEngine(query);
+      const search = engine ? await engine.search(indexQuery(query)) : null;
       const data = await Promise.all(
         (search?.results ?? []).slice(0, 12).map((result) => result.data()),
       );
       if (request !== revision) return;
+      const seen = new Set<string>();
       for (const item of data) {
         const url = new URL(item.url, location.origin);
         if (url.origin !== location.origin || !url.pathname.startsWith(`${base}posts/`)) continue;
+        if (seen.has(url.pathname)) continue;
+        seen.add(url.pathname);
         const option = document.createElement("a");
         option.href = url.href;
         option.tabIndex = -1;
@@ -202,6 +244,16 @@ if (opener && dialog && input && results && status) {
       if (request === revision)
         announcement.textContent =
           "Search index unavailable. Browse Articles or use the production preview.";
+    }
+  }
+
+  if (document.querySelector("[data-search-page]")) {
+    open();
+    const params = new URLSearchParams(location.search);
+    const query = params.get("q") ?? params.get("keyword");
+    if (query) {
+      queryInput.value = query;
+      queryInput.dispatchEvent(new Event("input"));
     }
   }
 }

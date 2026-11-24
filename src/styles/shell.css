@@ -15,7 +15,7 @@
 
 .desktop-sidebar,
 .nav-drawer {
-  background: var(--surface);
+  background: var(--sidebar-bg);
   color: var(--text);
 }
 
@@ -25,9 +25,17 @@
   gap: var(--space-2);
   min-block-size: var(--topbar-height);
   color: var(--text);
+  min-inline-size: 0;
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-bold);
   text-decoration: none;
+}
+
+.brand-name {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sidebar-brand .brand-mark {
@@ -35,10 +43,11 @@
   place-items: center;
   inline-size: var(--space-6);
   block-size: var(--space-6);
-  border: var(--rule);
-  border-radius: var(--radius-sm);
-  color: var(--accent);
-  background: var(--accent-soft);
+  flex: none;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  color: #fff;
+  background: light-dark(#5646d6, #5948cd);
 }
 
 .side-nav {
@@ -56,7 +65,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  min-block-size: var(--space-10);
+  min-block-size: 2.1875rem;
   padding-inline: var(--space-2);
   border-radius: var(--radius-md);
   text-decoration: none;
@@ -87,17 +96,25 @@
 .side-nav a {
   color: var(--text);
   font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
 }
 
 .side-nav a svg {
+  flex: none;
+  inline-size: 1rem;
+  block-size: 1rem;
   color: var(--text-muted);
 }
 
 .side-nav a[aria-current] {
   background: var(--accent-soft);
   color: var(--accent);
-  box-shadow: inset 2px 0 var(--indigo);
+
   font-weight: var(--weight-semibold);
+}
+
+.side-nav :is(a, summary):focus-visible {
+  outline-offset: -2px;
 }
 
 .side-nav a[aria-current] svg {
@@ -119,9 +136,9 @@
   justify-content: space-between;
   min-block-size: var(--topbar-height);
   gap: var(--space-2);
-  padding-inline: var(--space-3);
+  padding-inline: var(--page-gutter);
   border-block-end: var(--rule);
-  background: var(--surface);
+  background: var(--topbar-bg);
 }
 
 .topbar-start,
@@ -138,10 +155,20 @@
 
 .topbar-actions {
   flex: none;
+  gap: var(--space-1);
 }
 
-.shell-icon,
-.theme-select {
+.theme-toggle span {
+  display: inline-flex;
+}
+
+.theme-toggle[aria-pressed="false"] .theme-moon,
+.theme-toggle[aria-pressed="true"] .theme-sun,
+.theme-reset[hidden] {
+  display: none;
+}
+
+.shell-icon {
   min-block-size: var(--control-height);
   border: var(--border-width) solid transparent;
   border-radius: var(--radius-md);
@@ -166,9 +193,9 @@
   inline-size: var(--rail-toggle-size);
   block-size: var(--rail-toggle-size);
   flex: none;
-  border: var(--rule);
-  border-radius: 50%;
-  background: var(--surface);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
   color: var(--text-muted);
   font: inherit;
   cursor: pointer;
@@ -177,17 +204,6 @@
 .rail-toggle:hover {
   color: var(--accent);
   background: var(--accent-soft);
-}
-
-.theme-select {
-  border-color: var(--border);
-  padding-inline: var(--space-2);
-  font-size: var(--text-sm);
-}
-
-.theme-select option {
-  background-color: var(--surface);
-  color: var(--text);
 }
 
 .breadcrumbs {
@@ -221,20 +237,25 @@
   color: var(--text-muted);
 }
 
+.topbar-github svg {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+
 .breadcrumbs a {
   color: var(--text-muted);
 }
 
 .shell-main,
 .shell-footer {
-  inline-size: min(100% - var(--space-8), var(--shell-content-width));
+  inline-size: min(100% - 2 * var(--page-gutter), var(--shell-content-width));
   margin-inline: auto;
 }
 
 .shell-main {
   flex: 1;
   min-inline-size: 0;
-  padding-block: var(--space-12);
+  padding-block: var(--space-6) var(--space-12);
   overflow-wrap: anywhere;
 }
 
@@ -275,7 +296,7 @@
   position: fixed;
   inset: 0 auto 0 0;
   margin: 0;
-  inline-size: min(85vw, var(--sidebar-width));
+  inline-size: min(83vw, 17.5rem);
   block-size: 100dvh;
   max-inline-size: none;
   max-block-size: none;
@@ -288,8 +309,32 @@
 }
 
 .drawer-body {
+  display: flex;
+  flex-direction: column;
   min-block-size: 100%;
-  padding-inline: var(--space-3);
+  padding-inline: var(--space-4);
+}
+
+.nav-drawer .side-nav :is(a, summary) {
+  min-block-size: 2.625rem;
+}
+
+.sidebar-footer,
+.drawer-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-start: auto;
+  padding-block: var(--space-3);
+}
+
+.sidebar-footer {
+  justify-content: space-between;
+}
+
+.sidebar-footer .shell-icon,
+.drawer-footer .shell-icon {
+  color: var(--text-muted);
 }
 
 .drawer-header {
@@ -313,26 +358,30 @@ html:has(.nav-drawer[open]) {
   clip-path: inset(50%);
 }
 
-@media (max-width: 39.999rem) {
-  .breadcrumbs li:not(:last-child),
-  .breadcrumbs li:last-child::before {
+@media (max-width: 55.999rem) {
+  .shell-topbar .shell-icon {
+    min-inline-size: 2.5rem;
+    min-block-size: 2.5rem;
+    padding-inline: var(--space-1);
+  }
+
+  .topbar-github,
+  .breadcrumbs {
     display: none;
   }
 }
 
 @media (min-width: 40rem) {
-  .shell-topbar {
-    padding-inline: var(--space-5);
-  }
-
-  .shell-main,
-  .shell-footer {
-    inline-size: min(100% - var(--space-16), var(--shell-content-width));
+  :root {
+    --page-gutter: 2rem;
   }
 }
-
 /* Keep the desktop breakpoint in sync with the drawer's matchMedia listener. */
 @media (min-width: 56rem) {
+  :root {
+    --page-gutter: clamp(2rem, 3.9vw, 3.75rem);
+  }
+
   .app-shell {
     display: grid;
     grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
@@ -345,8 +394,12 @@ html:has(.nav-drawer[open]) {
     flex-direction: column;
     align-self: start;
     block-size: 100dvh;
-    padding-inline: var(--space-3);
+    padding-inline: clamp(1rem, 3.35vw, 3.25rem) var(--space-5);
     border-inline-end: var(--rule);
+  }
+
+  .desktop-sidebar .sidebar-brand {
+    padding-inline: var(--space-2);
   }
 
   .sidebar-navigation {
@@ -354,12 +407,24 @@ html:has(.nav-drawer[open]) {
     overflow-y: auto;
   }
 
+  .side-nav {
+    padding-block-start: var(--space-3);
+  }
+
+  .desktop-sidebar .side-nav summary svg {
+    opacity: 0;
+  }
+
+  .desktop-sidebar .side-nav summary:is(:hover, :focus-visible) svg {
+    opacity: 1;
+  }
+
   .sidebar-toggle {
-    align-self: start;
-    margin-block: auto var(--space-4);
+    margin-inline-start: auto;
     padding: 0;
   }
 
+  .topbar-brand,
   .shell-icon.mobile-toggle {
     display: none;
   }
@@ -385,19 +450,16 @@ html:has(.nav-drawer[open]) {
   :root[data-sidebar="collapsed"] .side-nav-compact {
     display: grid;
     gap: var(--space-2);
+    padding-block-start: var(--space-3);
+  }
+
+  :root[data-sidebar="collapsed"] .sidebar-footer {
+    flex-direction: column;
   }
 
   :root[data-sidebar="collapsed"] .sidebar-toggle {
-    margin-inline-start: calc(var(--space-3) - var(--space-1));
+    margin-inline-start: 0;
   }
-}
-
-.topbar-social {
-  display: flex;
-  gap: var(--space-1);
-}
-.theme-reset[hidden] {
-  display: none;
 }
 .sidebar-toggle svg {
   inline-size: 1rem;
@@ -428,11 +490,5 @@ html:has(.nav-drawer[open]) {
 @media (prefers-reduced-motion: no-preference) {
   .reading-progress span {
     transition: transform 100ms linear;
-  }
-}
-@media (max-width: 48rem) {
-  .topbar-social,
-  .breadcrumbs {
-    display: none;
   }
 }

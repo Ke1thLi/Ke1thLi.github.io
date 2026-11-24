@@ -42,7 +42,7 @@
 .badge {
   display: inline-block;
   padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   background: var(--accent-soft);
   color: var(--accent);
   font: var(--weight-semibold) var(--text-xs) / var(--leading-ui) var(--font-ui);

@@ -1,3 +1,5 @@
+import { preferenceKey } from "../lib/preferences";
+
 const root = document.documentElement;
 const desktopToggle = document.querySelector<HTMLButtonElement>("[data-sidebar-toggle]");
 const drawerOpen = document.querySelector<HTMLButtonElement>("[data-drawer-open]");
@@ -33,14 +35,14 @@ function updateSidebarToggle() {
 updateSidebarToggle();
 desktopToggle?.addEventListener("click", () => {
   root.dataset.sidebar = root.dataset.sidebar === "collapsed" ? "expanded" : "collapsed";
-  savePreference("ke1thli-sidebar", root.dataset.sidebar);
+  savePreference(preferenceKey("sidebar"), root.dataset.sidebar);
   updateSidebarToggle();
 });
 
 const navGroups = Array.from(document.querySelectorAll<HTMLDetailsElement>("[data-nav-group]"));
 for (const group of navGroups) {
   const name = group.dataset.navGroup;
-  const key = `ke1thli-sidebar-group-${name}`;
+  const key = preferenceKey(`sidebar-group-${name}`);
   group.open = readPreference(key) !== "closed";
   group.addEventListener("toggle", () => {
     savePreference(key, group.open ? "open" : "closed");

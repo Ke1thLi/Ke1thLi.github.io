@@ -23,13 +23,23 @@ test("Astro 7.4.10 content model", async (suite) => {
   const fixture = await mkdtemp(join(root, "node_modules", ".blog-content-test-"));
   suite.after(() => rm(fixture, { force: true, recursive: true }));
 
-  for (const directory of ["src/lib", "src/pages", "src/content/posts", "src/content/projects"]) {
+  for (const directory of [
+    "src/config",
+    "src/lib",
+    "src/pages",
+    "src/content/posts",
+    "src/content/projects",
+  ]) {
     await mkdir(join(fixture, directory), { recursive: true });
   }
   for (const file of [
     "package.json",
     "tsconfig.json",
     "astro.config.mjs",
+    "site.config.mjs",
+    "src/config/resolved-site.mjs",
+    "src/config/resolve-site.mjs",
+    "src/config/types.ts",
     "src/content.config.ts",
     "src/lib/content-schema.ts",
   ]) {

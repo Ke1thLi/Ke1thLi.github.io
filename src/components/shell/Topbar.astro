@@ -1,7 +1,8 @@
 ---
 import { siteConfig } from "../../lib/site-config";
-import Icon from "./Icon.astro";
 import { sitePath } from "../../lib/routes";
+import Icon from "./Icon.astro";
+import SiteBrand from "./SiteBrand.astro";
 
 interface Props {
   title: string;
@@ -9,34 +10,30 @@ interface Props {
   section?: { label: string; href: string };
 }
 
-const { title, section } = Astro.props;
+const { title, section, lang } = Astro.props;
 const home = Astro.url.pathname === sitePath();
+const article = Astro.url.pathname.startsWith(sitePath("posts"));
 ---
 
 <header class="shell-topbar" lang="en">
   <div class="topbar-start">
-    <button
-      class="shell-icon mobile-toggle"
-      type="button"
-      data-drawer-open
-      aria-label="Open navigation"
-      aria-controls="navigation-drawer"
-      aria-haspopup="dialog"
-    >
-      <Icon name="panel" />
-    </button>
+    <div class="topbar-brand">
+      <SiteBrand />
+    </div>
     {!home && (
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         <ol>
-          <li>
-            <a href={sitePath()}>Home</a>
-          </li>
+          {article && (
+            <li>
+              <a href={sitePath("articles")}>Articles</a>
+            </li>
+          )}
           {section && (
             <li>
               <a href={section.href}>{section.label}</a>
             </li>
           )}
-          <li aria-current="page" lang={Astro.props.lang}>
+          <li aria-current="page" lang={lang}>
             {title}
           </li>
         </ol>
@@ -44,46 +41,35 @@ const home = Astro.url.pathname === sitePath();
     )}
   </div>
   <div class="topbar-actions">
-    <div class="topbar-social">
-      {siteConfig.rssUrl && (
-        <a class="shell-icon" href={siteConfig.rssUrl} aria-label="RSS" title="RSS">
-          <Icon name="rss" />
-        </a>
-      )}
-      {siteConfig.githubUrl && (
-        <a
-          class="shell-icon"
-          href={siteConfig.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub profile (opens in a new tab)"
-          title="GitHub profile"
-        >
-          <Icon name="github" />
-        </a>
-      )}
-    </div>
-    <div class="search-trigger-wrap">
+    {siteConfig.features.search && (
       <button
         class="shell-icon search-trigger"
         type="button"
         data-search-open
+        aria-label="Search articles"
         aria-controls="article-search"
         aria-haspopup="dialog"
+        aria-keyshortcuts="Control+K Meta+K"
       >
         <Icon name="search" />
-        <span>Search articles...</span>
+        <span class="search-trigger-label">Search articles...</span>
+        <kbd aria-hidden="true">Ctrl K</kbd>
       </button>
-      <kbd aria-hidden="true">Ctrl K</kbd>
-    </div>
+    )}
     <button
-      class="shell-icon"
+      class="shell-icon theme-toggle"
       type="button"
       data-theme-toggle
       aria-label="Dark theme"
       aria-pressed="false"
+      title="Toggle dark theme"
     >
-      <Icon name="moon" />
+      <span class="theme-sun">
+        <Icon name="sun" />
+      </span>
+      <span class="theme-moon">
+        <Icon name="moon" />
+      </span>
     </button>
     <button
       class="shell-icon theme-reset"
@@ -94,6 +80,28 @@ const home = Astro.url.pathname === sitePath();
       hidden
     >
       <Icon name="system" />
+    </button>
+    {siteConfig.githubUrl && (
+      <a
+        class="shell-icon topbar-github"
+        href={siteConfig.githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub (opens in a new tab)"
+        title="GitHub"
+      >
+        <Icon name="github" />
+      </a>
+    )}
+    <button
+      class="shell-icon mobile-toggle"
+      type="button"
+      data-drawer-open
+      aria-label="Open navigation"
+      aria-controls="navigation-drawer"
+      aria-haspopup="dialog"
+    >
+      <Icon name="menu" />
     </button>
   </div>
 </header>

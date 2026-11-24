@@ -1,3 +1,5 @@
+import { preferenceKey } from "../lib/preferences";
+
 const body = document.querySelector<HTMLElement>("[data-article-body]");
 const toc = document.querySelector<HTMLDetailsElement>("[data-toc]");
 const layout = document.querySelector<HTMLElement>(".article-layout");
@@ -5,7 +7,7 @@ if (toc && layout) {
   const wide = () => getComputedStyle(layout).getPropertyValue("--toc-desktop").trim() === "1";
   let desktopOpen = true;
   try {
-    desktopOpen = localStorage.getItem("ke1thli-toc") !== "collapsed";
+    desktopOpen = localStorage.getItem(preferenceKey("toc")) !== "collapsed";
   } catch {
     // The contents remain available without storage.
   }
@@ -23,7 +25,7 @@ if (toc && layout) {
     if (!wide()) return;
     desktopOpen = !toc.open;
     try {
-      localStorage.setItem("ke1thli-toc", desktopOpen ? "expanded" : "collapsed");
+      localStorage.setItem(preferenceKey("toc"), desktopOpen ? "expanded" : "collapsed");
     } catch {
       // The preference still applies to the current page.
     }
@@ -75,7 +77,10 @@ for (const table of body?.querySelectorAll("table") ?? []) {
 }
 
 const diagramSelector = "pre:has(> code.language-mermaid)";
-for (const pre of body?.querySelectorAll<HTMLPreElement>(`pre:not(${diagramSelector})`) ?? []) {
+const codeBlocks = [
+  ...(body?.querySelectorAll<HTMLPreElement>(`pre:not(${diagramSelector})`) ?? []),
+];
+for (const [index, pre] of codeBlocks.entries()) {
   pre.tabIndex = 0;
   const source = pre.querySelector("code")?.textContent ?? "";
   const wrapper = document.createElement("div");
@@ -103,7 +108,35 @@ for (const pre of body?.querySelectorAll<HTMLPreElement>(`pre:not(${diagramSelec
       status.textContent = "";
     }, 2500);
   });
-  toolbar.append(label, status, button);
+  label.className = "code-language";
+  status.className = "code-status";
+  const actions = document.createElement("div");
+  actions.className = "code-actions";
+  actions.append(button);
+  if (source.trimEnd().split(/\r?\n/).length > 14) {
+    pre.id ||= "article-code-block-" + (index + 1);
+    const fold = document.createElement("button");
+    fold.className = "button";
+    fold.type = "button";
+    fold.textContent = "Fold";
+    fold.setAttribute("aria-expanded", "true");
+    fold.setAttribute("aria-controls", pre.id);
+    fold.addEventListener("click", () => {
+      pre.hidden = !pre.hidden;
+      fold.textContent = pre.hidden ? "Expand" : "Fold";
+      fold.setAttribute("aria-expanded", String(!pre.hidden));
+    });
+    actions.prepend(fold);
+  }
+  const lines = pre.querySelectorAll<HTMLElement>("code > .line");
+  for (const [lineIndex, line] of lines.entries()) {
+    const number = document.createElement("span");
+    number.className = "code-line-number";
+    number.dataset.lineNumber = String(lineIndex + 1);
+    number.setAttribute("aria-hidden", "true");
+    line.prepend(number);
+  }
+  toolbar.append(label, status, actions);
   pre.before(wrapper);
   wrapper.append(toolbar, pre);
 }

@@ -23,15 +23,15 @@ const origin = Astro.site ?? Astro.url;
 const absolute = (path: string) => new URL(path, origin).href;
 const home = Astro.url.pathname === sitePath();
 const canonical = absolute(Astro.url.pathname);
-const siteName = `${siteConfig.author} Blog`;
+const siteName = siteConfig.title;
 const pageTitle = home ? siteName : `${title} | ${siteName}`;
-const image = absolute(`${import.meta.env.BASE_URL}social-card.png`);
+const image = siteConfig.socialCardUrl && absolute(siteConfig.socialCardUrl);
 const indexable = !noindex && !origin.hostname.endsWith(".invalid");
 const author = {
   "@type": "Person",
   "@id": `${absolute(sitePath("about"))}#author`,
   name: siteConfig.author,
-  url: absolute(sitePath("about")),
+  url: siteConfig.authorUrl ?? absolute(sitePath("about")),
   ...(siteConfig.githubUrl ? { sameAs: [siteConfig.githubUrl] } : {}),
 };
 const graph: Record<string, unknown>[] = [];
@@ -85,7 +85,7 @@ const json = JSON.stringify({ "@context": "https://schema.org", "@graph": graph 
 <meta name="description" content={description} />
 {!indexable && <meta name="robots" content="noindex" />}
 {!noindex && <link rel="canonical" href={canonical} />}
-<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.png`} type="image/png" />
+{siteConfig.faviconUrl && <link rel="icon" href={siteConfig.faviconUrl} />}
 <link
   rel="alternate"
   href={`${import.meta.env.BASE_URL}rss.xml`}
@@ -97,13 +97,13 @@ const json = JSON.stringify({ "@context": "https://schema.org", "@graph": graph 
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={description} />
 {!noindex && <meta property="og:url" content={canonical} />}
-<meta property="og:image" content={image} />
-<meta property="og:image:alt" content={siteName} />
-<meta name="twitter:card" content="summary_large_image" />
+{image && <meta property="og:image" content={image} />}
+{image && <meta property="og:image:alt" content={siteName} />}
+<meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
 <meta name="twitter:title" content={pageTitle} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={image} />
-<meta name="twitter:image:alt" content={siteName} />
+{image && <meta name="twitter:image" content={image} />}
+{image && <meta name="twitter:image:alt" content={siteName} />}
 {article && <meta property="article:published_time" content={article.published.toISOString()} />}
 {article?.updated && (
   <meta property="article:modified_time" content={article.updated.toISOString()} />

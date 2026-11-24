@@ -1,16 +1,17 @@
 ---
 import { siteConfig } from "../lib/site-config";
+import { preferenceKey } from "../lib/preferences";
 const { defaultTheme } = siteConfig.appearance;
+const themeKey = preferenceKey("theme");
 ---
 
-<script is:inline define:vars={{ defaultTheme }}>
+<script is:inline define:vars={{ defaultTheme, themeKey }}>
   (() => {
-    const key = "ke1thli-theme";
     const root = document.documentElement;
     const system = matchMedia("(prefers-color-scheme: dark)");
     let mode = defaultTheme;
     try {
-      const saved = localStorage.getItem(key);
+      const saved = localStorage.getItem(themeKey);
       if (saved === "dark" || saved === "light" || saved === "system") mode = saved;
     } catch {}
     root.dataset.theme = mode;
@@ -26,14 +27,14 @@ const { defaultTheme } = siteConfig.appearance;
       toggle?.addEventListener("click", () => {
         mode = dark() ? "light" : "dark";
         try {
-          localStorage.setItem(key, mode);
+          localStorage.setItem(themeKey, mode);
         } catch {}
         update();
       });
       reset?.addEventListener("click", () => {
         mode = "system";
         try {
-          localStorage.setItem(key, mode);
+          localStorage.setItem(themeKey, mode);
         } catch {}
         update();
         toggle?.focus();

@@ -1,8 +1,6 @@
 ---
-import { Image } from "astro:assets";
 import ThemeScript from "../components/ThemeScript.astro";
 import FontResources from "../components/FontResources.astro";
-import diagram from "./route-diagram.png";
 import "../styles/base.css";
 import "../styles/editorial.css";
 import "../styles/controls.css";
@@ -23,14 +21,14 @@ const palette = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Design System Preview · Ke1thLi Blog</title>
+    <title>Design System Preview · Moonlit Folio</title>
     <ThemeScript />
     <FontResources />
   </head>
   <body>
     <div class="container">
       <header class="masthead">
-        <span>Ke1thLi Blog</span>
+        <span>Moonlit Folio</span>
         <fieldset class="theme" data-theme-picker>
           <legend>Theme</legend>
           <label>
@@ -51,7 +49,7 @@ const palette = [
       <main>
         <div class="intro">
           <h1>Design System Preview</h1>
-          <p class="muted">Typography, editorial elements, and controls for Ke1thLi Blog.</p>
+          <p class="muted">Typography, editorial elements, and controls for Moonlit Folio.</p>
         </div>
 
         <div class="specimens">
@@ -73,7 +71,7 @@ const palette = [
               aria-label="TypeScript code example"
             ><code><span class="keyword">const</span> slug = <span class="literal">"static-routes"</span>;
 <span class="keyword">const</span> path = sitePath(<span class="literal">"posts"</span>, slug);
-<span class="comment">// /Ke1thLi-Blog/posts/static-routes/</span></code></pre>
+<span class="comment">// /moonlit-folio/posts/static-routes/</span></code></pre>
 
             <h4>Build and verify</h4>
             <ul>
@@ -97,17 +95,24 @@ const palette = [
                 <tr>
                   <td>Project</td>
                   <td>
-                    <code>/Ke1thLi-Blog/</code>
+                    <code>/moonlit-folio/</code>
                   </td>
                 </tr>
               </tbody>
             </table>
             <hr />
             <figure>
-              <Image
-                src={diagram}
-                alt="Three connected stages: content entry, static build, and public URL."
-              />
+              <ol>
+                <li>
+                  Content entry <code>posts / slug</code>
+                </li>
+                <li>
+                  Static build <code>getStaticPaths()</code>
+                </li>
+                <li>
+                  Public URL <code>/posts/slug/</code>
+                </li>
+              </ol>
               <figcaption>Figure 1. From content entry to public URL.</figcaption>
             </figure>
           </article>

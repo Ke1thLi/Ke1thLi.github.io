@@ -3,46 +3,89 @@ import type { CollectionEntry } from "astro:content";
 import Page from "../layouts/Page.astro";
 import ProjectList from "./ProjectList.astro";
 import { sitePath } from "../lib/routes";
+
 interface Props {
   projects: CollectionEntry<"projects">[];
   status?: string;
 }
+
 const { projects, status } = Astro.props;
 const statuses = [...new Set(projects.map(({ data }) => data.status))].sort();
 const filtered = status ? projects.filter(({ data }) => data.status === status) : projects;
+const title = status ? `Projects: ${status}` : "Projects";
+const description = "Explore projects, technologies, and related writing.";
 ---
 
-<Page
-  title={status ? `Projects: ${status}` : "Projects"}
-  description="Explore Ke1thLi's projects, their status, technologies, and related writing."
-  noindex={Boolean(status)}
-  reading
->
-  {statuses.length > 0 && (
-    <nav aria-label="Project status" class="project-filters">
-      <a href={sitePath("projects")} aria-current={!status ? "page" : undefined}>
-        All projects
-      </a>
-      {statuses.map((entry) => (
-        <a
-          href={sitePath("projects", "status", entry)}
-          aria-current={status === entry ? "page" : undefined}
-        >
-          {entry}
+<Page {title} {description} noindex={Boolean(status)} showHeading={false}>
+  <div class="projects-index">
+    <header class="projects-header">
+      <h1>{title}</h1>
+      <p>{description}</p>
+    </header>
+    {statuses.length > 0 && (
+      <nav aria-label="Project status" class="project-filters">
+        <a href={sitePath("projects")} aria-current={!status ? "page" : undefined}>
+          All projects
         </a>
-      ))}
-    </nav>
-  )}
-  <ProjectList projects={filtered} />
+        {statuses.map((entry) => (
+          <a
+            href={sitePath("projects", "status", entry)}
+            aria-current={status === entry ? "page" : undefined}
+          >
+            {entry}
+          </a>
+        ))}
+      </nav>
+    )}
+    <ProjectList projects={filtered} />
+  </div>
 </Page>
+
 <style>
+  .projects-index {
+    max-inline-size: var(--site-width);
+  }
+
+  .projects-header {
+    margin-block-end: var(--space-5);
+  }
+
+  .projects-header h1,
+  .projects-header p {
+    margin: 0;
+  }
+
+  .projects-header p {
+    margin-block-start: var(--space-2);
+    color: var(--text-muted);
+  }
+
   .project-filters {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-4);
-    margin-block: var(--space-5);
+    gap: var(--space-2);
+    margin-block-end: var(--space-4);
   }
-  [aria-current] {
-    font-weight: var(--weight-semibold);
+
+  .project-filters a {
+    display: flex;
+    align-items: center;
+    min-block-size: 2.5rem;
+    padding-inline: var(--space-3);
+    border-radius: 999px;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+  }
+
+  .project-filters a:hover {
+    background: var(--surface-muted);
+    color: var(--text);
+  }
+
+  .project-filters a[aria-current="page"] {
+    background: var(--accent);
+    color: var(--on-accent);
   }
 </style>

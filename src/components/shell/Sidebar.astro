@@ -2,52 +2,38 @@
 import { sitePath } from "../../lib/routes";
 import Icon from "./Icon.astro";
 
-const groups = [
-  [
-    "Workspace",
-    [
-      ["Home", "home", ""],
-      ["Articles", "articles", "articles"],
-      ["Projects", "projects", "projects"],
-      ["Archives", "archives", "archives"],
-    ],
-  ],
-  [
-    "Discover",
-    [
-      ["Categories", "categories", "categories"],
-      ["Tags", "tags", "tags"],
-    ],
-  ],
-  ["About", [["About", "about", "about"]]],
-] as const;
+import { siteConfig } from "../../lib/site-config";
+const groups = siteConfig.navigation;
 
 interface Props {
   compact?: boolean;
 }
 const { compact = false } = Astro.props;
 const pathname = Astro.url.pathname;
-const active = (path: string, href: string) =>
+const active = (href: string) =>
   href === pathname
     ? "page"
-    : (path && pathname.startsWith(href)) ||
-        (path === "articles" && pathname.startsWith(sitePath("posts")))
+    : (href !== sitePath() && href.startsWith("/") && pathname.startsWith(href)) ||
+        (href === sitePath("articles") && pathname.startsWith(sitePath("posts")))
       ? "location"
       : undefined;
 ---
 
 <nav class:list={["side-nav", { "side-nav-compact": compact }]} aria-label="Main navigation">
-  {groups.map(([group, links]) => {
-    const items = links.map(([label, icon, path]) => {
-      const href = path ? sitePath(path) : sitePath();
+  {groups.map(({ label: group, links }) => {
+    const items = links.map(({ label, icon, href }) => {
       return (
         <a
           href={href}
-          aria-current={active(path, href)}
+          aria-current={active(href)}
           aria-label={label}
           title={compact ? label : undefined}
         >
-          <Icon name={icon} />
+          {icon ? (
+            <Icon name={icon} />
+          ) : (
+            compact && <span aria-hidden="true">{label.slice(0, 1)}</span>
+          )}
           {!compact && <span>{label}</span>}
         </a>
       );
