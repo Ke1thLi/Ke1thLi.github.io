@@ -40,13 +40,13 @@ jobs:
           ASTRO_TELEMETRY_DISABLED: "1"
           BLOG_SITE_URL: https://ke1thli.github.io
           BLOG_BASE_PATH: "/"
-          BLOG_GITHUB_URL: ${{ vars.BLOG_GITHUB_URL }}
+          BLOG_GITHUB_URL: ${{ vars.BLOG_GITHUB_URL || 'https://github.com/Ke1thLi' }}
         run: |
           npm run build
-          for file in index.html 404.html robots.txt rss.xml index.xml sitemap.xml pagefind/pagefind.js; do
+          for file in index.html 404.html robots.txt rss.xml index.xml sitemap.xml pagefind/pagefind.js pagefind/search-manifest.json; do
             test -f "dist/$file" || { echo "::error::Missing dist/$file"; exit 1; }
           done
-          if find dist \( -type l -o -name .git -o -name .env -o -name '.env.*' -o -name node_modules -o -name CNAME \) -print -quit | grep -q .; then
+          if find dist \( -type l -o -name .git -o -name .env -o -name '.env.*' -o -name node_modules -o -name _local-drafts -o -name CNAME \) -print -quit | grep -q .; then
             echo "::error::Unexpected file in the public artifact."
             exit 1
           fi
