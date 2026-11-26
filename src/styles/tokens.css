@@ -16,10 +16,13 @@
   --text-h1: 2.5rem;
   --text-article-h1: 2.375rem;
   --text-hero-h1: clamp(2.25rem, 3.4vw, 3.125rem);
-  --heading-h1: var(--text);
-  --heading-h2: var(--text);
-  --heading-h3: var(--text);
-  --heading-h4: var(--text);
+  --heading-h1: light-dark(var(--text), #e7def6);
+  --heading-h2: light-dark(var(--text), #c2a9ed);
+  --heading-h3: light-dark(var(--text), #9aaecf);
+  --heading-h4: light-dark(var(--text), #b49bbb);
+  /* Keep the inherited foreground for the deepest headings in light mode. */
+  --heading-h5: light-dark(currentColor, #9da0b5);
+  --heading-h6: light-dark(currentColor, #8999ad);
   --leading-tight: 1.1;
   --leading-heading: 1.25;
   --leading-ui: 1.5;

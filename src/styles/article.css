@@ -5,14 +5,15 @@
 }
 
 .article-layout {
-  --article-title: light-dark(#155fcb, #f3f4f9);
-  --article-section: light-dark(#00756d, #f3f4f9);
-  --article-subsection: light-dark(#663cc9, #eaecf4);
-  --article-small-heading: light-dark(#a54513, #e1e4ef);
-  --article-minor-heading: light-dark(#9b3651, #d1d6e8);
+  --article-title: light-dark(#155fcb, var(--heading-h1));
+  --article-section: light-dark(#00756d, var(--heading-h2));
+  --article-subsection: light-dark(#663cc9, var(--heading-h3));
+  --article-small-heading: light-dark(#a54513, var(--heading-h4));
+  --article-minor-heading: light-dark(#9b3651, var(--heading-h5));
   --article-copy: light-dark(#35445c, #c9cede);
   --article-note: light-dark(#eaf3ff, #222637);
   --article-note-ink: light-dark(#315884, #d1d9ee);
+  --article-note-border: light-dark(#155fcb, #f3f4f9);
   --code-background: light-dark(#f0f4fa, #22232d);
   --code-header: light-dark(#eaf0f7, #272934);
   --code-gutter: light-dark(#56647f, #9ba4bb);
@@ -347,14 +348,14 @@
 }
 
 [data-article-body] h6 {
-  color: var(--text-muted);
+  color: light-dark(var(--text-muted), var(--heading-h6));
   font-size: var(--text-sm);
 }
 
 [data-article-body] blockquote {
   padding: var(--space-3) var(--space-4);
   border: 0;
-  border-inline-start: 2px solid var(--article-title);
+  border-inline-start: 2px solid var(--article-note-border);
   border-radius: var(--radius-sm);
   background: var(--article-note);
   color: var(--article-note-ink);

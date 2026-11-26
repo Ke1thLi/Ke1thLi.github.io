@@ -49,6 +49,14 @@ h4 {
   font-size: var(--text-h4);
 }
 
+h5 {
+  color: var(--heading-h5);
+}
+
+h6 {
+  color: var(--heading-h6);
+}
+
 a {
   color: var(--accent);
   text-underline-offset: 0.2em;
